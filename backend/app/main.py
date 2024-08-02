@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from routers import frontend_requests, slack_requests
+from .routers import frontend_requests, slack_requests
 
 app = FastAPI()
 
