@@ -9,7 +9,7 @@ def get_all_members():
     return "社員一覧画面に表示する情報を返す"
 
 ## 特定社員の情報表示のリクエストがあった時 
-@router.get("/selected_member/:user_id")
+@router.get("/selected_member/:user_id/")
 def get_selected_member(user_id):
     return f"{user_id}で指定された社員情報を表示する(詳細情報に何を盛り込めばいいか？)"
 
