@@ -31,14 +31,15 @@ def get_times_tweet(user_id: str, start_date, end_date):
         logger.debug("◆DBから正常にtimesの投稿データを取得できました。")
         return target_times_tweet
     except Exception:
-        logger.error(f"◆
-        timesの投稿を取得中にエラーが発生しました。: {Exception}")
+        logger.error(f"""◆
+        timesの投稿を取得中にエラーが発生しました。: {Exception}
+        """)
         return[]
     finally:
         db.close()
 
 # 取得したデータを通常の文字列に変換する必要がある場合は以下の処理を加える。
-def daily_report_data_compile(user_id: str, start_date, end_date):
+def compile_times_tweet_data(user_id: str, start_date, end_date):
     pre_times_tweet_data = get_times_tweet(user_id, start_date, end_date)
 
     # 会話履歴を文字列に変換

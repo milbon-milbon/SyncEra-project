@@ -2,7 +2,6 @@ import logging
 import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
-from openai import OpenAI
 # from app.database import SessionLocal
 # from app.models import テーブル名
 
@@ -17,31 +16,31 @@ SessionLocal = "DB設定終わったらimportのコメントアウトを解除�
 def get_db_session() -> Session:
     return SessionLocal()
 
-# 特定の従業員の情報を取得する
-def get_user_info(user_id: str):
+# すべての従業員の情報を取得する
+def get_all_members():
     # データベースからuser情報を取得してくる
     db = get_db_session()
     try:
-        target_user_info = db.query(テーブル名).filter(テーブル名.user_id == user_id).all()
-        logger.debug(f"◆DBから指定ユーザーの情報を取得できました。")
-        return target_user_info
+        all_members = db.query(テーブル名).all()
+        logger.debug(f"◆DBから全ての従業員の情報を取得できました。")
+        return all_members
     except Exception:
-        logger.error(f"◆指定ユーザーの情報を取得中にエラーが発生しました。: {Exception}")
+        logger.error(f"◆従業員の情報を取得中にエラーが発生しました。: {Exception}")
         return[]
     finally:
         db.close()    
 
 # 取得したデータを通常の文字列に変換する必要がある場合は以下の処理を加える。
-def compile_target_user_info(user_id: str):
-    pre_target_user_info = get_user_info(user_id)
+def compile_all_members_info():
+    pre_all_members_info = get_all_members()
 
     # 会話履歴を文字列に変換
-    if not pre_target_user_info:
-        logger.info("◆文字列に変換しようとしているユーザー情報が見つかりません。")
-        compiled_target_user_info = "指定されたユーザーの情報がありません。"
+    if not pre_all_members_info:
+        logger.info("◆文字列に変換しようとしている従業員情報が見つかりません。")
+        compiled_all_members_info = "変換したい従業員の情報がありません。"
     else:
-        compiled_target_user_info = "必要に応じてここに出力形式を整える処理を追加する"
+        compiled_all_members_info = "必要に応じてここに出力形式を整える処理を追加する"
         logger.debug(f"◆指定ユーザーの情報を読解可能な文字列に変換しました。")
     
-    return compiled_target_user_info
+    return compiled_all_members_info
 

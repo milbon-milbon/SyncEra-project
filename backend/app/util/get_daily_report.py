@@ -37,7 +37,7 @@ def get_daily_report(user_id: str, start_date, end_date):
         db.close()
 
 # 取得したデータを通常の文字列に変換する必要がある場合は以下の処理を加える。
-def daily_report_data_compile(user_id: str, start_date, end_date):
+def compile_daily_report_data(user_id: str, start_date, end_date):
     pre_daily_report_data = get_daily_report(user_id, start_date, end_date)
 
     # 会話履歴を文字列に変換

@@ -5,9 +5,9 @@ from sqlalchemy.orm import Session
 from openai import OpenAI
 # from app.database import SessionLocal
 # from app.models import テーブル名
-from util.get_user_info import get_user_info
-from util.get_daily_report import get_daily_report
-from util.get_times_tweet import get_times_tweet
+from ..util.get_user_info import get_user_info
+from ..util.get_daily_report import get_daily_report
+from ..util.get_times_tweet import get_times_tweet
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
