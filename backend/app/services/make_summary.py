@@ -1,4 +1,3 @@
-# from fastapi
 import os
 from dotenv import load_dotenv
 import logging
@@ -12,12 +11,30 @@ from util.get_times_tweet import get_times_tweet
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 def make_summarize_report(user_id, start_date, end_date):
     try:
         user_info = get_user_info(user_id)
         daily_report = get_daily_report(user_id, start_date, end_date)
         times_tweet = get_times_tweet(user_id, start_date, end_date)
+
+        if not user_info:
+            logger.error("◆user_infoの取得に失敗しました")
+        else:
+            logger.info("◆user_infoの取得に成功しました")
+
+        if not daily_report:
+            logger.error("◆daily_reportの取得に失敗しました")
+        else:
+            logger.info("◆daily_reportの取得に成功しました")
+
+        if not times_tweet:
+            logger.error("◆timesの投稿データ取得に失敗しました")
+        else:
+            logger.info("◆timesの投稿データ取得に成功しました")
 
         prompt = f"""
         以下に、メンバーの情報として user_info、そのメンバーの指定された期間分の日報として daily_report、同じくそのメンバーの指定された期間の任意のつぶやきチャンネルの内容として times があります。
@@ -40,6 +57,7 @@ def make_summarize_report(user_id, start_date, end_date):
         )
 
         summary = response.choices[0].text.strip()
+        logger.debug(f"◆LLMが生成したサマリー: {summary}")
 
         return summary
     except Exception:
