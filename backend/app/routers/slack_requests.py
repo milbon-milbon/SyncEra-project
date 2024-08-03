@@ -22,15 +22,15 @@ def execution_career_survey():
 def save_career_survey():
     return "処理なども全て未実装、随時ここは追記していく"
 
-# 以下はPOSTリクエストのみを受け付けているエンドポイントが正常に解説されているか確認するためのコード
+# 以下はPOSTリクエストのみを受け付けているエンドポイントが正常に解説されているか確認するためのコード: いずれも期待通りの動作確認OK
 @router.get("/post_daily_report/")
 def check_endpoint():
     return "/post_daily_report エンドポイントOKだよ!!"
 
-@router.post("/post_times")
+@router.get("/post_times/")
 def check_endpoint():
     return "/post_times エンドポイントOKだよ!!"
 
-@router.post("/post_career_survey")
+@router.get("/post_career_survey/")
 def check_endpoint():
     return "/post_career_survey エンドポイントOKだよ!!"
