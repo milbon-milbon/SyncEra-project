@@ -1,11 +1,29 @@
 from fastapi import APIRouter
+from app.services.make_summary import make_summarize_report
 
 router = APIRouter()
 
-@router.get("/エンドポイント名/")
-def 関数名():
-    return "何を返そうか"
+# 社員の一覧画表示のリクエストがあった時
+@router.get("/all_members/")
+def get_all_members():
+    return "社員一覧画面に表示する情報を返す"
 
-# サマリー出力リクエストがあった時 　GET /print_summarize/:member_id　by client
-# サマリーに基づいたアドバイス/質問出力リクエストがあった時 　GET /print_summarize/:member_id　by client
-# キャリアアンケート結果の出力リクエストがあった時 GET /print_career_survey_result/:member_id　by client
+## 特定社員の情報表示のリクエストがあった時 
+@router.get("/selected_member/:user_id")
+def get_selected_member(user_id):
+    return f"{user_id}で指定された社員情報を表示する(詳細情報に何を盛り込めばいいか？)"
+
+# サマリー出力リクエストがあった時
+@router.get("/print_summary/:user_id/")
+def print_summary(user_id:str, start_data, end_data):
+    return make_summarize_report(user_id, start_data, end_data)
+
+# サマリーに基づいたアドバイス/質問出力リクエストがあった時
+@router.get("/print_summarize/:user_id/")
+def print_advice(user_id:str, start_data, end_data):
+    return "処理なども全て未実装、随時ここは追記していく"
+
+# キャリアアンケート結果の出力リクエストがあった時
+@router.get("/print_career_survey_result/:user_id/")
+def print_career_survey_result(user_id: str):
+    return "処理なども全て未実装、随時ここは追記していく"
