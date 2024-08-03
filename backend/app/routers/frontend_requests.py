@@ -1,9 +1,17 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
 from app.services.make_member_list import make_members_list
+from app.util.add_member_info import add_member, get_db_session
+# from app.database import models, schemas 定義後にパスを修正してimport
 
 router = APIRouter()
+
+# 社員情報の登録
+@router.post("/add_member_info/")
+def add_member_info(member: schemas.MemberCreate, db: Session = Depends(get_db_session)):
+    return add_member(db=db, member=member)
 
 # 社員の一覧画表示のリクエストがあった時 エンドポイントの稼働確認OK
 @router.get("/all_members/")
