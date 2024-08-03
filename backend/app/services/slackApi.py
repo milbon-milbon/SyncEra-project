@@ -1,41 +1,36 @@
-import os
-from fastapi import FastAPI
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from dotenv import load_dotenv
+import os
 import logging
 
-# 環境変数をロード
+# .envファイルから環境変数を読み込む
 load_dotenv()
 
-# APIキーを設定
-api_key = os.getenv("SLACK_API_KEY")
+# Slack APIトークンを設定
+SLACK_TOKEN = os.getenv("SLACK_API_KEY")
 
 # WebClientを定義
-client = WebClient(token=api_key)
+client = WebClient(token=SLACK_TOKEN)
 
 # ロガーを設定
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-
-# conversation_historyメソッド
-def get_conversation_history():
+def get_daily_report():
     conversation_history = []
-    # ID of the channel you want to send the message to
-    channel_id = os.getenv("DAILY_REPORT_CHANNEL_ID")
+    channel_id = "C07F5D3LDHB"
 
     try:
-        # Call the conversations.history method using the WebClient
-        # conversations.history returns the first 100 messages by default
-        # These results are paginated, see: https://api.slack.com/methods/conversations.history$pagination
+        # conversations.historyメソッドを使用してチャンネルのメッセージを取得
         result = client.conversations_history(channel=channel_id)
         conversation_history = result["messages"]
 
-        # Print results
+        # 結果をログに出力
         logger.info("{} messages found in {}".format(len(conversation_history), channel_id))
-
+        
     except SlackApiError as e:
-        logger.error("Error creating conversation: {}".format(e))
-    
+        logger.error("Error fetching conversation history: {}".format(e))
+        return {"error": str(e)}
+
     return {"messages": conversation_history}
