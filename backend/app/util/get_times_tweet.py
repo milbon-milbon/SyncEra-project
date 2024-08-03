@@ -28,9 +28,11 @@ def get_times_tweet(user_id: str, start_date, end_date):
                 テーブル名.time_stamp <= end_date
             )
         ).all()
+        logger.debug("◆DBから正常にtimesの投稿データを取得できました。")
         return target_times_tweet
     except Exception:
-        logger.error(f"timesの投稿を取得中にエラーが発生しました。: {Exception}")
+        logger.error(f"◆
+        timesの投稿を取得中にエラーが発生しました。: {Exception}")
         return[]
     finally:
         db.close()
@@ -41,8 +43,10 @@ def daily_report_data_compile(user_id: str, start_date, end_date):
 
     # 会話履歴を文字列に変換
     if not pre_times_tweet_data:
+        logger.info("◆文字列に変換しようとしているtimesの投稿データが見つかりません。")
         compiled_times_tweet_data = "日報記録がありません。"
     else:
         compiled_times_tweet_data = "必要に応じてここに出力形式を整える処理を追加する"
+        logger.debug("◆timesの投稿データを読解可能な文字列に変換しました。")
     
     return compiled_times_tweet_data
