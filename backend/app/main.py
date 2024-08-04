@@ -1,5 +1,5 @@
 from fastapi import FastAPI
-from .services.slackApi import get_and_save_users
+from .services.slackApi import get_and_save_users, get_and_save_daily_report
 
 
 app = FastAPI()
@@ -12,3 +12,6 @@ def read_root():
 def read_users():
     return get_and_save_users()
 
+@app.get("/post_daily_report")
+def read_daily_report():
+    return get_and_save_daily_report()
