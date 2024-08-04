@@ -10,8 +10,10 @@ router = APIRouter()
 
 # 社員情報の登録
 @router.post("/add_member_info/")
-def add_member_info(member: schemas.MemberCreate, db: Session = Depends(get_db_session)):
-    return add_member(db=db, member=member)
+# def add_member_info(member: schemas.MemberCreate, db: Session = Depends(get_db_session)):
+#     return add_member(db=db, member=member)
+def add_member_info():
+    return "処理未実装、DB設計後に実装"
 
 # 社員の一覧画表示のリクエストがあった時 エンドポイントの稼働確認OK
 @router.get("/all_members/")

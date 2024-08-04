@@ -31,16 +31,19 @@ def get_db_session() -> Session:
 router = APIRouter()
 
 # 新しい従業員をデータベースに登録する関数
-def add_member(db: Session, member: schemas.MemberCreate): # schemaは未定義
-    db = get_db_session() #セッション取得方法が２の場合はここは削除
-    try:
-        db_member = models.Member(name=member.name, email=member.email, position=member.position) # カラム名 = 引数に渡す登録データ.項目
-        db.add(db_member)
-        db.commit()
-        db.refresh(db_member)
-        logger.debug(f"◆新しい従業員がデータベースに登録されました: {db_member.name}")
-        return db_member
-    except Exception as e:
-        logger.error(f"◆従業員の登録中にエラーが発生しました。: {str(e)}")
-        db.rollback()
-        raise HTTPException(status_code=400, detail="◆従業員の登録に失敗しました")
+# def add_member(db: Session, member: schemas.MemberCreate): # schemaは未定義
+#     db = get_db_session() #セッション取得方法が２の場合はここは削除
+#     try:
+#         db_member = models.Member(name=member.name, email=member.email, position=member.position) # カラム名 = 引数に渡す登録データ.項目
+#         db.add(db_member)
+#         db.commit()
+#         db.refresh(db_member)
+#         logger.debug(f"◆新しい従業員がデータベースに登録されました: {db_member.name}")
+#         return db_member
+#     except Exception as e:
+#         logger.error(f"◆従業員の登録中にエラーが発生しました。: {str(e)}")
+#         db.rollback()
+#         raise HTTPException(status_code=400, detail="◆従業員の登録に失敗しました")
+
+def add_member():
+    return "DB設計後に実際のコードのコメントアウトを解除する"
