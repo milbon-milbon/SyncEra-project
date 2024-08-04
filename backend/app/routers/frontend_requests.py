@@ -4,7 +4,9 @@ from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
 from app.services.make_member_list import make_members_list
 from app.util.add_member_info import add_member, get_db_session
-# from app.database import models, schemas 定義後にパスを修正してimport
+from app.db.models import models
+from app.db.schemas
+from app.db.database import get_db 
 
 router = APIRouter()
 
