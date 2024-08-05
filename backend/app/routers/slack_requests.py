@@ -1,4 +1,5 @@
 import time
+from fastapi import APIRouter
 from sqlalchemy import create_engine, Column, String, Integer, Text, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
@@ -7,6 +8,8 @@ from slack_sdk.errors import SlackApiError
 from dotenv import load_dotenv
 import os
 import logging
+
+router = APIRouter()
 
 # .envファイルから環境変数を読み込む
 load_dotenv()
@@ -24,24 +27,23 @@ logger = logging.getLogger(__name__)
 # SQLAlchemyのベースモデルを定義
 Base = declarative_base()
 
-# Usersテーブルを定義
-class User(Base):
-    __tablename__ = 'Users'
-    user_id = Column(String, primary_key=True)
-    name = Column(String)
-    real_name = Column(String)
-    email = Column(String)
+class SlackUserInfo(Base):
+    __tablename__ = 'slack_user_info'
 
-# Messagesテーブルを定義
-class Message(Base):
-    __tablename__ = 'Messages'
+    id = Column(String(100), primary_key=True)
+    name = Column(String(100), nullable=False)
+    real_name = Column(String(100), nullable=False)
+
+class DailyReport(Base):
+    __tablename__ = 'daily_report'
+
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String, nullable=False)
-    # channel_id = Column(String, nullable=False)
+    user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(String, nullable=False)
-    thread_ts = Column(String, nullable=True)
-    parent_message_id = Column(Integer, ForeignKey('Messages.id'), nullable=True)
+    edited = Column(String, nullable=True) # 編集内容
+    edited_by = Column(String(100), nullable=True) # 編集者
+    edited_ts = Column(String, nullable=True) # 編集時のts
 
 # DATABASE_URLからPostgreSQLデータベースへの接続を試みる関数
 def connect_to_db():
@@ -99,7 +101,10 @@ def get_and_save_users():
 
     return {"status": "success"}
 
+
+# 日報が投稿された時　`POST /post_daily_report`　`by Slack`
 # Slack APIからdaily_reportチャンネルの投稿情報を取得し、Postgresに保存する関数
+@router.post("/post_daily_report/")
 def get_and_save_daily_report():
     # データベースセッションを確立
     session = connect_to_db()
@@ -141,3 +146,13 @@ def get_and_save_daily_report():
         session.close()  # 最後にセッションを閉じる
 
     return {"status": "success"}
+
+# timesに投稿があった時 `POST /post_times` 　`by Slack`
+@router.post("/post_times")
+def save_times_tweet():
+    return "処理なども全て未実装、随時ここは追記していく"
+
+# キャリアアンケート実施のリクエストがあった時　GET or POST /execution_career_survey by Slack
+@router.get("/execution_career_survey") # または @router.post("/execution_career_survey")
+def execution_career_survey():
+    return "処理なども全て未実装、随時ここは追記していく"
