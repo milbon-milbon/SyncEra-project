@@ -12,11 +12,11 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 # 特定の従業員の情報を取得する
-def get_employee_info(employee_id: str):
+def get_employee_info(slack_user_id: str):
     # データベースからuser情報を取得してくる
     db = get_db()
     try:
-        target_employee_info = db.query(Employee).filter(Employee.id == employee_id).all()
+        target_employee_info = db.query(Employee).filter(Employee.slack_user_id == slack_user_id).all()
         logger.debug(f"◆DBから指定ユーザーの情報を取得できました。")
         return target_employee_info
     except Exception:
@@ -26,8 +26,8 @@ def get_employee_info(employee_id: str):
         db.close()    
 
 # 取得したデータを通常の文字列に変換する必要がある場合は以下の処理を加える。
-def compile_target_employee_info(employee_id: str):
-    pre_target_employee_info = get_employee_info(employee_id)
+def compile_target_employee_info(slack_user_id: str):
+    pre_target_employee_info = get_employee_info(slack_user_id)
 
     # 会話履歴を文字列に変換
     if not pre_target_employee_info:
