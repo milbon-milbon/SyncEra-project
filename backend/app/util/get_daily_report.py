@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
-# from app.db.database import SessionLocal
-# from app.db.models import テーブル名
+from app.db.database import SessionLocal
+from app.db.models import DailyReport
 
 load_dotenv()
 
@@ -21,11 +21,11 @@ def get_daily_report(user_id: str, start_date, end_date):
     # データベースから指定したユーザーの指定期間分の日報データを取得する
     db = get_db_session()
     try:
-        target_daily_report = db.query(テーブル名).filter(
+        target_daily_report = db.query(DailyReport).filter(
             and_(
-                テーブル名.user_id == user_id,
-                テーブル名.time_stamp >= start_date,
-                テーブル名.time_stamp <= end_date
+                DailyReport.user_id == user_id,
+                DailyReport.ts >= start_date, # UNIXからの変換必要
+                DailyReport.ts <= end_date # UNIXからの変換必要
             )
         ).all()
         logger.debug("◆DBから正常に日報データを取得できました。")

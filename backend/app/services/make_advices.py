@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from openai import OpenAI
 # from app.database import SessionLocal
 # from app.models import テーブル名
-from ..util.get_user_info import get_user_info
+from ..util.get_employee_info import get_employee_info
 from ..util.get_daily_report import get_daily_report
 from ..util.get_times_tweet import get_times_tweet
 from .make_summary import make_summarize_report
@@ -18,12 +18,12 @@ logger = logging.getLogger(__name__)
 
 def make_advices(user_id, start_date, end_date):
     try:
-        user_info = get_user_info(user_id)
+        employee_info = get_employee_info(user_id)
         daily_report = get_daily_report(user_id, start_date, end_date)
         times_tweet = get_times_tweet(user_id, start_date, end_date)
         summary = make_summarize_report(user_id, start_date, end_date)
 
-        if not user_info:
+        if not employee_info:
             logger.error("◆user_infoの取得に失敗しました")
         else:
             logger.info("◆user_infoの取得に成功しました")
@@ -48,7 +48,7 @@ def make_advices(user_id, start_date, end_date):
         【参考情報】
         1)部下の日報: {daily_report}
         2)部下のslackのtimesの呟き: {times_tweet}
-        3)部下のプロフィール: {user_info}
+        3)部下のプロフィール: {employee_info}
         4)1~3をもとに作成した要約文: {summary}
         """
 

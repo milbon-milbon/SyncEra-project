@@ -40,3 +40,8 @@ class DailyReport(Base):
     edited = Column(String, nullable=True)
     edited_by = Column(String(100), nullable=True)
     edited_ts = Column(String, nullable=True)
+
+class TimesTweet(Base):
+    __tablename__ = 'times_tweet'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
