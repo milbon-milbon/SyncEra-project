@@ -2,15 +2,17 @@ from fastapi import APIRouter
 
 router = APIRouter()
 
+# このファイルはそもそも不要かも？
+
 # 日報が投稿された時　`POST /post_daily_report`　`by Slack`
-@router.post("/post_daily_report/")
-def save_daily_report():
-    return "処理なども全て未実装、随時ここは追記していく"
+# @router.post("/post_daily_report/")
+# def save_daily_report():
+#     return "処理なども全て未実装、随時ここは追記していく"
 
 # timesに投稿があった時 `POST /post_times` 　`by Slack`
-@router.post("/post_times")
-def save_times_tweet():
-    return "処理なども全て未実装、随時ここは追記していく"
+# @router.post("/post_times")
+# def save_times_tweet():
+#     return "処理なども全て未実装、随時ここは追記していく"
 
 # キャリアアンケート実施のリクエストがあった時　GET or POST /execution_career_survey by Slack
 @router.get("/execution_career_survey") # または @router.post("/execution_career_survey")
