@@ -5,7 +5,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.models import Employee
 from app.db.database import get_db
-from backend.app.db.schemas import EmployeeCreate
+from app.db.schemas import EmployeeCreate
 
 # 環境変数の読み込み
 load_dotenv()
