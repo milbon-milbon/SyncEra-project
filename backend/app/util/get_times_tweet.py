@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from app.db.models import TimesTweet
 from app.db.database import get_db
-from convert_to_unix_timestamp import convert_to_unix_timestamp
+from .convert_to_unix_timestamp import convert_to_unix_timestamp
 
 load_dotenv()
 
