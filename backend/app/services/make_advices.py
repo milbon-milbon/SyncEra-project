@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 
 def make_advices(slack_user_id, start_date, end_date):
     try:
-        employee_info = get_employee_info(employee_id) # 引数で受け取るかクエリで取得するか
+        employee_info = get_employee_info(slack_user_id) # 引数で受け取るかクエリで取得するか
         daily_report = get_daily_report(slack_user_id, start_date, end_date)
         times_tweet = get_times_tweet(slack_user_id, start_date, end_date)
         summary = make_summarize_report(slack_user_id, start_date, end_date)
