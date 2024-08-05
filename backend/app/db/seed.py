@@ -17,6 +17,29 @@ def seed_data():
     db: Session = SessionLocal()
 
     try:
+        # '''>>> slack_user_info'''
+
+        # slack_user_1 = SlackUserInfo(
+        #     id='slack_user_sample_1',
+        #     name='sam_emp_1',
+        #     real_name='sample_employee_1'
+        # )
+
+        # slack_user_2 = SlackUserInfo(
+        #     id='slack_user_sample_2',
+        #     name='sam_emp_2',
+        #     real_name='sample_employee_2'
+        # )
+
+        # slack_user_3 = SlackUserInfo(
+        #     id='slack_user_sample_3',
+        #     name='sam_emp_3',
+        #     real_name='sample_employee_3'
+        # )
+
+        # db.add_all([slack_user_1, slack_user_2, slack_user_3])
+        # db.commit()
+
         '''>>> employee'''
         employee_1 = Employee(
             id=uuid.uuid4(),
@@ -51,24 +74,43 @@ def seed_data():
         db.add_all([employee_1, employee_2, employee_3])
         db.commit()
 
-        '''>>> channel'''
+        # '''>>> daily_report'''
 
+        # daily_report_1 = DailyReport(
+        #     user_id='slack_user_sample_1',
+        #     text='サンプル投稿だよ。シーディングだよ。///1',
+        #     ts='1618232401'
+        # )
+
+        # daily_report_2 = DailyReport(
+        #     user_id='slack_user_sample_2',
+        #     text='サンプル投稿だよ。シーディングだよ。///2',
+        #     ts='1618232402'
+        # )
+
+        # daily_report_3 = DailyReport(
+        #     user_id='slack_user_sample_3',
+        #     text='サンプル投稿だよ。シーディングだよ。///3',
+        #     ts='1618232403'
+        # )
+
+        # db.add_all([daily_report_1, daily_report_2, daily_report_3])
+        # db.commit()
+
+        '''>>> times_list'''  # 追加
         times_list_1 = TimesList(
-            user_id='slack_user_sample_1',
-            channel_name='slack_user_sample_1',
-            channel_id='slack_user_sample_1'
+            id='slack_user_sample_1',
+            name='times_list_sample_1'
         )
 
         times_list_2 = TimesList(
-            user_id='slack_user_sample_2',
-            channel_name='slack_user_sample_2',
-            channel_id='slack_user_sample_2'
+            id='slack_user_sample_2',
+            name='times_list_sample_2'
         )
 
         times_list_3 = TimesList(
-            user_id='slack_user_sample_3',
-            channel_name='slack_user_sample_3',
-            channel_id='slack_user_sample_3'
+            id='slack_user_sample_3',
+            name='times_list_sample_3'
         )
 
         db.add_all([times_list_1, times_list_2, times_list_3])
@@ -98,6 +140,29 @@ def seed_data():
         )
 
         db.add_all([times_tweet_1, times_tweet_2, times_tweet_3])
+        db.commit()
+
+        '''>>> channel'''
+
+        channel_1 = TimesList(
+            user_id='slack_user_sample_1',
+            channel_name='slack_user_sample_1',
+            channel_id='slack_user_sample_1'
+        )
+
+        channel_2 = TimesList(
+            user_id='slack_user_sample_2',
+            channel_name='slack_user_sample_2',
+            channel_id='slack_user_sample_2'
+        )
+
+        channel_3 = TimesList(
+            user_id='slack_user_sample_3',
+            channel_name='slack_user_sample_3',
+            channel_id='slack_user_sample_3'
+        )
+
+        db.add_all([channel_1, channel_2, channel_3])
         db.commit()
 
         '''summarize_history'''

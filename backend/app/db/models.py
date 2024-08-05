@@ -56,7 +56,7 @@ class TimesTweet(Base):
     # edited_by = Column(String(100), nullable=True)
     # edited_ts = Column(String, nullable=True)
 
-class Channel(Base):
+class TimesList(Base):
     __tablename__ = 'times_list'
 
     user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
