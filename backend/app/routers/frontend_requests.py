@@ -4,10 +4,12 @@ from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
 from app.services.make_employee_list import make_employee_list
 from app.util.add_employee_info import add_employee
+from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport
 from app.db.database import get_db 
 from app.db.schemas import Employee, EmployeeCreate
 from app.util.get_employee_info import get_employee_info
+from app.util import convert_ts_to_date
 from typing import Optional
 
 router = APIRouter()
@@ -25,8 +27,18 @@ def get_all_employee():
 ## 特定社員の情報表示のリクエストがあった時 データのGET,OK
 @router.get("/selected_employee/{slack_user_id}/")
 def get_selected_member(slack_user_id: str):
-    response = get_employee_info(slack_user_id)
-    if response:
+    employee_detail = get_employee_info(slack_user_id)
+    latest_daily_report = get_latest_daily_report(slack_user_id)
+    if employee_detail and latest_daily_report:
+        # latest_daily_reportのtextを追加
+        employee_detail["latest_report_text"] = latest_daily_report[0]["text"]
+        
+        # tsをYY-MM-DD形式に変換して追加
+        employee_detail["date"] = convert_ts_to_date(latest_daily_report[0]["ts"])
+        
+        response = {
+            "employee_detail": employee_detail
+        }
         return response
     else:
         raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
