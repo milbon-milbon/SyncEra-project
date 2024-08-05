@@ -5,7 +5,7 @@ from app.services.make_advices import make_advices
 from app.services.make_member_list import make_members_list
 from app.util.add_member_info import add_member, get_db_session
 from app.db.models import models
-from app.db.schemas
+from app.db.schemas import SomeSchema
 from app.db.database import get_db 
 
 router = APIRouter()
