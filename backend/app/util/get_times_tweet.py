@@ -12,13 +12,13 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def get_times_tweet(user_id: str, start_date, end_date):
+def get_times_tweet(slack_user_id: str, start_date, end_date):
     # データベースから指定したユーザーの指定期間分のtimesの投稿データを取得する
     db = get_db()
     try:
         target_times_tweet = db.query(TimesTweet).filter(
             and_(
-                TimesTweet.user_id == user_id,
+                TimesTweet.user_id == slack_user_id,
                 TimesTweet.ts >= start_date, # UNIXからの変換必要
                 TimesTweet.ts <= end_date # UNIXからの変換必要
             )
@@ -34,8 +34,8 @@ def get_times_tweet(user_id: str, start_date, end_date):
         db.close()
 
 # 取得したデータを通常の文字列に変換する必要がある場合は以下の処理を加える。
-def compile_times_tweet_data(user_id: str, start_date, end_date):
-    pre_times_tweet_data = get_times_tweet(user_id, start_date, end_date)
+def compile_times_tweet_data(slack_user_id: str, start_date, end_date):
+    pre_times_tweet_data = get_times_tweet(slack_user_id, start_date, end_date)
 
     # 会話履歴を文字列に変換
     if not pre_times_tweet_data:

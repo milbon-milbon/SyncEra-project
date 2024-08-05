@@ -22,9 +22,9 @@ def get_all_employee():
     return make_employee_list()
 
 ## 特定社員の情報表示のリクエストがあった時 データのGET,OK
-@router.get("/selected_member/{user_id}/")
-def get_selected_member(user_id: str):
-    response = get_employee_info(user_id)
+@router.get("/selected_employee/{employee_id}/")
+def get_selected_member(employee_id: str):
+    response = get_employee_info(employee_id)
     if response:
         return response
     else:

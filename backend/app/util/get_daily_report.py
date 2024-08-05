@@ -12,13 +12,13 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 from app.db.database import get_db
 
-def get_daily_report(user_id: str, start_date, end_date):
+def get_daily_report(slack_user_id: str, start_date, end_date):
     # データベースから指定したユーザーの指定期間分の日報データを取得する
     db = get_db()
     try:
         target_daily_report = db.query(DailyReport).filter(
             and_(
-                DailyReport.user_id == user_id,
+                DailyReport.user_id == slack_user_id,
                 DailyReport.ts >= start_date, # UNIXからの変換必要
                 DailyReport.ts <= end_date # UNIXからの変換必要
             )
@@ -32,8 +32,8 @@ def get_daily_report(user_id: str, start_date, end_date):
         db.close()
 
 # 取得したデータを通常の文字列に変換する必要がある場合は以下の処理を加える。
-def compile_daily_report_data(user_id: str, start_date, end_date):
-    pre_daily_report_data = get_daily_report(user_id, start_date, end_date)
+def compile_daily_report_data(slack_user_id: str, start_date, end_date):
+    pre_daily_report_data = get_daily_report(slack_user_id, start_date, end_date)
 
     # 会話履歴を文字列に変換
     if not pre_daily_report_data:
