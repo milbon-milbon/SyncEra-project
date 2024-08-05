@@ -16,7 +16,7 @@ SyncEraメンバーへ
     ```
 4. マイグレーションの作成
     ```
-    alembic revision --autogenerate -m "Initial migration, models=employee,slack_user_info,daily_report"
+    alembic revision --autogenerate -m "1st migration, models=employee,slack_user_info,daily_report, times_tweet, times_list"
     ```
 5. マイグレーションの適用（テーブルの作成）
     ```
