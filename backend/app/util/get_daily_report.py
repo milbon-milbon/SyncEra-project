@@ -4,6 +4,7 @@ from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from app.db.models import DailyReport
+from convert_to_unix_timestamp import convert_to_unix_timestamp
 
 load_dotenv()
 
@@ -13,14 +14,18 @@ logger = logging.getLogger(__name__)
 from app.db.database import get_db
 
 def get_daily_report(slack_user_id: str, start_date, end_date):
+    # YYYY-MM-DD を Unixタイムスタンプの形式に変換する
+    start_ts = convert_to_unix_timestamp(start_date)
+    end_ts = convert_to_unix_timestamp(end_date)
+
     # データベースから指定したユーザーの指定期間分の日報データを取得する
     db = get_db()
     try:
         target_daily_report = db.query(DailyReport).filter(
             and_(
                 DailyReport.user_id == slack_user_id,
-                DailyReport.ts >= start_date, # UNIXからの変換必要
-                DailyReport.ts <= end_date # UNIXからの変換必要
+                DailyReport.ts >= start_ts, 
+                DailyReport.ts <= end_ts
             )
         ).all()
         logger.debug("◆DBから正常に日報データを取得できました。")
