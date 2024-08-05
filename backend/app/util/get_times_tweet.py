@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from app.db.models import TimesTweet
 from app.db.database import get_db
+from convert_to_unix_timestamp import convert_to_unix_timestamp
 
 load_dotenv()
 
@@ -13,14 +14,18 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 def get_times_tweet(slack_user_id: str, start_date, end_date):
+    # YYYY-MM-DD から　Unixタイムスタンプ形式に変換する
+    start_ts = convert_to_unix_timestamp(start_date)
+    end_ts = convert_to_unix_timestamp(end_date)
+
     # データベースから指定したユーザーの指定期間分のtimesの投稿データを取得する
     db = get_db()
     try:
         target_times_tweet = db.query(TimesTweet).filter(
             and_(
                 TimesTweet.user_id == slack_user_id,
-                TimesTweet.ts >= start_date, # UNIXからの変換必要
-                TimesTweet.ts <= end_date # UNIXからの変換必要
+                TimesTweet.ts >= start_ts, # UNIXからの変換必要
+                TimesTweet.ts <= end_ts # UNIXからの変換必要
             )
         ).all()
         logger.debug("◆DBから正常にtimesの投稿データを取得できました。")
