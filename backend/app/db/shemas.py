@@ -1,6 +1,10 @@
 from pydantic import BaseModel
 from typing import Optional
+from datetime import datetime
 
+'''
+従業員情報をAPIレスポンスに乗せる用
+'''
 class EmployeeBase(BaseModel):
     name: str
     email: str
@@ -18,4 +22,20 @@ class Employee(EmployeeBase):
     class Config:
         orm_mode = True
 
-# 他の必要な Pydantic モデルもここに定義
+'''
+問い合わせフォームの内容をAPIレスポンスに乗せる用
+'''
+class ContactFormBase(BaseModel):
+    name: str
+    email: str
+    message: str
+
+class ContactFormCreate(ContactFormBase):
+    pass
+
+class ContactForm(ContactFormBase):
+    id: int
+    timestamp: datetime
+
+    class Config:
+        orm_mode = True

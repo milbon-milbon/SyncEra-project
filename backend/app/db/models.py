@@ -1,8 +1,9 @@
-from sqlalchemy import Column, String, Integer, Text, ForeignKey
+from sqlalchemy import Column, String, Integer, Text, ForeignKey, TIMESTAMP
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
 from .database import Base
+from sqlalchemy.sql import func
 
 # models（テーブルとカラム)の定義ができたらbackendコンテナの中に入り、以下の操作を実行
 # 1. migration 自動生成
@@ -37,9 +38,9 @@ class DailyReport(Base):
     user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(String, nullable=False)
-    edited = Column(String, nullable=True)
-    edited_by = Column(String(100), nullable=True)
-    edited_ts = Column(String, nullable=True)
+    # edited = Column(String, nullable=True)
+    # edited_by = Column(String(100), nullable=True)
+    # edited_ts = Column(String, nullable=True)
 
 class TimesTweet(Base):
     __tablename__ = 'times_tweet'
@@ -51,9 +52,9 @@ class TimesTweet(Base):
     ts = Column(String, nullable=False)
     thread_ts = Column(String, nullable=True)
     parent_user_id = Column(String, nullable=True)
-    edited = Column(String, nullable=True)
-    edited_by = Column(String(100), nullable=True)
-    edited_ts = Column(String, nullable=True)
+    # edited = Column(String, nullable=True)
+    # edited_by = Column(String(100), nullable=True)
+    # edited_ts = Column(String, nullable=True)
 
 class Channel(Base):
     __tablename__ = 'times_list'
@@ -61,3 +62,28 @@ class Channel(Base):
     user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     channel_name = Column(String(100), nullable=False)
     channel_id = Column(String(100), primary_key=True, nullable=False)
+
+class ContactForm(Base):
+    __tablename__ = 'contact_form'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(100), nullable=False)
+    email = Column(String(100), nullable=False)
+    message = Column(Text, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+class SummarizeHistory(Base):
+    __tablename__ = 'summarize_history'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    summary = Column(String, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+class AdvicesHistory(Base):
+    __tablename__ = 'advices_history'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    advices = Column(String, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
