@@ -6,14 +6,14 @@ from app.services.make_employee_list import make_employee_list
 from app.util.add_employee_info import add_employee, get_db_session
 from app.db.models import Employee, SlackUserInfo, DailyReport
 from app.db.database import get_db 
-from app.db.shemas import Employee, EmployeeCreate
+from backend.app.db.schemas import Employee, EmployeeCreate
 from app.util.get_employee_info import get_employee_info
 
 router = APIRouter()
 
 # 社員情報の登録
 @router.post("/add_employee_info/", response_model=Employee)
-def add_employee_info(employee: EmployeeCreate, db: Session = Depends(get_db_session)):
+def add_employee_info(employee: EmployeeCreate, db: Session = Depends(get_db)):
     return add_employee(db=db, employee=employee)
 
 # 社員の一覧画表示のリクエストがあった時 エンドポイントの稼働確認OK

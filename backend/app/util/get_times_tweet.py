@@ -3,8 +3,8 @@ import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
 from sqlalchemy import and_
-from app.db.database import SessionLocal
 from app.db.models import TimesTweet
+from app.db.database import get_db
 
 load_dotenv()
 
@@ -12,14 +12,9 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# データベースセッションの取得：データベースの操作を行うためのセッション
-# SessionLocal = "DB設定終わったらimportのコメントアウトを解除する" #この行の削除を忘れないように
-def get_db_session() -> Session:
-    return SessionLocal()
-
 def get_times_tweet(user_id: str, start_date, end_date):
     # データベースから指定したユーザーの指定期間分のtimesの投稿データを取得する
-    db = get_db_session()
+    db = get_db()
     try:
         target_times_tweet = db.query(TimesTweet).filter(
             and_(

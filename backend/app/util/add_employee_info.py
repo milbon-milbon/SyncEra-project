@@ -3,8 +3,9 @@ import os
 from dotenv import load_dotenv
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
-from app.db.database import SessionLocal, engine
 from app.db.models import Employee
+from app.db.database import get_db
+from backend.app.db.schemas import EmployeeCreate
 
 # 環境変数の読み込み
 load_dotenv()
@@ -14,25 +15,12 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# データベースセッションの取得(1)
-SessionLocal = "DB設定終わったらimportのコメントアウトを解除する" #この行の削除を忘れないように
-def get_db_session() -> Session:
-    return SessionLocal()
-
-# データベースセッションの取得(2) １とどっちがいいのか..？
-def get_db_session() -> Session:
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
-
 # ルーターの定義
 router = APIRouter()
 
 # 新しい従業員をデータベースに登録する関数
-def add_employee(db: Session, employee: Employee): # schemaは未定義
-    db = get_db_session() #セッション取得方法が２の場合はここは削除
+def add_employee(db: Session, employee: EmployeeCreate):
+    db = get_db()
     try:
         db_employee = Employee(
             name=employee.name, 

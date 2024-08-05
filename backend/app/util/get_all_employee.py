@@ -2,7 +2,7 @@ import logging
 import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
-from app.db.database import SessionLocal
+from app.db.database import get_db
 from app.db.models import Employee
 
 load_dotenv()
@@ -11,14 +11,10 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# データベースセッションの取得：データベースの操作を行うためのセッション
-def get_db_session() -> Session:
-    return SessionLocal()
-
 # すべての従業員の情報を取得する
 def get_all_employee():
     # データベースからuser情報を取得してくる
-    db = get_db_session()
+    db = get_db()
     try:
         all_members = db.query(Employee).all()
         logger.debug(f"◆DBから全ての従業員の情報を取得できました。")

@@ -2,9 +2,8 @@ import logging
 import os
 from dotenv import load_dotenv
 from sqlalchemy.orm import Session
-from openai import OpenAI
-from app.db.database import SessionLocal
 from app.db.models import Employee
+from app.db.database import get_db
 
 load_dotenv()
 
@@ -12,15 +11,10 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# データベースセッションの取得：データベースの操作を行うためのセッション
-# SessionLocal = "DB設定終わったらimportのコメントアウトを解除する" #この行の削除を忘れないように
-def get_db_session() -> Session:
-    return SessionLocal()
-
 # 特定の従業員の情報を取得する
 def get_employee_info(id: str):
     # データベースからuser情報を取得してくる
-    db = get_db_session()
+    db = get_db()
     try:
         target_employee_info = db.query(Employee).filter(Employee.id == id).all()
         logger.debug(f"◆DBから指定ユーザーの情報を取得できました。")
