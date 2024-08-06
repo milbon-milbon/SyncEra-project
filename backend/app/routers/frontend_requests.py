@@ -37,13 +37,13 @@ def get_selected_member(slack_user_id: str):
 
 # サマリー出力リクエストがあった時 #エンドポイント稼働確認はOK,start_data/end_dataをどう渡すか？
 @router.get("/print_summary/{slack_user_id}/")
-def print_summary(slack_user_id:str, start_data, end_data):
-    return make_summarize_report(slack_user_id, start_data, end_data)
+def print_summary(slack_user_id:str, start_date: date, end_date: date):
+    return make_summarize_report(slack_user_id, start_date, end_date)
 
 # サマリーに基づいたアドバイス/質問出力リクエストがあった時 #エンドポイント稼働確認はOK,start_data/end_dataをどう渡すか？
 @router.get("/print_advices/{slack_user_id}/")
-def print_advice(slack_user_id:str, start_data: date, end_data: date):
-    return make_advices(slack_user_id, start_data, end_data)
+def print_advice(slack_user_id:str, start_date: date, end_date: date):
+    return make_advices(slack_user_id, start_date, end_date)
 
 # キャリアアンケート結果の出力リクエストがあった時 エンドポイント稼働確認OK
 @router.get("/print_career_survey_result/{slack_user_id}/")
