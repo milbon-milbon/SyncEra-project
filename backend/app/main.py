@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
-from .services.slackApi import get_and_save_users, get_and_save_daily_report
+from .services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from slackeventsapi import SlackEventAdapter
@@ -20,8 +20,11 @@ logger = logging.getLogger(__name__)
 
 # Slack APIトークンを設定
 SLACK_TOKEN = os.getenv("SLACK_API_KEY")
-SIGNING_SECRET = os.getenv('SIGNING_SECRET')
+SIGNING_SECRET = os.getenv("SIGNING_SECRET")
+# つぶやきチャンネルのIDを環境変数から読み込む
+TWEET_CHANNEL_IDS = os.getenv("TWEET_CHANNEL_IDS", "").split(",")
 slack_client = WebClient(token=SLACK_TOKEN)
+
 
 app = FastAPI()
 # ルーターの定義
@@ -53,7 +56,11 @@ async def slack_events(request: Request, db: Session = Depends(get_db)):
         # イベント処理
         event = payload.get("event", {})
         if event.get("type") == "message" and "subtype" not in event:
-            return get_and_save_daily_report(event, db)
+            channel_id = event.get("channel")
+            if channel_id in TWEET_CHANNEL_IDS:
+                return get_and_save_times_tweet(event, db)
+            if channel_id == os.getenv("DAILY_REPORT_CHANNEL_ID"):
+                return get_and_save_daily_report(event, db)
 
         return {"status": "ignored"}
     except Exception as e:

@@ -1,7 +1,7 @@
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal, get_db
-from app.db.models import SlackUserInfo, DailyReport
+from app.db.models import SlackUserInfo, DailyReport, TimesTweet, TimesList
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from slackeventsapi import SlackEventAdapter
@@ -14,7 +14,7 @@ load_dotenv()
 
 # Slack APIトークンを設定
 SLACK_TOKEN = os.getenv("SLACK_API_KEY")
-SIGNING_SECRET = os.getenv('SIGNING_SECRET')
+SIGNING_SECRET = os.getenv("SIGNING_SECRET")
 
 # Slackクライアントの設定
 slack_client = WebClient(token=SLACK_TOKEN)
@@ -85,6 +85,86 @@ def get_and_save_daily_report(event, db: Session):
 
             # ユーザー情報をデータベースに挿入
             message_record = DailyReport(ts=ts, user_id=user_id, text=text)
+            db.merge(message_record)  # 存在する場合は更新し、存在しない場合は挿入
+            logger.debug(f"Message {id} merged: ts={ts}, user_id={user_id}")
+        
+        # コミットして変更を保存
+        db.commit()
+
+    except SlackApiError as e:
+        logger.error("Error fetching users: {}".format(e))
+        raise HTTPException(status_code=500, detail=str(e))
+    
+    except Exception as e:
+        logger.error("Database error: {}".format(e))
+        db.rollback()  # エラーが発生した場合、ロールバック
+        raise HTTPException(status_code=500, detail="Database error")
+
+    return {"status": "success"}
+
+# Slack APIからチャンネル一覧を取得し、Postgresに保存する関数
+def get_and_save_channel_list(db: Session):
+    try:
+        # conversations.listメソッドを使用してチャンネル一覧を取得
+        result = slack_client.conversations_list()
+        channels = result['channels']
+        
+        logger.debug("Channels list retrieved")
+
+        for channel in channels:
+            channel_info = {
+                'channel_id': channel['id'],
+                'channel_name': channel['name']
+            }
+            # チャンネル情報をデータベースに挿入
+            channel_record = TimesList(**channel_info)
+            db.merge(channel_record)  # 存在する場合は更新し、存在しない場合は挿入
+            logger.debug(f"Channel {channel_info['id']} merged: name={channel_info['name']}")
+        
+        # コミットして変更を保存
+        db.commit()
+
+    except SlackApiError as e:
+        logger.error("Error fetching conversations: {}".format(e))
+        raise HTTPException(status_code=500, detail=str(e))
+    
+    except Exception as e:
+        logger.error("Database error: {}".format(e))
+        db.rollback()  # エラーが発生した場合、ロールバック
+        raise HTTPException(status_code=500, detail="Database error")
+
+    return {"status": "success"}
+
+# Slack APIからtimesチャンネルの投稿情報を取得し、Postgresに保存する関数
+def get_and_save_times_tweet(event, db: Session):
+
+    conversation_history = []
+    channel_id = event.get('channel')  # イベントからチャンネルIDを取得
+    print(channel_id)
+
+    if not channel_id:
+        logger.error("Channel ID is missing in the event data")
+        raise HTTPException(status_code=400, detail="Channel ID is missing")
+
+    try:
+        # 先にユーザー情報を保存
+        get_and_save_users(db)
+
+        # conversations.historyメソッドを使用してチャンネルのメッセージを取得
+        result = slack_client.conversations_history(channel=channel_id)
+        conversation_history = result["messages"]
+        logger.debug("Conversations history retrieved")
+
+        # 結果をログに出力
+        logger.info("{} messages found in {}".format(len(conversation_history), channel_id))
+
+        for message in conversation_history:
+            ts = message.get('ts')
+            user_id = message.get('user')
+            text = message.get('text')
+
+            # ユーザー情報をデータベースに挿入
+            message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id)
             db.merge(message_record)  # 存在する場合は更新し、存在しない場合は挿入
             logger.debug(f"Message {id} merged: ts={ts}, user_id={user_id}")
         
