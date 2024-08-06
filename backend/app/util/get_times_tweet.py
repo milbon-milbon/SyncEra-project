@@ -45,8 +45,8 @@ def get_times_tweet(slack_user_id: str, start_date: date, end_date: date):
         ).all()
         logger.debug("◆DBから正常にtimesの投稿データを取得できました。")
         logger.debug(f"取得データ: {target_times_tweet}")
-
         response = compile_times_tweet_data(target_times_tweet)
+        logger.debug(f"最終の返り値: {response}")
         return response
     except Exception as e:
         logger.error(f"""◆

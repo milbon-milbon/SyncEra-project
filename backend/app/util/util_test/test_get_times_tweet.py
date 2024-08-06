@@ -10,5 +10,4 @@ end_date = date(2024, 8, 7)
 results = get_times_tweet(user_id, start_date, end_date)
 
 # 結果の出力
-for result in results:
-    print(result)
+print(results)
