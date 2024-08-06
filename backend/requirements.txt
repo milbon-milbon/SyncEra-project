@@ -2,3 +2,5 @@ fastapi==0.95.1
 uvicorn==0.21.1
 pandas
 psycopg2-binary
+stripe
+python-dotenv

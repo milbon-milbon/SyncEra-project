@@ -9,6 +9,10 @@ services:
       - ./frontend:/app
     ports:
       - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      - NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=${STRIPE_PUBLISHABLE_KEY}
     command: ["npm", "run", "dev"]
     depends_on:
       - backend
@@ -33,6 +37,7 @@ services:
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - FIREBASE_CONFIG=${FIREBASE_CONFIG}
       - SLACK_API_KEY=${SLACK_API_KEY}
+      - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
     networks:
       - app-network
 
