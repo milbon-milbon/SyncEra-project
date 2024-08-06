@@ -1,37 +1,50 @@
+"use client";
+
 import { useState, useEffect } from "react";
 
 interface Employee {
-  department: string;
   id: string;
-  project: string;
   name: string;
   email: string;
+  department: string;
   role: string;
-  slack_user_id: string;
+  project: string;
 }
 
-export function useEmployees() {
+export const useEmployees = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    fetch("/api/employees")
-      .then((response) => {
+    const fetchEmployees = async () => {
+      try {
+        const response = await fetch(
+          `${process.env.BACKEND_URL}/client/all_employee/`
+        );
+
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error(
+            `Failed to fetch employees: ${response.status} ${response.statusText}`
+          );
         }
-        return response.json();
-      })
-      .then((data) => {
+        const data = await response.json();
+        if (data.error) {
+          throw new Error(data.error);
+        }
         setEmployees(data);
+      } catch (err) {
+        console.error("Error fetching employees:", err);
+        setError(
+          err instanceof Error ? err : new Error("An unknown error occurred")
+        );
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
+      }
+    };
+
+    fetchEmployees();
   }, []);
 
   return { employees, loading, error };
-}
+};

@@ -1,3 +1,13 @@
+import sys
+import os
+
+# スクリプトの親ディレクトリ（backend）をパスに追加
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..')))
+
+from app.db.database import SessionLocal
+
+
+
 import uuid
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
