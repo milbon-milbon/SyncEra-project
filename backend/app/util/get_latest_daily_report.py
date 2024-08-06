@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 
 def get_latest_daily_report(slack_user_id: str):
     # データベースから指定したユーザーの最新の日報データを取得する
-    db = next(get_db())
+    db = get_db()
     try:
         latest_daily_report = db.query(DailyReport).filter(
             DailyReport.user_id == slack_user_id

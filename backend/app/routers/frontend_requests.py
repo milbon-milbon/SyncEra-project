@@ -27,19 +27,10 @@ def get_all_employee():
 ## 特定社員の情報表示のリクエストがあった時 データのGET,OK
 @router.get("/selected_employee/{slack_user_id}/")
 def get_selected_member(slack_user_id: str):
-    employee_detail = get_employee_info(slack_user_id)
+    employee_detail = get_employee_info(slack_user_id)[0]
     latest_daily_report = get_latest_daily_report(slack_user_id)
     if employee_detail and latest_daily_report:
-        # latest_daily_reportのtextを追加
-        employee_detail["latest_report_text"] = latest_daily_report[0]["text"]
-        
-        # tsをYY-MM-DD形式に変換して追加
-        employee_detail["date"] = convert_ts_to_date(latest_daily_report[0]["ts"])
-        
-        response = {
-            "employee_detail": employee_detail
-        }
-        return response
+        return employee_detail,latest_daily_report
     else:
         raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
 
