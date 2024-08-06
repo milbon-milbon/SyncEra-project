@@ -5,14 +5,16 @@ from sqlalchemy.orm import Session
 from openai import OpenAI
 # from app.database import SessionLocal
 # from app.models import テーブル名
-from ..util.get_employee_info import get_employee_info
-from ..util.get_daily_report import get_daily_report
-from ..util.get_times_tweet import get_times_tweet
-from .make_summary import make_summarize_report
+from app.util.get_employee_info import get_employee_info
+from app.util.get_daily_report import get_daily_report
+from app.util.get_times_tweet import get_times_tweet
+from app.services.make_summary import make_summarize_report
 from datetime import date
 
 load_dotenv()
+
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
@@ -38,6 +40,10 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
             logger.error("◆timesの投稿データ取得に失敗しました")
         else:
             logger.info("◆timesの投稿データ取得に成功しました")
+        if not summary:
+            logger.error("◆summaryの取得に失敗しました。")
+        else:
+            logger.info("◆summaryの取得に成功しました")
 
         prompt = f"""
         あなたは職場内コミュニケーション活性化を推進するプロフェッショナルです。
@@ -53,25 +59,31 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
         4)1~3をもとに作成した要約文: {summary}
         """
 
-        response = client.Completion.create(
-            model="gpt-4", #gpt4o-miniでもいいかも
-            prompt=prompt,
+        response = client.chat.completions.create(
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ],
+            model="gpt-4o-mini",
             max_tokens=1000,
-            temperature=0.5, #可変部
+            temperature=0.5
         )
 
-        advices = response.choices[0].text.strip()
+        advices = response.choices[0].message.content.strip()
+
         logger.debug(f"◆LLMが生成した1on1のアドバイス: {advices}")
 
         return advices
-    except Exception:
-        return f"アドバイス生成中のエラー: {Exception}"
+    except Exception as e:
+        return f"アドバイス生成中のエラー: {e}"
 
 
 # テストするなら以下をアレンジ
 if __name__ == "__main__":
-    user_id = 1
-    start_date = "2024-07-29"
-    end_date = "2024-08-2"
-    advices = make_advices(user_id, start_date, end_date)
+    slack_user_id = "slack_user_sample_2"
+    start_date = date(2024, 8, 1)
+    end_date = date(2024, 8, 7)
+    advices = make_advices(slack_user_id, start_date, end_date)
     print(advices)
