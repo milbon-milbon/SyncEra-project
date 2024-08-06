@@ -27,8 +27,6 @@ logger = logging.getLogger(__name__)
 
 # Slack APIからユーザー情報を取得し、Postgresに保存する関数
 def get_and_save_users(db: Session):
-    # データベースセッションを確立
-    db = get_db()
     try:
         # users.listメソッドを使用してユーザー情報を取得
         result = slack_client.users_list()
@@ -75,6 +73,7 @@ def get_and_save_daily_report(event, db: Session):
         # conversations.historyメソッドを使用してチャンネルのメッセージを取得
         result = slack_client.conversations_history(channel=channel_id)
         conversation_history = result["messages"]
+        logger.debug("Conversations history retrieved")
 
         # 結果をログに出力
         logger.info("{} messages found in {}".format(len(conversation_history), channel_id))
@@ -87,6 +86,7 @@ def get_and_save_daily_report(event, db: Session):
             # ユーザー情報をデータベースに挿入
             message_record = DailyReport(ts=ts, user_id=user_id, text=text)
             db.merge(message_record)  # 存在する場合は更新し、存在しない場合は挿入
+            logger.debug(f"Message {id} merged: ts={ts}, user_id={user_id}")
         
         # コミットして変更を保存
         db.commit()
