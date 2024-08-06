@@ -45,19 +45,19 @@ def seed_data():
         daily_report_1 = DailyReport(
             user_id='slack_user_sample_1',
             text='サンプル投稿だよ。シーディングだよ。///1',
-            ts='1618232401'
+            ts=1618232401
         )
 
         daily_report_2 = DailyReport(
             user_id='slack_user_sample_2',
             text='サンプル投稿だよ。シーディングだよ。///2',
-            ts='1618232402'
+            ts=1618232402
         )
 
         daily_report_3 = DailyReport(
             user_id='slack_user_sample_3',
             text='サンプル投稿だよ。シーディングだよ。///3',
-            ts='1618232403'
+            ts=1618232403
         )
 
         db.add_all([daily_report_1, daily_report_2, daily_report_3])

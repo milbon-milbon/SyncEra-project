@@ -8,6 +8,7 @@ from openai import OpenAI
 from ..util.get_employee_info import get_employee_info
 from ..util.get_daily_report import get_daily_report
 from ..util.get_times_tweet import get_times_tweet
+from datetime import date
 
 load_dotenv()
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
@@ -15,7 +16,7 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-def make_summarize_report(slack_user_id, start_date, end_date):
+def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
     try:
         employee_info = get_employee_info(slack_user_id)
         daily_report = get_daily_report(slack_user_id, start_date, end_date)
@@ -60,8 +61,8 @@ def make_summarize_report(slack_user_id, start_date, end_date):
         logger.debug(f"◆LLMが生成したサマリー: {summary}")
 
         return summary
-    except Exception:
-        return f"要約中のエラー: {Exception}"
+    except Exception as e:
+        return f"要約中のエラー: {e}"
 
 
 # テストするなら以下をアレンジ

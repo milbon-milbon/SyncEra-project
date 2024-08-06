@@ -11,6 +11,7 @@ from app.db.schemas import Employee, EmployeeCreate
 from app.util.get_employee_info import get_employee_info
 from app.util import convert_ts_to_date
 from typing import Optional
+from datetime import date
 
 router = APIRouter()
 
@@ -41,7 +42,7 @@ def print_summary(slack_user_id:str, start_data, end_data):
 
 # サマリーに基づいたアドバイス/質問出力リクエストがあった時 #エンドポイント稼働確認はOK,start_data/end_dataをどう渡すか？
 @router.get("/print_advices/{slack_user_id}/")
-def print_advice(slack_user_id:str, start_data, end_data):
+def print_advice(slack_user_id:str, start_data: date, end_data: date):
     return make_advices(slack_user_id, start_data, end_data)
 
 # キャリアアンケート結果の出力リクエストがあった時 エンドポイント稼働確認OK

@@ -20,31 +20,31 @@ def seed_data():
         '''>>> employee'''
         employee_1 = Employee(
             id=uuid.uuid4(),
-            name='sample_employee_1',
+            name='サンプル社員１',
             email='sample_employee_1@gmail.com',
-            department='product_sample_1',
-            role='frontend_sample_1',
-            project='SyncEra_sample_1',
+            department='プロダクト部１',
+            role='フロントエンド',
+            project='SyncEra',
             slack_user_id='slack_user_sample_1'
         )
 
         employee_2 = Employee(
             id=uuid.uuid4(),
-            name='sample_employee_2',
+            name='サンプル社員２',
             email='sample_employee_2@gmail.com',
-            department='product_sample_2',
-            role='backend_sample_2',
-            project='SyncEra_sample_2',
+            department='プロダクト部２',
+            role='バックエンド',
+            project='SyncEra',
             slack_user_id='slack_user_sample_2'
         )
 
         employee_3 = Employee(
             id=uuid.uuid4(),
-            name='sample_employee_3',
+            name='サンプル社員３',
             email='sample_employee_3@gmail.com',
-            department='product_sample_3',
-            role='database_sample_3',
-            project='SyncEra_sample_3',
+            department='プロダクト部３',
+            role='データベース',
+            project='SyncEra',
             slack_user_id='slack_user_sample_3'
         )
 
@@ -55,20 +55,20 @@ def seed_data():
 
         times_list_1 = TimesList(
             user_id='slack_user_sample_1',
-            channel_name='slack_user_sample_1',
-            channel_id='slack_user_sample_1'
+            channel_name='times_1',
+            channel_id='sample_times_1'
         )
 
         times_list_2 = TimesList(
             user_id='slack_user_sample_2',
-            channel_name='slack_user_sample_2',
-            channel_id='slack_user_sample_2'
+            channel_name='times_2',
+            channel_id='sample_times_2'
         )
 
         times_list_3 = TimesList(
             user_id='slack_user_sample_3',
-            channel_name='slack_user_sample_3',
-            channel_id='slack_user_sample_3'
+            channel_name='times_3',
+            channel_id='sample_times_3'
         )
 
         db.add_all([times_list_1, times_list_2, times_list_3])
@@ -77,24 +77,24 @@ def seed_data():
         '''>>> times_tweet'''
 
         times_tweet_1 = TimesTweet(
-            channel_id='slack_user_sample_1',
+            channel_id='sample_times_1',
             user_id='slack_user_sample_1',
             text='timesのつぶやきのサンプルデータだよ。///1',
-            ts='16182325001'
+            ts=16182325001
         )
 
         times_tweet_2 = TimesTweet(
-            channel_id='slack_user_sample_2',
+            channel_id='sample_times_2',
             user_id='slack_user_sample_2',
             text='timesのつぶやきのサンプルデータだよ。///2',
-            ts='16182325002'
+            ts=16182325002
         )
 
         times_tweet_3 = TimesTweet(
-            channel_id='slack_user_sample_3',
+            channel_id='sample_times_3',
             user_id='slack_user_sample_3',
             text='timesのつぶやきのサンプルデータだよ。///3',
-            ts='16182325003'
+            ts=16182325003
         )
 
         db.add_all([times_tweet_1, times_tweet_2, times_tweet_3])

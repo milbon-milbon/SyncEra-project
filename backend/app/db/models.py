@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, ForeignKey, TIMESTAMP
+from sqlalchemy import Column, String, Integer, Text, ForeignKey, TIMESTAMP, Float
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
@@ -37,7 +37,8 @@ class DailyReport(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
-    ts = Column(String, nullable=False)
+    ts = Column(Float, nullable=False)
+    # created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
     # edited = Column(String, nullable=True)
     # edited_by = Column(String(100), nullable=True)
     # edited_ts = Column(String, nullable=True)
@@ -49,9 +50,10 @@ class TimesTweet(Base):
     channel_id = Column(String, ForeignKey('times_list.channel_id'), nullable=False)
     user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
-    ts = Column(String, nullable=False)
-    thread_ts = Column(String, nullable=True)
+    ts = Column(Float, nullable=False)
+    thread_ts = Column(Float, nullable=True)
     parent_user_id = Column(String, nullable=True)
+    # created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
     # edited = Column(String, nullable=True)
     # edited_by = Column(String(100), nullable=True)
     # edited_ts = Column(String, nullable=True)
