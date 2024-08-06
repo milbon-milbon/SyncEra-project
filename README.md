@@ -1,2 +1,2 @@
 # SyncEra
-### mikiko, sayoko, ku-min, meme
+### mikiko, sayoko, ku-min, meme.
