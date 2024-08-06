@@ -4,7 +4,7 @@ from app.util.get_times_tweet import get_times_tweet  # 正しいモジュール
 # 引数の設定
 user_id = "slack_user_sample_1"
 start_date = date(2024, 8, 1)
-end_date = date(2024, 8, 6)
+end_date = date(2024, 8, 7)
 
 # 関数の呼び出し
 results = get_times_tweet(user_id, start_date, end_date)
