@@ -54,12 +54,18 @@ export default function Manager() {
   return (
     <div className="min-h-screen flex">
       <aside className="w-64 bg-[#003366] text-white p-6 flex flex-col">
-        <div className="text-3xl font-bold mb-4">SyncEra</div>
+        <div className="text-3xl font-bold mb-4">
+          <img
+            src="/image/SyncEra(blue_white).png"
+            alt="SyncEra Logo"
+            className="h-13"
+          />
+        </div>
         <nav className="flex-1">
           <ul className="space-y-4">
             <li>
               <Link href="/manager" className="hover:underline">
-                Dashboard
+                社員登録
               </Link>
             </li>
             <li>
