@@ -102,39 +102,6 @@ def get_and_save_daily_report(event, db: Session):
 
     return {"status": "success"}
 
-# Slack APIからチャンネル一覧を取得し、Postgresに保存する関数
-def get_and_save_channel_list(db: Session):
-    try:
-        # conversations.listメソッドを使用してチャンネル一覧を取得
-        result = slack_client.conversations_list()
-        channels = result['channels']
-        
-        logger.debug("Channels list retrieved")
-
-        for channel in channels:
-            channel_info = {
-                'channel_id': channel['id'],
-                'channel_name': channel['name']
-            }
-            # チャンネル情報をデータベースに挿入
-            channel_record = TimesList(**channel_info)
-            db.merge(channel_record)  # 存在する場合は更新し、存在しない場合は挿入
-            logger.debug(f"Channel {channel_info['id']} merged: name={channel_info['name']}")
-        
-        # コミットして変更を保存
-        db.commit()
-
-    except SlackApiError as e:
-        logger.error("Error fetching conversations: {}".format(e))
-        raise HTTPException(status_code=500, detail=str(e))
-    
-    except Exception as e:
-        logger.error("Database error: {}".format(e))
-        db.rollback()  # エラーが発生した場合、ロールバック
-        raise HTTPException(status_code=500, detail="Database error")
-
-    return {"status": "success"}
-
 # Slack APIからtimesチャンネルの投稿情報を取得し、Postgresに保存する関数
 def get_and_save_times_tweet(event, db: Session):
 
@@ -167,6 +134,29 @@ def get_and_save_times_tweet(event, db: Session):
             message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id)
             db.merge(message_record)  # 存在する場合は更新し、存在しない場合は挿入
             logger.debug(f"Message {id} merged: ts={ts}, user_id={user_id}")
+
+            # スレッドのリプライを取得
+            if 'thread_ts' in message:
+                thread_ts = message['thread_ts']
+                replies_result = slack_client.conversations_replies(channel=channel_id, ts=message['thread_ts'])
+                replies = replies_result['messages']
+
+                for reply in replies:
+                    reply_ts = reply.get('ts')
+                    reply_user_id = reply.get('user')
+                    reply_text = reply.get('text')
+                    parent_user_id = reply.get('parent_user_id')
+
+                    reply_record = TimesTweet(
+                        ts=reply_ts,
+                        user_id=reply_user_id,
+                        text=reply_text,
+                        channel_id=channel_id,
+                        thread_ts=thread_ts,
+                        parent_user_id=parent_user_id
+                    )
+                    db.merge(reply_record)  # 存在する場合は更新し、存在しない場合は挿入
+                    logger.debug(f"Reply merged: ts={reply_ts}, user_id={reply_user_id}")
         
         # コミットして変更を保存
         db.commit()
@@ -181,3 +171,4 @@ def get_and_save_times_tweet(event, db: Session):
         raise HTTPException(status_code=500, detail="Database error")
 
     return {"status": "success"}
+
