@@ -7,7 +7,7 @@ from sqlalchemy.sql import func
 
 # models（テーブルとカラム)の定義ができたらbackendコンテナの中に入り、以下の操作を実行
 # 1. migration 自動生成
-    # alembic revision --autogenerate -m "Initial migration"   
+    # alembic revision --autogenerate -m "Initial migration"
 # 2. migrationをDBに適用する
     # alembic upgrade head
 
