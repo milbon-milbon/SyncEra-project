@@ -1,0 +1,3 @@
+[flake8]
+max-line-length = 88 # 1行の最大文字数を88文字に設定
+extend-ignore = E203, E266, E501, W503 # 無視するエラーコードを指定

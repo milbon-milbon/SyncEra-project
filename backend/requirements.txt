@@ -8,3 +8,6 @@ slackeventsapi
 python-dotenv==1.0.0
 openai==1.40.0
 alembic
+black
+isort
+flake8
