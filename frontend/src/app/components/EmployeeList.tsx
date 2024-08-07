@@ -29,16 +29,16 @@ export default function EmployeeList() {
 import { useRouter } from "next/navigation";
 import { useEmployees } from "../hooks/useEmployees";
 
-// 従業員情報の型定義
-type Employee = {
+interface Employee {
+  //slack_user_id(slack_user_id: any): void;
   id: string;
   name: string;
-  email: string; // 追加
+  email: string;
   department: string;
   role: string;
   project: string;
   slack_user_id: string;
-};
+}
 
 export default function EmployeeList() {
   const router = useRouter();

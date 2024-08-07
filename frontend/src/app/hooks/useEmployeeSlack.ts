@@ -76,10 +76,14 @@ export type DailyReport = {
   user_id: string;
 };
 
+// EmployeeData 型を定義します
+export type EmployeeData = {
+  employeeInfo: EmployeeInfo;
+  dailyReport: DailyReport[];
+};
+
 export function useEmployeeSlack(slackUserId: string) {
-  const [employeeData, setEmployeeData] = useState<EmployeeSlackData | null>(
-    null
-  );
+  const [employeeData, setEmployeeData] = useState<EmployeeData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
 
@@ -101,7 +105,15 @@ export function useEmployeeSlack(slackUserId: string) {
           );
         }
         const data = await response.json();
-        setEmployeeData(data);
+
+        if (Array.isArray(data) && data.length > 1) {
+          const employeeInfo = data[0];
+          const dailyReport = data.slice(1); // Assuming dailyReport could be multiple entries
+
+          setEmployeeData({ employeeInfo, dailyReport });
+        } else {
+          throw new Error("Unexpected data format");
+        }
       } catch (err) {
         setError(err instanceof Error ? err : new Error("An error occurred"));
       } finally {

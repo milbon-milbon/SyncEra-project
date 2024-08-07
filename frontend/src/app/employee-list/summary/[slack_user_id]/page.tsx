@@ -274,31 +274,161 @@ export default function EmployeeSlackSummary() {
 }
   */
 
+// "use client";
+
+// import { useParams } from "next/navigation";
+// import { useState, useEffect } from "react";
+// import Link from "next/link";
+
+// export default function EmployeeDetailPage() {
+//   const params = useParams();
+//   const slack_user_id = params.slack_user_id as string;
+//   const [employeeData, setEmployeeData] = useState<any>(null); // Adjust type based on actual structure
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState<string | null>(null);
+
+//   useEffect(() => {
+//     async function fetchEmployeeData() {
+//       setLoading(true);
+//       try {
+//         const response = await fetch(`/api/employee/${slack_user_id}`);
+//         if (!response.ok) {
+//           throw new Error(`Failed to fetch employee data: ${response.status}`);
+//         }
+//         const data = await response.json();
+//         setEmployeeData(data);
+//       } catch (err) {
+//         setError(err instanceof Error ? err.message : "Unknown error");
+//       } finally {
+//         setLoading(false);
+//       }
+//     }
+
+//     if (slack_user_id) {
+//       fetchEmployeeData();
+//     }
+//   }, [slack_user_id]);
+
+//   if (loading) return <div>Loading...</div>;
+//   if (error) return <div>Error: {error}</div>;
+//   if (!employeeData) return <div>従業員データが見つかりません</div>;
+
+//   // employeeData から必要なデータを取り出します
+//   const { employeeInfo, dailyReport } = employeeData;
+
+//   return (
+//     <div className="min-h-screen flex flex-col">
+//       <header className="bg-[#003366] text-white p-4 flex items-center justify-between">
+//         <div className="text-4xl font-bold">
+//           <img
+//             src="/image/SyncEra(blue_white).png"
+//             alt="SyncEra Logo"
+//             className="h-16"
+//           />
+//         </div>
+//       </header>
+
+//       <div className="flex flex-1">
+//         <aside className="w-64 bg-[#003366] text-white p-6 flex flex-col">
+//           <nav className="flex-1">
+//             <ul className="space-y-4">
+//               <li>
+//                 <Link href="/employee-list" className="hover:underline">
+//                   社員一覧
+//                 </Link>
+//               </li>
+//               <li>
+//                 <Link href="/" className="hover:underline">
+//                   ホームページへ戻る
+//                 </Link>
+//               </li>
+//             </ul>
+//           </nav>
+//           <Link
+//             href="/login"
+//             className="bg-[#66B2FF] text-lg text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 transition-colors duration-300 mt-auto inline-block text-center"
+//           >
+//             ログアウト
+//           </Link>
+//         </aside>
+
+//         <main className="flex-1 p-8 bg-gray-100">
+//           <div className="bg-white p-6 rounded-lg shadow-md border border-[#003366]">
+//             <h2 className="text-3xl font-bold mb-4 text-[#003366]">
+//               {employeeInfo.name}の日報
+//             </h2>
+//             <div className="mb-6">
+//               <h3 className="text-2xl font-semibold mb-2 text-[#003366]">
+//                 社員情報
+//               </h3>
+//               <p>
+//                 <strong>部署:</strong> {employeeInfo.department}
+//               </p>
+//               <p>
+//                 <strong>プロジェクト:</strong> {employeeInfo.project}
+//               </p>
+//               <p>
+//                 <strong>役職:</strong> {employeeInfo.role}
+//               </p>
+//             </div>
+//             <div>
+//               <h3 className="text-2xl font-semibold mb-2 text-[#003366]">
+//                 最新の日報
+//               </h3>
+//               <p className="text-lg whitespace-pre-wrap">{dailyReport.text}</p>
+//               <p className="text-sm text-gray-500 mt-2">
+//                 投稿日時:{" "}
+//                 {new Date(parseInt(dailyReport.ts) * 1000).toLocaleString()}
+//               </p>
+//             </div>
+//           </div>
+//         </main>
+//       </div>
+//     </div>
+//   );
+// }
+
 "use client";
 
 import { useParams } from "next/navigation";
-import { useEmployeeSlack } from "../../../hooks/useEmployeeSlack";
 import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function EmployeeDetailPage() {
   const params = useParams();
   const slack_user_id = params.slack_user_id as string;
-  const [slackUserId, setSlackUserId] = useState<string | undefined>(undefined);
+  const [employeeData, setEmployeeData] = useState<any>(null); // Adjust type based on actual structure
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    async function fetchEmployeeData() {
+      setLoading(true);
+      try {
+        const response = await fetch(`/api/employee/${slack_user_id}`);
+        if (!response.ok) {
+          throw new Error(`Failed to fetch employee data: ${response.status}`);
+        }
+        const data = await response.json();
+        setEmployeeData(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Unknown error");
+      } finally {
+        setLoading(false);
+      }
+    }
+
     if (slack_user_id) {
-      setSlackUserId(slack_user_id);
+      fetchEmployeeData();
     }
   }, [slack_user_id]);
 
-  const { employeeData, loading, error } = useEmployeeSlack(slackUserId || "");
-
   if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error.message}</div>;
+  if (error) return <div>Error: {error}</div>;
   if (!employeeData) return <div>従業員データが見つかりません</div>;
 
-  const [employeeInfo, dailyReport] = employeeData;
+  // employeeData から必要なデータを取り出します
+  const { employeeInfo, dailyReport } = employeeData;
 
   return (
     <div className="min-h-screen flex flex-col">

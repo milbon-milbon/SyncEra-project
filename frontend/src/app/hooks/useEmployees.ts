@@ -3,13 +3,14 @@
 import { useState, useEffect } from "react";
 
 interface Employee {
-  slack_user_id(slack_user_id: any): void;
+  //slack_user_id(slack_user_id: any): void;
   id: string;
   name: string;
   email: string;
   department: string;
   role: string;
   project: string;
+  slack_user_id: string;
 }
 
 export const useEmployees = () => {
