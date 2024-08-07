@@ -25,6 +25,7 @@ def create_response(response: schemas.ResponseCreate, db: Session = Depends(data
     return db_response
 
 # これはmain.pyに appで書いてもいいのかも？
-@router.on_event("startup")
-def startup_event():
-    schedule_survey()
+# アプリーケーション起動時に、スケジューリング機能が働きダウ
+# @router.on_event("startup")
+# def startup_event():
+#     schedule_survey()
