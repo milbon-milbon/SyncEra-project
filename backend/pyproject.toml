@@ -1,0 +1,26 @@
+[tool.black]
+line-length = 88 # 1行の最大文字数を88文字に設定
+target-version = ['py38'] # ターゲットとするPythonのバージョンを指定
+include = '\.pyi?$' # 適用するファイルのパターン
+extend-exclude = '''
+/(
+  # 除外するディレクトリ
+  \.eggs
+  | \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+[tool.isort]
+profile = "black"  # blackと同じスタイルを使用
+multi_line_output = 3  # 複数行のインポートのスタイルを設定
+include_trailing_comma = true  # 複数行のインポートにトレーリングカンマを含める
+force_grid_wrap = 0  # グリッドラップを強制しない
+use_parentheses = true  # インポートの括弧を使用
+ensure_newline_before_comments = true  # コメントの前に改行を追加
+line_length = 88  # 1行の最大文字数を88文字に設定

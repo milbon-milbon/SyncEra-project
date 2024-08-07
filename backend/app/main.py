@@ -8,10 +8,7 @@ from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from .services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
 from slack_sdk import WebClient
-from slack_sdk.errors import SlackApiError
-from slackeventsapi import SlackEventAdapter
 from app.db.database import get_db
-from app.db.models import DailyReport
 
 # 環境変数の読み込み
 load_dotenv()
@@ -47,10 +44,12 @@ app.include_router(slack_requests.router, prefix="/slack", tags=["slack"])
 def read_root():
     return "we are SyncEra. member: mikiko, sayoko, ku-min, meme."
 
+# slackのユーザー情報取得を確認するためのエンドポイント
 @app.get("/users")
 def read_users(db: Session = Depends(get_db)):
     return get_and_save_users(db)
 
+# 日報の投稿情報の取得を確認するためのエンドポイント
 @app.get("/post_daily_report")
 def read_daily_report(db: Session = Depends(get_db)):
     return get_and_save_daily_report(None, db)
