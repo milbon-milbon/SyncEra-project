@@ -129,6 +129,7 @@ class Response(Base):
     question_id = Column(Integer, ForeignKey('questions.id'))
     answer = Column(String)
     free_text = Column(Text, nullable=True)
+    created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
 
     employee = relationship("Employee", back_populates="responses")
     question = relationship("Question", back_populates="responses")
