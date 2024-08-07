@@ -1,4 +1,4 @@
-// frontend/src/app/signup/page.tsx
+// frontend/src/app/login/page.tsx
 'use client';
 import React from 'react';
 import Email from '@/components/payment/Email';
@@ -6,16 +6,11 @@ import NextButton from '@/components/payment/NextButton';
 import LogoWblue from '@/components/payment/LogoWblue';
 
 const SignUp: React.FC = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // フォームのデフォルト動作を防ぐ
-    console.log('Form submitted'); // フォームが送信されたことをログ出力
-  };
-
   return (
     <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-white'>
       <LogoWblue />
       {/* 登録フォームを配置 */}
-      <form className='bg-gray-100 p-6 rounded-lg shadow-lg max-w-md' onSubmit={handleSubmit}>
+      <form className='bg-gray-100 p-6 rounded-lg shadow-lg max-w-md'>
         <h1 className='text-center text-2xl font-bold mb-3 text-[#003366]'>ご登録フォーム</h1>
         {/* フォーム要素例 */}
         <div className='mb-4'>

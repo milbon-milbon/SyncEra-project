@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 // 環境変数の出力
-// console.log('Stripe Secret Key:', process.env.STRIPE_SECRET_KEY);
-// console.log('Public Domain:', process.env.NEXT_PUBLIC_DOMAIN);
+console.log('Stripe Secret Key:', process.env.STRIPE_SECRET_KEY);
+console.log('Public Domain:', process.env.NEXT_PUBLIC_DOMAIN);
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2024-06-20',
@@ -12,6 +12,11 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 // POSTメソッドをエクスポート
 export async function POST(request: NextRequest) {
+  if (!process.env.STRIPE_SECRET_KEY || !process.env.NEXT_PUBLIC_DOMAIN) {
+    console.error(
+      '環境変数が正しく設定されていません。STRIPE_SECRET_KEY または NEXT_PUBLIC_DOMAIN が見つかりません。',
+    );
+  }
   try {
     const { price_id } = await request.json();
 
@@ -31,6 +36,13 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ url: session.url });
   } catch (error: any) {
     console.error('Error creating checkout session:', error);
+    if (error instanceof Stripe.errors.StripeCardError) {
+      console.error('カードエラーが発生しました:', error.message);
+    } else if (error instanceof Stripe.errors.StripeInvalidRequestError) {
+      console.error('リクエストエラーが発生しました:', error.message);
+    } else {
+      console.error('その他のエラーが発生しました:', error.message);
+    }
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

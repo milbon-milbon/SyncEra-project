@@ -1,5 +1,5 @@
-// src/app/components/stripe/PriceList.tsx
-'use client'; 
+// src/app/components/payment/PriceList.tsx
+'use client';
 import React from 'react';
 import PriceCard from './PriceCard';
 
@@ -37,14 +37,14 @@ const PriceList: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center overflow-x-auto">
+    <div className='flex justify-center overflow-x-auto'>
       {prices.map((price) => (
-        <div key={price.id} className="w-64 flex-shrink-0 mx-2">
+        <div key={price.id} className='w-64 flex-shrink-0 mx-2'>
           <PriceCard
             priceId={price.id}
             name={price.name}
             amount={price.amount}
-            image= {price.image} 
+            image={price.image}
             onSelect={handleCheckout}
           />
         </div>
