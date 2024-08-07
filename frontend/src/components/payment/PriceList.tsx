@@ -2,6 +2,7 @@
 'use client';
 import React from 'react';
 import PriceCard from './PriceCard';
+import clientLogger from '@/lib/clientLogger';
 
 const prices = [
   {
@@ -18,8 +19,10 @@ const prices = [
   },
 ];
 
-const PriceList: React.FC = () => {
+export default function PriceList() {
   const handleCheckout = async (priceId: string) => {
+    clientLogger.info(`チェックアウト開始時: ${priceId}`);
+
     try {
       const response = await fetch('/api/create-checkout-session', {
         method: 'POST',
@@ -30,9 +33,10 @@ const PriceList: React.FC = () => {
       });
 
       const { url } = await response.json();
+      clientLogger.info(`成功時のリダイレクトURL: ${url}`);
       window.location.href = url;
     } catch (error) {
-      console.error('Error creating checkout session:', error);
+      clientLogger.error('エラー発生');
     }
   };
 
@@ -51,6 +55,4 @@ const PriceList: React.FC = () => {
       ))}
     </div>
   );
-};
-
-export default PriceList;
+}

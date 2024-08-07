@@ -5,7 +5,7 @@ import Email from '@/components/payment/Email';
 import NextButton from '@/components/payment/NextButton';
 import LogoWblue from '@/components/payment/LogoWblue';
 
-const SignUp: React.FC = () => {
+export default function SignUp() {
   return (
     <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-white'>
       <LogoWblue />
@@ -53,6 +53,4 @@ const SignUp: React.FC = () => {
       </form>
     </div>
   );
-};
-
-export default SignUp;
+}

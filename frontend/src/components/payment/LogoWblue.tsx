@@ -2,14 +2,12 @@
 'use client';
 import React from 'react';
 
-const LogoWblue: React.FC = () => {
+export default function LogoWblue() {
   return (
     <img
-      src='/payment/white_2.png' // ロゴのパスを指定
+      src='/payment/white_2.png'
       alt='Logo'
-      className='absolute left-[510px] top-[100px]  w-25 h-9' // ロゴの位置と大きさを指定
+      className='absolute left-[510px] top-[100px]  w-25 h-9'
     />
   );
-};
-
-export default LogoWblue;
+}

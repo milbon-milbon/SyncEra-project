@@ -4,11 +4,12 @@ import React from 'react';
 import Email from '@/components/payment/Email';
 import NextButton from '@/components/payment/NextButton';
 import LogoWblue from '@/components/payment/LogoWblue';
+import clientLogger from '@/lib/clientLogger';
 
-const SignUp: React.FC = () => {
+export default function SignUp() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault(); // フォームのデフォルト動作を防ぐ
-    console.log('Form submitted'); // フォームが送信されたことをログ出力
+    clientLogger.info('フォームが送信されました');
   };
 
   return (
@@ -19,12 +20,13 @@ const SignUp: React.FC = () => {
         <h1 className='text-center text-2xl font-bold mb-3 text-[#003366]'>ご登録フォーム</h1>
         {/* フォーム要素例 */}
         <div className='mb-4'>
-          <label className='block text-[#003366] text-sm font-bold mb-2' htmlFor='email'>
+          <label className='block text-[#003366] text-sm font-bold mb-2' htmlFor='officeName'>
             社名・団体名
           </label>
           <input
-            type='name'
-            id='name'
+            type='text'
+            id='officeName'
+            name='officeName'
             className='shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
             placeholder='office_name'
           />
@@ -37,6 +39,7 @@ const SignUp: React.FC = () => {
             <input
               type='text'
               id='lastName'
+              name='lastName'
               className='shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
               placeholder='name'
             />
@@ -48,6 +51,7 @@ const SignUp: React.FC = () => {
             <input
               type='text'
               id='firstName'
+              name='firstName'
               className='shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
               placeholder=''
             />
@@ -58,6 +62,4 @@ const SignUp: React.FC = () => {
       </form>
     </div>
   );
-};
-
-export default SignUp;
+}

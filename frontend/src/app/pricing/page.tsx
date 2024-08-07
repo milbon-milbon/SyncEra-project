@@ -3,7 +3,7 @@ import React from 'react';
 import PriceList from '../../components/payment/PriceList';
 import LogoRblue from '../../components/payment/LogoRblue';
 
-const PricingPage: React.FC = () => {
+export default function PricingPage() {
   return (
     <div className='min-h-screen flex flex-col'>
       <div className='flex-grow flex flex-col items-center justify-center bg-[#003366]'>
@@ -13,6 +13,4 @@ const PricingPage: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default PricingPage;
+}

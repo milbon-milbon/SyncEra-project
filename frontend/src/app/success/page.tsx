@@ -3,21 +3,22 @@
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import clientLogger from '@/lib/clientLogger';
 
-const SuccessPage: React.FC = () => {
+export default function SuccessPage() {
   const router = useRouter();
 
   useEffect(() => {
-    console.log('SuccessPage loaded');
+    clientLogger.info('SuccessPage loaded');
     // 3秒後にTOPページへリダイレクト
     const timer = setTimeout(() => {
-      console.log('Redirecting to home page');
+      clientLogger.info('TOPページへリダイレクト');
       router.push('/');
     }, 3000);
 
     // クリーンアップタイマー
     return () => {
-      console.log('Cleaning up timer');
+      clientLogger.info('クリーンアップタイマー');
       clearTimeout(timer);
     };
   }, [router]);
@@ -29,6 +30,4 @@ const SuccessPage: React.FC = () => {
       <p>今後ともSyncEraをよろしくお願いいたします。</p>
     </div>
   );
-};
-
-export default SuccessPage;
+}

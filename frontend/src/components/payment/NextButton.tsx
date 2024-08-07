@@ -1,25 +1,25 @@
-// frontend/src/components/payment/Next.Button.tsx
+// frontend/src/components/payment/NextButton.tsx
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import clientLogger from '@/lib/clientLogger';
 
-const NextButton: React.FC = () => {
+export default function NextButton() {
   const handleClick = () => {
-    console.log('Button clicked'); // ボタンがクリックされたときにログを出力
+    clientLogger.info('ボタンクリック');
   };
+
   return (
     <Link href='/pricing'>
       <div className='flex justify-center'>
         <button
-          type='submit'
+          onClick={handleClick}
+          type='button'
           className='mt-6 w-full px-6 py-3 bg-[#003366] text-white rounded-lg hover:bg-[#002244] focus:outline-none '
-          onClick={handleClick} // onClickイベントを追加
         >
           次へ
         </button>
       </div>
     </Link>
   );
-};
-
-export default NextButton;
+}

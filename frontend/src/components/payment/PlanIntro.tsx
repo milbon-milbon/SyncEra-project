@@ -1,15 +1,17 @@
-// frontend/src/components/payment/PlanIntro.tsx
 'use client';
 import React from 'react';
 import Link from 'next/link';
+import clientLogger from '@/lib/clientLogger';
 
-const PlanIntro: React.FC = () => {
-  const handleClick = () => {
-    console.log('Button clicked'); // ボタンがクリックされたときにログを出力
+export default function PlanIntro() {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement | HTMLSpanElement>) => {
+    clientLogger.info('ボタンクリック');
+    // e.preventDefault(); // デバッグ時にページ遷移を防ぎたい場合に使用
   };
+
   return (
     <div className='min-h-screen bg-white flex flex-col items-center justify-center'>
-      <div className='flex flex-col items-center justify-center p-3 bg-white max-w-4xl mx-auto '>
+      <div className='flex flex-col items-center justify-center p-3 bg-white max-w-4xl mx-auto'>
         <h1 className='text-2xl font-bold mb-8 text-center'>料金のご案内</h1>
         <div className='flex flex-col md:flex-row gap-8 w-full mb-8'>
           <div className='flex-1 border rounded-lg p-6 shadow-lg hover:shadow-xl transition-shadow'>
@@ -139,8 +141,8 @@ const PlanIntro: React.FC = () => {
         </p>
         <Link href='/signup'>
           <button
-            className='mt-8 px-6 py-3 bg-[#003366] text-white rounded-lg hover:bg-[#002244] focus:outline-none mb-5'
             onClick={handleClick}
+            className='mt-8 px-6 py-3 bg-[#003366] text-white rounded-lg hover:bg-[#002244] focus:outline-none mb-5'
           >
             アカウントを作成する
           </button>
@@ -156,6 +158,4 @@ const PlanIntro: React.FC = () => {
       </div>
     </div>
   );
-};
-
-export default PlanIntro;
+}

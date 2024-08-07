@@ -2,7 +2,7 @@
 'use client';
 import React from 'react';
 
-const Email: React.FC = () => {
+export default function Emai() {
   return (
     <div className='mb-4'>
       <label className='block text-[#003366] text-sm font-bold mb-2' htmlFor='email'>
@@ -16,6 +16,4 @@ const Email: React.FC = () => {
       />
     </div>
   );
-};
-
-export default Email;
+}

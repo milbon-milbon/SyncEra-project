@@ -1,6 +1,7 @@
 // src/app/components/PriceCard.tsx
 'use client';
 import React from 'react';
+import clientLogger from '@/lib/clientLogger';
 
 interface PriceCardProps {
   priceId: string;
@@ -10,11 +11,12 @@ interface PriceCardProps {
   onSelect: (priceId: string) => void;
 }
 
-const PriceCard: React.FC<PriceCardProps> = ({ image, name, priceId, amount, onSelect }) => {
+export default function PriceCard({ image, name, priceId, amount, onSelect }: PriceCardProps) {
   const handleSelectClick = (priceId: string) => {
-    console.log(`Selected plan: ${name}, Price ID: ${priceId}`); // ログ出力
+    clientLogger.info(`Selected plan: ${name}, Price ID: ${priceId}`);
     onSelect(priceId); // 実際のonSelect関数を呼び出す
   };
+
   return (
     <div className='bg-white rounded-lg shadow-md p-5 m-1 w-full max-w-sm text-gray-600'>
       <img
@@ -29,14 +31,12 @@ const PriceCard: React.FC<PriceCardProps> = ({ image, name, priceId, amount, onS
       </h3>
       <div className='flex justify-center'>
         <button
+          onClick={() => handleSelectClick(priceId)}
           className='bg-[#66b2ff] text-black py-2 px-4 rounded-full hover:bg-[#99ccff] focus:outline-none'
-          onClick={() => onSelect(priceId)}
         >
           Select
         </button>
       </div>
     </div>
   );
-};
-
-export default PriceCard;
+}

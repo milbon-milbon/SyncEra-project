@@ -2,7 +2,7 @@
 'use client';
 import React from 'react';
 
-const Password: React.FC = () => {
+export default function Password() {
   return (
     <div className='mb-4'>
       <label className='block text-[#003366] text-sm font-bold mb-2' htmlFor='password'>
@@ -16,6 +16,4 @@ const Password: React.FC = () => {
       />
     </div>
   );
-};
-
-export default Password;
+}
