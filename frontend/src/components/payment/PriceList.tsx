@@ -13,7 +13,7 @@ const prices = [
   },
   {
     id: 'price_1PkNmT1RdH0G9zt6IHaDVLOb',
-    name: '年額',
+    name: '年払',
     amount: 12000,
     image: './payment/year.png',
   },

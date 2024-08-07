@@ -11,7 +11,7 @@ export default function Emai() {
       <input
         type='email'
         id='email'
-        className='shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
+        className='input-with-icon-3 shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
         placeholder='example@example.com'
       />
     </div>

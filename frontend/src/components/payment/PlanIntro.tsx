@@ -86,21 +86,6 @@ export default function PlanIntro() {
                     <path strokeLinecap='round' strokeLinejoin='round' d='M5 13l4 4L19 7' />
                   </svg>
                 </span>
-                年間でお得な料金
-              </li>
-              <li className='flex items-center'>
-                <span className='flex justify-center items-center w-6 h-6 bg-white border border-[#66b2ff] rounded-full mr-2'>
-                  <svg
-                    className='w-4 h-4 text-[#003366]'
-                    fill='none'
-                    stroke='currentColor'
-                    strokeWidth={2}
-                    viewBox='0 0 24 24'
-                    xmlns='http://www.w3.org/2000/svg'
-                  >
-                    <path strokeLinecap='round' strokeLinejoin='round' d='M5 13l4 4L19 7' />
-                  </svg>
-                </span>
                 長期的な計画に最適
               </li>
               <li className='flex items-center'>

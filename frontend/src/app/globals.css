@@ -18,11 +18,7 @@
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
+  background: linear-gradient(to bottom, white, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
 }
 
@@ -30,4 +26,28 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+.input-with-icon-1 {
+  background-image: url('/signup/office.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
+}
+.input-with-icon-2 {
+  background-image: url('/signup/person.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
+}
+.input-with-icon-3 {
+  background-image: url('/signup/mail.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
 }

@@ -1,4 +1,4 @@
-// frontend/src/app/api/create-checkout-session/route.ts
+// frontend/src/app/api/create_checkout_session/route.ts
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
