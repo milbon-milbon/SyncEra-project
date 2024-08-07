@@ -130,10 +130,13 @@ def get_and_save_times_tweet(event, db: Session):
             user_id = message.get('user')
             text = message.get('text')
 
-            # ユーザー情報をデータベースに挿入
-            message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id)
-            db.merge(message_record)  # 存在する場合は更新し、存在しない場合は挿入
-            logger.debug(f"Message {id} merged: ts={ts}, user_id={user_id}")
+            # メッセージが存在するかをチェック
+            existing_message = db.query(TimesTweet).filter_by(ts=ts).first()
+            if not existing_message:
+                # メッセージ情報をデータベースに挿入
+                message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id)
+                db.add(message_record)  # 新規追加
+                logger.debug(f"Message merged: ts={ts}, user_id={user_id}")
 
             # スレッドのリプライを取得
             if 'thread_ts' in message:
