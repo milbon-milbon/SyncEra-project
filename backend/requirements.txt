@@ -6,7 +6,5 @@ sqlalchemy
 slack-sdk==3.12.0
 slackeventsapi
 python-dotenv==1.0.0
-alembicopenai==1.40.0
-python-dotenv
-sqlalchemy
+openai==1.40.0
 alembic
