@@ -395,7 +395,9 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 
 export default function EmployeeDetailPage() {
+  console.log("エラー");
   const params = useParams();
+  console.log(params);
   const slack_user_id = params.slack_user_id as string;
   const [employeeData, setEmployeeData] = useState<any>(null); // Adjust type based on actual structure
   const [loading, setLoading] = useState(true);
@@ -405,11 +407,16 @@ export default function EmployeeDetailPage() {
     async function fetchEmployeeData() {
       setLoading(true);
       try {
-        const response = await fetch(`/api/employee/${slack_user_id}`);
+        const response = await fetch(
+          `http://localhost:8000/client/selected_employee/${slack_user_id}/`
+        );
         if (!response.ok) {
           throw new Error(`Failed to fetch employee data: ${response.status}`);
         }
+        console.log(response);
         const data = await response.json();
+        console.log(data);
+
         setEmployeeData(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : "Unknown error");
@@ -429,6 +436,8 @@ export default function EmployeeDetailPage() {
 
   // employeeData から必要なデータを取り出します
   const { employeeInfo, dailyReport } = employeeData;
+  console.log(employeeInfo);
+  console.log(dailyReport);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -469,27 +478,29 @@ export default function EmployeeDetailPage() {
         <main className="flex-1 p-8 bg-gray-100">
           <div className="bg-white p-6 rounded-lg shadow-md border border-[#003366]">
             <h2 className="text-3xl font-bold mb-4 text-[#003366]">
-              {employeeInfo.name}の日報
+              {employeeInfo[0].name}の日報
             </h2>
             <div className="mb-6">
               <h3 className="text-2xl font-semibold mb-2 text-[#003366]">
                 社員情報
               </h3>
               <p>
-                <strong>部署:</strong> {employeeInfo.department}
+                <strong>部署:</strong> {employeeInfo[0].department}
               </p>
               <p>
-                <strong>プロジェクト:</strong> {employeeInfo.project}
+                <strong>プロジェクト:</strong> {employeeInfo[0].project}
               </p>
               <p>
-                <strong>役職:</strong> {employeeInfo.role}
+                <strong>役職:</strong> {employeeInfo[0].role}
               </p>
             </div>
             <div>
               <h3 className="text-2xl font-semibold mb-2 text-[#003366]">
                 最新の日報
               </h3>
-              <p className="text-lg whitespace-pre-wrap">{dailyReport.text}</p>
+              <p className="text-lg whitespace-pre-wrap">
+                {dailyReport[1].text}
+              </p>
               <p className="text-sm text-gray-500 mt-2">
                 投稿日時:{" "}
                 {new Date(parseInt(dailyReport.ts) * 1000).toLocaleString()}
