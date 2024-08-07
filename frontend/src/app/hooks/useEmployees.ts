@@ -20,7 +20,7 @@ export const useEmployees = () => {
     const fetchEmployees = async () => {
       try {
         const response = await fetch(
-          `${process.env.BACKEND_URL}/client/all_employee/`
+          `http://localhost:8000/client/all_employee/`
         );
 
         if (!response.ok) {
