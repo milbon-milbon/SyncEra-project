@@ -1,8 +1,12 @@
 fastapi==0.95.1
 uvicorn==0.21.1
 pandas
-psycopg2-binary
-openai==1.40.0
+psycopg2-binary==2.9.1
+sqlalchemy
+slack-sdk==3.12.0
+slackeventsapi
+python-dotenv==1.0.0
+alembicopenai==1.40.0
 python-dotenv
 sqlalchemy
 alembic
