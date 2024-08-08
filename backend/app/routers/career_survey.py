@@ -32,11 +32,15 @@ def get_next_question(question_id: int, answer: str, db: Session = Depends(get_d
     next_question = db.query(models.Question).filter(models.Question.id == next_question_id).first()
     return next_question
 
+# アンケートの回答が確定するたびにDBに保存し、次の質問を出力する
 @router.post("/submit")
 def submit_answer(response: schemas.ResponseBase, db: Session = Depends(get_db)):
     db_response = create_response(db, response, employee_id=1)  # 仮にemployee_idを1としています
     next_question = get_next_question(db, response.question_id, response.answer)
     return next_question
+
+# 以下、おそらく使用しない
+
 # 指定された question_id に対応する質問をデータベースから取得して返す
 # @router.get("/questions/{question_id}", response_model=schemas.Question)
 # def read_question(question_id: int, db: Session = Depends(database.get_db)):
