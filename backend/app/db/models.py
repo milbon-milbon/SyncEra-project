@@ -9,7 +9,7 @@ from sqlalchemy.orm import relationship
 '''
 models（テーブルとカラム)の定義ができたらbackendコンテナの中に入り、以下の操作を実行
 1. migration 自動生成
-    alembic revision --autogenerate -m "コメント挿入"   
+    alembic revision --autogenerate -m "コメント挿入"
 2. migrationをDBに適用する
     alembic upgrade head
 '''

@@ -11,3 +11,4 @@ alembic
 black
 isort
 flake8
+apscheduler

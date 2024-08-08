@@ -174,4 +174,3 @@ def get_and_save_times_tweet(event, db: Session):
         raise HTTPException(status_code=500, detail="Database error")
 
     return {"status": "success"}
-
