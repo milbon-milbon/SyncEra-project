@@ -4,7 +4,6 @@ import type { Viewport, Metadata } from 'next';
 import './globals.css';
 import { Inter } from 'next/font/google';
 
-
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
@@ -14,7 +13,6 @@ export const metadata: Metadata = {
     icon: '/favicon.ico',
   },
 };
-
 
 // viewportオブジェクトをエクスポート
 export const viewport: Viewport = {
@@ -28,16 +26,10 @@ export const viewport: Viewport = {
   ],
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <head>
-        {/* Next.jsのviewportは自動設定されるため、手動での設定は不要 */}
-      </head>
+    <html lang='en'>
+      <head>{/* Next.jsのviewportは自動設定されるため、手動での設定は不要 */}</head>
       <body>{children}</body>
     </html>
   );
