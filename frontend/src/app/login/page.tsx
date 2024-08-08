@@ -14,13 +14,13 @@ export default function Login() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen p-8 bg-white bg-opacity-10'>
+    <div className='flex flex-col items-center justify-center min-h-screen bg-white'>
+      <LogoWblue />
       {/* ログインを配置 */}
       <form
-        className='bg-white p-11 rounded-lg shadow-2xl w-full max-w-md border-[5px] border-[#66b2ff]'
+        className='bg-white p-[15px] md:p-[35px] rounded-lg shadow-2xl w-full max-w-md border-[4px] border-[#66b2ff]'
         onSubmit={handleSubmit}
       >
-        <LogoWblue />
         <h1 className='text-[20px] font-bold mb-8 text-[#003366]'>ログイン</h1>
         {/* フォーム要素例 */}
         <div className='mb-6'>
@@ -35,9 +35,8 @@ export default function Login() {
             placeholder='ご登録企業のアカウント'
           />
         </div>
-
         <EmailId />
-        <div className='mb-10'>
+        <div className='mb-[50px]'>
           <Password />
         </div>
         <LoginButton />

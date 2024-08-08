@@ -23,7 +23,7 @@ export default function Password() {
         パスワードを忘れた方は
         <Link href='/'>
           <span className='text-blue-500 underline ml-1' onClick={handleClick}>
-            こちら
+            こちら {' TODO:メール問い合わせURLへ変更予定'}
           </span>
         </Link>
       </p>

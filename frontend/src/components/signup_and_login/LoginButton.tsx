@@ -11,6 +11,7 @@ export default function LoginButton() {
 
   return (
     <Link href='/'>
+      {' TODO:管理画面URLへ変更予定'}
       <div className='flex justify-center'>
         <button
           onClick={handleClick}

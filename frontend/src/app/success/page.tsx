@@ -13,7 +13,7 @@ export default function SuccessPage() {
     // 3秒後にTOPページへリダイレクト
     const timer = setTimeout(() => {
       clientLogger.info('TOPページへリダイレクト');
-      router.push('/');
+      router.push('/login');
     }, 3000);
 
     // クリーンアップタイマー
