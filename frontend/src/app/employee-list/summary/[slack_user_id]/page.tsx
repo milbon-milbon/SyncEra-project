@@ -17,7 +17,7 @@ type EmployeeInfo = {
 type DailyReport = {
   id: number;
   text: string;
-  ts: number;
+  ts: string;
   user_id: string;
 };
 
@@ -133,7 +133,30 @@ export default function EmployeeDetailPage() {
               <p className="text-sm text-gray-500 mt-2">
                 投稿日時:{" "}
                 {/* {new Date(parseInt(employeeData[1].ts) * 1000).toLocaleString()} */}
+                => employeeData[1].ts では、小数点を含む数値が文字列として渡されています（参考：backend/db/models.py）
+                => かつ、unix型という日時の表し方なので、それを YYYY-MM-DD 形式に直す必要があります。
+                => 1. 小数点を含む数値の文字列を、parseInt()の引数には渡せないので、parseFloatを使って数値に直します。
+                => 2. YYYY, MM, DD ごとに形を整えます
+              　{
+                 (() => {
+							      const timestamp = parseFloat(employeeData[1].ts);
+							      const date = new Date(timestamp * 1000); // UNIXタイムスタンプをミリ秒に変換
+							      const year = date.getFullYear(); // 年を取得
+							      const month = (date.getMonth() + 1).toString().padStart(2, '0'); // 月を取得（0始まりなので+1）し、ゼロ埋め
+							      const day = date.getDate().toString().padStart(2, '0'); // 日を取得し、ゼロ埋め
+							      return `${year}-${month}-${day}`; // "YYYY-MM-DD" 形式で返す
+							    })()
+							  }
               </p>
+              {/* サマリー画面へのリンクボタン */}
+              <div className="mt-4">
+                <Link
+                  href={`/employee-list/summary_report/${slack_user_id}/?start_date=2024-08-01&end_date=2024-08-07`}
+                  className="bg-[#66B2FF] text-lg text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 transition-colors duration-300 inline-block"
+                >
+                  日報サマリーを見る
+                </Link>
+              </div>
             </div>
           </div>
         </main>

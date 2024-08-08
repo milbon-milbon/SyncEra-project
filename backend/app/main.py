@@ -86,4 +86,6 @@ def get_employee_info(slack_user_id: str):
     
     except psycopg2.Error as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+    
+    
 
