@@ -13,20 +13,21 @@ export PYTHONPATH=/app
 ```
 
 ```
-python seed.py
+python seed_1.py
 ```
 
 ここでまずは
 `slack_user_infoテーブル`と`daily_reportテーブル`のseedingが完了する。
 
 ```
-python seeding_script.py
+python seed_2.py
+```
+```
+python seed_3.py
 ```
 
 これで、残りのテーブルのseedingが完了する。
-employee, times_list, times_tweet, summarize_history, advices_history
-
-seedingを確認するには
+seedingできたかを確認するには
 
 ```
 docker compose exec -it db psql -U syncera -d syncera_db

@@ -24,8 +24,30 @@
 import logging
 import os
 from dotenv import load_dotenv
-from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware  # 追加
+import logging
+import os
+from dotenv import load_dotenv
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
+from sqlalchemy.orm import Session
+from .services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
+from slack_sdk import WebClient
+from app.db.database import get_db
+
+# 環境変数の読み込み
+load_dotenv()
+
+# ロギングの設定
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+
+# Slack APIトークンを設定
+SLACK_TOKEN = os.getenv("SLACK_API_KEY")
+SIGNING_SECRET = os.getenv("SIGNING_SECRET")
+# つぶやきチャンネルのIDを環境変数から読み込む
+TWEET_CHANNEL_IDS = os.getenv("TWEET_CHANNEL_IDS", "").split(",")
+slack_client = WebClient(token=SLACK_TOKEN)
+
 from .routers import frontend_requests, slack_requests
 
 load_dotenv()
@@ -35,15 +57,8 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
-
-# CORS設定を追加
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://frontend:3000"],  # フロントエンドのURLを指定
-    allow_credentials=True,
-    allow_methods=["*"],  # すべてのHTTPメソッドを許可
-    allow_headers=["*"],  # すべてのヘッダーを許可
-)
+# ルーターの定義
+router = APIRouter()
 
 app.include_router(frontend_requests.router, prefix="/client", tags=["client"])
 app.include_router(slack_requests.router, prefix="/slack", tags=["slack"])
@@ -52,40 +67,40 @@ app.include_router(slack_requests.router, prefix="/slack", tags=["slack"])
 def read_root():
     return "we are SyncEra. member: mikiko, sayoko, ku-min, meme."
 
-@app.get("/selected_employee/{slack_user_id}")
-def get_employee_info(slack_user_id: str):
-    try:
-        conn = psycopg2.connect(**DB_CONFIG)
-        cur = conn.cursor(cursor_factory=RealDictCursor)
-        
-        # 社員情報の取得
-        cur.execute("""
-            SELECT department, id, project, name, email, role, slack_user_id
-            FROM employee
-            WHERE slack_user_id = %s
-        """, (slack_user_id,))
-        employee_info = cur.fetchone()
-        
-        if not employee_info:
-            raise HTTPException(status_code=404, detail="Employee not found")
-        
-        # 最新の日報データの取得
-        cur.execute("""
-            SELECT text, ts, id, user_id
-            FROM daily_report
-            WHERE user_id = %s
-            ORDER BY ts DESC
-            LIMIT 1
-        """, (slack_user_id,))
-        daily_report = cur.fetchone()
-        
-        cur.close()
-        conn.close()
-        
-        return [employee_info, daily_report]
-    
-    except psycopg2.Error as e:
-        raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
-    
-    
+# slackのユーザー情報取得を確認するためのエンドポイント
+@app.get("/users")
+def read_users(db: Session = Depends(get_db)):
+    return get_and_save_users(db)
 
+# 日報の投稿情報の取得を確認するためのエンドポイント
+@app.get("/post_daily_report")
+def read_daily_report(db: Session = Depends(get_db)):
+    return get_and_save_daily_report(None, db)
+
+# Slackイベントのエンドポイント
+@app.post("/slack/events")
+async def slack_events(request: Request, db: Session = Depends(get_db)):
+    try:
+        payload = await request.json()
+        logger.debug(f"Payload: {payload}")
+
+        # SlackのURL検証のためのチャレンジリクエストに対応
+        if "challenge" in payload:
+            return {"challenge": payload["challenge"]}
+        
+        # イベント処理
+        event = payload.get("event", {})
+        if event.get("type") == "message" and "subtype" not in event:
+            channel_id = event.get("channel")
+            if channel_id in TWEET_CHANNEL_IDS:
+                return get_and_save_times_tweet(event, db)
+            if channel_id == os.getenv("DAILY_REPORT_CHANNEL_ID"):
+                return get_and_save_daily_report(event, db)
+
+        return {"status": "ignored"}
+    except Exception as e:
+        logger.error(f"Error processing request: {e}")
+        raise HTTPException(status_code=500, detail="Internal Server Error")
+
+# FastAPIアプリケーションにルーターを登録
+app.include_router(router)
