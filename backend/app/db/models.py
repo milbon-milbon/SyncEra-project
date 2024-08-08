@@ -4,12 +4,15 @@ from sqlalchemy.ext.declarative import declarative_base
 import uuid
 from .database import Base
 from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
 
-# models（テーブルとカラム)の定義ができたらbackendコンテナの中に入り、以下の操作を実行
-# 1. migration 自動生成
-    # alembic revision --autogenerate -m "Initial migration"
-# 2. migrationをDBに適用する
-    # alembic upgrade head
+'''
+models（テーブルとカラム)の定義ができたらbackendコンテナの中に入り、以下の操作を実行
+1. migration 自動生成
+    alembic revision --autogenerate -m "コメント挿入"   
+2. migrationをDBに適用する
+    alembic upgrade head
+'''
 
 Base = declarative_base()
 
@@ -95,3 +98,38 @@ class AdvicesHistory(Base):
     employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
     advices = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+# ここからcareer_survey用の定義
+
+class Question(Base):
+    __tablename__ = 'questions'
+
+    id = Column(Integer, primary_key=True, index=True)
+    question_text = Column(String, nullable=False)
+    choice_a = Column(String, nullable=True)
+    choice_b = Column(String, nullable=True)
+    choice_c = Column(String, nullable=True)
+    choice_d = Column(String, nullable=True)
+    next_question_a_id = Column(Integer, ForeignKey('questions.id'), nullable=True)
+    next_question_b_id = Column(Integer, ForeignKey('questions.id'), nullable=True)
+    next_question_c_id = Column(Integer, ForeignKey('questions.id'), nullable=True)
+    next_question_d_id = Column(Integer, ForeignKey('questions.id'), nullable=True)
+
+    next_question_a = relationship("Question", remote_side=[id], foreign_keys=[next_question_a_id])
+    next_question_b = relationship("Question", remote_side=[id], foreign_keys=[next_question_b_id])
+    next_question_c = relationship("Question", remote_side=[id], foreign_keys=[next_question_c_id])
+    next_question_d = relationship("Question", remote_side=[id], foreign_keys=[next_question_d_id])
+    responses = relationship("Response", order_by="Response.id", back_populates="question")
+
+class Response(Base):
+    __tablename__ = 'responses'
+
+    id = Column(Integer, primary_key=True, index=True)
+    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'))
+    question_id = Column(Integer, ForeignKey('questions.id'))
+    answer = Column(String)
+    free_text = Column(Text, nullable=True)
+    created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+    employee = relationship("Employee", back_populates="responses")
+    question = relationship("Question", back_populates="responses")

@@ -39,3 +39,43 @@ class ContactForm(ContactFormBase):
 
     class Config:
         orm_mode = True
+
+'''
+キャリアアンケート用
+'''
+
+class QuestionBase(BaseModel):
+    question_text: str
+    choice_a: Optional[str] = None
+    choice_b: Optional[str] = None
+    choice_c: Optional[str] = None
+    choice_d: Optional[str] = None
+
+class QuestionCreate(QuestionBase):
+    pass
+
+class Question(QuestionBase):
+    id: int
+    next_question_a_id: Optional[int] = None
+    next_question_b_id: Optional[int] = None
+    next_question_c_id: Optional[int] = None
+    next_question_d_id: Optional[int] = None
+
+    class Config:
+        orm_mode = True
+
+class ResponseBase(BaseModel):
+    question_id: int
+    answer: str
+    free_text: Optional[str] = None
+
+class ResponseCreate(ResponseBase):
+    pass
+
+class Response(ResponseBase):
+    id: int
+    employee_id: int
+    created_at: datetime
+
+    class Config:
+        orm_mode = True
