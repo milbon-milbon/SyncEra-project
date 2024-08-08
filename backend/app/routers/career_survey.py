@@ -4,7 +4,8 @@ from app.db import models, schemas, database, slack
 from app.db.database import get_db
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
-from app.util.career_survey import get_question, create_response
+from app.util.career_survey import create_response
+from backend.app.util.career_survey import _____get_question
 
 models.Base.metadata.create_all(bind=database.engine)
 
@@ -25,6 +26,9 @@ def get_next_question(question_id: int, answer: str, db: Session = Depends(get_d
         next_question_id = question.next_question_c_id
     elif answer == 'D':
         next_question_id = question.next_question_d_id
+    elif "最後の質問の場合の終了方法を定義する":
+        "最後の質問の場合の終了方法を定義する, return 送信ボタン的な？"
+
 
     if not next_question_id:
         return {"message": "No further questions"}
@@ -35,11 +39,16 @@ def get_next_question(question_id: int, answer: str, db: Session = Depends(get_d
 # アンケートの回答が確定するたびにDBに保存し、次の質問を出力する
 @router.post("/submit")
 def submit_answer(response: schemas.ResponseBase, db: Session = Depends(get_db)):
-    db_response = create_response(db, response, employee_id=1)  # 仮にemployee_idを1としています
-    next_question = get_next_question(db, response.question_id, response.answer)
+    db_response = create_response(db, response)
+    next_question = get_next_question(response.question_id, response.answer, db)
     return next_question
 
-# 以下、おそらく使用しない
+@router.post("/finish_survey")
+def finish_survey(response: schemas.ResponseBase, db: Session = Depends(get_db)):
+    db_response = create_response(db, response) #最後の質問の回答をDB保存
+    return " アンケートの回答を送信しました！ご回答ありがとうございました。"
+
+# _______________以下、おそらく使用しない_________________
 
 # 指定された question_id に対応する質問をデータベースから取得して返す
 # @router.get("/questions/{question_id}", response_model=schemas.Question)

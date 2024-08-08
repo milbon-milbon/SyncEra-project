@@ -68,6 +68,7 @@ class ResponseBase(BaseModel):
     question_id: int
     answer: str
     free_text: Optional[str] = None
+    slack_user_id: str
 
 class ResponseCreate(ResponseBase):
     pass

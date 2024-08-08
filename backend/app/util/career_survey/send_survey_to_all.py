@@ -10,17 +10,17 @@ slack_token = os.getenv("SLACK_API_KEY")
 client = WebClient(token=slack_token)
 
 # Slackでslack_user_id指定でテキストメッセージを送る
-def send_message(user_id: str, text: str):
+def send_message(slack_user_id: str, text: str):
     try:
-        response = client.chat_postMessage(channel=user_id, text=text)
+        response = client.chat_postMessage(channel=slack_user_id, text=text)
     except SlackApiError as e:
         print(f"Error sending message: {e.response['error']}")
 
 # send/messageのロジックを利用して、社員個々にアンケートを送信する
-def send_survey_to_employee(employee_id: int, db: Session):
-    first_question = db.query(Question).first()
+def send_survey_to_employee(slack_user_id: int, db: Session):
+    first_question = db.query(Question).first() # ここはあとで変えるかも。最初の質問は固定させるのでid指定をするかも。
     if first_question:
-        send_message(user_id=employee_id, text=first_question.question_text)
+        send_message(slack_user_id=slack_user_id, text=first_question.question_text)
 
 # DBに登録された社員全員に send_survey_to_employee 関数を適用する(=全員にアンケートを配信する)
 def send_survey_to_all():
