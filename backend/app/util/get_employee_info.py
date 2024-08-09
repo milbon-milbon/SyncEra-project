@@ -38,4 +38,3 @@ def compile_target_employee_info(slack_user_id: str):
         logger.debug(f"◆指定ユーザーの情報を読解可能な文字列に変換しました。")
     
     return compiled_target_employee_info
-
