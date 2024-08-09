@@ -39,3 +39,6 @@ docker-compose.override.yml
 
 # Backend
 /backend/.venv/
+
+# Firebase configuration
+backend/secrets/

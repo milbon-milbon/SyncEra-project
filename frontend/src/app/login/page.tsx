@@ -39,6 +39,7 @@ export default function Login() {
         <div className='mb-[50px]'>
           <Password />
         </div>
+        {/*TODO:リンク先を管理画面へ変更予定*/}
         <LoginButton />
       </form>
     </div>

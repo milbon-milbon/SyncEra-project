@@ -21,7 +21,7 @@ const prices = [
 
 export default function PriceList() {
   const handleCheckout = async (priceId: string) => {
-    clientLogger.info(`チェックアウト開始時: ${priceId}`);
+    clientLogger.info(`==== チェックアウト開始時==== : ${priceId}`);
 
     try {
       const response = await fetch('/api/create-checkout-session', {
@@ -33,10 +33,10 @@ export default function PriceList() {
       });
 
       const { url } = await response.json();
-      clientLogger.info(`成功時のリダイレクトURL: ${url}`);
+      clientLogger.info(`==== 成功時のリダイレクトURL==== : ${url}`);
       window.location.href = url;
     } catch (error) {
-      clientLogger.error('エラー発生');
+      clientLogger.error('==== エラー発生==== ');
     }
   };
 
