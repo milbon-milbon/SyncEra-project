@@ -287,8 +287,8 @@ def seed_data():
         )
 
         times_tweet_4 = TimesTweet(
-            channel_id='sample_times_3',
-            user_id='sample_3',
+            channel_id='sample_times_4',
+            user_id='sample_4',
             text='今日も大好きなマックが食べられて幸せだ〜',
             ts=1722913939
         )
