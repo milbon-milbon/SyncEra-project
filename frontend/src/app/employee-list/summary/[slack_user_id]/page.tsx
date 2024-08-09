@@ -1,8 +1,8 @@
 "use client";
 
-import { useParams } from "next/navigation";
-import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 type EmployeeInfo = {
   department: string;
@@ -151,7 +151,7 @@ export default function EmployeeDetailPage() {
               {/* サマリー画面へのリンクボタン */}
               <div className="mt-4">
                 <Link
-                  href={`/employee-list/summary_report/${slack_user_id}/?start_date=2024-08-01&end_date=2024-08-07`}
+                  href={`/employee-list/summaried_report/${slack_user_id}/?start_date=2024-08-01&end_date=2024-08-07`}
                   className="bg-[#66B2FF] text-lg text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 transition-colors duration-300 inline-block"
                 >
                   日報サマリーを見る
