@@ -1,0 +1,54 @@
+// データベースに保存された '特定ユーザーの全ての日報サマリーデータ' を取得する
+// あとはエンドポイントを正しく記述すればOK
+
+'use client';
+
+import { useEffect, useState } from 'react';
+
+interface SavedSummaryReport {
+    // 型定義が必要なら定義する
+}
+
+type SavedSummaryReports = SavedSummaryReport[]
+
+
+export const useGetAllSavedSummaryReports = () => {
+    const [SavedSummaryReports, setSavedSummaryReports] = useState<SavedSummaryReports>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<Error | null>(null);
+
+    useEffect(() => {
+    const fetchAllSavedSummaryReports = async () => {
+        try {
+        const response = await fetch(`http://localhost:8000/client/エンドポイント/`);
+        
+        // 200以外はthrow->catch
+        if (!response.ok) {
+            throw new Error(`Failed to fetch all saved summary reports.: ${response.status} ${response.statusText}`);
+        }
+
+        // 読める形に変換
+        const allSavedSummaryReports = await response.json();
+
+        // エラーの場合
+        if (allSavedSummaryReports.error) {
+            throw new Error(allSavedSummaryReports.error);
+        }
+
+        // 正常時、レスポンスデータを'SavedSummaryReports'にセットする
+        setSavedSummaryReports(allSavedSummaryReports);
+        
+    } 
+        catch (err) {
+        console.error('Error fetching all saved summary reports. :', err);
+        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
+        } finally {
+        setLoading(false);
+        }
+    };
+
+    fetchAllSavedSummaryReports();
+    }, []);
+
+    return { SavedSummaryReports, loading, error };
+};
