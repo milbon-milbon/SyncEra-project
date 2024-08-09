@@ -1,11 +1,11 @@
 from fastapi import FastAPI, Depends, HTTPException, BackgroundTasks, APIRouter
 from sqlalchemy.orm import Session
-from app.db import models, schemas, database, slack
+from app.db import models, schemas, database
 from app.db.database import get_db
 from apscheduler.schedulers.background import BackgroundScheduler
 import datetime
 from app.util.career_survey import create_response
-from backend.app.util.career_survey import _____get_question
+from app.util.career_survey import _____get_question
 
 models.Base.metadata.create_all(bind=database.engine)
 
