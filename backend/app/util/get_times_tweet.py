@@ -55,4 +55,3 @@ def get_times_tweet(slack_user_id: str, start_date: date, end_date: date):
         return[]
     finally:
         db.close()
-

@@ -1,6 +1,10 @@
 import logging
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
+import logging
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
@@ -31,6 +35,19 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+#マージの時残してください めめ
+origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+
+#マージの時残してください　めめ
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  
+    allow_credentials=True,
+    allow_methods=["*"],  #デプロイ前に要確認、今は "*" でOK
+    allow_headers=["*"],  #デプロイ前に要確認、今は "*" でOK
+)
+
 # ルーターの定義
 router = APIRouter()
 
