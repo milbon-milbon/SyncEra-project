@@ -25,7 +25,7 @@ class Employee(Base):
     department = Column(String(100), nullable=False)
     role = Column(String(100), nullable=False)
     project = Column(String(100), nullable=False)
-    slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False)
+    slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False, unique=True)
     # Responseテーブルとのリレーションシップを追加
     responses = relationship("Response", back_populates="employee")
 

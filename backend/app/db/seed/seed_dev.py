@@ -170,7 +170,7 @@ def seed_data():
         times_list_4 = TimesList(
             user_id='sample_4',
             channel_name='times_meme',
-            channel_id='sample_times_3'
+            channel_id='sample_times_4'
         )
 
         db.add_all([times_list_1, times_list_2, times_list_3, times_list_4])
