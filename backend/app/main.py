@@ -1,6 +1,7 @@
 import logging
 import os
 from dotenv import load_dotenv
+from fastapi.middleware.cors import CORSMiddleware
 import logging
 import os
 from dotenv import load_dotenv
@@ -34,6 +35,19 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 app = FastAPI()
+
+#マージの時残してください めめ
+origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
+
+#マージの時残してください　めめ
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,  
+    allow_credentials=True,
+    allow_methods=["*"],  #デプロイ前に要確認、今は "*" でOK
+    allow_headers=["*"],  #デプロイ前に要確認、今は "*" でOK
+)
+
 # ルーターの定義
 router = APIRouter()
 
