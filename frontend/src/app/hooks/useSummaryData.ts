@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 'use client';
 
 import Link from 'next/link';
@@ -14,6 +15,43 @@ export default function SummaryPage() {
 
   // カスタムフックを使用してデータを取得
   const { summaryData, loading, error } = useSummaryData(slack_user_id, start_date, end_date);
+=======
+import { useEffect, useState } from 'react';
+
+export default function useSummaryData(
+  slack_user_id: string,
+  start_date: string | null,
+  end_date: string | null,
+) {
+  const [summaryData, setSummaryData] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function fetchSummaryData() {
+      setLoading(true);
+      setError(null); // Reset error state before fetch
+      try {
+        if (!start_date || !end_date) {
+          throw new Error('Start date and end date must be provided');
+        }
+        const response = await fetch(
+          `http://localhost:8000/client/print_summary/${slack_user_id}/?start_date=${encodeURIComponent(
+            start_date,
+          )}&end_date=${encodeURIComponent(end_date)}`,
+        );
+        if (!response.ok) {
+          throw new Error(`Failed to fetch summary data: ${response.status}`);
+        }
+        const data = await response.json();
+        setSummaryData(data);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Unknown error');
+      } finally {
+        setLoading(false);
+      }
+    }
+>>>>>>> 8af62afb7d5f5cd5ca0dcb4207937399e48d7914
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;

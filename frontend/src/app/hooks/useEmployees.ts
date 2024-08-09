@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from 'react';
 
 interface Employee {
   //slack_user_id(slack_user_id: any): void;
@@ -21,14 +21,10 @@ export const useEmployees = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch(
-          `http://localhost:8000/client/all_employee/`
-        );
+        const response = await fetch(`http://localhost:8000/client/all_employee/`);
 
         if (!response.ok) {
-          throw new Error(
-            `Failed to fetch employees: ${response.status} ${response.statusText}`
-          );
+          throw new Error(`Failed to fetch employees: ${response.status} ${response.statusText}`);
         }
         const data = await response.json();
         if (data.error) {
@@ -36,10 +32,8 @@ export const useEmployees = () => {
         }
         setEmployees(data);
       } catch (err) {
-        console.error("Error fetching employees:", err);
-        setError(
-          err instanceof Error ? err : new Error("An unknown error occurred")
-        );
+        console.error('Error fetching employees:', err);
+        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
       } finally {
         setLoading(false);
       }

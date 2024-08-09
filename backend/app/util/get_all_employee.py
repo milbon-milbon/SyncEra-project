@@ -38,4 +38,3 @@ def compile_all_employee_info():
         logger.debug(f"◆指定ユーザーの情報を読解可能な文字列に変換しました。")
     
     return compiled_all_employee_info
-
