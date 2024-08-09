@@ -49,3 +49,54 @@ def print_advice(slack_user_id:str, start_date: date, end_date: date):
 @router.get("/print_career_survey_result/{slack_user_id}/")
 def print_career_survey_result(slack_user_id: str):
     return "処理なども全て未実装、随時ここは追記していく"
+
+
+# from fastapi import APIRouter, Depends, HTTPException
+# from sqlalchemy.orm import Session
+# from app.services.make_summary import make_summarize_report
+# from app.services.make_advices import make_advices
+# from app.services.make_employee_list import make_employee_list
+# from app.util.add_employee_info import add_employee
+# from app.util.get_latest_daily_report import get_latest_daily_report
+# from app.db.models import Employee, SlackUserInfo, DailyReport
+# from app.db.database import get_db 
+# from app.db.schemas import Employee, EmployeeCreate
+# from app.util.get_employee_info import get_employee_info
+# from app.util import convert_ts_to_date
+# from typing import Optional, List, Dict, Any
+# from datetime import date
+
+# router = APIRouter()
+
+# @router.post("/add_employee_info/", response_model=Employee)
+# async def add_employee_info(employee: EmployeeCreate, db: Session = Depends(get_db)):
+#     return await add_employee(db=db, employee=employee)
+
+# @router.get("/all_employee/", response_model=List[Dict[str, Any]])
+# async def get_all_employee():
+#     return await make_employee_list()
+
+# @router.get("/selected_employee/{slack_user_id}/", response_model=Dict[str, Any])
+# async def get_selected_member(slack_user_id: str, db: Session = Depends(get_db)):
+#     try:
+#         employee_detail = await get_employee_info(slack_user_id, db)
+#         latest_daily_report = await get_latest_daily_report(slack_user_id, db)
+#         if employee_detail and latest_daily_report:
+#             return {"employee": employee_detail[0], "latest_report": latest_daily_report}
+#         else:
+#             raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=f"内部サーバーエラー: {str(e)}")
+
+# @router.get("/print_summary/{slack_user_id}/", response_model=Dict[str, Any])
+# async def print_summary(slack_user_id: str, start_date: date, end_date: date, db: Session = Depends(get_db)):
+#     return await make_summarize_report(slack_user_id, start_date, end_date, db)
+
+# @router.get("/print_advices/{slack_user_id}/", response_model=Dict[str, Any])
+# async def print_advice(slack_user_id: str, start_date: date, end_date: date, db: Session = Depends(get_db)):
+#     return await make_advices(slack_user_id, start_date, end_date, db)
+
+# @router.get("/print_career_survey_result/{slack_user_id}/", response_model=Dict[str, Any])
+# async def print_career_survey_result(slack_user_id: str):
+#     # TODO: 実装
+#     return {"message": "処理なども全て未実装、随時ここは追記していく"}
