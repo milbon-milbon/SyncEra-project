@@ -125,7 +125,7 @@ class Response(Base):
     __tablename__ = 'responses'
 
     id = Column(Integer, primary_key=True, index=True)
-    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'))
+    slack_user_id = Column(String, ForeignKey('employee.slack_user_id'), nullable=False)
     question_id = Column(Integer, ForeignKey('questions.id'))
     answer = Column(String)
     free_text = Column(Text, nullable=True)
