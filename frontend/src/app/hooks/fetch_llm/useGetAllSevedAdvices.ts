@@ -4,38 +4,40 @@
 
 import { useEffect, useState } from 'react';
 
-interface CareerSurveyResult {
+interface SavedAdvice {
     // 型定義が必要なら定義する
 }
 
-export const useEmployees = () => {
-    const [employees, setEmployees] = useState<Employee[]>([]);
+type SavedAdvices = SavedAdvice[]
+
+export const useGetAllSavedAdvices = () => {
+    const [allSavedAdvices, setAllSavedAdvices] = useState<SavedAdvices>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-    const fetchEmployees = async () => {
+    const fetchAllSavedAdvices = async () => {
         try {
-        const response = await fetch(`http://localhost:8000/client/all_employee/`);
+        const response = await fetch(`http://localhost:8000/client/エンドポイント設定/`);
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch employees: ${response.status} ${response.statusText}`);
+            throw new Error(`Failed to fetch all saved advices: ${response.status} ${response.statusText}`);
         }
-        const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error);
+        const allSavedAdvices = await response.json();
+        if (allSavedAdvices.error) {
+            throw new Error(allSavedAdvices.error);
         }
-        setEmployees(data);
+        setAllSavedAdvices(allSavedAdvices);
         } catch (err) {
-        console.error('Error fetching employees:', err);
+        console.error('Error fetching all saved advices:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
         } finally {
         setLoading(false);
         }
     };
 
-    fetchEmployees();
+    fetchAllSavedAdvices();
     }, []);
 
-    return { employees, loading, error };
+    return { allSavedAdvices, loading, error };
 };
