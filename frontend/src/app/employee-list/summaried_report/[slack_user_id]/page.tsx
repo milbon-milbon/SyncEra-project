@@ -1,37 +1,31 @@
-"use client";
+'use client';
 
-import { useParams, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import useSummaryData from "../../../hooks/useSummaryData";
+import Link from 'next/link';
+import { useParams, useSearchParams } from 'next/navigation';
+import useSummaryData from '../../../hooks/useSummaryData';
 
 export default function SummaryPage() {
   const params = useParams();
   const searchParams = useSearchParams();
 
   const slack_user_id = params.slack_user_id as string;
-  const start_date = searchParams.get("start_date");
-  const end_date = searchParams.get("end_date");
+  const start_date = searchParams.get('start_date');
+  const end_date = searchParams.get('end_date');
 
   // カスタムフックを使用してデータを取得
-  const { summaryData, loading, error } = useSummaryData(
-    slack_user_id,
-    start_date,
-    end_date
-  );
+  const { summaryData, loading, error } = useSummaryData(slack_user_id, start_date, end_date);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
   if (!summaryData) return <div>サマリーデータが見つかりません</div>;
 
+  console.log(summaryData);
+
   return (
     <div className="min-h-screen flex flex-col">
       <header className="bg-[#003366] text-white p-4 flex items-center justify-between">
         <div className="text-4xl font-bold">
-          <img
-            src="/image/SyncEra(blue_white).png"
-            alt="SyncEra Logo"
-            className="h-16"
-          />
+          <img src="/image/SyncEra(blue_white).png" alt="SyncEra Logo" className="h-16" />
         </div>
       </header>
 
@@ -65,22 +59,8 @@ export default function SummaryPage() {
               {slack_user_id}の日報サマリー
             </h2>
             <div>
-              <h3 className="text-2xl font-semibold mb-2 text-[#003366]">
-                日報一覧
-              </h3>
-              {summaryData.dailyReports.length === 0 ? (
-                <div>指定された期間の日報はありません。</div>
-              ) : (
-                summaryData.dailyReports.map((report) => (
-                  <div key={report.id} className="mb-4">
-                    <p className="text-lg whitespace-pre-wrap">{report.text}</p>
-                    <p className="text-sm text-gray-500 mt-2">
-                      投稿日時:{" "}
-                      {new Date(parseFloat(report.ts) * 1000).toLocaleString()}
-                    </p>
-                  </div>
-                ))
-              )}
+              <h3 className="text-2xl font-semibold mb-2 text-[#003366]">日報一覧</h3>
+              <div> {summaryData} </div>
             </div>
           </div>
         </main>
