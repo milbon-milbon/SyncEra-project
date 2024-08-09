@@ -26,6 +26,8 @@ class Employee(Base):
     role = Column(String(100), nullable=False)
     project = Column(String(100), nullable=False)
     slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False)
+    # Responseテーブルとのリレーションシップを追加
+    responses = relationship("Response", back_populates="employee")
 
 class SlackUserInfo(Base):
     __tablename__ = 'slack_user_info'
