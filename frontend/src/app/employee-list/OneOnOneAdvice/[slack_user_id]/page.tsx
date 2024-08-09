@@ -1,25 +1,29 @@
 'use client';
 
-import Link from 'next/link';
-import { useParams, useSearchParams } from 'next/navigation';
-import useSummaryData from '../../../hooks/useSummaryData';
+// pages/employee-list/OneOnOneAdvice/[slack_user_id]/page.tsx
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
-export default function SummaryPage() {
-  const params = useParams();
-  const searchParams = useSearchParams();
+export default function OneOnOneAdvicePage() {
+  const router = useRouter();
+  const { slack_user_id } = router.query;
 
-  const slack_user_id = params.slack_user_id as string;
-  const start_date = searchParams.get('start_date');
-  const end_date = searchParams.get('end_date');
+  const [advice, setAdvice] = useState<string | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  // カスタムフックを使用してデータを取得
-  const { summaryData, loading, error } = useSummaryData(slack_user_id, start_date, end_date);
+  useEffect(() => {
+    if (slack_user_id) {
+      // モックデータの設定（実際にはAPIコールなど）
+      setTimeout(() => {
+        setAdvice(`Sample advice for Slack user ID: ${slack_user_id}`);
+        setLoading(false);
+      }, 1000);
+    }
+  }, [slack_user_id]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
-  if (!summaryData) return <div>サマリーデータが見つかりません</div>;
-
-  console.log(summaryData);
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -34,34 +38,33 @@ export default function SummaryPage() {
           <nav className="flex-1">
             <ul className="space-y-4">
               <li>
-                <Link href="/employee-list" className="hover:underline">
+                <a href="/employee-list" className="hover:underline">
                   社員一覧
-                </Link>
+                </a>
               </li>
               <li>
-                <Link href="/" className="hover:underline">
+                <a href="/" className="hover:underline">
                   ホームページへ戻る
-                </Link>
+                </a>
               </li>
             </ul>
           </nav>
-          <Link
+          <a
             href="/login"
             className="bg-[#66B2FF] text-lg text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 transition-colors duration-300 mt-auto inline-block text-center"
           >
             ログアウト
-          </Link>
+          </a>
         </aside>
 
         <main className="flex-1 p-8 bg-gray-100">
           <div className="bg-white p-6 rounded-lg shadow-md border border-[#003366]">
-            <h2 className="text-3xl font-bold mb-4 text-[#003366]">
-              {slack_user_id}の日報サマリー
-            </h2>
-            <div>
-              <h3 className="text-2xl font-semibold mb-2 text-[#003366]">日報一覧</h3>
-              <div> {summaryData} </div>
-            </div>
+            <h2 className="text-3xl font-bold mb-4 text-[#003366]">1on1 アドバイス</h2>
+            {advice ? (
+              <div className="text-lg whitespace-pre-wrap">{advice}</div>
+            ) : (
+              <div className="text-lg text-gray-600">No advice available.</div>
+            )}
           </div>
         </main>
       </div>
