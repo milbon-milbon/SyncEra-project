@@ -39,3 +39,4 @@ docker-compose.override.yml
 
 # Backend
 /backend/.venv/
+/backend/venv/
