@@ -15,6 +15,8 @@ from datetime import date
 
 router = APIRouter()
 
+#-------------社員情報-------------
+
 # 社員情報の登録
 @router.post("/add_employee_info/", response_model=Employee)
 def add_employee_info(employee: EmployeeCreate, db: Session = Depends(get_db)):
@@ -35,17 +37,65 @@ def get_selected_member(slack_user_id: str):
     else:
         raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
 
-# サマリー出力リクエストがあった時 #エンドポイント稼働確認はOK,start_data/end_dataをどう渡すか？
+#-------------日報サマリー-------------
+
+# 日報サマリーをLLMから出力する
 @router.get("/print_summary/{slack_user_id}/")
 def print_summary(slack_user_id:str, start_date: date, end_date: date):
     return make_summarize_report(slack_user_id, start_date, end_date)
 
-# サマリーに基づいたアドバイス/質問出力リクエストがあった時 #エンドポイント稼働確認はOK,start_data/end_dataをどう渡すか？
+# LLMが生成した日報サマリーをDBに保存する
+@router.post("/save_summary_report/{employee_id}/")
+def save_summary_report(employee_id: str, summary_report: str):
+    return "処理未実装"
+
+# 保存された全ての日報サマリーをDBから出力する
+@router.get("/print_all_summary_reports/{employee_id}/")
+def print_all_summary_reports(employee_is: str):
+    return "処理未実装"
+
+# 保存された特定の日報サマリーをDBから出力する
+@router.get("/print_saved_summary_report/{employee_id}/")
+def print_saved_summary_report(employee_id: str, created_st: date):
+    return "処理未実装"
+
+#-------------1on1アドバイス-------------
+
+# 1on1アドバイス/質問をLLMから出力する
 @router.get("/print_advices/{slack_user_id}/")
 def print_advice(slack_user_id:str, start_date: date, end_date: date):
     return make_advices(slack_user_id, start_date, end_date)
 
-# キャリアアンケート結果の出力リクエストがあった時 エンドポイント稼働確認OK
-@router.get("/print_career_survey_result/{slack_user_id}/")
-def print_career_survey_result(slack_user_id: str):
-    return "処理なども全て未実装、随時ここは追記していく"
+# LLMが生成した1on1アドバイスをDBに保存する
+@router.post("/save_advice/{employee_id}/")
+def save_advice(employee_id: str, advice: str):
+    return "処理未実装"
+
+# 保存された全ての1on1アドバイスをDBから出力する
+@router.get("/print_all_advices/{employee_id}/")
+def print_all_advices(employee_id: str):
+    return "処理未実装"
+
+# 保存された特定の1on1アドバイスをDBから出力する
+@router.get("/print_saved_advice/{employee_id}/")
+def print_saved_advice(employee_id: str, created_at: date):
+    return "処理未実装"
+
+#-------------キャリアアンケート-------------
+
+# 特定のキャリアアンケート結果をDBから出力する
+@router.get("/print_career_survey_result/{employee_id}/")
+def print_career_survey_result(employee_id: str, created_at: date):
+    return "処理未実装"
+
+#実施済みのキャリアアンケート結果を全て取出力する
+@router.get("/print_all_career_survey_results/{employee_id}/")
+def print_all_career_survey_results(employee_id: str):
+    return "処理未実装"
+
+
+
+
+
+
+
