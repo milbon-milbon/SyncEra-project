@@ -1,26 +1,46 @@
 'use client';
 
-// pages/employee-list/OneOnOneAdvice/[slack_user_id]/page.tsx
-import { useRouter } from 'next/router';
+import Link from 'next/link';
+import { useParams, useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 export default function OneOnOneAdvicePage() {
-  const router = useRouter();
-  const { slack_user_id } = router.query;
+  const params = useParams();
+  const searchParams = useSearchParams();
+  const slack_user_id = params.slack_user_id as string;
+  const start_date = searchParams.get('start_date') || '';
+  const end_date = searchParams.get('end_date') || '';
 
   const [advice, setAdvice] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (slack_user_id) {
-      // モックデータの設定（実際にはAPIコールなど）
-      setTimeout(() => {
-        setAdvice(`Sample advice for Slack user ID: ${slack_user_id}`);
-        setLoading(false);
-      }, 1000);
+    if (slack_user_id && start_date && end_date) {
+      const fetchAdvice = async () => {
+        try {
+          const response = await fetch(
+            `/api/client/print_advices/${slack_user_id}/?start_date=${start_date}&end_date=${end_date}`,
+          );
+          if (!response.ok) {
+            const errorText = await response.text();
+            throw new Error(
+              `Failed to fetch advice: ${response.status} ${response.statusText}\n${errorText}`,
+            );
+          }
+          const data = await response.json();
+          setAdvice(JSON.stringify(data, null, 2));
+        } catch (err) {
+          console.error('Error fetching advice:', err);
+          setError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      fetchAdvice();
     }
-  }, [slack_user_id]);
+  }, [slack_user_id, start_date, end_date]);
 
   if (loading) return <div>Loading...</div>;
   if (error) return <div>Error: {error}</div>;
@@ -38,32 +58,35 @@ export default function OneOnOneAdvicePage() {
           <nav className="flex-1">
             <ul className="space-y-4">
               <li>
-                <a href="/employee-list" className="hover:underline">
+                <Link href="/employee-list" className="hover:underline">
                   社員一覧
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="/" className="hover:underline">
+                <Link href="/" className="hover:underline">
                   ホームページへ戻る
-                </a>
+                </Link>
               </li>
             </ul>
           </nav>
-          <a
+          <Link
             href="/login"
             className="bg-[#66B2FF] text-lg text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 transition-colors duration-300 mt-auto inline-block text-center"
           >
             ログアウト
-          </a>
+          </Link>
         </aside>
 
         <main className="flex-1 p-8 bg-gray-100">
           <div className="bg-white p-6 rounded-lg shadow-md border border-[#003366]">
             <h2 className="text-3xl font-bold mb-4 text-[#003366]">1on1 アドバイス</h2>
+            <p>Slack User ID: {slack_user_id}</p>
+            <p>Start Date: {start_date}</p>
+            <p>End Date: {end_date}</p>
             {advice ? (
-              <div className="text-lg whitespace-pre-wrap">{advice}</div>
+              <pre className="text-lg whitespace-pre-wrap mt-4">{advice}</pre>
             ) : (
-              <div className="text-lg text-gray-600">No advice available.</div>
+              <div className="text-lg text-gray-600 mt-4">No advice available.</div>
             )}
           </div>
         </main>

@@ -36,7 +36,13 @@ export default function EmployeeList() {
 
   const handleOneOnOneAdvice = (slackUserId: string) => {
     try {
-      router.push(`/one-on-one-advice?slack_user_id=${encodeURIComponent(slackUserId)}`);
+      const today = new Date();
+      const oneWeekAgo = new Date(today.getTime() - 7 * 24 * 60 * 60 * 1000);
+      const start_date = oneWeekAgo.toISOString().split('T')[0];
+      const end_date = today.toISOString().split('T')[0];
+      router.push(
+        `/employee-list/OneOnOneAdvice/${encodeURIComponent(slackUserId)}?start_date=${start_date}&end_date=${end_date}`,
+      );
     } catch (error) {
       console.error('Navigation error:', error);
     }
