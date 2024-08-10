@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 
 interface CareerSurveyResult {
     // 型定義が必要なら定義する
+    // アンケートロジックが出来上がってからの実装
 }
 
 type CareerSurveyResults = CareerSurveyResult[]

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
@@ -7,8 +7,11 @@ from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport
 from app.db.database import get_db 
-from app.db.schemas import Employee, EmployeeCreate
+from app.db.schemas import Employee, EmployeeCreate, SummaryReportRequest, SavedSummaryReport
 from app.util.get_employee_info import get_employee_info
+from app.util.summary.save_summary_report import save_summary_report
+from app.util.summary.get_saved_summarize_history import get_saved_summary_report
+from backend.app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
 from app.util import convert_ts_to_date
 from typing import Optional
 from datetime import date
@@ -46,18 +49,21 @@ def print_summary(slack_user_id:str, start_date: date, end_date: date):
 
 # LLMが生成した日報サマリーをDBに保存する
 @router.post("/save_summary_report/")
-def save_summary_report(): # 引数は必要か、必要なら何？(/save_adviceと同じロジックになる)
-    return "処理未実装"
+def save_summary_report(report: SummaryReportRequest, db: Session=Depends(get_db)): # 引数は/save_adviceと同じロジック
+    # 返り値: uti.save_summary_reports.tsを参照
+    return save_summary_report(report, db)
 
 # 保存された全ての日報サマリーをDBから出力する
-@router.get("/print_all_summary_reports/{employee_id}/")
-def print_all_summary_reports(employee_is: str):
-    return "処理未実装"
+@router.get("/print_all_summary_reports/{employee_id}/", response_model=list[SavedSummaryReport])
+def print_all_summary_reports(employee_id: str, db: Session=Depends(get_db)):
+    # 返り値: util.summary.get_all_saved_summarize_history.pyを参照
+    return get_all_saved_summary_reports(employee_id, db)
 
 # 保存された特定の日報サマリーをDBから出力する
-@router.get("/print_saved_summary_report/{employee_id}/")
-def print_saved_summary_report(employee_id: str, created_st: date):
-    return "処理未実装"
+@router.get("/print_saved_summary_report/{employee_id}/", response_model=SavedSummaryReport)
+def print_saved_summary_report(employee_id: str, created_at: date=Query(...), db: Session=Depends(get_db)):
+    # 返り値: util.summary.get_saved_summarize_history.pyを参照
+    return get_saved_summary_report(employee_id, created_at, db)
 
 #-------------1on1アドバイス-------------
 

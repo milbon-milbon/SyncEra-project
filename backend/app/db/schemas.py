@@ -23,6 +23,25 @@ class Employee(EmployeeBase):
         orm_mode = True
 
 '''
+日報サマリーのDB保存ロジック用
+'''
+class SummaryReportRequest(BaseModel):
+    employee_id: str  # employee_idはUUIDの文字列形式と仮定
+    summary: str
+
+'''
+保存済みサマリーデータの出力用
+'''
+class SavedSummaryReport(BaseModel):
+    id: int
+    employee_id: str
+    summary: str
+    created_at: str
+
+    class Config:
+        orm_mode = True
+
+'''
 問い合わせフォームの内容をAPIレスポンスに乗せる用
 '''
 class ContactFormBase(BaseModel):
