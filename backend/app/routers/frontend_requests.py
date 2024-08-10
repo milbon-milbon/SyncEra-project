@@ -45,8 +45,8 @@ def print_summary(slack_user_id:str, start_date: date, end_date: date):
     return make_summarize_report(slack_user_id, start_date, end_date)
 
 # LLMが生成した日報サマリーをDBに保存する
-@router.post("/save_summary_report/{employee_id}/")
-def save_summary_report(employee_id: str, summary_report: str):
+@router.post("/save_summary_report/")
+def save_summary_report(): # 引数は必要か、必要なら何？(/save_adviceと同じロジックになる)
     return "処理未実装"
 
 # 保存された全ての日報サマリーをDBから出力する
@@ -67,8 +67,13 @@ def print_advice(slack_user_id:str, start_date: date, end_date: date):
     return make_advices(slack_user_id, start_date, end_date)
 
 # LLMが生成した1on1アドバイスをDBに保存する
-@router.post("/save_advice/{employee_id}/")
-def save_advice(employee_id: str, advice: str):
+@router.post("/save_advice/")
+def save_advice(employee_id: str, advice: str): # 引数はこれでいいのか？不要かも？
+    # request = {
+    #     employee_id: ...,
+    #     advice: ...
+    # }
+    # で飛んでくるのを、advices_historyテーブルに保存したい
     return "処理未実装"
 
 # 保存された全ての1on1アドバイスをDBから出力する

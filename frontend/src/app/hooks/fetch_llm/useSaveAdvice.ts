@@ -4,38 +4,66 @@
 
 import { useEffect, useState } from 'react';
 
-interface CareerSurveyResult {
+interface Advice {
     // 型定義が必要なら定義する
+    employee_id: string
+    advice: string
 }
 
-export const useEmployees = () => {
-    const [employees, setEmployees] = useState<Employee[]>([]);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<Error | null>(null);
+export const useSaveAdvice = async(employeeId: string, advice: string): Promise<void> => {
+    const adviceData: Advice = {
+        employee_id: employeeId,
+        advice: advice
+    }
 
-    useEffect(() => {
-    const fetchEmployees = async () => {
-        try {
-        const response = await fetch(`http://localhost:8000/client/all_employee/`);
+    try{
+        const response = await fetch('http://localhost:8000/client/save_advice/', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(adviceData)
+        });
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch employees: ${response.status} ${response.statusText}`);
+        if(!response.ok){
+            throw new Error(`failed to save advice: ${response.statusText}`)
         }
-        const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error);
-        }
-        setEmployees(data);
-        } catch (err) {
-        console.error('Error fetching employees:', err);
-        setError(err instanceof Error ? err : new Error('An unknown error occurred'));
-        } finally {
-        setLoading(false);
-        }
-    };
 
-    fetchEmployees();
-    }, []);
-
-    return { employees, loading, error };
+        // responseのstatusがOKなら
+        console.log(`advice just saved.`)
+    }
+    catch(error){
+        console.error(`Error:`, error)
+    }
 };
+
+// ページコンポーネントで呼び出すときには...
+
+// import React, { useState } from 'react';
+// import { useSaveAdvice } from './useSaveAdvice';  // 適切なパスでインポート
+
+// const PageComponent = () => {
+//     const [employeeId, setEmployeeId] = useState('12345');
+//     const [advice, setAdvice] = useState('This is an advice text.');
+
+//     const handleSaveClick = () => {
+//         useSaveAdvice(employeeId, advice); //適切に関数呼び出しができるようにしている
+//     };
+
+//     return (
+//         <div>
+//             <input
+//                 type="text"
+//                 value={employeeId}
+//                 onChange={(e) => setEmployeeId(e.target.value)}
+//                 placeholder="Employee ID"
+//             />
+//             <textarea
+//                 value={advice}
+//                 onChange={(e) => setAdvice(e.target.value)}
+//                 placeholder="Enter your advice"
+//             />
+//             <button onClick={handleSaveClick}>保存</button>
+//         </div>
+//     );
+// };
+
+// export default PageComponent;
