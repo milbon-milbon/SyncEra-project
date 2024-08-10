@@ -10,7 +10,7 @@ interface CareerSurveyResult {
 
 type CareerSurveyResults = CareerSurveyResult[]
 
-export const useGetAllSavedCareerSurveyResults = () => {
+export const useGetAllSavedCareerSurveyResults = (employeeId: string) => {
     const [allSavedCareerSurveyResults, setALlSavedCareerSurveyResult] = useState<CareerSurveyResults>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
@@ -18,12 +18,14 @@ export const useGetAllSavedCareerSurveyResults = () => {
     useEffect(() => {
     const fetchALlSavedCareerSurveyResults = async () => {
         try {
-        const response = await fetch(`http://localhost:8000/client/エンドポイント設定/`);
+        const response = await fetch(`http://localhost:8000/client/print_all_career_surveyresults/${employeeId}/`);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch all saved career survey results.: ${response.status} ${response.statusText}`);
         }
         const allSavedCareerSurveyResults = await response.json();
+        console.log(`取得した全てのアンケート結果: ${allSavedCareerSurveyResults}`)
+        
         if (allSavedCareerSurveyResults.error) {
             throw new Error(allSavedCareerSurveyResults.error);
         }

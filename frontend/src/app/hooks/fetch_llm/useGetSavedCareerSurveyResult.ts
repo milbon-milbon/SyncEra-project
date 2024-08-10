@@ -8,24 +8,26 @@ interface CareerSurveyResult {
     // 型定義が必要なら定義する
 }
 
-export const useEmployees = () => {
-    const [employees, setEmployees] = useState<Employee[]>([]);
+export const useGetCareerSurveyResult = (employeeId: string, createdAt: Date) => {
+    const [careerSurveyResult, setCareerSurveyResult] = useState<CareerSurveyResult>(); //初期値何がいいか？？
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
 
     useEffect(() => {
-    const fetchEmployees = async () => {
+    const fetchCareerSurveyResult = async () => {
         try {
-        const response = await fetch(`http://localhost:8000/client/all_employee/`);
+        const response = await fetch(`http://localhost:8000/client/print_career_survey_result/${employeeId}/?created_at=${createdAt}`);
 
         if (!response.ok) {
-            throw new Error(`Failed to fetch employees: ${response.status} ${response.statusText}`);
+            throw new Error(`Failed to fetch career survey result: ${response.status} ${response.statusText}`);
         }
-        const data = await response.json();
-        if (data.error) {
-            throw new Error(data.error);
+        const careerSurveyResult = await response.json();
+        if (careerSurveyResult.error) {
+            throw new Error(careerSurveyResult.error);
         }
-        setEmployees(data);
+        setCareerSurveyResult(careerSurveyResult);
+        console.log(`取得したキャリアアンケート結果: ${careerSurveyResult}`)
+
         } catch (err) {
         console.error('Error fetching employees:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
@@ -34,8 +36,8 @@ export const useEmployees = () => {
         }
     };
 
-    fetchEmployees();
+    fetchCareerSurveyResult();
     }, []);
 
-    return { employees, loading, error };
+    return { careerSurveyResult, loading, error };
 };

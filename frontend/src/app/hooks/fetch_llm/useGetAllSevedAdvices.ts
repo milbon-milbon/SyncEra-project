@@ -5,12 +5,15 @@
 import { useEffect, useState } from 'react';
 
 interface SavedAdvice {
-    // 型定義が必要なら定義する
+    id: number
+    employee_id: string
+    advices: string
+    created_at: Date
 }
 
 type SavedAdvices = SavedAdvice[]
 
-export const useGetAllSavedAdvices = () => {
+export const useGetAllSavedAdvices = (employeeId: string) => {
     const [allSavedAdvices, setAllSavedAdvices] = useState<SavedAdvices>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
@@ -18,12 +21,14 @@ export const useGetAllSavedAdvices = () => {
     useEffect(() => {
     const fetchAllSavedAdvices = async () => {
         try {
-        const response = await fetch(`http://localhost:8000/client/エンドポイント設定/`);
+        const response = await fetch(`http://localhost:8000/client/print_all_advices/${employeeId}/`);
 
         if (!response.ok) {
             throw new Error(`Failed to fetch all saved advices: ${response.status} ${response.statusText}`);
         }
         const allSavedAdvices = await response.json();
+        console.log(`取得した全てのアドバイスデータ: ${allSavedAdvices}`)
+        
         if (allSavedAdvices.error) {
             throw new Error(allSavedAdvices.error);
         }

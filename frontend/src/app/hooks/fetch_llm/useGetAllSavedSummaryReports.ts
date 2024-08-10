@@ -6,13 +6,16 @@
 import { useEffect, useState } from 'react';
 
 interface SavedSummaryReport {
-    // 型定義が必要なら定義する
+    id: number
+    employee_id: string
+    summary: string
+    created_at: Date
 }
 
 type SavedSummaryReports = SavedSummaryReport[]
 
 
-export const useGetAllSavedSummaryReports = () => {
+export const useGetAllSavedSummaryReports = (employeeId: string) => {
     const [SavedSummaryReports, setSavedSummaryReports] = useState<SavedSummaryReports>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<Error | null>(null);
@@ -20,7 +23,7 @@ export const useGetAllSavedSummaryReports = () => {
     useEffect(() => {
     const fetchAllSavedSummaryReports = async () => {
         try {
-        const response = await fetch(`http://localhost:8000/client/エンドポイント/`);
+        const response = await fetch(`http://localhost:8000/client/print_all_summary_report/${employeeId}/`);
         
         // 200以外はthrow->catch
         if (!response.ok) {
@@ -29,6 +32,7 @@ export const useGetAllSavedSummaryReports = () => {
 
         // 読める形に変換
         const allSavedSummaryReports = await response.json();
+        console.log(`取得したサマリーデータ: ${allSavedSummaryReports}`)
 
         // エラーの場合
         if (allSavedSummaryReports.error) {
