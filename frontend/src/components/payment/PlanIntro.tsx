@@ -121,7 +121,7 @@ export default function PlanIntro() {
             </ul>
           </div>
         </div>
-        <p className='text-center text-sm text-gray-600 mb-8'>
+        <p className='text-center text-gray-600 mb-8'>
           どちらのプランも、すべての機能をご利用いただけます。
         </p>
         <Link href='/signup'>
@@ -134,7 +134,7 @@ export default function PlanIntro() {
         </Link>
         <p className='text-center'>
           既に、SyncEraへの登録がお済みの方は
-          <Link href='/login'>
+          <Link href='/login/employee'>
             <span className='text-blue-500 underline ml-1' onClick={handleClick}>
               こちらからログイン
             </span>

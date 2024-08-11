@@ -5,3 +5,4 @@ psycopg2-binary
 stripe
 python-dotenv
 firebase-admin
+functions_framework

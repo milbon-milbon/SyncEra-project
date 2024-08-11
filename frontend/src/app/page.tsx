@@ -3,7 +3,13 @@
 
 import React from 'react';
 import PlanIntro from '../components/payment/PlanIntro';
+import CompanyLoginButton from '@/components/signup_and_login/CompanyLoginButton';
 
 export default function HomePage() {
-  return <PlanIntro />;
+  return (
+    <div className='container'>
+      <CompanyLoginButton />
+      <PlanIntro />
+    </div>
+  );
 }

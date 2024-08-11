@@ -1,7 +1,6 @@
-// frontend/src/app/api/create-checkout-session/route.ts
+// frontend/src/app/api/create-checkout-session/route.ts変更後
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
-import { v4 as uuidv4 } from 'uuid'; // ユーザーIDを生成するためのUUID
 
 // Stripeのインスタンスを作成
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
@@ -18,28 +17,24 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const { price_id } = await request.json();
-
-    // サーバーサイドでユーザーIDを生成
-    const userId = uuidv4();
-    console.log('🙆取得したuuid', userId);
+    const { priceId } = await request.json();
 
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
         {
-          price: price_id,
+          price: priceId,
           quantity: 1,
         },
       ],
       mode: 'subscription',
       success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/canceled`,
-      metadata: {
-        userId,
-      },
+      // metadata: {
+      //   priceId,
+      // },
     });
-    console.log('メタデータ:', userId);
+    // console.log('メタデータ:', priceId);
     console.log('チェックアウトセッションが正常に作成されました:');
 
     return NextResponse.json({ url: session.url });

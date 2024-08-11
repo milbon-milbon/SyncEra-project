@@ -6,7 +6,7 @@ export default function LogoWblue() {
   return (
     <Link href='/'>
       <img
-        src='/logo/white_2.png'
+        src='/logo/white_1.png'
         alt='Logo'
         className='absolute left-[510px] top-[100px]  w-25 h-9'
       />

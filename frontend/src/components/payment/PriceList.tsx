@@ -1,8 +1,9 @@
-// src/app/components/payment/PriceList.tsx
+// frontend/src/app/components/payment/PriceList.tsx
+
 'use client';
+
 import React from 'react';
 import PriceCard from './PriceCard';
-import clientLogger from '@/lib/clientLogger';
 
 const prices = [
   {
@@ -19,39 +20,22 @@ const prices = [
   },
 ];
 
-export default function PriceList() {
-  const handleCheckout = async (priceId: string) => {
-    clientLogger.info(`==== チェックアウト開始時==== : ${priceId}`);
+interface PriceListProps {
+  onPriceSelect: (priceId: string) => void;
+}
 
-    try {
-      const response = await fetch('/api/create-checkout-session', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ price_id: priceId }),
-      });
-
-      const { url } = await response.json();
-      clientLogger.info(`==== 成功時のリダイレクトURL==== : ${url}`);
-      window.location.href = url;
-    } catch (error) {
-      clientLogger.error('==== エラー発生==== ');
-    }
-  };
-
+export default function PriceList({ onPriceSelect }: PriceListProps) {
   return (
-    <div className='flex justify-center overflow-x-auto'>
+    <div className='flex justify-center space-x-4'>
       {prices.map((price) => (
-        <div key={price.id} className='w-64 flex-shrink-0 mx-2'>
-          <PriceCard
-            priceId={price.id}
-            name={price.name}
-            amount={price.amount}
-            image={price.image}
-            onSelect={handleCheckout}
-          />
-        </div>
+        <PriceCard
+          key={price.id}
+          priceId={price.id}
+          name={price.name}
+          amount={price.amount}
+          image={price.image}
+          onSelect={onPriceSelect}
+        />
       ))}
     </div>
   );

@@ -1,4 +1,4 @@
-// frontend/src/app/success/page.tsx
+// frontend/src/app/success/page.tsx===支払後の画面===
 'use client';
 
 import { useEffect } from 'react';
@@ -13,7 +13,7 @@ export default function SuccessPage() {
     // 3秒後にTOPページへリダイレクト
     const timer = setTimeout(() => {
       clientLogger.info('TOPページへリダイレクト');
-      router.push('/login');
+      router.push('/');
     }, 3000);
 
     // クリーンアップタイマー
