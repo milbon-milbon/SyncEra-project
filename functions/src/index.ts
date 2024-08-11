@@ -1,47 +1,48 @@
-// import * as functions from "firebase-functions";
-// import * as admin from "firebase-admin";
-// import { v4 as uuidv4 } from "uuid";
+// functions/src/index.ts
 
-// admin.initializeApp();
+import * as functions from "firebase-functions";
+import * as admin from "firebase-admin";
+import * as express from "express";
+import * as cors from "cors";
 
-// interface CompanyData {
-//   userId: string;
-//   email: string;
-//   companyName: string;
-//   firstName: string;
-//   lastName: string;
-// }
+admin.initializeApp();
 
-// export const generateCompanyIdAndSendEmail = functions.pubsub
-//   .topic("generate_company_id_and_send_email")
-//   .onPublish(async (message) => {
-//     const { userId, email, companyName, firstName, lastName }: CompanyData =
-//       message.json;
-//     const companyId = `COMPANY-${uuidv4()}`;
+const app = express();
+app.use(cors({origin: true}));
+app.use(express.json());
+interface AdminClaimsResponse {
+  message: string;
+}
+app.post("/", (req, res) => {
+  const {data} = req.body;
+  const {uid} = data;
+  console.log("Received request body:", req.body);
+  console.log("Received UID:", uid);
 
-//     try {
-//       // Firestoreに企業情報を保存
-//       await admin.firestore().collection("companies").doc(userId).set({
-//         companyId,
-//         companyName,
-//         email,
-//         firstName,
-//         lastName,
-//       });
+  if (!uid || typeof uid !== "string" || uid.length > 128) {
+    res.status(400).json({data: {error: "Invalid UID"}});
+    return;
+  }
 
-//       // Authenticationのユーザーにcompany_idを追加
-//       await admin.auth().setCustomUserClaims(userId, { companyId });
+  admin
+    .auth()
+    .setCustomUserClaims(uid, {isCompanyAdmin: true})
+    .then(() => {
+      const response: AdminClaimsResponse = {
+        message: "Success! Admin claims set.",
+      };
+      res.status(200).json({data: response});
+    })
+    .catch((error) => {
+      console.error("Error setting custom claims:", error);
+      res.status(500).json({data: {error: "Internal server error"}});
+    });
+});
 
-//       // メール送信ロジック（ここでは簡略化）
-//       await sendEmail(email, companyId);
+// エラーハンドリングミドルウェア
+app.use((err: Error, _req: express.Request, res: express.Response) => {
+  console.error(err.stack);
+  res.status(500).json({data: {error: "Something broke!"}});
+});
 
-//       console.log(`企業ID ${companyId} を生成し、${email} に送信しました。`);
-//     } catch (error) {
-//       console.error("エラーが発生しました:", error);
-//     }
-//   });
-
-// async function sendEmail(email: string, companyId: string): Promise<void> {
-//   // ここに実際のメール送信ロジックを実装
-//   console.log(`${email}に企業ID: ${companyId}を送信しました。`);
-// }
+export const setAdminClaims = functions.https.onRequest(app);

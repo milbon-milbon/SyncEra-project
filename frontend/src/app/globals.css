@@ -51,3 +51,11 @@ body {
   padding-left: 30px; /* アイコンに合わせたパディング調整 */
   background-color: white; /* または背景色を指定しない */
 }
+.input-with-icon-4 {
+  background-image: url('/signup/key.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
+}

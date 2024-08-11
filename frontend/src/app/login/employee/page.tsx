@@ -1,5 +1,4 @@
 // frontend/src/app/login/employee/page.tsx==社員ログイン==
-
 'use client';
 
 import React, { useState } from 'react';

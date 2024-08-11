@@ -1,28 +1,33 @@
-// frontend/src/app/login/company/page.tsx==企業ログイン==
+// frontend/src/app/login/company/page.tsx==企業管理者画面ログイン==
 
 'use client';
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getAuth, signInWithCustomToken } from 'firebase/auth';
-import { getFunctions, httpsCallable } from 'firebase/functions';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 import LogoWhite from '@/components/payment/LogoWhite';
 import Link from 'next/link';
+import '@/firebase/config';
 
 export default function CompanyLogin() {
-  const [companyId, setCompanyId] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const functions = getFunctions();
-    const loginWithCompanyId = httpsCallable(functions, 'loginWithCompanyId');
     try {
-      const result = await loginWithCompanyId({ companyId });
-      const { customToken } = result.data as { customToken: string };
       const auth = getAuth();
-      await signInWithCustomToken(auth, customToken);
-      router.push('/admin');
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // 管理者かどうかを確認（カスタムクレームを利用）
+      const token = await user.getIdTokenResult();
+      if (token.claims.isCompanyAdmin) {
+        router.push('/admin-dashboard');
+      } else {
+        throw new Error('管理者権限がありません。');
+      }
     } catch (error) {
       console.error('Login failed:', error);
     }
@@ -36,9 +41,17 @@ export default function CompanyLogin() {
         <div className='flex items-center p-[17px] mb-2'>
           <input
             type='text'
-            value={companyId}
-            onChange={(e) => setCompanyId(e.target.value)}
-            placeholder='企業ID'
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            placeholder='メールアドレスを入力してください'
+            className='shadow appearance-none border rounded w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline shadow-custom' // shadow-customを追加
+            required
+          />
+          <input
+            type='text'
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            placeholder='パスワードを入力してください'
             className='shadow appearance-none border rounded w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline shadow-custom' // shadow-customを追加
             required
           />
