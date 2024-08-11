@@ -19,7 +19,7 @@ def schedule_monthly_survey():
     scheduler.add_job(send_survey_to_all, 'cron', day=1, hour=12, minute=0)
     scheduler.start()
 
-# アンケートの定期配信を定義: 毎日、5分ごとに特定のSlackユーザー(sayoko)にアンケートを配信する
+# アンケートの定期配信を定義: 毎日、30分ごとに特定のSlackユーザー(sayoko)にアンケートを配信する
 # 引数: なし
 # 戻り値: なし
 def schedule_hourly_survey() -> None:
@@ -35,6 +35,6 @@ def schedule_hourly_survey() -> None:
 
     scheduler.add_job(
         job_function,  # 初回の質問を取得して送信
-        'cron', minute='*/30'  # 毎5分ごとに実行
+        'cron', minute='*/30'  # 毎30分ごとに実行
     )
     scheduler.start()

@@ -33,8 +33,7 @@ def get_next_question(question_id: int, answer: str, db: Session = Depends(get_d
         next_question_id = question.next_question_c_id
     elif answer == 'D':
         next_question_id = question.next_question_d_id
-    elif "最後の質問の場合の終了方法を定義する":
-        "最後の質問の場合の終了方法を定義する, return 送信ボタン的な？"
+
 
 
     if not next_question_id:

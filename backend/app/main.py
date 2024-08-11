@@ -7,7 +7,7 @@ from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee
-from app.routers.career_survey import get_next_question, submit_answer
+from app.routers.career_survey import get_next_question
 from app.services.schedule_survey import schedule_hourly_survey
 from app.util.career_survey.create_response import create_response
 from slack_sdk import WebClient
@@ -98,7 +98,7 @@ async def slack_events(request: Request, db: Session = Depends(get_db)):
 # Slackでのインタラクションを処理し、ユーザーの回答を保存して次の質問を送信します。
 # 引数:request (Request): FastAPIのリクエストオブジェクト。
 #     db (Session): SQLAlchemyのデータベースセッションオブジェクト。
-# 戻り値: JSONResponse: 処理結果のステータスを含むJSONレスポンス。
+# 戻り値: status_code: 200 or 500
 
 @app.post("/slack/actions")
 async def handle_slack_interactions(request: Request, db: Session = Depends(get_db)):
@@ -110,15 +110,12 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 
         user_id = payload["user"]["id"]
         actions = payload["actions"]
+        print(actions)
         question_id = int(payload["callback_id"])
 
         # ユーザーの選択した値を取得
-        if actions[0]["type"] == "select":
-            selected_option = actions[0]["selected_options"][0]["value"]
-            logger.info(f"User {user_id} selected option {selected_option} for question {question_id}")
-        elif actions[0]["type"] == "button" and actions[0]["value"] == "submit":
-            selected_option = actions[0]["value"]
-            logger.info(f"User {user_id} submitted the survey with option {selected_option}")
+        selected_option = actions[0]["value"]
+        logger.info(f"User {user_id} submitted the survey with option {selected_option}")
 
         # selected_optionが未設定の場合のエラー処理
         if selected_option is None:
@@ -130,18 +127,35 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             question_id=question_id,
             answer=selected_option
         )
-       # 回答をDBに保存し、次の質問を取得して送信 (submit_answer関数を使用)
-        next_question = submit_answer(response_data, db)  # 修正箇所: submit_answer関数を使用
+       # 回答をDBに保存し、次の質問を取得して送信
+        db.add(response_data)
+        db.commit()
         logger.info(f"Response saved for user {user_id} for question {question_id}")
 
-        if next_question is None:
+        # 次の質問を取得して送信
+        question = db.query(Question).filter(Question.id == question_id).first()
+        if not question:
+            raise HTTPException(status_code=404, detail="Question not found")
+
+        next_question_id = None
+        if selected_option == 'A':
+            next_question_id = question.next_question_a_id
+        elif selected_option == 'B':
+            next_question_id = question.next_question_b_id
+        elif selected_option == 'C':
+            next_question_id = question.next_question_c_id
+        elif selected_option == 'D':
+            next_question_id = question.next_question_d_id
+
+        if not next_question_id:
             slack_client.chat_postMessage(channel=user_id, text="アンケートの回答を送信しました！ご回答ありがとうございました。")
             logger.info(f"Survey completed for user {user_id}")
         else:
+            next_question = db.query(Question).filter(Question.id == next_question_id).first()
             send_survey_to_employee(user_id, next_question)
             logger.info(f"Next question sent to user {user_id}")
 
-        return JSONResponse(content={"status": "ok"})
+        return Response(status_code=200)
 
     except Exception as e:
         logger.error(f"Error processing request: {e}")
