@@ -7,9 +7,7 @@ from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee
-from app.routers.career_survey import get_next_question
 from app.services.schedule_survey import schedule_hourly_survey
-from app.util.career_survey.create_response import create_response
 from slack_sdk import WebClient
 from app.db.database import get_db
 from app.db.models import DailyReport, Question, Response
