@@ -7,10 +7,13 @@ from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport
 from app.db.database import get_db 
-from app.db.schemas import Employee, EmployeeCreate, SummaryReportRequest, SavedSummaryReport
+from app.db.schemas import Employee, EmployeeCreate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
 from app.util.get_employee_info import get_employee_info
 from app.util.summary.save_summary_report import save_summary_report
 from app.util.summary.get_saved_summarize_history import get_saved_summary_report
+from app.util.advices.save_advices import save_advices
+from app.util.advices.get_all_saved_advices_history import get_all_saved_advices_history
+from app.util.advices.get_saved_advices_history import get_saved_advices_history
 from backend.app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
 from app.util import convert_ts_to_date
 from typing import Optional
@@ -70,27 +73,26 @@ def print_saved_summary_report(employee_id: str, created_at: date=Query(...), db
 # 1on1アドバイス/質問をLLMから出力する
 @router.get("/print_advices/{slack_user_id}/")
 def print_advice(slack_user_id:str, start_date: date, end_date: date):
+    # 参照: app.services.make_advices.py
     return make_advices(slack_user_id, start_date, end_date)
 
 # LLMが生成した1on1アドバイスをDBに保存する
 @router.post("/save_advice/")
-def save_advice(employee_id: str, advice: str): # 引数はこれでいいのか？不要かも？
-    # request = {
-    #     employee_id: ...,
-    #     advice: ...
-    # }
-    # で飛んでくるのを、advices_historyテーブルに保存したい
-    return "処理未実装"
+def save_advice(advices: AdvicesRequest, db: Session=Depends(get_db)):
+    # 参照: app.util.advices.save_advices.py
+    return save_advices(advices, db)
 
 # 保存された全ての1on1アドバイスをDBから出力する
-@router.get("/print_all_advices/{employee_id}/")
-def print_all_advices(employee_id: str):
-    return "処理未実装"
+@router.get("/print_all_advices/{employee_id}/", response_model=list[SavedAdvices])
+def print_all_advices(employee_id: str, db: Session=Depends(get_db)):
+    # 参照: app.util.advices.get_all_saved_advices_history.py
+    return get_all_saved_advices_history
 
 # 保存された特定の1on1アドバイスをDBから出力する
-@router.get("/print_saved_advice/{employee_id}/")
-def print_saved_advice(employee_id: str, created_at: date):
-    return "処理未実装"
+@router.get("/print_saved_advice/{employee_id}/", response_model=SavedAdvices)
+def print_saved_advice(employee_id: str, created_at: date, db):
+    # 参照: app.util.advices.get_saved_advices_history.py
+    return get_saved_advices_history(employee_id, created_at, db)
 
 #-------------キャリアアンケート-------------
 

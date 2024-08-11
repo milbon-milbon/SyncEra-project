@@ -26,7 +26,7 @@ class Employee(EmployeeBase):
 日報サマリーのDB保存ロジック用
 '''
 class SummaryReportRequest(BaseModel):
-    employee_id: str  # employee_idはUUIDの文字列形式と仮定
+    employee_id: str  # employee_idはUUIDの文字列形式
     summary: str
 
 '''
@@ -36,6 +36,25 @@ class SavedSummaryReport(BaseModel):
     id: int
     employee_id: str
     summary: str
+    created_at: str
+
+    class Config:
+        orm_mode = True
+
+'''
+1on1アドバイスデータのDB保存ロジック用
+'''
+class AdvicesRequest(BaseModel):
+    employee_id: str  # employee_idはUUIDの文字列形式
+    advices: str
+
+'''
+保存済み1on1アドバイス履歴の出力用
+'''
+class SavedAdvices(BaseModel):
+    id: int
+    employee_id: str
+    advices: str
     created_at: str
 
     class Config:
