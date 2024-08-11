@@ -6,7 +6,7 @@ from app.services.make_employee_list import make_employee_list
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport
-from app.db.database import get_db 
+from app.db.database import get_db
 from app.db.schemas import Employee, EmployeeCreate
 from app.util.get_employee_info import get_employee_info
 from app.util import convert_ts_to_date
