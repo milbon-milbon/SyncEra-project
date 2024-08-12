@@ -24,12 +24,14 @@ export default function CompanyLogin() {
       // 管理者かどうかを確認（カスタムクレームを利用）
       const token = await user.getIdTokenResult();
       if (token.claims.isCompanyAdmin) {
+        console.log('=== 管理者アカウントログイン成功=== ');
         router.push('/admin-dashboard');
       } else {
+        alert('管理者権限がありません。アカウントを作成してください。');
         throw new Error('管理者権限がありません。');
       }
     } catch (error) {
-      console.error('Login failed:', error);
+      console.error('===管理者アカウントログイン失敗:=== ', error);
     }
   };
 

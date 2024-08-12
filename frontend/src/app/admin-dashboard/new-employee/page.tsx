@@ -1,15 +1,21 @@
-// frontend/src/app/admin-dashboard/new-employee.tsx==新規登録==
+// frontend/src/app/admin-dashboard/new-employee.tsx==社員新規登録==
 'use client';
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { addEmployee } from '@/services/employeeService'; // サービスに分離
-import { getAuth } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+
+// 部署のリスト（例）
+const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
+
+// 役職のリスト
+const positions = ['manager', 'staff', 'その他'];
 
 export default function NewEmployee() {
   const [name, setName] = useState('');
-  const [department, setDepartment] = useState('');
-  const [role, setRole] = useState('');
+  const [department, setDepartment] = useState(departments[0]);
+  const [role, setRole] = useState(positions[0]);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const router = useRouter();
@@ -19,16 +25,32 @@ export default function NewEmployee() {
 
     // ログインしているユーザーの companyId を取得
     const auth = getAuth();
-    const user = auth.currentUser;
-    if (user) {
-      const companyId = user.uid; // companyId はログイン中のユーザーの UID として取得
-      const employeeData = { name, department, role, email, password };
+    const currentUser = auth.currentUser;
 
-      await addEmployee(companyId, employeeData); // companyId を引数として渡す
-      alert('登録が完了しました');
-      router.push('/admin-dashboard');
+    if (currentUser) {
+      const companyId = currentUser.uid;
+      const employeeData = { name, department, role, email, password };
+      try {
+        await addEmployee(companyId, employeeData);
+        alert('登録が完了しました');
+
+        if (currentUser.email) {
+          // 管理者アカウントで再度サインイン
+          await signInWithEmailAndPassword(auth, currentUser.email, password);
+          // サインイン後、管理者ダッシュボードにリダイレクト
+          router.push('/admin-dashboard');
+        } else {
+          console.error('ユーザーのメールアドレスが取得できませんでした');
+          router.push('/admin-dashboard');
+        }
+      } catch (error: any) {
+        console.error('社員登録エラー:', error);
+        alert('登録に失敗しました。もう一度お試しください。');
+      }
     } else {
       console.error('ユーザーが認証されていません。');
+      alert('認証エラーが発生しました。再度ログインしてください。');
+      router.push('/login/company');
     }
   };
 
@@ -50,23 +72,34 @@ export default function NewEmployee() {
         {/* 他のフィールドも同様に追加 */}
         <div className='mb-4'>
           <label className='block text-gray-700'>部署</label>
-          <input
-            type='text'
+          <select
             value={department}
             onChange={(e) => setDepartment(e.target.value)}
             className='w-full border p-2 rounded'
             required
-          />
+          >
+            {departments.map((dept) => (
+              <option key={dept} value={dept}>
+                {dept}
+              </option>
+            ))}
+          </select>
         </div>
+
         <div className='mb-4'>
           <label className='block text-gray-700'>役職</label>
-          <input
-            type='text'
+          <select
             value={role}
             onChange={(e) => setRole(e.target.value)}
             className='w-full border p-2 rounded'
             required
-          />
+          >
+            {positions.map((pos) => (
+              <option key={pos} value={pos}>
+                {pos}
+              </option>
+            ))}
+          </select>
         </div>
         <div className='mb-4'>
           <label className='block text-gray-700'>メールアドレス</label>

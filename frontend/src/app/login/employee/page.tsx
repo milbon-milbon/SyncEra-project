@@ -4,21 +4,56 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import LogoWblue from '@/components/payment/LogoWblue';
+import clientLogger from '@/lib/clientLogger';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setError('');
     try {
       const auth = getAuth();
-      await signInWithEmailAndPassword(auth, email, password);
-      router.push('/employee-dashboard');
-    } catch (error) {
-      console.error('Login failed:', error);
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+
+      // ログインしている会社の会社IDを取得
+      const idTokenResult = await user.getIdTokenResult();
+      const companyId = idTokenResult.claims.companyId;
+
+      // Firestoreから社員情報を取得
+      const db = getFirestore();
+      const employeeDoc = await getDoc(doc(db, `companies/${companyId}/employees`, user.uid));
+
+      if (employeeDoc.exists()) {
+        const employeeData = employeeDoc.data();
+        clientLogger.info('Employee login successful');
+
+        // 役職に基づいて適切な画面に遷移
+        switch (
+          employeeData.role // `position` ではなく、`role` で確認する
+        ) {
+          case 'manager':
+            router.push('/signup'); // 管理者ダッシュボードへの遷移に変更
+            break;
+          case 'staff':
+            router.push('/staff-dashboard');
+            break;
+          default:
+            router.push('/employee-dashboard');
+        }
+      } else {
+        setError('社員情報が見つかりません。管理者に連絡してください。');
+        clientLogger.error('===社員情報が見つかりません。===');
+      }
+    } catch (error: any) {
+      clientLogger.error(`Login failed: ${error.message}`);
+      setError('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
     }
   };
 
@@ -65,8 +100,9 @@ export default function EmployeeLogin() {
             type='submit'
             className=' bg-[#003366] text-white py-2 px-[170px] rounded-lg hover:bg-[#002244] focus:outline-none'
           >
-            次へ
-          </button>
+            ログイン
+          </button>{' '}
+          {error && <p className='text-red-500 mb-4'>{error}</p>}
         </div>
       </form>
     </div>

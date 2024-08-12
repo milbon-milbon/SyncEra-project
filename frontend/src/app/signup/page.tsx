@@ -64,7 +64,6 @@ export default function SignUp() {
       } catch (error: any) {
         console.error('Error calling Cloud Function:', error);
         clientLogger.error(`==== サインアップエラー==== : ${error.message}`);
-        // エラーメッセージをユーザーに表示するなどの処理をここに追加
         throw error; // エラーを上位に伝播させる
       }
     } catch (error: any) {

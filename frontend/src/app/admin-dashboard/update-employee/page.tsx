@@ -27,11 +27,16 @@ export default function UpdateEmployee() {
   useEffect(() => {
     const fetchEmployee = async () => {
       if (employeeId) {
-        const data = await getEmployee(employeeId);
-        if (data) {
-          setEmployee(data as Employee);
-        } else {
-          console.error('Employee data not found.');
+        try {
+          const data = await getEmployee(employeeId);
+          if (data) {
+            setEmployee(data as Employee);
+          } else {
+            console.error('Employee data not found.');
+          }
+        } catch (error) {
+          console.error('Error fetching employee data:', error);
+          // エラーメッセージをユーザーに表示
         }
       }
     };
@@ -41,17 +46,21 @@ export default function UpdateEmployee() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (employeeId) {
-      const companyId = await getCompanyId(); // companyIdを適切に取得する関数を実装
-      if (companyId) {
-        await updateEmployee(companyId, employeeId, employee);
-        alert('更新が完了しました');
-        router.push('/admin-dashboard');
-      } else {
-        console.error('Company ID not found.');
+      try {
+        const companyId = await getCompanyId();
+        if (companyId) {
+          await updateEmployee(companyId, employeeId, employee);
+          alert('更新が完了しました');
+          router.push('/admin-dashboard');
+        } else {
+          throw new Error('Company ID not found.');
+        }
+      } catch (error) {
+        console.error('Error updating employee:', error);
+        alert('更新に失敗しました。もう一度お試しください。');
       }
     }
   };
-
   return (
     <div className='min-h-screen p-4'>
       <h1 className='text-2xl font-bold mb-4'>社員情報更新</h1>
