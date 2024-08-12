@@ -7,7 +7,7 @@ from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee
-from app.services.schedule_survey import schedule_hourly_survey
+from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
 from slack_sdk import WebClient
 from app.db.database import get_db
 from app.db.models import DailyReport, Question, Response
@@ -123,7 +123,8 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         response_data = Response(
             slack_user_id=user_id,
             question_id=question_id,
-            answer=selected_option
+            answer=selected_option,
+
         )
        # 回答をDBに保存し、次の質問を取得して送信
         db.add(response_data)
@@ -163,6 +164,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 @app.on_event("startup")
 async def start_scheduler():
     schedule_hourly_survey()
+    schedule_monthly_survey()
 
 # FastAPIアプリケーションにルーターを登録
 app.include_router(router)

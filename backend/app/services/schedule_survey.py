@@ -5,6 +5,7 @@ from app.db.database import get_db
 from app.db.database import SessionLocal
 from app.db.models import Question
 from sqlalchemy.orm import Session
+from pytz import timezone
 
 # 初回の質問を取得するためのヘルパー関数
 # 引数: db (Session): SQLAlchemyのデータベースセッションオブジェクト。
@@ -15,7 +16,7 @@ def get_first_question(db: Session) -> Question:
 
 # アンケートの定期配信を定義: 毎月1日12時に全員にアンケートを配信する
 def schedule_monthly_survey():
-    scheduler = BackgroundScheduler()
+    scheduler = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
     scheduler.add_job(send_survey_to_all, 'cron', day=1, hour=12, minute=0)
     scheduler.start()
 
@@ -23,8 +24,8 @@ def schedule_monthly_survey():
 # 引数: なし
 # 戻り値: なし
 def schedule_hourly_survey() -> None:
-    scheduler = BackgroundScheduler()
-
+    scheduler = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
+    # 初回の質問を取得して送信
     def job_function():
             db = SessionLocal()
             try:
@@ -34,7 +35,7 @@ def schedule_hourly_survey() -> None:
                 db.close()
 
     scheduler.add_job(
-        job_function,  # 初回の質問を取得して送信
-        'cron', minute='*/30'  # 毎30分ごとに実行
+        job_function,
+        'cron', minute='*/30'
     )
     scheduler.start()
