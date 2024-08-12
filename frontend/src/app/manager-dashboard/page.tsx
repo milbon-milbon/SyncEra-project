@@ -10,6 +10,7 @@ import { User } from 'firebase/auth';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
+import clientLogger from '@/lib/clientLogger';
 
 export default function ManagerDashboard() {
   const [user, setUser] = useState<User | null>(null);
@@ -34,14 +35,14 @@ export default function ManagerDashboard() {
             return;
           }
 
-          console.log(`Company ID: ${companyId}`);
+          clientLogger.debug(`Company ID: ${companyId}`);
           // Firestoreからのデータ取得
           const userDoc = await getDoc(
             doc(db, `companies/${companyId}/employees`, currentUser.uid),
           );
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            console.log('User data:', userData);
+            clientLogger.debug(`User data:, ${userData}`);
 
             // 確認: role や companyId が期待通りに存在しているか
             if (userData?.role && userData?.companyId) {
@@ -49,15 +50,15 @@ export default function ManagerDashboard() {
                 router.push(userData.role === 'staff' ? '/staff-dashboard' : '/employee-dashboard');
               }
             } else {
-              console.error('Role or Company ID is missing in user data:', userData);
+              clientLogger.error(`Role or Company ID is missing in user data:, ${userData}`);
               router.push('/login/employee');
             }
           } else {
-            console.error('=========ユーザーデータが見つかりません。=======');
+            clientLogger.error('=========ユーザーデータが見つかりません。=======');
             router.push('/login/employee');
           }
         } catch (error) {
-          console.error('Error fetching user data:', error);
+          clientLogger.error(`Error fetching user data:,${error}`);
           router.push('/login/employee');
         }
       } else {

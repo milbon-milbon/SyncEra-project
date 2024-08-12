@@ -5,7 +5,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { updateEmployee, getEmployee } from '@/services/employeeService';
 import { getAuth } from 'firebase/auth';
-
+import clientLogger from '@/lib/clientLogger';
 interface Employee {
   name: string;
   department: string;
@@ -32,10 +32,10 @@ export default function UpdateEmployee() {
           if (data) {
             setEmployee(data as Employee);
           } else {
-            console.error('Employee data not found.');
+            clientLogger.error('Employee data not found.');
           }
         } catch (error) {
-          console.error('Error fetching employee data:', error);
+          clientLogger.error(`Error fetching employee data:, ${error}`);
           // エラーメッセージをユーザーに表示
         }
       }
@@ -56,7 +56,7 @@ export default function UpdateEmployee() {
           throw new Error('Company ID not found.');
         }
       } catch (error) {
-        console.error('Error updating employee:', error);
+        clientLogger.error(`Error updating employee:, ${error}`);
         alert('更新に失敗しました。もう一度お試しください。');
       }
     }

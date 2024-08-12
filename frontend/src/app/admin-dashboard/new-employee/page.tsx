@@ -5,7 +5,7 @@ import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { addEmployee } from '@/services/employeeService'; // サービスに分離
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-
+import clientLogger from '@/lib/clientLogger';
 // 部署のリスト（例）
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 
@@ -40,15 +40,15 @@ export default function NewEmployee() {
           // サインイン後、管理者ダッシュボードにリダイレクト
           router.push('/admin-dashboard');
         } else {
-          console.error('ユーザーのメールアドレスが取得できませんでした');
+          clientLogger.error('ユーザーのメールアドレスが取得できませんでした');
           router.push('/admin-dashboard');
         }
       } catch (error: any) {
-        console.error('社員登録エラー:', error);
+        clientLogger.error(`社員登録エラー:, ${error}`);
         alert('登録に失敗しました。もう一度お試しください。');
       }
     } else {
-      console.error('ユーザーが認証されていません。');
+      clientLogger.error('ユーザーが認証されていません。');
       alert('認証エラーが発生しました。再度ログインしてください。');
       router.push('/login/company');
     }

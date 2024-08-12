@@ -11,7 +11,7 @@ export default function PricingPage() {
   const router = useRouter();
 
   const handlePriceSelect = async (priceId: string) => {
-    clientLogger.info(`選択した支払い方法: ${priceId}`);
+    clientLogger.debug(`選択した支払い方法: ${priceId}`);
     const userInfo = JSON.parse(sessionStorage.getItem('userSignupInfo') || '{}');
     try {
       const response = await fetch('/api/create-checkout-session', {

@@ -32,8 +32,8 @@ export default function EmployeeLogin() {
       const idTokenResult = await user.getIdTokenResult();
       const companyId = idTokenResult.claims.companyId;
 
-      clientLogger.info(`User UID:, ${user.uid}`);
-      clientLogger.info(`Company ID:,${companyId}`);
+      clientLogger.debug(`User UID:, ${user.uid}`);
+      clientLogger.debug(`Company ID:,${companyId}`);
 
       if (!companyId || companyId === 'defaultCompanyId') {
         clientLogger.error('===会社IDが見つかりません。===');
@@ -44,23 +44,22 @@ export default function EmployeeLogin() {
       const employeeRef = doc(db, `companies/${companyId}/employees`, user.uid);
       const employeeDoc = await getDoc(employeeRef);
 
-      clientLogger.info(`===職員のドキュメントパス===:, ${employeeRef.path}`);
+      clientLogger.debug(`===職員のドキュメントパス===:, ${employeeRef.path}`);
 
       if (employeeDoc.exists()) {
         const employeeData = employeeDoc.data() as DocumentData;
-        clientLogger.info(`===職員のドキュメントデータ===: ${JSON.stringify(employeeData)}`);
-        clientLogger.info(`===職員のドキュメント取得成功===: ${JSON.stringify(employeeData)}`);
+        clientLogger.debug(`===職員のドキュメントデータ===: ${JSON.stringify(employeeData)}`);
+        clientLogger.debug(`===職員のドキュメント取得成功===: ${JSON.stringify(employeeData)}`);
 
         // カスタムクレームを設定
         const functions = getFunctions(app);
         const setCustomClaims = httpsCallable(functions, 'setCustomClaims');
         await setCustomClaims({ uid: user.uid, companyId: employeeData.companyId });
-        clientLogger.info(`CustomClaim: ${setCustomClaims}`);
 
         // トークンを強制的に更新
         await user.getIdToken(true);
         const updatedTokenResult = await user.getIdTokenResult();
-        clientLogger.info(`Updated Company ID: ${updatedTokenResult.claims.companyId}`);
+        clientLogger.debug(`Updated Company ID: ${updatedTokenResult.claims.companyId}`);
         // 役職に基づいて適切な画面に遷移
         switch (
           employeeData.role // `position` ではなく、`role` で確認する
@@ -75,7 +74,7 @@ export default function EmployeeLogin() {
             router.push('/manager-dashboard');
         }
       } else {
-        clientLogger.error(`社員情報が見つかりません。ドキュメントID:',${user.uid}`);
+        clientLogger.debug(`社員情報が見つかりません。ドキュメントID:',${user.uid}`);
         alert('社員情報が見つかりません。管理者に連絡してください。');
       }
     } catch (error: any) {
