@@ -12,8 +12,11 @@ import {
 } from 'firebase/firestore';
 import { getAuth, createUserWithEmailAndPassword, deleteUser, signOut } from 'firebase/auth';
 import app from '@/firebase/config';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 
+const auth = getAuth(app);
 const db = getFirestore(app);
+const functions = getFunctions(app);
 
 interface EmployeeData {
   name: string;
@@ -26,7 +29,6 @@ interface EmployeeData {
 // 新規登録
 export async function addEmployee(companyId: string, employeeData: EmployeeData) {
   try {
-    const auth = getAuth();
     // Firebase Authentication でアカウントを作成する
     // 新しいユーザーを作成するが、サインインはしない
     const userCredential = await createUserWithEmailAndPassword(
@@ -34,7 +36,13 @@ export async function addEmployee(companyId: string, employeeData: EmployeeData)
       employeeData.email,
       employeeData.password,
     );
+    const user = userCredential.user;
 
+    // Cloud Functionを使用してカスタムクレームを設定
+    const setCustomClaims = httpsCallable(functions, 'setCustomClaims');
+    await setCustomClaims({ uid: user.uid, companyId: companyId });
+    // トークンを強制的に更新
+    await user.getIdToken(true);
     // Firestore に追加情報を保存
     const employeeDocRef = doc(db, `companies/${companyId}/employees`, userCredential.user.uid);
     await setDoc(employeeDocRef, {
@@ -42,11 +50,13 @@ export async function addEmployee(companyId: string, employeeData: EmployeeData)
       department: employeeData.department,
       role: employeeData.role,
       email: employeeData.email,
-      uid: userCredential.user.uid,
+      uid: user.uid,
+      companyId: companyId, // companyIdも保存
     });
+
     console.log(`Employee added to Firestore: ${employeeDocRef.path}`);
     // 新規職員作成後、現在のユーザーをサインアウトする
-    await signOut(auth);
+    // await signOut(auth);
     return userCredential.user.uid;
   } catch (error: any) {
     if (error.code === 'auth/email-already-in-use') {
@@ -103,6 +113,7 @@ export async function getEmployee(employeeId: string) {
   // ユーザーのカスタムクレームから companyId を取得すると仮定
   const idTokenResult = await user.getIdTokenResult();
   const companyId = idTokenResult.claims.companyId;
+  console.log('====companyId=====:', companyId);
 
   if (!companyId) {
     throw new Error('Company ID not found');

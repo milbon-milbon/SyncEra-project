@@ -3,8 +3,9 @@
 
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
-import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import { DocumentData, doc, getDoc } from 'firebase/firestore';
+import { auth, db } from '@/firebase/config'; // Firebase 初期化ファイルをインポート
 import LogoWblue from '@/components/payment/LogoWblue';
 import clientLogger from '@/lib/clientLogger';
 
@@ -18,42 +19,59 @@ export default function EmployeeLogin() {
     e.preventDefault();
     setError('');
     try {
-      const auth = getAuth();
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+      if (!user) {
+        setError('ユーザー情報を取得できませんでした。');
+        return;
+      }
+      // トークンを強制的に更新
+      await user.getIdToken(true);
 
       // ログインしている会社の会社IDを取得
       const idTokenResult = await user.getIdTokenResult();
       const companyId = idTokenResult.claims.companyId;
 
+      clientLogger.info(`User UID:, ${user.uid}`);
+      clientLogger.info(`Company ID:,${companyId}`);
+      clientLogger.info(`cEmployee document path:, ompanies/${companyId}/employees/${user.uid}`);
+
+      if (!companyId || companyId === 'defaultCompanyId') {
+        clientLogger.error('===会社IDが見つかりません。===');
+        alert('会社IDが見つかりません。');
+        return;
+      }
       // Firestoreから社員情報を取得
-      const db = getFirestore();
-      const employeeDoc = await getDoc(doc(db, `companies/${companyId}/employees`, user.uid));
+      const employeeRef = doc(db, `companies/${companyId}/employees`, user.uid);
+      const employeeDoc = await getDoc(employeeRef);
+
+      clientLogger.info(`Employee document path:, ${employeeRef.path}`);
 
       if (employeeDoc.exists()) {
-        const employeeData = employeeDoc.data();
-        clientLogger.info('Employee login successful');
+        clientLogger.info(`Employee document data:, ${employeeDoc.data()}`);
+        const employeeData = employeeDoc.data() as DocumentData;
+        clientLogger.info(`Employee login successful: ${JSON.stringify(employeeData)}`);
 
         // 役職に基づいて適切な画面に遷移
         switch (
           employeeData.role // `position` ではなく、`role` で確認する
         ) {
           case 'manager':
-            router.push('/signup'); // 管理者ダッシュボードへの遷移に変更
+            router.push('/manager-dashboard'); // 管理者ダッシュボードへの遷移に変更
             break;
           case 'staff':
-            router.push('/staff-dashboard');
+            router.push('/manager-dashboard');
             break;
           default:
-            router.push('/employee-dashboard');
+            router.push('/manager-dashboard');
         }
       } else {
-        setError('社員情報が見つかりません。管理者に連絡してください。');
-        clientLogger.error('===社員情報が見つかりません。===');
+        clientLogger.error(`社員情報が見つかりません。ドキュメントID:',${user.uid}`);
+        alert('社員情報が見つかりません。管理者に連絡してください。');
       }
     } catch (error: any) {
       clientLogger.error(`Login failed: ${error.message}`);
-      setError('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
+      alert('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
     }
   };
 
