@@ -8,6 +8,8 @@ import { DocumentData, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/firebase/config'; // Firebase 初期化ファイルをインポート
 import LogoWblue from '@/components/payment/LogoWblue';
 import clientLogger from '@/lib/clientLogger';
+import { httpsCallable, getFunctions } from 'firebase/functions';
+import app from '@/firebase/config';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
@@ -25,8 +27,6 @@ export default function EmployeeLogin() {
         setError('ユーザー情報を取得できませんでした。');
         return;
       }
-      // トークンを強制的に更新
-      await user.getIdToken(true);
 
       // ログインしている会社の会社IDを取得
       const idTokenResult = await user.getIdTokenResult();
@@ -34,7 +34,6 @@ export default function EmployeeLogin() {
 
       clientLogger.info(`User UID:, ${user.uid}`);
       clientLogger.info(`Company ID:,${companyId}`);
-      clientLogger.info(`cEmployee document path:, ompanies/${companyId}/employees/${user.uid}`);
 
       if (!companyId || companyId === 'defaultCompanyId') {
         clientLogger.error('===会社IDが見つかりません。===');
@@ -45,13 +44,23 @@ export default function EmployeeLogin() {
       const employeeRef = doc(db, `companies/${companyId}/employees`, user.uid);
       const employeeDoc = await getDoc(employeeRef);
 
-      clientLogger.info(`Employee document path:, ${employeeRef.path}`);
+      clientLogger.info(`===職員のドキュメントパス===:, ${employeeRef.path}`);
 
       if (employeeDoc.exists()) {
-        clientLogger.info(`Employee document data:, ${employeeDoc.data()}`);
         const employeeData = employeeDoc.data() as DocumentData;
-        clientLogger.info(`Employee login successful: ${JSON.stringify(employeeData)}`);
+        clientLogger.info(`===職員のドキュメントデータ===: ${JSON.stringify(employeeData)}`);
+        clientLogger.info(`===職員のドキュメント取得成功===: ${JSON.stringify(employeeData)}`);
 
+        // カスタムクレームを設定
+        const functions = getFunctions(app);
+        const setCustomClaims = httpsCallable(functions, 'setCustomClaims');
+        await setCustomClaims({ uid: user.uid, companyId: employeeData.companyId });
+        clientLogger.info(`CustomClaim: ${setCustomClaims}`);
+
+        // トークンを強制的に更新
+        await user.getIdToken(true);
+        const updatedTokenResult = await user.getIdTokenResult();
+        clientLogger.info(`Updated Company ID: ${updatedTokenResult.claims.companyId}`);
         // 役職に基づいて適切な画面に遷移
         switch (
           employeeData.role // `position` ではなく、`role` で確認する

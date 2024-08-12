@@ -23,18 +23,41 @@ export default function ManagerDashboard() {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
+        try {
+          // カスタムクレームを取得
+          const idTokenResult = await currentUser.getIdTokenResult(true);
+          const companyId = idTokenResult.claims.companyId;
 
-        // ユーザーの役割を確認（ファイアーベースで設定している役職）
-        const userDoc = await getDoc(doc(db, 'employees', currentUser.uid));
-        if (userDoc.exists()) {
-          const userData = userDoc.data();
-          if (userData.role !== 'manager') {
-            // マネージャーでない場合は適切なダッシュボードにリダイレクト
-            router.push(userData.role === 'staff' ? '/staff-dashboard' : '/employee-dashboard');
+          if (!companyId) {
+            console.error('Company ID not found in custom claims');
+            router.push('/login/employee');
+            return;
           }
-        } else {
-          // ユーザーデータが見つからない場合
-          console.error('User data not found');
+
+          console.log(`Company ID: ${companyId}`);
+          // Firestoreからのデータ取得
+          const userDoc = await getDoc(
+            doc(db, `companies/${companyId}/employees`, currentUser.uid),
+          );
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            console.log('User data:', userData);
+
+            // 確認: role や companyId が期待通りに存在しているか
+            if (userData?.role && userData?.companyId) {
+              if (userData.role !== 'manager') {
+                router.push(userData.role === 'staff' ? '/staff-dashboard' : '/employee-dashboard');
+              }
+            } else {
+              console.error('Role or Company ID is missing in user data:', userData);
+              router.push('/login/employee');
+            }
+          } else {
+            console.error('=========ユーザーデータが見つかりません。=======');
+            router.push('/login/employee');
+          }
+        } catch (error) {
+          console.error('Error fetching user data:', error);
           router.push('/login/employee');
         }
       } else {
@@ -51,7 +74,7 @@ export default function ManagerDashboard() {
   }
 
   if (!user) {
-    return null; // または適切なエラーメッセージを表示
+    return '予期せぬ操作が発生しました！'; // 適切なエラーメッセージを表示
   }
   // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで認証残し＝＝＝＝＝＝＝
   return (
