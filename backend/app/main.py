@@ -111,13 +111,6 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         actions = payload["actions"]
         block_id = actions[0]["value"]
         free_text = None
-        # # stateフィールドが存在するか確認し、存在する場合のみfree_textを取得
-        # if input_form_type == "block_actions":
-        #     free_text = payload['state']['values'].get(block_id, {}).get('free_text_input', {}).get('value')
-        # else:
-        #     free_text = None
-        print(input_form_type)
-        print(actions)
 
         # block_id と callback_id の両方に対応する
         if "block_id" in actions[0]:
@@ -128,7 +121,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             raise ValueError("Neither block_id nor callback_id found in payload")
 
         # ユーザーの選択した値を取得
-        # 自由記述が含まれているかチェック
+        # 自由記述が含まれている場合、送信ボタンクリックをトリガーに値を取得（ free_text )
         selected_option = None
         if "block_id" in actions[0]:
             actions[0]["text"]["text"] == "送信"
@@ -138,8 +131,9 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             selected_option = actions[0]["value"]
             logger.info(f"User {user_id} submitted the survey with option {selected_option}")
 
-        if free_text is None and selected_option is None:
-            raise ValueError("No valid option or free text was provided by the user.")
+        if selected_option is None and free_text is None:
+            logger.warning(f"No valid option or free text provided by user {user_id}. Proceeding with next question.")
+            free_text = ""  # 空の自由記述でも進めるように空文字を設定
 
         # 回答をDBに保存
         response_data = Response(
@@ -196,7 +190,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 # スケジュールを FastAPI のスタートアップイベントで開始
 @app.on_event("startup")
 async def start_scheduler():
-    # schedule_hourly_survey()
+    schedule_hourly_survey()
     schedule_monthly_survey()
 
 # FastAPIアプリケーションにルーターを登録
