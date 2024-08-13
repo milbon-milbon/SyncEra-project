@@ -63,6 +63,61 @@ def send_survey_to_employee(slack_user_id: str, first_question: Question):
     except SlackApiError as e:
         print(f"Error sending message: {e.response['error']}")
 
+# 自由記述の質問を送信する関数
+def send_survey_with_text_input(slack_user_id: str, question: Question):
+    text = question.question_text
+    blocks = [
+        {
+            "type": "section",
+            "text": {
+                "type": "mrkdwn",
+                "text": text
+            }
+        },
+        {
+            "type": "input",
+            "block_id": str(question.id),
+            "element": {
+                "type": "plain_text_input",
+                "action_id": "free_text_input",
+                "multiline": True,  # 複数行入力を許可する
+                "placeholder": {
+                    "type": "plain_text",
+                    "text": "ここに自由に記入してください"
+                }
+            },
+            "label": {
+                "type": "plain_text",
+                "text": "ご自由にご記入ください"
+            }
+        },
+        {
+            "type": "actions",
+            "block_id": "submit_action",
+            "elements": [
+                {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "送信"
+                    },
+                    "value": "submit_free_text",
+                    "action_id": "submit_button",
+                    "style": "primary"
+                }
+            ]
+        }
+    ]
+    try:
+        response = client.chat_postMessage(
+            channel=slack_user_id,
+            blocks=blocks,
+            text=text
+        )
+    except SlackApiError as e:
+        print(f"Error sending message: {e.response['error']}")
+
+
 # 初回の質問を取得するためのヘルパー関数
 # 引数: db (Session): SQLAlchemyのデータベースセッションオブジェクト。
 # 戻り値: Question: データベースから取得した初回の質問オブジェクト。

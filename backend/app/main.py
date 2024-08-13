@@ -6,7 +6,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
 from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
-from app.util.career_survey.send_survey_to_all import send_survey_to_employee
+from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
 from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
 from slack_sdk import WebClient
 from app.db.database import get_db
@@ -109,11 +109,24 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         user_id = payload["user"]["id"]
         actions = payload["actions"]
         print(actions)
-        question_id = int(payload["callback_id"])
+        # block_id と callback_id の両方に対応する
+        if "block_id" in actions[0]:
+            question_id = int(actions[0]["block_id"])
+        elif "callback_id" in payload:
+            question_id = int(payload["callback_id"])
+        else:
+            raise ValueError("Neither block_id nor callback_id found in payload")
 
         # ユーザーの選択した値を取得
-        selected_option = actions[0]["value"]
-        logger.info(f"User {user_id} submitted the survey with option {selected_option}")
+        # 自由記述が含まれているかチェック
+        free_text = None
+        selected_option = None
+        if actions[0]["type"] == "plain_text_input":
+            free_text = actions[0]["value"]
+            logger.info(f"User {user_id} submitted free text: {free_text}")
+        else:
+            selected_option = actions[0]["value"]
+            logger.info(f"User {user_id} submitted the survey with option {selected_option}")
 
         # selected_optionが未設定の場合のエラー処理
         if selected_option is None:
@@ -124,7 +137,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             slack_user_id=user_id,
             question_id=question_id,
             answer=selected_option,
-
+            free_text=free_text
         )
        # 回答をDBに保存し、次の質問を取得して送信
         db.add(response_data)
@@ -137,21 +150,30 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             raise HTTPException(status_code=404, detail="Question not found")
 
         next_question_id = None
-        if selected_option == 'A':
+        # 次の質問のIDを決定する
+        if selected_option:
+            if selected_option == 'A':
+                next_question_id = question.next_question_a_id
+            elif selected_option == 'B':
+                next_question_id = question.next_question_b_id
+            elif selected_option == 'C':
+                next_question_id = question.next_question_c_id
+            elif selected_option == 'D':
+                next_question_id = question.next_question_d_id
+        elif free_text:
             next_question_id = question.next_question_a_id
-        elif selected_option == 'B':
-            next_question_id = question.next_question_b_id
-        elif selected_option == 'C':
-            next_question_id = question.next_question_c_id
-        elif selected_option == 'D':
-            next_question_id = question.next_question_d_id
 
         if not next_question_id:
             slack_client.chat_postMessage(channel=user_id, text="アンケートの回答を送信しました！ご回答ありがとうございました。")
             logger.info(f"Survey completed for user {user_id}")
         else:
             next_question = db.query(Question).filter(Question.id == next_question_id).first()
-            send_survey_to_employee(user_id, next_question)
+            # 自由記述の質問かどうかをチェックして、適切な関数を呼び出す
+            if next_question.choice_a == '自由記述':
+                send_survey_with_text_input(user_id, next_question)
+            else:
+                send_survey_to_employee(user_id, next_question)
+            
             logger.info(f"Next question sent to user {user_id}")
 
         return Response(status_code=200)
