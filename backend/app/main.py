@@ -196,7 +196,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 # スケジュールを FastAPI のスタートアップイベントで開始
 @app.on_event("startup")
 async def start_scheduler():
-    schedule_hourly_survey()
+    # schedule_hourly_survey()
     schedule_monthly_survey()
 
 # FastAPIアプリケーションにルーターを登録

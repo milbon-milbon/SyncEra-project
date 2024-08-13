@@ -112,7 +112,7 @@ def seed_data():
 
         question9 = Question(
             question_text='どんな技術や分野に興味がありますか？',
-            choice_a='自由記述にしたい',
+            choice_a='自由記述',
             # choice_b='',
             # choice_c='',
             # choice_d='',

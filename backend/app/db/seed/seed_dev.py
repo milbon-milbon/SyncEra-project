@@ -472,11 +472,11 @@ def seed_data():
         )
 
         question11 = Question(
-            question_text='業務関連おフィードバックについてお聞きします。あなたは、どのようなフィードバックを受けると、やる気が湧きますか？',
-            choice_a='成果に対する具体評価',
-            choice_b='具体的な伸び代の提示',
-            choice_c='ストレッチな目標の提示',
-            choice_d='目標に対する進捗の客観的評価',
+            question_text='キャリア形成のために、現在取り組んでいることはありますか？',
+            choice_a='自主学習（例: オンラインコース、読書）',
+            choice_b='実務を通じたスキルアップ',
+            choice_c='メンターやコーチング',
+            choice_d='特に取り組んでいない',
             next_question_a_id=12,
             next_question_b_id=12,
             next_question_c_id=12,
@@ -484,11 +484,11 @@ def seed_data():
         )
 
         question12 = Question(
-            question_text='どのような切り口のフィードバックがあると嬉しいですか？',
-            choice_a='ハードスキル',
-            choice_b='ソフトスキル',
-            choice_c='期待されていること',
-            choice_d='キャリアの提案',
+            question_text='職場で最も大切にしている価値観は何ですか？',
+            choice_a='成果',
+            choice_b='誠実さ',
+            choice_c='革新性',
+            choice_d='信頼',
             next_question_a_id=13,
             next_question_b_id=13,
             next_question_c_id=13,
@@ -496,11 +496,11 @@ def seed_data():
         )
 
         question13 = Question(
-            question_text='そのフィードバックは、誰から受けたいですか？',
-            choice_a='マネージャー/上司',
-            choice_b='チームリーダー',
-            choice_c='同じポジションのメンバー',
-            choice_d='違うポジションのメンバー',
+            question_text='理想の職場環境とはどのようなものですか？',
+            choice_a='協力的なチーム',
+            choice_b='柔軟な働き方',
+            choice_c='チャレンジングな環境',
+            choice_d='安定した業務',
             next_question_a_id=14,
             next_question_b_id=14,
             next_question_c_id=14,
@@ -508,11 +508,11 @@ def seed_data():
         )
 
         question14 = Question(
-            question_text='次の1on1ではどのような話題を中心に進めたいですか？',
-            choice_a='キャリア関連',
-            choice_b='技術関連',
-            choice_c='ソフトスキル関連',
-            choice_d='その他',
+            question_text='あなたが仕事で最もやりがいを感じるのはどんな瞬間ですか？',
+            choice_a='目標を達成したとき',
+            choice_b='チームで成果を上げたとき',
+            choice_c='クライアントから感謝されたとき',
+            choice_d='新しいスキルを習得したとき',
             next_question_a_id=15,
             next_question_b_id=15,
             next_question_c_id=15,
@@ -520,11 +520,11 @@ def seed_data():
         )
 
         question15 = Question(
-            question_text='次の1on1ではどんな進め方を希望しますか？',
-            choice_a='話を聞いてほしい',
-            choice_b='アドバイスが欲しい',
-            choice_c='ディスカッションしたい',
-            choice_d='一緒に方向性を考えてほしい',
+            question_text='どんなフィードバックを受けると、やる気が湧いてきますか？',
+            choice_a='成果に対する具体評価',
+            choice_b='具体的な改善点の提示',
+            choice_c='ストレッチな目標の提示',
+            choice_d='目標に対する客観的な進捗評価',
             next_question_a_id=16,
             next_question_b_id=16,
             next_question_c_id=16,
@@ -532,19 +532,64 @@ def seed_data():
         )
 
         question16 = Question(
-            question_text='最後の設問です。何か伝えておきたいことやメモに残しておきたいことがあれば記入してください！',
-            choice_a='自由記述',
-        #     choice_b='',
-        #     choice_c='',
-        #     choice_d='',
-        #     next_question_a_id=,
-        #     next_question_b_id=,
-        #     next_question_c_id=,
-        #     next_question_d_id=,
+            question_text='自身に対するフィードバックは、どのような切り口のものがあると嬉しいですか？',
+            choice_a='技術力',
+            choice_b='ソフトスキル',
+            choice_c='チームでの振る舞い',
+            choice_d='仕事全般の進め方',
+            next_question_a_id=17,
+            next_question_b_id=17,
+            next_question_c_id=17,
+            next_question_d_id=17,
         )
 
+        question17 = Question(
+            question_text='そのフィードバックは、誰にしてほしいですか？',
+            choice_a='上司',
+            choice_b='チームリーダー',
+            choice_c='同じポジションのメンバー',
+            choice_d='違うポジションのメンバー',
+            next_question_a_id=18,
+            next_question_b_id=18,
+            next_question_c_id=18,
+            next_question_d_id=18,
+        )
 
-        db.add_all([question1, question2, question3, question4, question5, question6, question7, question8, question9, question10, question11, question12, question13, question14, question15, question16])
+        question18 = Question(
+            question_text='次の1on1ではどのような話題を中心に進めたいですか？',
+            choice_a='キャリア',
+            choice_b='技術関連',
+            choice_c='ソフトスキル',
+            choice_d='その他',
+            next_question_a_id=19,
+            next_question_b_id=19,
+            next_question_c_id=19,
+            next_question_d_id=19,
+        )
+
+        question19 = Question(
+            question_text='次の1on1ではどんな進め方があなたに合っていますか？',
+            choice_a='話を聞いてほしい',
+            choice_b='アドバイスがほしい',
+            choice_c='ディスカッションしたい',
+            choice_d='一緒に方向性を考えてほしい',
+            next_question_a_id=20,
+            next_question_b_id=20,
+            next_question_c_id=20,
+            next_question_d_id=20,
+        )
+
+        question20 = Question(
+            question_text='何か伝えておきたいこと、メモに残しておきたいことはありますか？',
+            choice_a='自由記述',
+        )
+
+        db.add_all([
+            question1, question2, question3, question4, question5, question6,
+            question7, question8, question9, question10, question11, question12,
+            question13, question14, question15, question16, question17, question18,
+            question19, question20
+        ])
         db.commit()
 
         print("シーディングが完了しました")
