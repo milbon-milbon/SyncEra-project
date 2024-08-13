@@ -11,16 +11,23 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
 import clientLogger from '@/lib/clientLogger';
+import Link from 'next/link';
 
 export default function ManagerDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
   useEffect(() => {
     const auth = getAuth(app);
-    const db = getFirestore(app);
+    const currentUser = auth.currentUser;
 
+    if (!currentUser) {
+      router.push('/login/employee');
+    }
+  }, [router]);
+  useEffect(() => {
+    const auth = getAuth(app); // Firebase 認証オブジェクトを取得
+    const db = getFirestore(app);
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       if (currentUser) {
         setUser(currentUser);
@@ -42,7 +49,7 @@ export default function ManagerDashboard() {
           );
           if (userDoc.exists()) {
             const userData = userDoc.data();
-            clientLogger.debug(`User data:, ${userData}`);
+            clientLogger.debug(`User data:, ${JSON.stringify(userData)}`);
 
             // 確認: role や companyId が期待通りに存在しているか
             if (userData?.role && userData?.companyId) {
@@ -50,7 +57,9 @@ export default function ManagerDashboard() {
                 router.push(userData.role === 'staff' ? '/staff-dashboard' : '/employee-dashboard');
               }
             } else {
-              clientLogger.error(`Role or Company ID is missing in user data:, ${userData}`);
+              clientLogger.error(
+                `Role or Company ID is missing in user data:,${JSON.stringify(userData)}`,
+              );
               router.push('/login/employee');
             }
           } else {
@@ -82,7 +91,8 @@ export default function ManagerDashboard() {
     <div>
       <h1>マネージャーダッシュボード</h1>
       <p>ようこそ、{user.email}さん</p>
-      {/* ここにマネージャー向けの機能を追加 */}
+      {/* ログアウト機能を追加 */}
+      <Link href='/'>戻る</Link>
     </div>
   );
 }

@@ -20,32 +20,33 @@ export default function EmployeeLogin() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
+
       if (!user) {
         setError('ユーザー情報を取得できませんでした。');
         return;
       }
-
       // ログインしている会社の会社IDを取得
+      // const updatedTokenResult = await user.getIdTokenResult();
+      // const companyId = updatedTokenResult.claims.companyId;
+
+      // clientLogger.debug(`Updated Token Result:,${updatedTokenResult}`);
+      // clientLogger.debug(`Updated Company ID: ${updatedTokenResult.claims.companyId}`);
+      // ログインしている会社の会社IDを取得;
       const idTokenResult = await user.getIdTokenResult();
       const companyId = idTokenResult.claims.companyId;
 
       clientLogger.debug(`User UID:, ${user.uid}`);
       clientLogger.debug(`Company ID:,${companyId}`);
 
-      if (!companyId || companyId === 'defaultCompanyId') {
-        clientLogger.error('===会社IDが見つかりません。===');
-        alert('会社IDが見つかりません。');
-        return;
-      }
       // Firestoreから社員情報を取得
       const employeeRef = doc(db, `companies/${companyId}/employees`, user.uid);
       const employeeDoc = await getDoc(employeeRef);
 
       clientLogger.debug(`===職員のドキュメントパス===:, ${employeeRef.path}`);
-
       if (employeeDoc.exists()) {
         const employeeData = employeeDoc.data() as DocumentData;
         clientLogger.debug(`===職員のドキュメントデータ===: ${JSON.stringify(employeeData)}`);
@@ -58,20 +59,32 @@ export default function EmployeeLogin() {
 
         // トークンを強制的に更新
         await user.getIdToken(true);
-        const updatedTokenResult = await user.getIdTokenResult();
-        clientLogger.debug(`Updated Company ID: ${updatedTokenResult.claims.companyId}`);
+
+        if (!companyId || companyId === 'defaultCompanyId') {
+          clientLogger.error('===会社IDが見つかりません。===');
+          alert('会社IDが見つかりません。');
+          return;
+        }
+
         // 役職に基づいて適切な画面に遷移
-        switch (
-          employeeData.role // `position` ではなく、`role` で確認する
-        ) {
+        switch (employeeData.role) {
           case 'manager':
-            router.push('/manager-dashboard'); // 管理者ダッシュボードへの遷移に変更
+            router.push('/manager-dashboard');
+            {
+              /*管理メインに遷移するようURL変更。ただURL変更だけじゃなく、管理画面にfirestoreベースのログイン用を追加実装必要！*/
+            }
             break;
           case 'staff':
-            router.push('/manager-dashboard');
+            router.push('/staff-dashboard');
+            {
+              /*ページないので、404になります。*/
+            }
             break;
           default:
-            router.push('/manager-dashboard');
+            router.push('/employee-dashboard');
+            {
+              /*ページないので、404になります。*/
+            }
         }
       } else {
         clientLogger.debug(`社員情報が見つかりません。ドキュメントID:',${user.uid}`);
@@ -103,7 +116,7 @@ export default function EmployeeLogin() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder='メールアドレスを入力してください'
-            className='shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline'
+            className='shadow appearance-none border rounded w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline'
             required
           />
         </div>
@@ -117,14 +130,14 @@ export default function EmployeeLogin() {
             onChange={(e) => setPassword(e.target.value)}
             placeholder='パスワードを入力してください'
             required
-            className=' shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline'
+            className=' shadow appearance-none border rounded w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline'
           />
         </div>
         {/*TODO:リンク先を管理画面へ変更予定*/}
         <div className='flex justify-center'>
           <button
             type='submit'
-            className=' bg-[#003366] text-white py-2 px-[170px] rounded-lg hover:bg-[#002244] focus:outline-none'
+            className=' bg-[#003366] text-white py-3 px-10 w-full rounded-full  hover:bg-[#002244] focus:outline-none'
           >
             ログイン
           </button>{' '}

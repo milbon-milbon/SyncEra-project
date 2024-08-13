@@ -6,6 +6,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { updateEmployee, getEmployee } from '@/services/employeeService';
 import { getAuth } from 'firebase/auth';
 import clientLogger from '@/lib/clientLogger';
+import Link from 'next/link';
+import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
+
 interface Employee {
   name: string;
   department: string;
@@ -24,6 +27,14 @@ export default function UpdateEmployee() {
   const employeeId = searchParams.get('employeeId');
   const router = useRouter();
 
+  useEffect(() => {
+    const auth = getAuth(app);
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      router.push('/login/company');
+    }
+  }, [router]);
   useEffect(() => {
     const fetchEmployee = async () => {
       if (employeeId) {
@@ -61,6 +72,7 @@ export default function UpdateEmployee() {
       }
     }
   };
+
   return (
     <div className='min-h-screen p-4'>
       <h1 className='text-2xl font-bold mb-4'>社員情報更新</h1>
@@ -89,13 +101,13 @@ export default function UpdateEmployee() {
         <button type='submit' className='bg-blue-500 text-white py-2 px-4 rounded'>
           更新
         </button>
+        <Link href='/admin-dashboard'>戻る</Link>
       </form>
     </div>
   );
 }
 
-// この関数は、companyIdを適切に取得するために実装する必要があります。
-// ログインユーザーから取得するか、別の方法で取得します。
+// この関数は、companyIdを適切に取得するために実装
 async function getCompanyId(): Promise<string | null> {
   const auth = getAuth();
   const user = auth.currentUser;

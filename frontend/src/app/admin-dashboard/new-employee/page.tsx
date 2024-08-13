@@ -1,11 +1,14 @@
 // frontend/src/app/admin-dashboard/new-employee.tsx==社員新規登録==
 'use client';
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { addEmployee } from '@/services/employeeService'; // サービスに分離
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
+
 import clientLogger from '@/lib/clientLogger';
+import Link from 'next/link';
 // 部署のリスト（例）
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 
@@ -20,6 +23,14 @@ export default function NewEmployee() {
   const [password, setPassword] = useState('');
   const router = useRouter();
 
+  useEffect(() => {
+    const auth = getAuth(app);
+    const currentUser = auth.currentUser;
+
+    if (!currentUser) {
+      router.push('/login/company');
+    }
+  }, [router]);
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -32,7 +43,6 @@ export default function NewEmployee() {
       const employeeData = { name, department, role, email, password };
       try {
         await addEmployee(companyId, employeeData);
-        alert('登録が完了しました');
 
         if (currentUser.email) {
           // 管理者アカウントで再度サインイン
@@ -44,13 +54,16 @@ export default function NewEmployee() {
           router.push('/admin-dashboard');
         }
       } catch (error: any) {
-        clientLogger.error(`社員登録エラー:, ${error}`);
+        clientLogger.error(`社員登録エラー: ${error.message}`);
+
+        if (error.code === 'auth/email-already-in-use') {
+        } else {
+          alert('このメールアドレスは既に使用されています。');
+        }
         alert('登録に失敗しました。もう一度お試しください。');
+        // エラーの詳細をコンソールに出力
+        clientLogger.error(`詳細なエラー情報:,${error}`);
       }
-    } else {
-      clientLogger.error('ユーザーが認証されていません。');
-      alert('認証エラーが発生しました。再度ログインしてください。');
-      router.push('/login/company');
     }
   };
 
@@ -125,6 +138,7 @@ export default function NewEmployee() {
           登録
         </button>
       </form>
+      <Link href='/admin-dashboard'>戻る</Link>
     </div>
   );
 }

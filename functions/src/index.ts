@@ -96,6 +96,7 @@ async function getCompanyIdForUser(
 }
 export const setCustomClaims = functions.https.onCall(async (data) => {
   const {uid, companyId} = data;
+  console.log(`Custom claims set for user ${uid}: companyId = ${companyId}`);
 
   if (!(typeof uid === "string") || !(typeof companyId === "string")) {
     throw new functions.https.HttpsError(
@@ -106,7 +107,8 @@ export const setCustomClaims = functions.https.onCall(async (data) => {
 
   try {
     await admin.auth().setCustomUserClaims(uid, {companyId: companyId});
-    console.log(`Custom claims set for user ${uid}: companyId = ${companyId}`);
+    console.log(`Custom claims set for user ${uid}:
+       companyId = ${companyId}`);
     return {message: "Custom claims set successfully"};
   } catch (error) {
     console.error("Error setting custom claims:", error);
@@ -123,3 +125,54 @@ export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   await admin.auth().setCustomUserClaims(user.uid, {companyId});
   console.log(`CompanyId set for new user ${user.uid}: ${companyId}`);
 });
+
+// 削除
+export const deleteUserAndData = functions.https.onCall(
+  async (data, context) => {
+    console.log("deleteUserAndData function called with data:", data);
+    // 呼び出し元が認証されていることを確認
+    if (!context.auth) {
+      throw new functions.https.HttpsError(
+        "unauthenticated",
+        "The function must be called while authenticated."
+      );
+    }
+
+    const {employeeId, companyId} = data;
+
+    try {
+      console.log(
+        `Attempting to delete Firestore document: 
+        companies/${companyId}/employees/${employeeId}`
+      );
+
+      // Firestoreからユーザーデータを削除
+      await admin
+        .firestore()
+        .doc(`companies/${companyId}/employees/${employeeId}`)
+        .delete();
+      console.log("Firestore document deleted successfully");
+      console.log(
+        `Attempting to delete user ${employeeId} from Authentication`
+      );
+      console.log(
+        `User ${employeeId} deleted successfully from Authentication`
+      );
+
+      // Authenticationからユーザーを削除
+      await admin.auth().deleteUser(employeeId);
+      console.log(
+        `User ${employeeId} deleted successfully 
+        from Authentication and Firestore.`
+      );
+
+      return {success: true, message: "User and data deleted successfully"};
+    } catch (error) {
+      console.error("Detailed error in deleteUserAndData:", error);
+      throw new functions.https.HttpsError(
+        "internal",
+        "An error occurred while deleting the user and data"
+      );
+    }
+  }
+);

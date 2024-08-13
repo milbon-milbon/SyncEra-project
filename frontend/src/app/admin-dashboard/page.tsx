@@ -4,10 +4,11 @@
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { getFirestore, collection, getDocs, deleteDoc, doc, getDoc } from 'firebase/firestore';
+import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import app from '@/firebase/config';
 import Link from 'next/link';
-
+import clientLogger from '@/lib/clientLogger';
+import { getFunctions, httpsCallable } from 'firebase/functions';
 const db = getFirestore(app);
 
 interface Employee {
@@ -28,17 +29,17 @@ export default function AdminDashboard() {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        console.log(`Authenticated user: ${user.uid}`);
+        clientLogger.debug(`Authenticated user: ${user.uid}`);
         const isAdmin = await checkIfAdmin(user.uid);
         if (isAdmin) {
           // 管理者かどうかを確認
           fetchEmployees(user.uid);
         } else {
-          console.log('User is not an admin');
-          router.push('/login/employee'); // 一般社員用のログインページへリダイレクト
+          clientLogger.info('User is not an admin');
+          router.push('/login/company'); // 一般社員用のログインページへリダイレクト
         }
       } else {
-        console.log('No authenticated user');
+        clientLogger.info('No authenticated user');
         router.push('/login/company');
       }
     });
@@ -53,9 +54,9 @@ export default function AdminDashboard() {
     setLoading(true);
     try {
       const employeesRef = collection(db, `companies/${companyId}/employees`);
-      console.log(`Fetching employees from: ${employeesRef.path}`);
+      clientLogger.debug(`Fetching employees from: ${employeesRef.path}`);
       const snapshot = await getDocs(employeesRef);
-      console.log(`Number of employees found: ${snapshot.docs.length}`);
+      clientLogger.debug(`Number of employees found: ${snapshot.docs.length}`);
 
       const employeesList: Employee[] = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -66,7 +67,7 @@ export default function AdminDashboard() {
       }));
       setEmployees(employeesList);
     } catch (error) {
-      console.error('Error fetching employees:', error);
+      clientLogger.error(`Error fetching employees:,${error}`);
       alert('社員情報の取得に失敗しました。');
     } finally {
       setLoading(false);
@@ -81,11 +82,16 @@ export default function AdminDashboard() {
         const user = auth.currentUser;
         if (!user) throw new Error('ユーザーが認証されていません。');
 
-        await deleteDoc(doc(db, `companies/${user.uid}/employees`, employeeId));
+        const functions = getFunctions(app);
+        const deleteUserAndDataFunction = httpsCallable(functions, 'deleteUserAndData');
+
+        const result = await deleteUserAndDataFunction({ employeeId, companyId: user.uid });
+        console.log('削除:', result.data);
+
         alert('削除が完了しました');
         setEmployees(employees.filter((employee) => employee.id !== employeeId));
       } catch (error) {
-        console.error('Error deleting employee:', error);
+        clientLogger.error(`Error deleting employee:,${error}`);
         alert('削除に失敗しました。もう一度お試しください。');
       }
     }
@@ -135,6 +141,7 @@ export default function AdminDashboard() {
           ))}
         </tbody>
       </table>
+      <Link href='/'>戻る</Link>
     </div>
   );
 }
