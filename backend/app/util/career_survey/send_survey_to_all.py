@@ -101,7 +101,7 @@ def send_survey_with_text_input(slack_user_id: str, question: Question):
                         "type": "plain_text",
                         "text": "送信"
                     },
-                    "value": "submit_free_text",
+                    "value": str(question.id),
                     "action_id": "submit_button",
                     "style": "primary"
                 }

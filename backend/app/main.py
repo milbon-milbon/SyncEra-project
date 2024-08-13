@@ -109,9 +109,10 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         user_id = payload["user"]["id"]
         actions = payload["actions"]
         print(actions)
+        print(actions[0]["value"])
         # block_id と callback_id の両方に対応する
         if "block_id" in actions[0]:
-            question_id = int(actions[0]["block_id"])
+            question_id = int(actions[0]["value"])
         elif "callback_id" in payload:
             question_id = int(payload["callback_id"])
         else:
@@ -151,6 +152,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 
         next_question_id = None
         # 次の質問のIDを決定する
+        # ユーザーが選択肢（例えば、A, B, C, D）のいずれかを選んだ場合、その選択肢に応じて次の質問IDを決定
         if selected_option:
             if selected_option == 'A':
                 next_question_id = question.next_question_a_id
@@ -160,16 +162,17 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
                 next_question_id = question.next_question_c_id
             elif selected_option == 'D':
                 next_question_id = question.next_question_d_id
+        # free_text が入力された場合（自由記述を行った場合）、次の質問として next_question_a_id に設定されたIDを使用
         elif free_text:
             next_question_id = question.next_question_a_id
-
+        # 回答終了時の処理
         if not next_question_id:
             slack_client.chat_postMessage(channel=user_id, text="アンケートの回答を送信しました！ご回答ありがとうございました。")
             logger.info(f"Survey completed for user {user_id}")
         else:
             next_question = db.query(Question).filter(Question.id == next_question_id).first()
             # 自由記述の質問かどうかをチェックして、適切な関数を呼び出す
-            if next_question.choice_a == '自由記述':
+            if next_question.choice_a == "自由記述":
                 send_survey_with_text_input(user_id, next_question)
             else:
                 send_survey_to_employee(user_id, next_question)
