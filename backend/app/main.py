@@ -107,9 +107,18 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         logger.debug(f"Payload: {payload}")
 
         user_id = payload["user"]["id"]
+        input_form_type = payload["type"]
         actions = payload["actions"]
+        block_id = actions[0]["value"]
+        free_text = None
+        # # stateフィールドが存在するか確認し、存在する場合のみfree_textを取得
+        # if input_form_type == "block_actions":
+        #     free_text = payload['state']['values'].get(block_id, {}).get('free_text_input', {}).get('value')
+        # else:
+        #     free_text = None
+        print(input_form_type)
         print(actions)
-        print(actions[0]["value"])
+
         # block_id と callback_id の両方に対応する
         if "block_id" in actions[0]:
             question_id = int(actions[0]["value"])
@@ -120,18 +129,17 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 
         # ユーザーの選択した値を取得
         # 自由記述が含まれているかチェック
-        free_text = None
         selected_option = None
-        if actions[0]["type"] == "plain_text_input":
-            free_text = actions[0]["value"]
+        if "block_id" in actions[0]:
+            actions[0]["text"]["text"] == "送信"
+            free_text = payload['state']['values'].get(block_id, {}).get('free_text_input', {}).get('value')
             logger.info(f"User {user_id} submitted free text: {free_text}")
         else:
             selected_option = actions[0]["value"]
             logger.info(f"User {user_id} submitted the survey with option {selected_option}")
 
-        # selected_optionが未設定の場合のエラー処理
-        if selected_option is None:
-            raise ValueError("No valid option was selected by the user.")
+        if free_text is None and selected_option is None:
+            raise ValueError("No valid option or free text was provided by the user.")
 
         # 回答をDBに保存
         response_data = Response(
