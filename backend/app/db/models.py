@@ -35,6 +35,7 @@ class SlackUserInfo(Base):
     id = Column(String(100), primary_key=True)
     name = Column(String(100), nullable=False)
     real_name = Column(String(100), nullable=False)
+    image_original = Column(String, nullable=True)
 
 class DailyReport(Base):
     __tablename__ = 'daily_report'
