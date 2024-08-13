@@ -15,7 +15,7 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 # アンケートは３ヶ月ごとに実施されているという前提で実装
-def make_survey_result(slack_user_id: str, start_date: date, end_date: date):
+def make_survey_result(slack_user_id: str):
     try:
         latest_result=selected_period_responses_by_user(slack_user_id, 1) #最新のものだけ抽出
         latest_half_year_result=latest_two_responses_by_user(slack_user_id) #最新とその一つ前を抽出
