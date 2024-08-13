@@ -1,9 +1,9 @@
 // frontend/src/app/login/employee/page.tsx==社員ログイン==
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { signInWithEmailAndPassword, onAuthStateChanged, User } from 'firebase/auth';
 import { DocumentData, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/firebase/config'; // Firebase 初期化ファイルをインポート
 import LogoWblue from '@/components/payment/LogoWblue';
@@ -15,8 +15,62 @@ export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          await checkUserAndRedirect(user);
+        } catch (error) {
+          clientLogger.error(`Error checking user status:, ${error}`);
+          setLoading(false);
+        }
+      } else {
+        setLoading(false);
+      }
+    });
+
+    return () => unsubscribe();
+  }, [router]);
+
+  const checkUserAndRedirect = async (user: User) => {
+    try {
+      const idTokenResult = await user.getIdTokenResult();
+      const companyId = idTokenResult.claims.companyId as string | undefined;
+
+      if (!companyId) {
+        throw new Error('Company ID not found');
+      }
+
+      const employeeRef = doc(db, `companies/${companyId}/employees`, user.uid);
+      const employeeDoc = await getDoc(employeeRef);
+
+      if (employeeDoc.exists()) {
+        const employeeData = employeeDoc.data() as DocumentData;
+        redirectToDashboard(employeeData.role);
+      } else {
+        throw new Error('Employee data not found');
+      }
+    } catch (error) {
+      clientLogger.error(`Error in checkUserAndRedirect:,${error}`);
+      throw error; // エラーを上位の処理にスローして、適切に処理できるようにします
+    }
+  };
+  // 役職に基づいて適切な画面に遷移
+  const redirectToDashboard = (role: string) => {
+    switch (role) {
+      case 'manager':
+        router.push('/manager-dashboard');
+        break;
+      case 'staff':
+        router.push('/staff-dashboard');
+        break;
+      default:
+        router.push('/employee-dashboard');
+    }
+  };
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
@@ -26,15 +80,10 @@ export default function EmployeeLogin() {
       const user = userCredential.user;
 
       if (!user) {
-        setError('ユーザー情報を取得できませんでした。');
+        alert('ユーザー情報を取得できませんでした。');
         return;
       }
-      // ログインしている会社の会社IDを取得
-      // const updatedTokenResult = await user.getIdTokenResult();
-      // const companyId = updatedTokenResult.claims.companyId;
 
-      // clientLogger.debug(`Updated Token Result:,${updatedTokenResult}`);
-      // clientLogger.debug(`Updated Company ID: ${updatedTokenResult.claims.companyId}`);
       // ログインしている会社の会社IDを取得;
       const idTokenResult = await user.getIdTokenResult();
       const companyId = idTokenResult.claims.companyId;
@@ -67,27 +116,37 @@ export default function EmployeeLogin() {
         }
 
         // 役職に基づいて適切な画面に遷移
-        switch (employeeData.role) {
-          case 'manager':
-            router.push('/manager-dashboard');
-            {
-              /*管理メインに遷移するようURL変更。ただURL変更だけじゃなく、管理画面にfirestoreベースのログイン用を追加実装必要！*/
-            }
-            break;
-          case 'staff':
-            router.push('/staff-dashboard');
-            {
-              /*ページないので、404になります。*/
-            }
-            break;
-          default:
-            router.push('/employee-dashboard');
-            {
-              /*ページないので、404になります。*/
-            }
-        }
+        //       switch (employeeData.role) {
+        //         case 'manager':
+        //           router.push('/manager-dashboard');
+        //           {
+        //             /*管理メインに遷移するようURL変更。ただURL変更だけじゃなく、管理画面にfirestoreベースのログイン用を追加実装必要！*/
+        //           }
+        //           break;
+        //         case 'staff':
+        //           router.push('/staff-dashboard');
+        //           {
+        //             /*ページないので、404になります。*/
+        //           }
+        //           break;
+        //         default:
+        //           router.push('/employee-dashboard');
+        //           {
+        //             /*ページないので、404になります。*/
+        //           }
+        //       }
+        //     } else {
+        //       clientLogger.debug(`社員情報が見つかりません。ドキュメントID:',${user.uid}`);
+        //       alert('社員情報が見つかりません。管理者に連絡してください。');
+        //     }
+        //   } catch (error: any) {
+        //     clientLogger.error(`Login failed: ${error.message}`);
+        //     alert('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
+        //   }
+        // };
+        redirectToDashboard(employeeData.role);
       } else {
-        clientLogger.debug(`社員情報が見つかりません。ドキュメントID:',${user.uid}`);
+        clientLogger.debug(`社員情報が見つかりません。ドキュメントID: ${user.uid}`);
         alert('社員情報が見つかりません。管理者に連絡してください。');
       }
     } catch (error: any) {
@@ -95,6 +154,9 @@ export default function EmployeeLogin() {
       alert('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
     }
   };
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen bg-white'>
@@ -103,6 +165,7 @@ export default function EmployeeLogin() {
       <form
         className='bg-white p-[15px] md:p-[35px] rounded-lg shadow-2xl w-full max-w-md border-[4px] border-[#66b2ff]'
         onSubmit={handleSubmit}
+        autoComplete='off'
       >
         <h1 className='text-2xl font-bold mb-8 text-[#003366]'>ログイン</h1>
         {/* フォーム要素例 */}
@@ -118,6 +181,7 @@ export default function EmployeeLogin() {
             placeholder='メールアドレスを入力してください'
             className='shadow appearance-none border rounded w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline'
             required
+            autoComplete='new-email'
           />
         </div>
         <div className='mb-[50px]'>
@@ -131,6 +195,7 @@ export default function EmployeeLogin() {
             placeholder='パスワードを入力してください'
             required
             className=' shadow appearance-none border rounded w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline'
+            autoComplete='new-password'
           />
         </div>
         {/*TODO:リンク先を管理画面へ変更予定*/}

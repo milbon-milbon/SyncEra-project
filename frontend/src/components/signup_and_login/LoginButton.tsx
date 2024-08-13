@@ -1,24 +1,17 @@
 // frontend/src/components/payment/NextButton.tsx
-// 'use client';
-// import React from 'react';
-// import Link from 'next/link';
-// import clientLogger from '@/lib/clientLogger';
+/// components/LoginButton.tsx
+'use client';
+import React from 'react';
+import Link from 'next/link';
 
-// export default function Login() {
-//   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-//     event.preventDefault(); // フォームのデフォルト動作を防ぐ
-//     clientLogger.info('フォームが送信されました');
-//   };
-//   return (
-//     <Link href='/'>
-//       <div className='flex justify-center '>
-//         <button
-//           type='submit'
-//           className='mt-6 w-full px-6 py-2 bg-[#003366] text-white rounded-lg hover:bg-[#002244] focus:outline-none '
-//         >
-//           ログイン
-//         </button>
-//       </div>
-//     </Link>
-//   );
-// }
+export default function LoginButton() {
+  return (
+    <div className=' p-3 bg-white max-w-4xl mx-auto'>
+      <Link href='/login/employee'>
+        <button className='mt-8 px-6 py-3 bg-[#66b2ff] text-white rounded-lg hover:bg-[#99ccff] focus:outline-none mb-2'>
+          ログイン
+        </button>
+      </Link>
+    </div>
+  );
+}

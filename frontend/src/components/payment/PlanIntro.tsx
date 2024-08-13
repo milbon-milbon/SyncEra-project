@@ -121,13 +121,13 @@ export default function PlanIntro() {
             </ul>
           </div>
         </div>
-        <p className='text-center text-gray-600 mb-8'>
+        <p className='text-center text-gray-600 '>
           どちらのプランも、すべての機能をご利用いただけます。
         </p>
         <Link href='/signup'>
           <button
             onClick={handleClick}
-            className='mt-8 px-6 py-3 bg-[#003366] text-white rounded-lg hover:bg-[#002244] focus:outline-none mb-5'
+            className='mt-8 px-6 py-3 bg-[#003366] text-white rounded-lg hover:bg-[#002244] focus:outline-none mb-1'
           >
             アカウントを作成する
           </button>
@@ -136,7 +136,7 @@ export default function PlanIntro() {
           既に、SyncEraへの登録がお済みの方は
           <Link href='/login/employee'>
             <span className='text-blue-500 underline ml-1' onClick={handleClick}>
-              こちらからログイン
+              こちら
             </span>
           </Link>
         </p>

@@ -88,10 +88,9 @@ export default function ManagerDashboard() {
     return '予期せぬ操作が発生しました！'; // 適切なエラーメッセージを表示
   }
   // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで認証残し＝＝＝＝＝＝＝
-
   return (
     <div className='text-[50px]'>
-      <h1>マネージャーダッシュボード</h1>
+      <h1>staffダッシュボード</h1>
       <p>ようこそ、{user.email}さん</p>
       {/* ログアウト機能を追加 */}
 

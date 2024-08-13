@@ -23,6 +23,7 @@ export default function UpdateEmployee() {
     role: '',
     email: '',
   });
+
   const searchParams = useSearchParams();
   const employeeId = searchParams.get('employeeId');
   const router = useRouter();

@@ -10,9 +10,18 @@ import {
   deleteDoc,
   getDoc,
 } from 'firebase/firestore';
-import { getAuth, createUserWithEmailAndPassword, deleteUser, signOut } from 'firebase/auth';
+import {
+  getAuth,
+  createUserWithEmailAndPassword,
+  deleteUser,
+  signOut,
+  signInWithEmailAndPassword,
+  IdTokenResult,
+} from 'firebase/auth';
+
 import app from '@/firebase/config';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import clientLogger from '@/lib/clientLogger';
 
 const auth = getAuth(app);
 const db = getFirestore(app);
@@ -24,6 +33,11 @@ interface EmployeeData {
   role: string;
   email: string;
   password: string;
+}
+// カスタムクレームの型定義
+interface CustomClaims {
+  companyId?: string;
+  // その他のカスタムクレームがあればここに追加
 }
 
 // 新規登録
@@ -101,7 +115,7 @@ export async function deleteEmployee(companyId: string, employeeId: string) {
   }
 }
 
-// 社員情報取得（修正版）
+// // 社員情報取得（修正版）
 export async function getEmployee(employeeId: string) {
   const auth = getAuth();
   const user = auth.currentUser;

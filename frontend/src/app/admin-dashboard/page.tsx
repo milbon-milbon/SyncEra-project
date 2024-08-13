@@ -3,7 +3,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { getFirestore, collection, getDocs, doc, getDoc } from 'firebase/firestore';
 import app from '@/firebase/config';
 import Link from 'next/link';
@@ -33,10 +33,34 @@ export default function AdminDashboard() {
         const isAdmin = await checkIfAdmin(user.uid);
         if (isAdmin) {
           // 管理者かどうかを確認
+          //         fetchEmployees(user.uid);
+          //       } else {
+          //         clientLogger.info('User is not an admin');
+          //         router.push('/login/company'); // 一般社員用のログインページへリダイレクト
+          //       }
+          //     } else {
+          //       clientLogger.info('No authenticated user');
+          //       router.push('/login/company');
+          //     }
+          //   });
+          //   return () => unsubscribe();
+          // }, [router]);
           fetchEmployees(user.uid);
         } else {
           clientLogger.info('User is not an admin');
-          router.push('/login/company'); // 一般社員用のログインページへリダイレクト
+          // 一時的に認証状態が変わった可能性があるため、再認証を試みる
+          try {
+            await user.getIdToken(true);
+            const refreshedIsAdmin = await checkIfAdmin(user.uid);
+            if (refreshedIsAdmin) {
+              fetchEmployees(user.uid);
+            } else {
+              router.push('/login/company');
+            }
+          } catch (error) {
+            clientLogger.error(`再認証に失敗しました:, ${error}`);
+            router.push('/login/company');
+          }
         }
       } else {
         clientLogger.info('No authenticated user');
@@ -45,6 +69,7 @@ export default function AdminDashboard() {
     });
     return () => unsubscribe();
   }, [router]);
+
   const checkIfAdmin = async (uid: string) => {
     const companyDoc = await getDoc(doc(db, 'companies', uid));
     return companyDoc.exists();
@@ -96,7 +121,17 @@ export default function AdminDashboard() {
       }
     }
   };
-
+  const handleLogout = async () => {
+    const auth = getAuth();
+    try {
+      await signOut(auth);
+      clientLogger.info('ユーザーがログアウトしました');
+      router.push('/');
+    } catch (error) {
+      clientLogger.error(`ログアウト中にエラーが発生しました:,${error}`);
+      alert('ログアウトに失敗しました。もう一度お試しください。');
+    }
+  };
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -106,6 +141,9 @@ export default function AdminDashboard() {
       <h1 className='text-2xl font-bold mb-4'>登録社員一覧</h1>
       <p>Loading: {loading ? 'Yes' : 'No'}</p>
       <p>Number of employees: {employees.length}</p>
+      <button onClick={handleLogout} className='bg-red-500 text-white py-2 px-4 rounded'>
+        ログアウト
+      </button>
       <Link href='/admin-dashboard/new-employee'>
         <button className='bg-blue-500 text-white py-2 px-4 rounded mb-4'>新規登録</button>
       </Link>
