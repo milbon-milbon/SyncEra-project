@@ -5,7 +5,7 @@ from sqlalchemy import create_engine
 # 使用用途 : LLMへのRAGのひとつにする(キャリアアンケートの結果分析は最終的にLLMによって文字での出力が前提)
 
 # SQLAlchemyのエンジンを使用してデータベースからデータを読み込む
-engine = create_engine('sqlite:///your_database.db')  # データベースURLを指定
+engine = create_engine('ここにPostgreSQLのURL入れ込む')  # データベースURLを指定
 
 # データベースからテーブルを読み込む
 questions_df = pd.read_sql_table('questions', engine)

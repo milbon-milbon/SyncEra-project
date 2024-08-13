@@ -40,7 +40,7 @@ class DailyReport(Base):
     __tablename__ = 'daily_report'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(Float, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
@@ -56,7 +56,7 @@ class TimesTweet(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     channel_id = Column(String, ForeignKey('times_list.channel_id'), nullable=False)
-    user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(Float, nullable=False)
     thread_ts = Column(Float, nullable=True)
@@ -72,7 +72,7 @@ class TimesTweet(Base):
 class TimesList(Base):
     __tablename__ = 'times_list'
 
-    user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     channel_name = Column(String(100), nullable=False)
     channel_id = Column(String(100), primary_key=True, nullable=False)
 
