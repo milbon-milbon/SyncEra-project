@@ -258,27 +258,20 @@ export default function Home() {
 
 */
 
-"use client";
+'use client';
 
-import { useState } from "react";
-import Image from "next/image";
-import Link from "next/link"; // Linkをインポート
+import Link from 'next/link'; // Linkをインポート
+import { useState } from 'react';
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<"none" | "syncEra" | "appInfo">(
-    "none"
-  );
+  const [activeTab, setActiveTab] = useState<'none' | 'syncEra' | 'appInfo'>('none');
 
   return (
     <main className="min-h-screen flex flex-col bg-white text-gray-900">
       {/* Header */}
       <header className="bg-[#003366] text-white p-8 flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <img
-            src="/image/SyncEra(blue_white).png"
-            alt="SyncEra Logo"
-            className="h-16"
-          />
+          <img src="/image/SyncEra(blue_white).png" alt="SyncEra Logo" className="h-16" />
           <span className="text-5xl font-extrabold text-white font-sans"></span>
         </div>
         <nav className="space-x-6">
@@ -296,7 +289,7 @@ export default function Home() {
           </a>
         </nav>
         <div className="flex space-x-4">
-          {" "}
+          {' '}
           {/* flex コンテナを追加 */}
           <button className="bg-[#66B2FF] text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 active:transform active:translate-y-1 transition-colors duration-300">
             ログイン
@@ -313,9 +306,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="flex flex-col items-center justify-center bg-[#003366] text-white text-center py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-hero-pattern opacity-20"></div>
-        <h1 className="text-6xl font-bold mb-4 relative z-10">
-          Welcome to SyncEra
-        </h1>
+        <h1 className="text-6xl font-bold mb-4 relative z-10">Welcome to SyncEra</h1>
         <p className="text-xl mb-8 relative z-10">
           世代間のギャップをなくし、スムーズなコミュニケーションを実現
         </p>
@@ -333,12 +324,10 @@ export default function Home() {
         <p className="max-w-2xl mx-auto text-lg mb-8 text-center">
           Slackから日報や趣味、キャリア志向の情報をサマリー表示し、1on1の準備をサポート。AIが会話でのアドバイスも提供し、コミュニケーションを円滑にします。
         </p>
-        <div className="mx-auto flex gap-8" style={{ maxWidth: "1200px" }}>
+        <div className="mx-auto flex gap-8" style={{ maxWidth: '1200px' }}>
           <div className="p-6 bg-white rounded-lg shadow-lg flex-none w-[350px]">
             <h3 className="text-2xl font-bold mb-4">Slack連携</h3>
-            <p>
-              社員のSlack情報を集約し、日報や趣味、キャリア志向を一元管理します。
-            </p>
+            <p>社員のSlack情報を集約し、日報や趣味、キャリア志向を一元管理します。</p>
           </div>
           <div className="p-6 bg-white rounded-lg shadow-lg flex-none w-[350px]">
             <h3 className="text-2xl font-bold mb-4">情報のサマリー表示</h3>
@@ -357,19 +346,13 @@ export default function Home() {
 
       {/* Use Cases Section */}
       <section id="use-cases" className="py-20 bg-gray-100">
-        <h2 className="text-4xl font-bold mb-8 text-center text-[#003366]">
-          ユースケース
-        </h2>
+        <h2 className="text-4xl font-bold mb-8 text-center text-[#003366]">ユースケース</h2>
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* ユースケースカード1 */}
             <div className="bg-white p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl">
               <div className="mb-4">
-                <img
-                  src="/image/04_01_017.png"
-                  alt="Icon1"
-                  className="w-24 h-24 mx-auto"
-                />
+                <img src="/image/04_01_017.png" alt="Icon1" className="w-24 h-24 mx-auto" />
               </div>
               <h3 className="text-2xl font-bold mb-4 bg-[#003366] text-white p-4 rounded">
                 1on1 ミーティングの準備
@@ -382,11 +365,7 @@ export default function Home() {
             {/* ユースケースカード2 */}
             <div className="bg-white p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl">
               <div className="mb-4">
-                <img
-                  src="/image/04_05_005.png"
-                  alt="Icon2"
-                  className="w-24 h-24 mx-auto"
-                />
+                <img src="/image/04_05_005.png" alt="Icon2" className="w-24 h-24 mx-auto" />
               </div>
               <h3 className="text-2xl font-bold mb-4 bg-[#003366] text-white p-4 rounded">
                 チームメンバーの全体像の把握
@@ -399,11 +378,7 @@ export default function Home() {
             {/* ユースケースカード3 */}
             <div className="bg-white p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl">
               <div className="mb-4">
-                <img
-                  src="/image/04_01_008.png"
-                  alt="Icon3"
-                  className="w-24 h-24 mx-auto"
-                />
+                <img src="/image/04_01_008.png" alt="Icon3" className="w-24 h-24 mx-auto" />
               </div>
               <h3 className="text-2xl font-bold mb-4 bg-[#003366] text-white p-4 rounded">
                 パフォーマンスレビューの補助
@@ -419,11 +394,7 @@ export default function Home() {
             {/* ユースケースカード4 */}
             <div className="bg-white p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl w-full sm:w-1/2 md:w-1/3">
               <div className="mb-4">
-                <img
-                  src="/image/04_01_027.png"
-                  alt="Icon4"
-                  className="w-24 h-24 mx-auto"
-                />
+                <img src="/image/04_01_027.png" alt="Icon4" className="w-24 h-24 mx-auto" />
               </div>
               <h3 className="text-2xl font-bold mb-4 bg-[#003366] text-white p-4 rounded">
                 キャリア開発の支援
@@ -436,11 +407,7 @@ export default function Home() {
             {/* ユースケースカード5 */}
             <div className="bg-white p-6 rounded-lg shadow-lg transform transition-transform hover:scale-105 hover:shadow-xl w-full sm:w-1/2 md:w-1/3">
               <div className="mb-4">
-                <img
-                  src="/image/04_01_004.png"
-                  alt="Icon5"
-                  className="w-24 h-24 mx-auto"
-                />
+                <img src="/image/04_01_004.png" alt="Icon5" className="w-24 h-24 mx-auto" />
               </div>
               <h3 className="text-2xl font-bold mb-4 bg-[#003366] text-white p-4 rounded">
                 社内コミュニケーションの改善
@@ -491,12 +458,22 @@ export default function Home() {
         <form className="max-w-2xl mx-auto space-y-4">
           <input
             type="text"
+            placeholder="会社・団体名"
+            className="w-full p-3 rounded border border-gray-300"
+          />
+          <input
+            type="text"
+            placeholder="部署名（任意）"
+            className="w-full p-3 rounded border border-gray-300"
+          />
+          <input
+            type="text"
             placeholder="お名前"
             className="w-full p-3 rounded border border-gray-300"
           />
           <input
-            type="email"
-            placeholder="メールアドレス"
+            type="text"
+            placeholder="email"
             className="w-full p-3 rounded border border-gray-300"
           />
           <textarea
