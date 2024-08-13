@@ -25,6 +25,17 @@ export default function NewEmployee() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
 
+  // 追加すると、ログイン状態の直接入力はじく
+  // useEffect(() => {
+  //   setLoading(false);
+  //   const auth = getAuth(app);
+  //   const currentUser = auth.currentUser;
+
+  //   if (!currentUser) {
+  //     router.push('/login/company');
+  //   }
+  // }, [router]);
+
   useEffect(() => {
     const auth = getAuth(app);
     // const currentUser = auth.currentUser;

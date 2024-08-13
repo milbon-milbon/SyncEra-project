@@ -25,55 +25,33 @@ export default function AdminDashboard() {
   const router = useRouter();
 
   // 登録がない管理者はリダイレクトで入れないよにする。
+  const checkIfAdmin = async (uid: string): Promise<boolean> => {
+    try {
+      const companyDoc = await getDoc(doc(db, 'companies', uid));
+      return companyDoc.exists();
+    } catch (error) {
+      clientLogger.error(`Error checking admin status: ${error}`);
+      return false;
+    }
+  };
+
   useEffect(() => {
     const auth = getAuth(app);
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       if (user) {
-        clientLogger.debug(`Authenticated user: ${user.uid}`);
         const isAdmin = await checkIfAdmin(user.uid);
         if (isAdmin) {
-          // 管理者かどうかを確認
-          //         fetchEmployees(user.uid);
-          //       } else {
-          //         clientLogger.info('User is not an admin');
-          //         router.push('/login/company'); // 一般社員用のログインページへリダイレクト
-          //       }
-          //     } else {
-          //       clientLogger.info('No authenticated user');
-          //       router.push('/login/company');
-          //     }
-          //   });
-          //   return () => unsubscribe();
-          // }, [router]);
+          localStorage.setItem('companyId', user.uid);
           fetchEmployees(user.uid);
         } else {
-          clientLogger.info('User is not an admin');
-          // 一時的に認証状態が変わった可能性があるため、再認証を試みる
-          try {
-            await user.getIdToken(true);
-            const refreshedIsAdmin = await checkIfAdmin(user.uid);
-            if (refreshedIsAdmin) {
-              fetchEmployees(user.uid);
-            } else {
-              router.push('/login/company');
-            }
-          } catch (error) {
-            clientLogger.error(`再認証に失敗しました:, ${error}`);
-            router.push('/login/company');
-          }
+          router.push('/login/company');
         }
       } else {
-        clientLogger.info('No authenticated user');
         router.push('/login/company');
       }
     });
     return () => unsubscribe();
   }, [router]);
-
-  const checkIfAdmin = async (uid: string) => {
-    const companyDoc = await getDoc(doc(db, 'companies', uid));
-    return companyDoc.exists();
-  };
 
   const fetchEmployees = async (companyId: string) => {
     setLoading(true);

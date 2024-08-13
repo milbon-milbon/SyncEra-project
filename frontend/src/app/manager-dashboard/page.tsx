@@ -90,7 +90,7 @@ export default function ManagerDashboard() {
   // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで認証残し＝＝＝＝＝＝＝
 
   return (
-    <div className='text-[50px]'>
+    <div className='text-[50px] text-[#003366]'>
       <h1>マネージャーダッシュボード</h1>
       <p>ようこそ、{user.email}さん</p>
       {/* ログアウト機能を追加 */}

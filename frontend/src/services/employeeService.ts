@@ -81,6 +81,22 @@ export async function addEmployee(companyId: string, employeeData: EmployeeData)
   }
 }
 
+// // 更新
+// export async function updateEmployee(
+//   companyId: string,
+//   employeeId: string,
+//   employeeData: Partial<EmployeeData>,
+// ) {
+//   const employeeRef = doc(db, `companies/${companyId}/employees`, employeeId);
+//   try {
+//     await updateDoc(employeeRef, employeeData);
+//   } catch (error) {
+//     console.error('Error updating employee:', error);
+//     throw error;
+//   }
+// }
+
+// 仮
 // 更新
 export async function updateEmployee(
   companyId: string,
@@ -89,9 +105,19 @@ export async function updateEmployee(
 ) {
   const employeeRef = doc(db, `companies/${companyId}/employees`, employeeId);
   try {
+    // Firestoreのデータを更新
     await updateDoc(employeeRef, employeeData);
+
+    // メールアドレスの更新が含まれている場合
+    if (employeeData.email) {
+      // Cloud Functionを呼び出してメールアドレスを更新
+      const updateEmployeeEmail = httpsCallable(functions, 'updateEmployeeEmail');
+      await updateEmployeeEmail({ employeeId, newEmail: employeeData.email });
+    }
+
+    clientLogger.info(`Employee updated successfully: ${employeeId}`);
   } catch (error) {
-    console.error('Error updating employee:', error);
+    clientLogger.error(`Error updating employee:, ${error}`);
     throw error;
   }
 }
@@ -115,30 +141,25 @@ export async function deleteEmployee(companyId: string, employeeId: string) {
   }
 }
 
-// // 社員情報取得（修正版）
-export async function getEmployee(employeeId: string) {
-  const auth = getAuth();
+// // 社員情報取得（修正版）更新できた
+export async function getEmployee(companyId: string, employeeId: string): Promise<any | null> {
   const user = auth.currentUser;
-
   if (!user) {
-    throw new Error('User not authenticated');
-  }
-
-  // ユーザーのカスタムクレームから companyId を取得すると仮定
-  const idTokenResult = await user.getIdTokenResult();
-  const companyId = idTokenResult.claims.companyId;
-  console.log('====companyId=====:', companyId);
-
-  if (!companyId) {
-    throw new Error('Company ID not found');
+    throw new Error('管理者が認証されていません。');
   }
 
   try {
+    // Firestoreのデータを更新
     const employeeRef = doc(db, `companies/${companyId}/employees`, employeeId);
     const employeeDoc = await getDoc(employeeRef);
-    return employeeDoc.exists() ? employeeDoc.data() : null;
+
+    if (!employeeDoc.exists()) {
+      return null;
+    }
+
+    return employeeDoc.data();
   } catch (error) {
-    console.error('Error getting employee:', error);
+    clientLogger.error(`Error in getEmployee:, ${error}`);
     throw error;
   }
 }
