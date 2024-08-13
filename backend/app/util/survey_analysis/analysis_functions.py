@@ -53,7 +53,7 @@ def latest_two_responses_by_user(slack_user_id: str):
     return latest_two_df.to_json(orient='records', date_format='iso')
 
 # 特定ユーザーの指定した回数分の回答を抽出_____回答結果の傾向分析の表示に使用する_____
-def latest_months_responses_by_user(slack_user_id: str, months: int):
+def selected_period_responses_by_user(slack_user_id: str, num_of_times: int):
     # 特定のユーザーのデータをフィルタリング
     user_df = analysis_df[analysis_df['slack_user_id'] == slack_user_id]
     
@@ -61,7 +61,7 @@ def latest_months_responses_by_user(slack_user_id: str, months: int):
     user_df_sorted = user_df.sort_values(by='date', ascending=False)
     
     # 最新の2件を抽出
-    latest_months_df = user_df_sorted.head(months)
+    latest_months_df = user_df_sorted.head(num_of_times)
     
     print(latest_months_df)
     # 続いてJSON形式に変換してreturnする
