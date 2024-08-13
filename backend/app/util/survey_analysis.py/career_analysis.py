@@ -35,6 +35,7 @@ merged_df['date'] = pd.to_datetime(merged_df['created_at']).dt.date
 # 必要なカラムのみ選択
 analysis_df = merged_df[['id_response', 'slack_user_id', 'question_id', 'question_text', 'answer', 'answer_text', 'free_text', 'date']]
 
+#　すべてのuserなどが含まれた、分析用のanalysisテーブルが作成されている
 print(analysis_df.head())
 
 #_____SQL_____
