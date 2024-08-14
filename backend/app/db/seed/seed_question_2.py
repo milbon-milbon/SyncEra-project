@@ -1,122 +1,29 @@
 import uuid
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
-from app.db.models import (
-    Employee,
-    TimesList,
-    Question
-)
+from app.db.models import Question
 from sqlalchemy.exc import SQLAlchemyError
-
-# さよこさんへ
-# このスクリプロファイルが実行されるときに、slackに自動でtimesか何かを投稿するスクリプトを組み込みたいな、
-# そうしたら、それをトリガーにして、slack_user_infoテーブルにデータが自動で入るはず！
-# それができれば、以下のseedingも続けて自動で実行できるはず。また相談させてね！ meme 8/9
-
-# めめさんへ
-# backend/app/util/post_slack_message.py にdaily_reportチャンネルに投稿する関数とsayoko_timesに投稿される関数を作リました
-# これに伴って、環境変数を追記しています
-# また組み込み方を相談させてね！　sayoko 8/14
 
 def seed_data():
     db: Session = SessionLocal()
 
     try:
-        '''>>> employee'''
-        employee_1 = Employee(
-            id=uuid.uuid4(),
-            name='くーみん',
-            email='kumi_ichikawa@gmail.com',
-            department='プロダクト部',
-            role='フロントエンド',
-            project='SyncEra',
-            slack_user_id='U07FFA7AW1H'
-        )
-
-        employee_2 = Employee(
-            id=uuid.uuid4(),
-            name='めめ',
-            email='hitomi_uchihi@gmail.com',
-            department='プロダクト部',
-            role='バックエンド',
-            project='SyncEra',
-            slack_user_id='U07F8NPV1RQ'
-        )
-
-        employee_3 = Employee(
-            id=uuid.uuid4(),
-            name='みきこ',
-            email='mikiko_gaspar@gmail.com',
-            department='プロダクト部',
-            role='データベース',
-            project='SyncEra',
-            slack_user_id='U07FCGJ9SLD'
-        )
-
-        employee_4 = Employee(
-            id=uuid.uuid4(),
-            name='さよこ',
-            email='sayoko_tsukuda@gmail.com',
-            department='プロダクト部',
-            role='データベース',
-            project='SyncEra',
-            slack_user_id='U07F0T502G6'
-        )
-
-        db.add_all([employee_1, employee_2, employee_3, employee_4])
-        db.commit()
-
-        '''>>> channel'''
-
-        times_list_1 = TimesList(
-            user_id='U07FFA7AW1H',
-            channel_name='times_ku-min',
-            channel_id='C07FMU0BWCB'
-        )
-
-        times_list_2 = TimesList(
-            user_id='U07F8NPV1RQ',
-            channel_name='times_meme',
-            channel_id='C07FQFWD3U4'
-        )
-
-        times_list_3 = TimesList(
-            user_id='U07FCGJ9SLD',
-            channel_name='times_3',
-            channel_id='C07GAR3EDKJ'
-        )
-
-        times_list_4 = TimesList(
-            user_id='U07F0T502G6',
-            channel_name='times_sayoko',
-            channel_id='C07FFAX467M'
-        )
-
-        db.add_all([times_list_1, times_list_2, times_list_3, times_list_4])
-        db.commit()
-
         '''
         キャリアアンケート設問、回答選択肢
         '''
 
         question1 = Question(
-            question_text="メッセージの確認、ありがとうございます！アンケートの回答を始めますか？",
+            question_text="アンケートの回答を始めますか？",
             choice_a="始める",
-            # choice_b="青",
-            # choice_c="緑",
-            # choice_d="黄色",
             next_question_a_id=2,
-            # next_question_b_id=2,
-            # next_question_c_id=2,
-            # next_question_d_id=2,
         )
 
         question2 = Question(
-            question_text='現在のあなたの職務内容やポジションについて、どのように感じていますか？',
-            choice_a='ちょうど良い',
-            choice_b='やや負担が大きい',
-            choice_c='もっと幅を広げたい',
-            choice_d='違うポジションや業務に興味がある',
+            question_text='現在の職務内容について、どのように感じていますか？',
+            choice_a='ちょうど良い（仕事量や関わる範囲、責任の重さなど）',
+            choice_b='やや負担が大きい（仕事が多い、責任が重い、など）',
+            choice_c='もっと幅を広げたい（キャリアアップ的なニュアンス）',
+            choice_d='違うポジションや業務に興味が出てきた（キャリアチェンジや配置転換の希望）',
             next_question_a_id=3,
             next_question_b_id=4,
             next_question_c_id=3,
@@ -124,7 +31,7 @@ def seed_data():
         )
 
         question3 = Question(
-            question_text='これから、どのようにあなた自身を成長させていきたいですか？',
+            question_text='これから、どのように自身を成長させていきたいですか？',
             choice_a='今の仕事を極める',
             choice_b='今の仕事を起点にステップアップ',
             choice_c='より責任のある仕事に挑戦',
@@ -137,10 +44,10 @@ def seed_data():
 
         question4 = Question(
             question_text='どんなときに、しんどさや負担を感じますか？',
-            choice_a='タスクが多量や高難易度',
-            choice_b='メンバー育成やマネジメント',
+            choice_a='タスクが過量 or 高難易度',
+            choice_b='メンバー育成/マネジメント',
             choice_c='部署内の連携',
-            choice_d='他部署や外部連携',
+            choice_d='他部署や外部の連携',
             next_question_a_id=6,
             next_question_b_id=6,
             next_question_c_id=6,
@@ -150,21 +57,15 @@ def seed_data():
         question5 = Question(
             question_text='今興味を持っているのはどんなことですか？',
             choice_a='自由記述',
-            # choice_b='',
-            # choice_c='',
-            # choice_d='',
             next_question_a_id=6,
-            # next_question_b_id=,
-            # next_question_c_id=,
-            # next_question_d_id=,
         )
 
         question6 = Question(
-            question_text='今あなたのキャリアのイメージは？',
+            question_text='今の自身のキャリアのイメージは？',
             choice_a='テックリード',
             choice_b='マネジメント',
             choice_c='新技術や別分野に挑戦',
-            choice_d='起業、フリーランス',
+            choice_d='起業/フリーランス',
             next_question_a_id=7,
             next_question_b_id=8,
             next_question_c_id=9,
@@ -172,10 +73,10 @@ def seed_data():
         )
 
         question7 = Question(
-            question_text='テックリード(スペシャリスト)を視野に入れる中で、今のあなたの感覚に一番近いのは？',
-            choice_a='まずはスキルアップに努める',
-            choice_b='約1年以内に実現したい',
-            choice_c='2~3年以内に実したい',
+            question_text='テックリード・スペシャリストを視野に入れる中で、あなたの感覚に一番近いのは？',
+            choice_a='しばらくスキルアップに努める',
+            choice_b='半年以内を目処に実現したい',
+            choice_c='1年以内を目処に実現したい',
             choice_d='まだふんわりしている',
             next_question_a_id=11,
             next_question_b_id=11,
@@ -185,9 +86,9 @@ def seed_data():
 
         question8 = Question(
             question_text='マネジメント職を視野に入れる中で、あなたの感覚に一番近いのは？',
-            choice_a='体系的にマネジメントを学びたい',
+            choice_a='体系的にマネジメントを学びたい（研修受講など）',
             choice_b='現場でノウハウを見聞きして学びたい',
-            choice_c='実践でスキルを身に付けたい',
+            choice_c='実践的にスキルを身に付けたい（すぐにでも挑戦したい）',
             choice_d='まだふんわりしている',
             next_question_a_id=11,
             next_question_b_id=11,
@@ -198,19 +99,13 @@ def seed_data():
         question9 = Question(
             question_text='どんな技術や分野に興味がありますか？',
             choice_a='自由記述',
-            # choice_b='',
-            # choice_c='',
-            # choice_d='',
             next_question_a_id=11,
-            # next_question_b_id=,
-            # next_question_c_id=,
-            # next_question_d_id=,
         )
 
         question10 = Question(
             question_text='それを実現するのは、どのくらい先を見据えていますか？',
-            choice_a='半年くらい',
-            choice_b='1年くらい',
+            choice_a='半年以内',
+            choice_b='1年以内',
             choice_c='数年',
             choice_d='まだふんわりしている',
             next_question_a_id=11,

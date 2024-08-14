@@ -35,6 +35,7 @@ class SlackUserInfo(Base):
     id = Column(String(100), primary_key=True)
     name = Column(String(100), nullable=False)
     real_name = Column(String(100), nullable=False)
+    image_512 = Column(String, nullable=True)
 
 class DailyReport(Base):
     __tablename__ = 'daily_report'
@@ -80,6 +81,8 @@ class ContactForm(Base):
     __tablename__ = 'contact_form'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    company_name = Column(String(100), nullable=False) # 追加
+    department = Column(String(100), nullable=True) # 追加
     name = Column(String(100), nullable=False)
     email = Column(String(100), nullable=False)
     message = Column(Text, nullable=False)

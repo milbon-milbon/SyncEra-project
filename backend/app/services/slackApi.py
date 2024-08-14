@@ -39,9 +39,11 @@ def get_and_save_users(db: Session):
             user_id = user["id"]
             user_name = user.get("name")
             real_name = user.get("real_name")
+            profile = user.get("profile", {})
+            image_512 = profile.get("image_512")
 
             # ユーザー情報をデータベースに挿入
-            user_record = SlackUserInfo(id=user_id, name=user_name, real_name=real_name)
+            user_record = SlackUserInfo(id=user_id, name=user_name, real_name=real_name, image_512=image_512)
             db.merge(user_record)  # 存在する場合は更新し、存在しない場合は挿入
         
         # コミットして変更を保存
@@ -58,7 +60,7 @@ def get_and_save_users(db: Session):
     finally:
         db.close()  # 最後にセッションを閉じる
 
-    return {"status": "success"}
+    return {"status": users_array}
 
 # Slack APIからdaily_reportチャンネルの投稿情報を取得し、Postgresに保存する関数
 def get_and_save_daily_report(event, db: Session):
