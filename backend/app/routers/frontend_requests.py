@@ -14,7 +14,7 @@ from app.util.summary.get_saved_summarize_history import get_saved_summary_repor
 from app.util.advices.save_advices import save_advices
 from app.util.advices.get_all_saved_advices_history import get_all_saved_advices_history
 from app.util.advices.get_saved_advices_history import get_saved_advices_history
-from backend.app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
+from app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
 from app.util import convert_ts_to_date
 from typing import Optional
 from datetime import date

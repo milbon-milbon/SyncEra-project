@@ -1,11 +1,18 @@
 import pandas as pd
 from sqlalchemy import create_engine
+from dotenv import load_dotenv
+import os
 
 # DBのResponseテーブルとQuestionテーブルを材料に、アンケート回答の分析用テーブルを出力するロジック(Pandasの使用)
 # 使用用途 : LLMへのRAGのひとつにする(キャリアアンケートの結果分析は最終的にLLMによって文字での出力が前提)
+load_dotenv()
+database_url = os.getenv('DATABASE_URL')
+if not database_url:
+    raise ValueError("No DATABASE_URL found in environment variables")
+
 
 # SQLAlchemyのエンジンを使用してデータベースからデータを読み込む
-engine = create_engine('ここにPostgreSQLのURL入れ込む')  # データベースURLを指定
+engine = create_engine(database_url)  # データベースURLを指定
 
 # データベースからテーブルを読み込む
 questions_df = pd.read_sql_table('questions', engine)
