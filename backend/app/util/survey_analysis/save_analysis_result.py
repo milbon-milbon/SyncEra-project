@@ -76,14 +76,17 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
             temperature=0.5
         )
 
+        #logger.debug(f"◆ latest_result: {latest_result}")
+        logger.debug(f"◆latest_resultのインデックス0要素: {latest_result[0]}")
+
         analysis_result = response.choices[0].message.content.strip()
         logger.debug(f"◆キャリアアンケート回答の分析結果: {analysis_result}")
 
         # 以下のオブジェクトをDBのAnalysisResultテーブルに保存したい
         new_result = AnalysisResult(
-            slack_user_id= latest_result[0].slack_user_id,
+            slack_user_id= slack_user_id,
             result=analysis_result,
-            save_date=latest_result[0].created_at.date()
+            # save_date=latest_result[0]['date'][:10]
         )
 
         # 新しいレコードをデータベースに追加してコミット
@@ -96,8 +99,13 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
         logger.error(f"分析中または保存中のエラー: {e}")
         return f"分析中または保存中のエラー: {e}"
     
-    
 
+#_____関数テスト_____
+slack_user_id = 'sample_4'
+db=get_db()
+
+test_response=save_survey_result(slack_user_id, db)
+print(test_response)
 
 
 

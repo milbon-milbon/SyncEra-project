@@ -147,7 +147,7 @@ class AnalysisResult(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False)
     result = Column(Text, nullable=False)
-    save_date = Column(Date, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
 
     slack_user_info = relationship("SlackUserInfo", back_populates="analysis_results")
 
