@@ -9,13 +9,6 @@ import os
 slack_token = os.getenv("SLACK_API_KEY")
 client = WebClient(token=slack_token)
 
-# Slackでslack_user_id指定でテキストメッセージを送る
-def send_message(slack_user_id: str, text: str):
-    try:
-        response = client.chat_postMessage(channel=slack_user_id, text=text)
-    except SlackApiError as e:
-        print(f"Error sending message: {e.response['error']}")
-
 # send/messageのロジックを利用して、社員個々にアンケートを送信する
 def send_survey_to_employee(slack_user_id: str, first_question: Question):
     text = first_question.question_text

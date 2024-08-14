@@ -13,6 +13,11 @@ from sqlalchemy.exc import SQLAlchemyError
 # そうしたら、それをトリガーにして、slack_user_infoテーブルにデータが自動で入るはず！
 # それができれば、以下のseedingも続けて自動で実行できるはず。また相談させてね！ meme 8/9
 
+# めめさんへ
+# backend/app/util/post_slack_message.py にdaily_reportチャンネルに投稿する関数とsayoko_timesに投稿される関数を作リました
+# これに伴って、環境変数を追記しています
+# また組み込み方を相談させてね！　sayoko 8/14
+
 def seed_data():
     db: Session = SessionLocal()
 
@@ -334,8 +339,6 @@ def seed_data():
             question19, question20
         ])
         db.commit()
-
-        
 
         print("シーディングが完了しました")
 
