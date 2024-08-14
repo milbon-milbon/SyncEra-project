@@ -99,6 +99,3 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
 
 
 
-
-
-#エンドポイントでは、これのslack_user_idを指定してデータを抜きだhしてJSON形式にしてレスポンスにする
