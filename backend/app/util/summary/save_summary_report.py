@@ -7,15 +7,9 @@ from app.db.schemas import SummaryReportRequest
 import uuid
 
 def save_summary_report(report: SummaryReportRequest, db: Session = Depends(get_db)):
-    # employee_idをUUIDとして解析する
-    try:
-        employee_uuid = uuid.UUID(report.employee_id)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="employee_idの形式が無効です")
-
     # 新しいSummarizeHistoryレコードを作成
     new_summary = SummarizeHistory(
-        employee_id=employee_uuid,
+        slack_user_id=report.slack_user_id,
         summary=report.summary
     )
 

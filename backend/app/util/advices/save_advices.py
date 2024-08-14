@@ -6,14 +6,9 @@ from app.db.schemas import AdvicesRequest
 import uuid
 
 def save_advices(advices: AdvicesRequest, db: Session = Depends(get_db)):
-    try:
-        employee_uuid = uuid.UUID(advices.employee_id)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="employee_idの形式が無効です")
-
-    # 新しいSummarizeHistoryレコードを作成
+    # 新しいAdvicesHistoryレコードを作成
     new_advice = AdvicesHistory(
-        employee_id=employee_uuid,
+        slack_user_id=advices.slack_user_id,
         advices=advices.advices
     )
 
