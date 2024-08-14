@@ -8,12 +8,18 @@ const config: Config = {
   ],
   theme: {
     extend: {
-      backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic': 'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+      colors: {
+        primary: '#003366',
+        secondary: '#66B2FF',
+        white: '#ffffff',
+      },
+      fontFamily: {
+        sans: ['Patrick Hand', 'cursive'],
+        dancing: ['Dancing Script', 'cursive'],
       },
     },
   },
   plugins: [],
 };
+
 export default config;
