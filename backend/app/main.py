@@ -3,14 +3,14 @@ import os
 import json
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
 from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
 from slack_sdk import WebClient
 from app.db.database import get_db
-from app.db.models import DailyReport, Question, Response
+from app.db.models import DailyReport, Question, UserResponse
 from app.routers import frontend_requests, slack_requests, career_survey
 from app.db import schemas
 from fastapi.responses import JSONResponse
@@ -49,8 +49,8 @@ app.add_middleware(
 router = APIRouter()
 
 app.include_router(frontend_requests.router, prefix="/client", tags=["client"])
-app.include_router(slack_requests.router, prefix="/slack", tags=["slack"])
-app.include_router(career_survey.router, prefix="/survey", tags=["survey"])
+# app.include_router(slack_requests.router, prefix="/slack", tags=["slack"])
+# app.include_router(career_survey.router, prefix="/survey", tags=["survey"])
 
 @app.get("/")
 def read_root():
@@ -136,7 +136,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             free_text = ""  # 空の自由記述でも進めるように空文字を設定
 
         # 回答をDBに保存
-        response_data = Response(
+        response_data = UserResponse(
             slack_user_id=user_id,
             question_id=question_id,
             answer=selected_option,

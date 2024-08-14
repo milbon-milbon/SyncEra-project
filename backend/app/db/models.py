@@ -27,9 +27,9 @@ class Employee(Base):
     project = Column(String(100), nullable=False)
     slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False, unique=True)
     # SlackUserInfoテーブルとのリレーションシップを追加
-    slack_user_info = relationship("SlackUserInfo", back_populates="employees")
+    # slack_user_info = relationship("SlackUserInfo", back_populates="employee")
     # Responseテーブルとのリレーションシップを追加
-    responses = relationship("Response", back_populates="employee")
+    responses = relationship("UserResponse", back_populates="employee")
 
 class SlackUserInfo(Base):
     __tablename__ = 'slack_user_info'
@@ -39,7 +39,7 @@ class SlackUserInfo(Base):
     real_name = Column(String(100), nullable=False)
     image_512 = Column(String, nullable=True)
     # Employeeテーブルとのリレーションシップを追加
-    employees = relationship("Employee", back_populates="slack_user_info")
+    # employee = relationship("Employee", back_populates="slack_user_info")
 
 class DailyReport(Base):
     __tablename__ = 'daily_report'
@@ -128,9 +128,9 @@ class Question(Base):
     next_question_b = relationship("Question", remote_side=[id], foreign_keys=[next_question_b_id])
     next_question_c = relationship("Question", remote_side=[id], foreign_keys=[next_question_c_id])
     next_question_d = relationship("Question", remote_side=[id], foreign_keys=[next_question_d_id])
-    responses = relationship("Response", order_by="Response.id", back_populates="question")
+    responses = relationship("UserResponse", order_by="UserResponse.id", back_populates="question")
 
-class Response(Base):
+class UserResponse(Base):
     __tablename__ = 'responses'
 
     id = Column(Integer, primary_key=True, index=True)

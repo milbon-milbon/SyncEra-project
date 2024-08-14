@@ -48,3 +48,5 @@ def send_message_to_user():
     except SlackApiError as e:
         logger.error(f"Error sending message: {e.response['error']}")
 
+send_message_to_daily_report()
+send_message_to_user()
