@@ -97,10 +97,14 @@ def get_and_save_daily_report(event, db: Session):
 
             # メッセージが存在するかをチェック
             existing_message = db.query(DailyReport).filter_by(ts=ts).first()
-            if not existing_message:
-                # メッセージ情報をデータベースに挿入
+            if existing_message:
+                # メッセージが存在する場合、内容を更新
+                existing_message.text = text
+                logger.debug(f"Message updated: ts={ts}, user_id={user_id}")
+            else:
+                # メッセージが存在しない場合、新規に追加
                 message_record = DailyReport(ts=ts, user_id=user_id, text=text)
-                db.add(message_record)  # 新規追加
+                db.add(message_record)
                 logger.debug(f"Message added: ts={ts}, user_id={user_id}")
         
         # コミットして変更を保存
@@ -156,11 +160,15 @@ def get_and_save_times_tweet(event, db: Session):
 
             # メッセージが存在するかをチェック
             existing_message = db.query(TimesTweet).filter_by(ts=ts).first()
-            if not existing_message:
-                # メッセージ情報をデータベースに挿入
+            if existing_message:
+                # メッセージが存在する場合、内容を更新
+                existing_message.text = text
+                logger.debug(f"Message updated: ts={ts}, user_id={user_id}")
+            else:
+                # メッセージが存在しない場合、新規に追加
                 message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id)
-                db.add(message_record)  # 新規追加
-                logger.debug(f"Message merged: ts={ts}, user_id={user_id}")
+                db.add(message_record)
+                logger.debug(f"Message added: ts={ts}, user_id={user_id}")
 
             # スレッドのリプライを取得
             if 'thread_ts' in message:
@@ -180,7 +188,12 @@ def get_and_save_times_tweet(event, db: Session):
 
                     # リプライが存在するかをチェック
                     existing_reply = db.query(TimesTweet).filter_by(ts=reply_ts).first()
-                    if not existing_reply:
+                    if existing_reply:
+                        # リプライが存在する場合、内容を更新
+                        existing_reply.text = reply_text
+                        logger.debug(f"Reply updated: ts={reply_ts}, user_id={reply_user_id}")
+                    else:
+                        # リプライが存在しない場合、新規に追加
                         reply_record = TimesTweet(
                             ts=reply_ts,
                             user_id=reply_user_id,
@@ -189,7 +202,7 @@ def get_and_save_times_tweet(event, db: Session):
                             thread_ts=thread_ts,
                             parent_user_id=parent_user_id
                         )
-                        db.add(reply_record)  # 新規追加
+                        db.add(reply_record)
                         logger.debug(f"Reply added: ts={reply_ts}, user_id={reply_user_id}")
         
         # コミットして変更を保存

@@ -23,7 +23,9 @@ def get_first_question(db: Session) -> Question:
 # アンケートの定期配信を定義: 毎月1日12時に全員にアンケートを配信する
 def schedule_monthly_survey():
     scheduler = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
-    scheduler.add_job(send_survey_to_all, 'cron', day=14, hour=16, minute=51)
+    scheduler.add_job(send_survey_to_all, 'cron', day=1, hour=12, minute=0)
+    # 3ヶ月ごとにアンケート送信
+    scheduler.add_job(send_survey_to_all, 'cron', month='1,4,7,10', day=1, hour=12, minute=0)
     scheduler.start()
 
 # アンケートの定期配信を定義: 毎日、30分ごとに特定のSlackユーザー(sayoko)にアンケートを配信する
@@ -43,6 +45,6 @@ def schedule_hourly_survey() -> None:
 
     scheduler.add_job(
         job_function,
-        'cron', minute='*/5'
+        'cron', minute='*/30'
     )
     scheduler.start()
