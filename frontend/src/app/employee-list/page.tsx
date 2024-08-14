@@ -116,12 +116,12 @@ export default function EmployeeList() {
                   </button>
                 </div>
               </div>
-              <div className="w-1/3 ml-4">
+              <div className="w-32 h-32 ml-4 border border-gray-300 rounded-lg overflow-hidden">
                 {employee.imageUrl ? (
                   <img
                     src={employee.imageUrl}
-                    alt={`${employee.name}のイメージ`}
-                    className="rounded-lg shadow-md w-full"
+                    alt={`${employee.name}のSlackアイコン`}
+                    className="w-full h-full object-cover"
                   />
                 ) : (
                   <div className="bg-gray-200 rounded-lg shadow-md w-full h-32 flex items-center justify-center">
