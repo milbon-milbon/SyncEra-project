@@ -23,7 +23,7 @@ def get_all_employee():
         logger.error(f"◆従業員の情報を取得中にエラーが発生しました。: {Exception}")
         return[]
     finally:
-        db.close()    
+        db.close()
 
 # 取得したデータを通常の文字列に変換する必要がある場合は以下の処理を加える。
 def compile_all_employee_info():

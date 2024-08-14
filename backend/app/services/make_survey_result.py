@@ -4,7 +4,13 @@ import logging
 from sqlalchemy.orm import Session
 from openai import OpenAI
 from datetime import date
-from app.util.survey_analysis.analysis_functions import selected_period_responses_by_user, latest_two_responses_by_user
+from app.util.survey_analysis.analysis_functions import (
+    filtered_by_slack_user_id_analysis,
+    filtered_by_user_and_date,
+    latest_response_by_user,
+    latest_two_responses_by_user,
+    latest_responses_by_user_in_past_year
+)
 
 load_dotenv()
 
@@ -17,9 +23,9 @@ logger = logging.getLogger(__name__)
 # アンケートは３ヶ月ごとに実施されているという前提で実装
 def make_survey_result(slack_user_id: str):
     try:
-        latest_result=selected_period_responses_by_user(slack_user_id, 1) #最新のものだけ抽出
-        latest_half_year_result=latest_two_responses_by_user(slack_user_id) #最新とその一つ前を抽出
-        latest_year_result=selected_period_responses_by_user(slack_user_id, 4) # ３ヶ月に１回のアンケート４回分で1年分の回答
+        latest_result=latest_response_by_user(slack_user_id)
+        latest_half_year_result=latest_two_responses_by_user(slack_user_id)
+        latest_year_result=latest_responses_by_user_in_past_year(slack_user_id)
 
         if not latest_result:
             logger.error("◆latest_resultの取得に失敗しました")
