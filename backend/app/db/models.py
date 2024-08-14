@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, ForeignKey, TIMESTAMP, Float
+from sqlalchemy import Column, String, Integer, Text, ForeignKey, TIMESTAMP, Float,Date
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
@@ -137,3 +137,17 @@ class Response(Base):
 
     employee = relationship("Employee", back_populates="responses")
     question = relationship("Question", back_populates="responses")
+
+# 分析後のアンケート結果をDB保存しておくテーブル
+class AnalysisResult(Base):
+    __tablename__ = 'analysis_result'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False)
+    result = Column(Text, nullable=False)
+    save_date = Column(Date, nullable=False)
+
+    slack_user_info = relationship("SlackUserInfo", back_populates="analysis_results")
+
+    def __repr__(self):
+        return f"<AnalysisResult(id={self.id}, slack_user_id={self.slack_user_id}, result={self.result}, save_date={self.save_date})>"

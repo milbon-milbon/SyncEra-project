@@ -1,4 +1,5 @@
 import os
+from fastapi import APIRouter, HTTPException, Depends
 from dotenv import load_dotenv
 import logging
 from sqlalchemy.orm import Session
@@ -11,6 +12,8 @@ from app.util.survey_analysis.analysis_functions import (
     latest_two_responses_by_user,
     latest_responses_by_user_in_past_year
 )
+from app.db.models import AnalysisResult
+from app.db.database import get_db
 
 load_dotenv()
 
@@ -21,7 +24,7 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 # アンケートは３ヶ月ごとに実施されているという前提で実装
-def make_survey_result(slack_user_id: str):
+def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
     try:
         latest_result=latest_response_by_user(slack_user_id)
         latest_half_year_result=latest_two_responses_by_user(slack_user_id)
@@ -76,15 +79,26 @@ def make_survey_result(slack_user_id: str):
         analysis_result = response.choices[0].message.content.strip()
         logger.debug(f"◆キャリアアンケート回答の分析結果: {analysis_result}")
 
-        return analysis_result
+        # 以下のオブジェクトをDBのAnalysisResultテーブルに保存したい
+        new_result = AnalysisResult(
+            slack_user_id= latest_result[0].slack_user_id,
+            result=analysis_result,
+            save_date=latest_result[0].created_at.date()
+        )
+
+        # 新しいレコードをデータベースに追加してコミット
+        db.add(new_result)
+        db.commit()
+        db.refresh(new_result)
+
+        return "分析結果をデータベースに保存しました"
     except Exception as e:
-        return f"要約中のエラー: {e}"
+        logger.error(f"分析中または保存中のエラー: {e}")
+        return f"分析中または保存中のエラー: {e}"
 
 
-# テストするなら以下をアレンジ
-# if __name__ == "__main__":
-#     slack_user_id = "slack_user_sample_1"
-#     start_date = date(2024, 8, 1)
-#     end_date = date(2024, 8, 7)
-#     summary = make_summarize_report(slack_user_id, start_date, end_date)
-#     print(summary)
+
+
+
+
+#エンドポイントでは、これのslack_user_idを指定してデータを抜きだhしてJSON形式にしてレスポンスにする

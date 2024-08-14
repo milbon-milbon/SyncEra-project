@@ -3,8 +3,8 @@ from sqlalchemy.orm import Session
 from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
 from app.services.make_employee_list import make_employee_list
-from app.services.make_survey_result import make_survey_result
-from app.services.make_survey_result_by_date import make_survey_result_by_date
+from app.util.survey_analysis.save_survey_result import make_survey_result
+from app.services._____make_survey_result_by_date import make_survey_result_by_date
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport
