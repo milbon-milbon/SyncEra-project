@@ -68,6 +68,7 @@ export default function NewEmployee() {
         await addEmployee(companyId, employeeData);
         // サインイン後、管理者ダッシュボードにリダイレクト
         clientLogger.info('新規社員が正常に登録されました');
+        alert('新規社員が正常に登録されました');
         router.push('/admin-dashboard');
       } catch (error: any) {
         clientLogger.error(`社員登録エラー: ${error.message}`);
@@ -84,84 +85,6 @@ export default function NewEmployee() {
     return <div>Loading...</div>;
   }
 
-  //   return (
-  //     <div className='min-h-screen p-4'>
-  //       <h1 className='text-2xl font-bold mb-4'>新規社員登録</h1>
-  //       {error && <p className='text-red-500 mb-4'>{error}</p>}
-  //       <form onSubmit={handleSubmit} className='bg-white p-4 rounded shadow' autoComplete='off'>
-  //         {/* 各入力フィールド */}
-  //         <div className='mb-4'>
-  //           <label className='block text-gray-700'>氏名</label>
-  //           <input
-  //             type='text'
-  //             value={name}
-  //             onChange={(e) => setName(e.target.value)}
-  //             className='w-full border p-2 rounded'
-  //             required
-  //           />
-  //         </div>
-  //         {/* 他のフィールドも同様に追加 */}
-  //         <div className='mb-4'>
-  //           <label className='block text-gray-700'>部署</label>
-  //           <select
-  //             value={department}
-  //             onChange={(e) => setDepartment(e.target.value)}
-  //             className='w-full border p-2 rounded'
-  //             required
-  //           >
-  //             {departments.map((dept) => (
-  //               <option key={dept} value={dept}>
-  //                 {dept}
-  //               </option>
-  //             ))}
-  //           </select>
-  //         </div>
-
-  //         <div className='mb-4'>
-  //           <label className='block text-gray-700'>役職</label>
-  //           <select
-  //             value={role}
-  //             onChange={(e) => setRole(e.target.value)}
-  //             className='w-full border p-2 rounded'
-  //             required
-  //           >
-  //             {positions.map((pos) => (
-  //               <option key={pos} value={pos}>
-  //                 {pos}
-  //               </option>
-  //             ))}
-  //           </select>
-  //         </div>
-  //         <div className='mb-4'>
-  //           <label className='block text-gray-700'>メールアドレス</label>
-  //           <input
-  //             type='email'
-  //             value={email}
-  //             onChange={(e) => setEmail(e.target.value)}
-  //             className='w-full border p-2 rounded'
-  //             required
-  //             autoComplete='new-email'
-  //           />
-  //         </div>
-  //         <div className='mb-4'>
-  //           <label className='block text-gray-700'>パスワード</label>
-  //           <input
-  //             type='password'
-  //             value={password}
-  //             onChange={(e) => setPassword(e.target.value)}
-  //             className='w-full border p-2 rounded'
-  //             required
-  //             autoComplete='new-password'
-  //           />
-  //         </div>
-  //         <button type='submit' className='bg-blue-500 text-white py-2 px-4 rounded'>
-  //           登録
-  //         </button>
-  //       </form>
-  //       <Link href='/admin-dashboard'>戻る</Link>
-  //     </div>
-  //   );
-  // }
   return (
     <div className='flex min-h-screen text-[20px]  '>
       {/* 左側のナビゲーションエリア */}
