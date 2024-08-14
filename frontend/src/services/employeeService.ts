@@ -115,7 +115,7 @@ export async function updateEmployee(
       await updateEmployeeEmail({ employeeId, newEmail: employeeData.email });
     }
 
-    clientLogger.info(`Employee updated successfully: ${employeeId}`);
+    clientLogger.debug(`Employee updated successfully: ${employeeId}`);
   } catch (error) {
     clientLogger.error(`Error updating employee:, ${error}`);
     throw error;

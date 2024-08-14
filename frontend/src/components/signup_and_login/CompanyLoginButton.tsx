@@ -1,3 +1,4 @@
+// frontend/src/components/payment/CompanyLoginButton.tsx
 'use client';
 import React from 'react';
 import Link from 'next/link';

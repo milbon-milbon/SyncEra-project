@@ -9,6 +9,8 @@ import app from '@/firebase/config';
 import Link from 'next/link';
 import clientLogger from '@/lib/clientLogger';
 import { getFunctions, httpsCallable } from 'firebase/functions';
+import SearchBar from '@/components/signup_and_login/SerchBer';
+
 const db = getFirestore(app);
 
 interface Employee {
@@ -23,7 +25,8 @@ export default function AdminDashboard() {
   const [employees, setEmployees] = useState<Employee[]>([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-
+  const [adminEmail, setAdminEmail] = useState<string | null>(null);
+  const [filteredEmployees, setFilteredEmployees] = useState<Employee[]>([]);
   // 登録がない管理者はリダイレクトで入れないよにする。
   const checkIfAdmin = async (uid: string): Promise<boolean> => {
     try {
@@ -41,6 +44,7 @@ export default function AdminDashboard() {
       if (user) {
         const isAdmin = await checkIfAdmin(user.uid);
         if (isAdmin) {
+          setAdminEmail(user.email); // 管理者のメールアドレスを設定
           localStorage.setItem('companyId', user.uid);
           fetchEmployees(user.uid);
         } else {
@@ -69,6 +73,7 @@ export default function AdminDashboard() {
         email: doc.data().email as string,
       }));
       setEmployees(employeesList);
+      setFilteredEmployees(employeesList); // 初期状態はすべて表示
     } catch (error) {
       clientLogger.error(`Error fetching employees:,${error}`);
       alert('社員情報の取得に失敗しました。');
@@ -114,50 +119,141 @@ export default function AdminDashboard() {
     return <div>Loading...</div>;
   }
 
+  const handleSearch = (keyword: string) => {
+    if (keyword.trim() === '') {
+      setFilteredEmployees(employees);
+    } else {
+      const lowerKeyword = keyword.toLowerCase();
+      setFilteredEmployees(
+        employees.filter(
+          (employee) =>
+            employee.name.toLowerCase().includes(lowerKeyword) ||
+            employee.department.toLowerCase().includes(lowerKeyword) ||
+            employee.role.toLowerCase().includes(lowerKeyword) ||
+            employee.email.toLowerCase().includes(lowerKeyword),
+        ),
+      );
+    }
+  };
   return (
-    <div className='min-h-screen p-4'>
-      <h1 className='text-2xl font-bold mb-4'>登録社員一覧</h1>
-      <p>Loading: {loading ? 'Yes' : 'No'}</p>
-      <p>Number of employees: {employees.length}</p>
-      <button onClick={handleLogout} className='bg-red-500 text-white py-2 px-4 rounded'>
-        ログアウト
-      </button>
-      <Link href='/admin-dashboard/new-employee'>
-        <button className='bg-blue-500 text-white py-2 px-4 rounded mb-4'>新規登録</button>
-      </Link>
-      <table className='min-w-full bg-white'>
-        <thead>
-          <tr>
-            <th className='py-2'>氏名</th>
-            <th className='py-2'>部署</th>
-            <th className='py-2'>役職</th>
-            <th className='py-2'>メール</th>
-            <th className='py-2'>アクション</th>
-          </tr>
-        </thead>
-        <tbody>
-          {employees.map((employee) => (
-            <tr key={employee.id}>
-              <td className='py-2'>{employee.name}</td>
-              <td className='py-2'>{employee.department}</td>
-              <td className='py-2'>{employee.role}</td>
-              <td className='py-2'>{employee.email}</td>
-              <td className='py-2'>
-                <Link href={`/admin-dashboard/update-employee?employeeId=${employee.id}`}>
-                  <button className='bg-yellow-500 text-white py-1 px-2 rounded mr-2'>更新</button>
-                </Link>
-                <button
-                  onClick={() => handleDelete(employee.id)}
-                  className='bg-red-500 text-white py-1 px-2 rounded'
-                >
-                  削除
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Link href='/'>戻る</Link>
+    <div className='flex min-h-screen text-[20px]  '>
+      {/* 左側のナビゲーションエリア */}
+
+      <div className='w-[400px] bg-gray-100 text-[#003366] border-r-[1px] border-[#336699] flex flex-col items-center p-4'>
+        <div className='w-full flex flex-col items-center mb-6 bg-gray-200 rounded-lg p-4'>
+          <img src='/logo/glay_2.png' alt='Logo' className='h-[70px] mb-1' />
+
+          {adminEmail && (
+            <div className='text-[#003366] w-full text-center'>
+              <p className='mb-0'>ログイン中の管理者:</p>
+              <p className='mb-4 font-bold text-[20px]'>{adminEmail}</p>
+
+              <button
+                onClick={handleLogout}
+                className='w-[100px] bg-[#66b2ff] text-white py-2 rounded-lg text-[17px] '
+              >
+                ログアウト
+              </button>
+            </div>
+          )}
+        </div>
+        <Link
+          href='/admin-dashboard'
+          className='w-full py-2 mb-4 border-b-[2px] border-gray-300 flex items-center block'
+        >
+          <span className='mr-2 '>
+            <img src='/admin-dashboard/home.png' alt='ホーム' className='w-8 h-8' />{' '}
+            {/* ホームアイコン */}
+          </span>
+          ホーム
+        </Link>
+
+        <Link
+          href='/admin-dashboard/new-employee'
+          className='w-full text py-2 mb-4 border-b-[2px] border-gray-300 flex items-center items-center block'
+        >
+          <span className='mr-2'>
+            <img src='/admin-dashboard/person_add.png' alt='新規登録' className='w-8 h-8' />{' '}
+            {/* 新規登録アイコン */}
+          </span>
+          新規登録
+        </Link>
+
+        <Link
+          href='/admin-dashboard'
+          className='w-full text py-2 mb-4 border-b-[2px] border-gray-300 flex  items-center block'
+        >
+          <span className='mr-2'>
+            <img src='/admin-dashboard/settings.png' alt='各種設定' className='w-8 h-8' />{' '}
+            {/* 各種設定アイコン */}
+          </span>
+          各種設定
+        </Link>
+
+        <Link
+          href='/'
+          className='w-full text py-2 flex  border-b-[2px] border-gray-300  items-center block'
+        >
+          <span className='mr-2'>
+            <img src='/admin-dashboard/assignment.png' alt='アプリTOP' className='w-8 h-8' />{' '}
+            {/* アプリTOPアイコン */}
+          </span>
+          アプリTOP
+        </Link>
+      </div>
+
+      {/* 右側のメインコンテンツエリア */}
+
+      <div className='w-full flex flex-col text-[#003366] bg-white'>
+        {/* 上部に社員一覧 */}
+        <div className='flex-1 p-0 overflow-y-auto'>
+          <div className='w-full bg-[#003366] text-white p-4 flex items-center justify-between'>
+            <h1 className='text-3xl font-bold mb-4 mt-5 flex items-center'>
+              <img src='/admin-dashboard/home.png' alt='ホーム' className='w-8 h-8 mr-2' />
+              利用者権限一覧
+            </h1>
+            <SearchBar onSearch={handleSearch} />
+          </div>
+          {/* <p>Loading: {loading ? 'Yes' : 'No'}</p> */}
+          {/* <p className='ml-5  mb-8 mt-5 '>Number of employees: {employees.length}</p> */}
+          <p className='ml-5 mb-8 mt-5'>Number of employees: {filteredEmployees.length}</p>
+          <table className='min-w-full bg-white text-center font-bold'>
+            <thead>
+              <tr>
+                <th className='py-2'>氏名</th>
+                <th className='py-2'>部署</th>
+                <th className='py-2'>役職</th>
+                <th className='py-2'>メール</th>
+                <th className='py-2'>アクション</th>
+              </tr>
+            </thead>
+            <tbody>
+              {filteredEmployees.map((employee) => (
+                <tr key={employee.id}>
+                  <td className='py-2'>{employee.name}</td>
+                  <td className='py-2'>{employee.department}</td>
+                  <td className='py-2'>{employee.role}</td>
+                  <td className='py-2'>{employee.email}</td>
+                  <td className='py-2'>
+                    <Link href={`/admin-dashboard/update-employee?employeeId=${employee.id}`}>
+                      <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal'>
+                        更新
+                      </button>
+                    </Link>
+
+                    <button
+                      onClick={() => handleDelete(employee.id)}
+                      className='bg-[#7FBF7F] text-white hover:bg-[#377a00]  py-2 px-4  text-[17px] rounded-lg font-normal'
+                    >
+                      削除
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>{' '}
+        </div>
+      </div>
     </div>
   );
 }

@@ -60,8 +60,8 @@ async def stripe_webhook(request: Request):
     payload = await request.body()
     sig_header = request.headers.get('stripe-signature')
     
-    logging.info(f"==== 受信したウェブフック==== : {payload}")
-    logging.info(f"==== 署名==== : {sig_header}")
+    logging.debug(f"==== 受信したウェブフック==== : {payload}")
+    logging.debug(f"==== 署名==== : {sig_header}")
 
     try:
         event = stripe.Webhook.construct_event(
@@ -104,7 +104,7 @@ async def handle_checkout_session(session):
             custom_claims={'isCompanyAdmin': True}
         )
         
-        logging.info(f"企業管理者ユーザーが正常に作成されました: {user.uid}")
+        logging.debug(f"企業管理者ユーザーが正常に作成されました: {user.uid}")
 
          # Firestoreに企業情報を保存
         await db.collection('companies').document(user.uid).set({
@@ -115,7 +115,7 @@ async def handle_checkout_session(session):
             'created_at': firestore.SERVER_TIMESTAMP,
         })
 
-        logging.info(f"企業情報がFirestoreに保存されました: {user.uid}")
+        logging.debug(f"企業情報がFirestoreに保存されました: {user.uid}")
 
     except auth.AuthError as e:
         logging.error(f"企業管理者ユーザー作成中にエラーが発生しました: {str(e)}")

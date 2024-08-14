@@ -176,3 +176,25 @@ export const deleteUserAndData = functions.https.onCall(
     }
   }
 );
+
+// 仮
+exports.updateEmployeeEmail = functions.https.onCall(async (data, context) => {
+  // 管理者権限のチェック
+  if (!context.auth || !context.auth.token.isCompanyAdmin) {
+    throw new functions.https.HttpsError(
+      "permission-denied",
+      "Only admins can update employee emails."
+    );
+  }
+
+  const {employeeId, newEmail} = data;
+
+  try {
+    // Admin SDKを使用してユーザーのメールアドレスを更新
+    await admin.auth().updateUser(employeeId, {email: newEmail});
+    return {success: true, message: "Email updated successfully"};
+  } catch (error) {
+    console.error("Error updating email:", error);
+    throw new functions.https.HttpsError("internal", "Failed to update email");
+  }
+});

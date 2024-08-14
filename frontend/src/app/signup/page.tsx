@@ -32,7 +32,7 @@ export default function SignUp() {
       // ユーザーを作成し、UIDを取得
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
-      clientLogger.info(`==== ユーザー登録成功==== : ${user.uid}`);
+      clientLogger.debug(`==== ユーザー登録成功==== : ${user.uid}`);
       // UIDを確認
       console.log('==== User UIDを確認==== :', user.uid); // ここでUIDを確認
       // Firestoreに企業情報を登録
