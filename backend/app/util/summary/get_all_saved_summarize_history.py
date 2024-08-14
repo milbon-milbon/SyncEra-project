@@ -4,7 +4,7 @@ from app.db.database import get_db
 from app.db.models import SummarizeHistory
 import uuid
 
-def get_all_saved_summary_reports(employee_id: str, db: Session = Depends(get_db)):
+def get_all_saved_summary_reports(slack_user_id: str, db: Session = Depends(get_db)):
     # employee_idをUUIDとして解析
     try:
         employee_uuid = uuid.UUID(employee_id)

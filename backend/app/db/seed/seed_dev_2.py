@@ -180,22 +180,22 @@ def seed_data():
         '''summarize_history'''
 
         summarize_history_1 = SummarizeHistory(
-            employee_id=employee_1.id,
+            slack_user_id=slack_user_1.id,
             summary='これは、くーみんさんの日報サマリーの履歴1です。'
         )
 
         summarize_history_2 = SummarizeHistory(
-            employee_id=employee_2.id,
+            slack_user_id=slack_user_2.id,
             summary='これは、さよこさんの日報サマリーの履歴1です。'
         )
 
         summarize_history_3 = SummarizeHistory(
-            employee_id=employee_3.id,
+            slack_user_id=slack_user_3.id,
             summary='これは、みっこさんの日報サマリーの履歴1です。'
         )
 
         summarize_history_4 = SummarizeHistory(
-            employee_id=employee_4.id,
+            slack_user_id=slack_user_4.id,
             summary='これはめめさんの日報サマリーの履歴1です。'
         )
 
@@ -205,22 +205,22 @@ def seed_data():
         '''advices_history'''
 
         advices_history_1 = AdvicesHistory(
-            employee_id=employee_1.id,
+            slack_user_id=slack_user_1.id,
             advices='これはくーみんさんとの1on1のアドバイスのサンプル1です。'
         )
 
         advices_history_2 = AdvicesHistory(
-            employee_id=employee_2.id,
+            slack_user_id=slack_user_2.id,
             advices='これはさよこさんとの1on1のアドバイスのサンプル1です。'
         )
 
         advices_history_3 = AdvicesHistory(
-            employee_id=employee_3.id,
+            slack_user_id=slack_user_3.id,
             advices='これはみっこさんとの1on1のアドバイスのサンプル1です。'
         )
 
         advices_history_4 = AdvicesHistory(
-            employee_id=employee_4.id,
+            slack_user_id=slack_user_4.id,
             advices='これはめめさんとの1on1のアドバイスのサンプル1です。'
         )
 
@@ -300,22 +300,22 @@ def seed_data():
         '''summarize_history_2'''
 
         summarize_history_5 = SummarizeHistory(
-            employee_id=employee_1.id,
+            slack_user_id=slack_user_1.id,
             summary='これは、くーみんさんの日報サマリーの履歴1です。'
         )
 
         summarize_history_6 = SummarizeHistory(
-            employee_id=employee_2.id,
+            slack_user_id=slack_user_2.id,
             summary='これは、さよこさんの日報サマリーの履歴1です。'
         )
 
         summarize_history_7 = SummarizeHistory(
-            employee_id=employee_3.id,
+            slack_user_id=slack_user_3.id,
             summary='これは、みっこさんの日報サマリーの履歴1です。'
         )
 
         summarize_history_8 = SummarizeHistory(
-            employee_id=employee_4.id,
+            slack_user_id=slack_user_4.id,
             summary='これはめめさんの日報サマリーの履歴1です。'
         )
 
@@ -325,22 +325,22 @@ def seed_data():
         '''advices_history_2'''
 
         advices_history_1 = AdvicesHistory(
-            employee_id=employee_1.id,
+            slack_user_id=slack_user_1.id,
             advices='これはくーみんさんとの1on1のアドバイスのサンプル1です。'
         )
 
         advices_history_2 = AdvicesHistory(
-            employee_id=employee_2.id,
+            slack_user_id=slack_user_2.id,
             advices='これはさよこさんとの1on1のアドバイスのサンプル1です。'
         )
 
         advices_history_3 = AdvicesHistory(
-            employee_id=employee_3.id,
+            slack_user_id=slack_user_3.id,
             advices='これはみっこさんとの1on1のアドバイスのサンプル1です。'
         )
 
         advices_history_4 = AdvicesHistory(
-            employee_id=employee_4.id,
+            slack_user_id=slack_user_4.id,
             advices='これはめめさんとの1on1のアドバイスのサンプル1です。'
         )
 

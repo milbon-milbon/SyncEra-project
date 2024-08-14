@@ -64,25 +64,25 @@ def seed_data():
         '''>>> channel'''
 
         times_list_1 = TimesList(
-            user_id='U07FFA7AW1H',
+            slack_user_id='U07FFA7AW1H',
             channel_name='times_ku-min',
             channel_id='C07FMU0BWCB'
         )
 
         times_list_2 = TimesList(
-            user_id='U07F8NPV1RQ',
+            slack_user_id='U07F8NPV1RQ',
             channel_name='times_meme',
             channel_id='C07FQFWD3U4'
         )
 
         times_list_3 = TimesList(
-            user_id='U07FCGJ9SLD',
+            slack_user_id='U07FCGJ9SLD',
             channel_name='times_3',
             channel_id='C07GAR3EDKJ'
         )
 
         times_list_4 = TimesList(
-            user_id='U07F0T502G6',
+            slack_user_id='U07F0T502G6',
             channel_name='times_sayoko',
             channel_id='C07FFAX467M'
         )

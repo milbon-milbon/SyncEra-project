@@ -37,6 +37,8 @@ class SlackUserInfo(Base):
     real_name = Column(String(100), nullable=False)
 
     analysis_results = relationship("AnalysisResult", back_populates="slack_user_info")
+    summarize_histories = relationship("SummarizeHistory", back_populates="slack_user_info")
+    advices_histories = relationship("AdvicesHistory", back_populates="slack_user_info")
 
 class DailyReport(Base):
     __tablename__ = 'daily_report'
@@ -93,17 +95,23 @@ class SummarizeHistory(Base):
     __tablename__ = 'summarize_history'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    #employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     summary = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+    slack_user_info = relationship("SlackUserInfo", back_populates="summarize_histories")
 
 class AdvicesHistory(Base):
     __tablename__ = 'advices_history'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    #employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     advices = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+    slack_user_info = relationship("SlackUserInfo", back_populates="advices_histories")
 
 # ここからcareer_survey用の定義
 
