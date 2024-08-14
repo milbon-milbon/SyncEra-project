@@ -26,6 +26,8 @@ class Employee(Base):
     role = Column(String(100), nullable=False)
     project = Column(String(100), nullable=False)
     slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False, unique=True)
+    # SlackUserInfoテーブルとのリレーションシップを追加
+    slack_user_info = relationship("SlackUserInfo", back_populates="employees")
     # Responseテーブルとのリレーションシップを追加
     responses = relationship("Response", back_populates="employee")
 
@@ -36,6 +38,8 @@ class SlackUserInfo(Base):
     name = Column(String(100), nullable=False)
     real_name = Column(String(100), nullable=False)
     image_512 = Column(String, nullable=True)
+    # Employeeテーブルとのリレーションシップを追加
+    employees = relationship("Employee", back_populates="slack_user_info")
 
 class DailyReport(Base):
     __tablename__ = 'daily_report'

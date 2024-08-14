@@ -3,6 +3,18 @@ from typing import Optional
 from datetime import datetime
 
 '''
+社員一覧にSlackのアイコンを表示するためのロジック用
+'''
+class SlackUserInfo(BaseModel):
+    id: str
+    name: str
+    real_name: str
+    image_512: Optional[str] = None
+
+    class Config:
+        orm_mode = True
+
+'''
 従業員情報をAPIレスポンスに乗せる用
 '''
 class EmployeeBase(BaseModel):
@@ -18,6 +30,7 @@ class EmployeeCreate(EmployeeBase):
 
 class Employee(EmployeeBase):
     id: str
+    slack_user_info: Optional[SlackUserInfo] = None  # Slackの情報を追加
 
     class Config:
         orm_mode = True

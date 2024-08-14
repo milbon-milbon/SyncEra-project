@@ -67,6 +67,7 @@ def get_and_save_daily_report(event, db: Session):
 
     conversation_history = []
     channel_id = os.getenv("DAILY_REPORT_CHANNEL_ID")
+    excluded_user_id = os.getenv("EXCLUDED_USER_ID")  # 環境変数から除外するユーザーIDを取得
 
     try:
         # 先にユーザー情報を保存
@@ -88,6 +89,11 @@ def get_and_save_daily_report(event, db: Session):
             ts = message.get('ts')
             user_id = message.get('user')
             text = message.get('text')
+
+            # 環境変数で設定されたユーザーIDの投稿をスキップ
+            if user_id == excluded_user_id:
+                logger.info(f"Skipping message from user {user_id}")
+                continue
 
             # メッセージが存在するかをチェック
             existing_message = db.query(DailyReport).filter_by(ts=ts).first()

@@ -56,8 +56,8 @@ app.include_router(career_survey.router, prefix="/survey", tags=["survey"])
 def read_root():
     return "we are SyncEra. member: mikiko, sayoko, ku-min, meme."
 
-# slackのユーザー情報取得を確認するためのエンドポイント
-@app.get("/users")
+# slackのユーザーアイコン情報取得を確認するためのエンドポイント
+@app.get("/users/")
 def read_users(db: Session = Depends(get_db)):
     return get_and_save_users(db)
 
@@ -178,7 +178,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
                 send_survey_with_text_input(user_id, next_question)
             else:
                 send_survey_to_employee(user_id, next_question)
-            
+
             logger.info(f"Next question sent to user {user_id}")
 
         return Response(status_code=200)
