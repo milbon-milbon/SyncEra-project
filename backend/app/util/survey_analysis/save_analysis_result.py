@@ -95,6 +95,8 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
     except Exception as e:
         logger.error(f"分析中または保存中のエラー: {e}")
         return f"分析中または保存中のエラー: {e}"
+    
+    
 
 
 

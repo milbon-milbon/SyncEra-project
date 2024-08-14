@@ -36,6 +36,8 @@ class SlackUserInfo(Base):
     name = Column(String(100), nullable=False)
     real_name = Column(String(100), nullable=False)
 
+    analysis_results = relationship("AnalysisResult", back_populates="slack_user_info")
+
 class DailyReport(Base):
     __tablename__ = 'daily_report'
 

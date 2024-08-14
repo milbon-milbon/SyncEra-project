@@ -4,8 +4,6 @@ from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
 from app.services.make_employee_list import make_employee_list
 from app.services.make_analysis_results_list import make_analysis_results_list
-from app.util.survey_analysis.save_survey_result import make_survey_result
-from app.services._____make_survey_result_by_date import make_survey_result_by_date
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport, AnalysisResult
@@ -100,7 +98,7 @@ def print_saved_advice(employee_id: str, created_at: date, db):
 
 #-------------キャリアアンケート-------------
 #指定したユーザーの、全てのアンケート分析結果を取得する
-@router.get("/print_all_career_survey_results/{slack_user_id}/", response_model=list[AnalysisResult])
+@router.get("/print_all_career_survey_results/{slack_user_id}/")
 def print_all_career_survey_results(slack_user_id: str, db: Session=Depends(get_db)):
     return make_analysis_results_list(slack_user_id, db)
 
