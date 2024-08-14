@@ -11,7 +11,7 @@ from app.services.schedule_survey import schedule_hourly_survey, schedule_monthl
 from slack_sdk import WebClient
 from app.db.database import get_db
 from app.db.models import DailyReport, Question, UserResponse
-from app.routers import frontend_requests, slack_requests, career_survey
+from app.routers import frontend_requests
 from app.db import schemas
 from fastapi.responses import JSONResponse
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -107,7 +107,6 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         logger.debug(f"Payload: {payload}")
 
         user_id = payload["user"]["id"]
-        input_form_type = payload["type"]
         actions = payload["actions"]
         block_id = actions[0]["value"]
         free_text = None
@@ -171,6 +170,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         if not next_question_id:
             slack_client.chat_postMessage(channel=user_id, text="アンケートの回答を送信しました！ご回答ありがとうございました。")
             logger.info(f"Survey completed for user {user_id}")
+            # ここにめめさんの関数を呼び出す処理を書く
         else:
             next_question = db.query(Question).filter(Question.id == next_question_id).first()
             # 自由記述の質問かどうかをチェックして、適切な関数を呼び出す

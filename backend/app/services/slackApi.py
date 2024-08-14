@@ -122,7 +122,7 @@ def get_and_save_times_tweet(event, db: Session):
 
     conversation_history = []
     channel_id = event.get('channel')  # イベントからチャンネルIDを取得
-    print(channel_id)
+    excluded_user_id = os.getenv("EXCLUDED_USER_ID")  # 環境変数から除外するユーザーIDを取得
 
     if not channel_id:
         logger.error("Channel ID is missing in the event data")
@@ -148,6 +148,11 @@ def get_and_save_times_tweet(event, db: Session):
             ts = message.get('ts')
             user_id = message.get('user')
             text = message.get('text')
+
+            # 環境変数で設定されたユーザーIDの投稿をスキップ
+            if user_id == excluded_user_id:
+                logger.info(f"Skipping message from user {user_id}")
+                continue
 
             # メッセージが存在するかをチェック
             existing_message = db.query(TimesTweet).filter_by(ts=ts).first()
