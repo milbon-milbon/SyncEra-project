@@ -57,6 +57,8 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
         2)部下のslackのtimesの呟き: {times_tweet}
         3)部下のプロフィール: {employee_info}
         4)1~3をもとに作成した要約文: {summary}
+        なお、出力の冒頭ではまず初めに参照している日報、timesの投稿がいつの期間のものかを明記してください。
+        （例: [※2024年8月1日~2024年8月7日までのdaily_reportおよびtimesの投稿をもとにしています。]
         """
 
         response = client.chat.completions.create(
