@@ -3,6 +3,8 @@ from sqlalchemy.orm import Session
 from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
 from app.services.make_employee_list import make_employee_list
+from app.services.make_survey_result import make_survey_result
+from app.services.make_survey_result_by_date import make_survey_result_by_date
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport
@@ -16,6 +18,7 @@ from app.util.advices.get_all_saved_advices_history import get_all_saved_advices
 from app.util.advices.get_saved_advices_history import get_saved_advices_history
 from app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
 from app.util import convert_ts_to_date
+from app.util.survey_analysis.analysis_functions import filtered_by_user_and_date
 from typing import Optional
 from datetime import date
 
@@ -95,11 +98,17 @@ def print_saved_advice(employee_id: str, created_at: date, db):
     return get_saved_advices_history(employee_id, created_at, db)
 
 #-------------キャリアアンケート-------------
+# 最新の回答+過去の回答の結果要約や傾向分析、キャリア系出力のメイン
+@router.get("/print_latest_career_survey_result/{employee_id}/")
+def print_latest_career_survey_result(employee_id: str):
+    return make_survey_result(employee_id) #返り値は文字列
+
+# 出力した結果をDB保存しておく？？？
 
 # 特定のキャリアアンケート結果をDBから出力する
 @router.get("/print_career_survey_result/{employee_id}/")
 def print_career_survey_result(employee_id: str, created_at: date):
-    return "処理未実装"
+    return make_survey_result_by_date(employee_id, created_at) #返り値は文字列
 
 #実施済みのキャリアアンケート結果を全て取出力する
 @router.get("/print_all_career_survey_results/{employee_id}/")
