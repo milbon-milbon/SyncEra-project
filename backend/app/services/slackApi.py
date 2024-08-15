@@ -91,9 +91,9 @@ def get_and_save_daily_report(event, db: Session):
             existing_message = db.query(DailyReport).filter_by(ts=ts).first()
             if not existing_message:
                 # メッセージ情報をデータベースに挿入
-                message_record = DailyReport(ts=ts, user_id=user_id, text=text)
+                message_record = DailyReport(ts=ts, slack_user_id=user_id, text=text)
                 db.add(message_record)  # 新規追加
-                logger.debug(f"Message added: ts={ts}, user_id={user_id}")
+                logger.debug(f"Message added: ts={ts}, slack_user_id={user_id}")
         
         # コミットして変更を保存
         db.commit()
@@ -145,9 +145,9 @@ def get_and_save_times_tweet(event, db: Session):
             existing_message = db.query(TimesTweet).filter_by(ts=ts).first()
             if not existing_message:
                 # メッセージ情報をデータベースに挿入
-                message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id)
+                message_record = TimesTweet(ts=ts, slack_user_id=user_id, text=text, channel_id=channel_id)
                 db.add(message_record)  # 新規追加
-                logger.debug(f"Message merged: ts={ts}, user_id={user_id}")
+                logger.debug(f"Message merged: ts={ts}, slack_user_id={user_id}")
 
             # スレッドのリプライを取得
             if 'thread_ts' in message:
@@ -170,14 +170,14 @@ def get_and_save_times_tweet(event, db: Session):
                     if not existing_reply:
                         reply_record = TimesTweet(
                             ts=reply_ts,
-                            user_id=reply_user_id,
+                            slack_user_id=reply_user_id,
                             text=reply_text,
                             channel_id=channel_id,
                             thread_ts=thread_ts,
                             parent_user_id=parent_user_id
                         )
                         db.add(reply_record)  # 新規追加
-                        logger.debug(f"Reply added: ts={reply_ts}, user_id={reply_user_id}")
+                        logger.debug(f"Reply added: ts={reply_ts}, slack_user_id={reply_user_id}")
         
         # コミットして変更を保存
         db.commit()
