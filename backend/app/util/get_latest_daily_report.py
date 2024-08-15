@@ -17,7 +17,7 @@ def get_latest_daily_report(slack_user_id: str):
     db = get_db()
     try:
         latest_daily_report = db.query(DailyReport).filter(
-            DailyReport.user_id == slack_user_id
+            DailyReport.slack_user_id == slack_user_id
         ).order_by(DailyReport.ts.desc()).first()  # 最新の日報のみ取得
         if latest_daily_report:
             logger.debug("◆DBから正常に最新の日報データを取得できました。")

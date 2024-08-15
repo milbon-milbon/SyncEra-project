@@ -5,7 +5,7 @@ from app.db import models, schemas
 # 保存のたびにcreated_atにtimestampが入るので、それでいつのアンケートかを識別する
 
 def create_response(db: Session, response: schemas.ResponseCreate):
-    db_response = models.Response(
+    db_response = models.Response( 
         slack_user_id_id=response.slack_user_id,
         question_id=response.question_id,
         answer=response.answer,
