@@ -9,6 +9,7 @@ from app.services.slackApi import get_and_save_daily_report, get_and_save_times_
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
 from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
+from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from app.db.database import get_db
@@ -196,6 +197,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             slack_client.chat_postMessage(channel=user_id, text="アンケートの回答を送信しました！ご回答ありがとうございました。")
             logger.info(f"Survey completed for user {user_id}")
             # ここにめめさんの関数を呼び出す処理を書く
+            save_survey_result(user_id, db)
         else:
             next_question = db.query(Question).filter(Question.id == next_question_id).first()
             # 自由記述の質問かどうかをチェックして、適切な関数を呼び出す

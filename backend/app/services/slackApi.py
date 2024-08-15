@@ -67,7 +67,7 @@ def get_and_save_daily_report(event, db: Session):
                 logger.debug(f"Message updated: ts={ts}, user_id={user_id}")
             else:
                 # メッセージが存在しない場合、新規に追加
-                message_record = DailyReport(ts=ts, user_id=user_id, text=text) #user_id => slack_user_idにする(meme)
+                message_record = DailyReport(ts=ts, slack_user_id=user_id, text=text)
                 db.add(message_record)
                 logger.debug(f"Message added: ts={ts}, user_id={user_id}")
         
@@ -130,7 +130,7 @@ def get_and_save_times_tweet(event, db: Session):
                 logger.debug(f"Message updated: ts={ts}, user_id={user_id}")
             else:
                 # メッセージが存在しない場合、新規に追加
-                message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id) # user_id => slack_user_idにする(meme)
+                message_record = TimesTweet(ts=ts, slack_user_id=user_id, text=text, channel_id=channel_id)
                 db.add(message_record)
                 logger.debug(f"Message added: ts={ts}, user_id={user_id}")
 
@@ -160,7 +160,7 @@ def get_and_save_times_tweet(event, db: Session):
                         # リプライが存在しない場合、新規に追加
                         reply_record = TimesTweet(
                             ts=reply_ts,
-                            user_id=reply_user_id, # user_id => slack_user_idにする(meme)
+                            slack_user_id=reply_user_id,
                             text=reply_text,
                             channel_id=channel_id,
                             thread_ts=thread_ts,
