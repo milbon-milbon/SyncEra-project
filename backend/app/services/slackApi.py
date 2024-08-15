@@ -91,7 +91,7 @@ def get_and_save_daily_report(event, db: Session):
             existing_message = db.query(DailyReport).filter_by(ts=ts).first()
             if not existing_message:
                 # メッセージ情報をデータベースに挿入
-                message_record = DailyReport(ts=ts, user_id=user_id, text=text) #user_id => slack_user_idにする
+                message_record = DailyReport(ts=ts, user_id=user_id, text=text) #user_id => slack_user_idにする(meme)
                 db.add(message_record)  # 新規追加
                 logger.debug(f"Message added: ts={ts}, user_id={user_id}")
         
@@ -145,7 +145,7 @@ def get_and_save_times_tweet(event, db: Session):
             existing_message = db.query(TimesTweet).filter_by(ts=ts).first()
             if not existing_message:
                 # メッセージ情報をデータベースに挿入
-                message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id) # user_id => slack_user_idにする
+                message_record = TimesTweet(ts=ts, user_id=user_id, text=text, channel_id=channel_id) # user_id => slack_user_idにする(meme)
                 db.add(message_record)  # 新規追加
                 logger.debug(f"Message merged: ts={ts}, user_id={user_id}")
 
@@ -170,7 +170,7 @@ def get_and_save_times_tweet(event, db: Session):
                     if not existing_reply:
                         reply_record = TimesTweet(
                             ts=reply_ts,
-                            user_id=reply_user_id, # user_id => slack_user_idにする
+                            user_id=reply_user_id, # user_id => slack_user_idにする(meme)
                             text=reply_text,
                             channel_id=channel_id,
                             thread_ts=thread_ts,
