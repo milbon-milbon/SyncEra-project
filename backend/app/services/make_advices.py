@@ -83,8 +83,8 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
 
 
 # テストするなら以下をアレンジ
-slack_user_id = "sample_4"
-start_date = date(2024, 8, 1)
-end_date = date(2024, 8, 15)
-advices = make_advices(slack_user_id, start_date, end_date)
-print(advices)
+# slack_user_id = "sample_4"
+# start_date = date(2024, 8, 1)
+# end_date = date(2024, 8, 15)
+# advices = make_advices(slack_user_id, start_date, end_date)
+# print(advices)

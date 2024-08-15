@@ -16,7 +16,6 @@ from app.util.advices.save_advices import save_advices
 from app.util.advices.get_all_saved_advices_history import get_all_saved_advices_history
 from app.util.advices.get_saved_advices_history import get_saved_advices_history
 from app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
-from app.util import convert_ts_to_date
 from app.util.survey_analysis.analysis_functions import filtered_by_user_and_date
 from typing import Optional
 from datetime import date

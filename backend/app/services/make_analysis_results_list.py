@@ -26,8 +26,8 @@ def make_analysis_results_list(slack_user_id: str, db: Session = Depends(get_db)
         raise HTTPException(status_code=500, detail=f"データ取得中のエラー: {e}")
 
 #_____挙動テスト用_____
-slack_user_id = 'sample_4'
-db=get_db()
+# slack_user_id = 'sample_4'
+# db=get_db()
 
-test_response=make_analysis_results_list(slack_user_id, db)
-print(test_response)
+# test_response=make_analysis_results_list(slack_user_id, db)
+# print(test_response)
