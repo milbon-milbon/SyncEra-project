@@ -36,7 +36,7 @@ class SavedSummaryReport(BaseModel):
     id: int
     slack_user_id: str
     summary: str
-    created_at: str
+    created_at: datetime
 
     class Config:
         orm_mode = True
@@ -55,7 +55,7 @@ class SavedAdvices(BaseModel):
     id: int
     slack_user_id: str
     advices: str
-    created_at: str
+    created_at: datetime
 
     class Config:
         orm_mode = True
