@@ -7,7 +7,7 @@ from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport
 from app.db.database import get_db
-from app.db.schemas import Employee, EmployeeCreate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
+from app.db.schemas import Employee, EmployeeCreate, EmployeeUpdate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
 from app.util.get_employee_info import get_employee_info
 from app.util.summary.save_summary_report import save_summary_report
 from app.util.summary.get_saved_summarize_history import get_saved_summary_report
@@ -43,6 +43,39 @@ def get_selected_member(slack_user_id: str):
     else:
         raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
 
+
+# 社員情報の更新(テストまだ)
+@router.put("/selected_employee/{slack_user_id}/")
+def update_employee(slack_user_id: str, employee_update: EmployeeUpdate, db: Session = Depends(get_db)):
+    employee = db.query(Employee).filter(Employee.slack_user_id == slack_user_id).first()
+
+    if not employee:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+    # 更新するフィールドを反映
+    employee.name = employee_update.name
+    employee.email = employee_update.email
+    employee.department = employee_update.department
+    employee.role = employee_update.role
+    employee.project = employee_update.project
+
+    db.commit()
+    db.refresh(employee)
+    
+    return {"detail": "社員情報が更新されました", "employee": employee}
+
+# 社員情報の削除（テストまだ）
+@router.delete("/selected_employee/{slack_user_id}/")
+def delete_employee(slack_user_id: str, db: Session = Depends(get_db)):
+    employee = db.query(Employee).filter(Employee.slack_user_id == slack_user_id).first()
+
+    if not employee:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+    db.delete(employee)
+    db.commit()
+    
+    return {"detail": "社員情報が削除されました"}
 
 #-------------日報サマリー-------------
 

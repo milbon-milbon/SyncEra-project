@@ -39,10 +39,9 @@ def get_and_save_slack_users(db: Session = Depends(get_db)):
             real_name = user.get("real_name")
             profile = user.get("profile", {})
             image_512 = profile.get("image_512")
-            email = profile.get("email")
 
             # ユーザー情報をデータベースに挿入
-            user_record = SlackUserInfo(id=user_id, name=user_name, real_name=real_name, image_512=image_512, email=email)
+            user_record = SlackUserInfo(id=user_id, name=user_name, real_name=real_name, image_512=image_512)
             db.merge(user_record)  # 存在する場合は更新し、存在しない場合は挿入
         
         # コミットして変更を保存

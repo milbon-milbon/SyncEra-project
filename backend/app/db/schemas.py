@@ -28,6 +28,16 @@ class EmployeeBase(BaseModel):
 class EmployeeCreate(EmployeeBase):
     pass
 
+class EmployeeUpdate(BaseModel):
+    name: Optional[str]
+    email: Optional[str]
+    department: Optional[str]
+    role: Optional[str]
+    project: Optional[str]
+
+    class Config:
+        orm_mode = True
+
 class Employee(EmployeeBase):
     id: str
     slack_user_info: Optional[SlackUserInfo] = None  # Slackの情報を追加
