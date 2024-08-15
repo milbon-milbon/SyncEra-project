@@ -1,7 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from app.util.career_survey.send_survey_to_all import send_survey_to_all #社員全員にアンケート配信するロジック
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee
-from app.util.post_slack_message import send_message_to_daily_report,send_message_to_user
 from app.db.database import get_db
 from app.db.database import SessionLocal
 from app.db.models import Question

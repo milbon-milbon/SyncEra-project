@@ -22,4 +22,4 @@ COPY . .
 # CMD ["bash", "-c",  "alembic revision --autogenerate -m 'Initial migration' && alembic upgrade head && python app/db/seed/seed_dev.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
 
 # マイグレーションの自動実行とシードデータ投入: さよこ、本番向け
-CMD ["bash", "-c", "alembic revision --autogenerate -m 'Initial migration' && alembic upgrade head && python app/util/post_slack_message.py && python app/db/seed/seed_product.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
+CMD ["bash", "-c", "alembic revision --autogenerate -m 'Initial migration' && alembic upgrade head && python app/util/slack_api/post_slack_message.py && python app/db/seed/seed_product.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]

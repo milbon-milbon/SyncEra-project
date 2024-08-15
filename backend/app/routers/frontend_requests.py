@@ -43,6 +43,26 @@ def get_selected_member(slack_user_id: str):
     else:
         raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
 
+# 社員情報の更新
+@router.put("/selected_employee/{slack_user_id}/")
+def get_selected_member(slack_user_id: str):
+    employee_detail = get_employee_info(slack_user_id)[0]
+    latest_daily_report = get_latest_daily_report(slack_user_id)
+    if employee_detail and latest_daily_report:
+        return employee_detail,latest_daily_report
+    else:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+# 社員情報の削除
+@router.delete("/selected_employee/{slack_user_id}/")
+def get_selected_member(slack_user_id: str):
+    employee_detail = get_employee_info(slack_user_id)[0]
+    latest_daily_report = get_latest_daily_report(slack_user_id)
+    if employee_detail and latest_daily_report:
+        return employee_detail,latest_daily_report
+    else:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
 #-------------日報サマリー-------------
 
 # 日報サマリーをLLMから出力する
