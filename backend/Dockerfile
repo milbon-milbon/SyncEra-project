@@ -20,7 +20,7 @@ COPY . .
 
 # マイグレーションの自動実行とシードデータ投入: くーみん、みきこ、めめ向け
 #_____seedingファイルを 新しい方に変更済: seed_dev.py => seed_dev_2.py_____
-# めめの作業用に'python app/db/seed/seed_sample_response.py'を追加している
+#_____めめの作業用に'python app/db/seed/seed_sample_response.py'を追加している_____
     # seed_sample_response.py = アンケートの回答に見立てたサンプルデータ
     # save_analysis_result.py = アンケート回答回答後のLLMの分析結果をDB保存するロジックの実行（予定ではここをSlackでのアンケート回答終了時に自動実行させる）
 CMD ["bash", "-c",  "alembic revision --autogenerate -m 'Initial migration' && alembic upgrade head && python app/db/seed/seed_dev_2.py&&python app/db/seed/seed_sample_response.py&&python app/util/survey_analysis/save_analysis_result.py && uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload"]
