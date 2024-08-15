@@ -2,45 +2,104 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useSaveSummaryReport } from '../../../hooks/fetch_llm/useSaveSummaryReport';
 
 export default function SummaryPage() {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [generatedSummary, setGeneratedSummary] = useState('');
-  const [selectedSummary, setSelectedSummary] = useState(null);
-  const [savedSummaries, setSavedSummaries] = useState([
-    { id: 1, startDate: '2024-08-01', endDate: '2024-08-07', content: 'サマリー内容1' },
-    { id: 2, startDate: '2024-08-08', endDate: '2024-08-14', content: 'サマリー内容2' },
-    { id: 3, startDate: '2024-08-15', endDate: '2024-08-21', content: 'サマリー内容3' },
-  ]);
+  const [selectedSummary, setSelectedSummary] = useState<any>(null); // 型は適宜修正
+  const [savedSummaries, setSavedSummaries] = useState<any[]>([]); // 型は適宜修正
+
+  const saveSummaryReport = useSaveSummaryReport(); // フックを呼び出す
 
   const handleGenerateSummary = () => {
     setGeneratedSummary('生成されたサマリーの内容がここに表示されます。');
   };
 
-  const handleSaveSummary = () => {
+  const handleSaveSummary = async () => {
     if (!generatedSummary || !startDate || !endDate) return;
 
-    const newSummary = {
-      id: Date.now(),
-      startDate,
-      endDate,
-      content: generatedSummary,
-    };
+    const employeeId = 'sampleEmployeeId'; // 仮の employee_id。実際の値に置き換えてください
 
-    setSavedSummaries((prev) => [...prev, newSummary]);
-    setGeneratedSummary('');
-    setStartDate('');
-    setEndDate('');
+    try {
+      await saveSummaryReport(employeeId, generatedSummary);
+
+      setSavedSummaries((prev) => [
+        ...prev,
+        { id: Date.now(), startDate, endDate, content: generatedSummary },
+      ]);
+
+      setGeneratedSummary('');
+      setStartDate('');
+      setEndDate('');
+    } catch (error) {
+      console.error('Failed to save summary:', error);
+    }
   };
 
-  const handleDeleteSummary = (id) => {
+  const handleDeleteSummary = (id: number) => {
     const updatedSummaries = savedSummaries.filter((summary) => summary.id !== id);
     setSavedSummaries(updatedSummaries);
     if (selectedSummary && selectedSummary.id === id) {
       setSelectedSummary(null);
     }
   };
+
+  // 'use client';
+
+  // import Link from 'next/link';
+  // import { useState } from 'react';
+  // import { useSaveSummaryReport } from '../../../hooks/fetch_llm/useSaveSummaryReport';
+
+  // export default function SummaryPage() {
+  //   const [startDate, setStartDate] = useState('');
+  //   const [endDate, setEndDate] = useState('');
+  //   const [generatedSummary, setGeneratedSummary] = useState('');
+  //   const [selectedSummary, setSelectedSummary] = useState<any>(null); // 型を適宜設定
+  //   const [savedSummaries, setSavedSummaries] = useState<any[]>([]); // 型を適宜設定
+
+  //   const saveSummaryReport = useSaveSummaryReport(); // フックの呼び出し
+
+  //   const handleGenerateSummary = () => {
+  //     setGeneratedSummary('生成されたサマリーの内容がここに表示されます。');
+  //   };
+
+  //   const handleSaveSummary = async () => {
+  //     if (!generatedSummary || !startDate || !endDate) return;
+  //     const employeeId = 'sampleEmployeeId';
+
+  //     const newSummary = {
+  //       employee_id: 'sampleEmployeeId', // 仮の employee_id。実際の値に置き換えてください
+  //       summary: generatedSummary,
+  //     };
+
+  //     try {
+  //       // サーバーにサマリーを保存
+  //       await saveSummaryReport(employeeId, generatedSummary);
+
+  //       // サーバーに保存が成功した場合にのみ、ローカルのサマリーを更新
+  //       setSavedSummaries((prev) => [
+  //         ...prev,
+  //         { id: Date.now(), startDate, endDate, content: generatedSummary },
+  //       ]);
+
+  //       // 入力フィールドのリセット
+  //       setGeneratedSummary('');
+  //       setStartDate('');
+  //       setEndDate('');
+  //     } catch (error) {
+  //       console.error('Failed to save summary:', error);
+  //     }
+  //   };
+
+  //   const handleDeleteSummary = (id: number) => {
+  //     const updatedSummaries = savedSummaries.filter((summary) => summary.id !== id);
+  //     setSavedSummaries(updatedSummaries);
+  //     if (selectedSummary && selectedSummary.id === id) {
+  //       setSelectedSummary(null);
+  //     }
+  //   };
 
   return (
     <div className="min-h-screen flex flex-col">

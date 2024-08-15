@@ -2,38 +2,76 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useCallback } from 'react';
 
 interface SummaryReport {
-    // 型定義が必要なら定義する
-    employee_id: string
-    summary: string
+  employee_id: string;
+  summary: string;
 }
 
-export const useSaveSummaryReport = async(employeeId: string, summary: string): Promise<void> => {
-    const summaryReportData: SummaryReport = {
+export const useSaveSummaryReport = () => {
+  const saveSummaryReport = useCallback(
+    async (employeeId: string, summary: string): Promise<void> => {
+      const summaryReportData: SummaryReport = {
         employee_id: employeeId,
-        summary: summary
-    }
+        summary: summary,
+      };
 
-    try{
+      try {
         const response = await fetch('http://localhost:8000/client/save_summary_report/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(summaryReportData)
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(summaryReportData),
         });
 
-        if(!response.ok){
-            throw new Error(`failed to save summary report: ${response.statusText}`)
+        if (!response.ok) {
+          throw new Error(`Failed to save summary report: ${response.statusText}`);
         }
 
-        // responseのstatusがOKなら
-        console.log(`summary report just saved.`)
-    }
-    catch(error){
-        console.error(`Error:`, error)
-    }
+        console.log('Summary report just saved.');
+      } catch (error) {
+        console.error('Error:', error);
+      }
+    },
+    [],
+  );
+
+  return saveSummaryReport;
 };
+
+// 'use client';
+
+// import { useEffect, useState } from 'react';
+
+// interface SummaryReport {
+//   // 型定義が必要なら定義する
+//   employee_id: string;
+//   summary: string;
+// }
+
+// export const useSaveSummaryReport = async (employeeId: string, summary: string): Promise<void> => {
+//   const summaryReportData: SummaryReport = {
+//     employee_id: employeeId,
+//     summary: summary,
+//   };
+
+//   try {
+//     const response = await fetch('http://localhost:8000/client/save_summary_report/', {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(summaryReportData),
+//     });
+
+//     if (!response.ok) {
+//       throw new Error('failed to save summary report: ${response.statusText}');
+//     }
+
+//     // responseのstatusがOKなら
+//     console.log('summary report just saved.');
+//   } catch (error) {
+//     console.error('Error:', error);
+//   }
+// };
 
 // ページコンポーネントで呼び出すときには...
 
