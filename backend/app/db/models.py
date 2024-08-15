@@ -1,4 +1,4 @@
-from sqlalchemy import Column, String, Integer, Text, ForeignKey, TIMESTAMP, Float
+from sqlalchemy import Column, String, Integer, Text, ForeignKey, TIMESTAMP, Float,Date
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.declarative import declarative_base
 import uuid
@@ -36,11 +36,15 @@ class SlackUserInfo(Base):
     name = Column(String(100), nullable=False)
     real_name = Column(String(100), nullable=False)
 
+    analysis_results = relationship("AnalysisResult", back_populates="slack_user_info")
+    summarize_histories = relationship("SummarizeHistory", back_populates="slack_user_info")
+    advices_histories = relationship("AdvicesHistory", back_populates="slack_user_info")
+
 class DailyReport(Base):
     __tablename__ = 'daily_report'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(Float, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
@@ -56,7 +60,7 @@ class TimesTweet(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     channel_id = Column(String, ForeignKey('times_list.channel_id'), nullable=False)
-    user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(Float, nullable=False)
     thread_ts = Column(Float, nullable=True)
@@ -72,7 +76,7 @@ class TimesTweet(Base):
 class TimesList(Base):
     __tablename__ = 'times_list'
 
-    user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     channel_name = Column(String(100), nullable=False)
     channel_id = Column(String(100), primary_key=True, nullable=False)
 
@@ -80,6 +84,8 @@ class ContactForm(Base):
     __tablename__ = 'contact_form'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
+    company_name = Column(String(100), nullable=False) # 追加
+    department = Column(String(100), nullable=True) # 追加
     name = Column(String(100), nullable=False)
     email = Column(String(100), nullable=False)
     message = Column(Text, nullable=False)
@@ -89,17 +95,29 @@ class SummarizeHistory(Base):
     __tablename__ = 'summarize_history'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    #employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     summary = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+    slack_user_info = relationship("SlackUserInfo", back_populates="summarize_histories")
+
+    def __repr__(self):
+        return f"<SummarizeHistory(id={self.id}, slack_user_id={self.slack_user_id}, summary='{self.summary}', created_at={self.created_at})>"
 
 class AdvicesHistory(Base):
     __tablename__ = 'advices_history'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    #employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
+    slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     advices = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+    slack_user_info = relationship("SlackUserInfo", back_populates="advices_histories")
+    def __repr__(self):
+        return f"<AdvicesHistory(id={self.id}, slack_user_id={self.slack_user_id}, advices='{self.advices}', created_at={self.created_at})>"
+
 
 # ここからcareer_survey用の定義
 
@@ -135,3 +153,17 @@ class Response(Base):
 
     employee = relationship("Employee", back_populates="responses")
     question = relationship("Question", back_populates="responses")
+
+# 分析後のアンケート結果をDB保存しておくテーブル
+class AnalysisResult(Base):
+    __tablename__ = 'analysis_result'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False)
+    result = Column(Text, nullable=False)
+    created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
+
+    slack_user_info = relationship("SlackUserInfo", back_populates="analysis_results")
+
+    def __repr__(self):
+        return f"<AnalysisResult(id={self.id}, slack_user_id={self.slack_user_id}, result={self.result}, save_date={self.save_date})>"

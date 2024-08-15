@@ -11,7 +11,7 @@ from app.services.slackApi import get_and_save_users, get_and_save_daily_report,
 from slack_sdk import WebClient
 from app.db.database import get_db
 from app.db.models import DailyReport
-from app.routers import frontend_requests, slack_requests, career_survey
+from app.routers import frontend_requests
 
 # 環境変数の読み込み
 load_dotenv()
@@ -52,8 +52,6 @@ app.add_middleware(
 router = APIRouter()
 
 app.include_router(frontend_requests.router, prefix="/client", tags=["client"])
-app.include_router(slack_requests.router, prefix="/slack", tags=["slack"])
-app.include_router(career_survey.router, prefix="/survey", tags=["survey"])
 
 @app.get("/")
 def read_root():
