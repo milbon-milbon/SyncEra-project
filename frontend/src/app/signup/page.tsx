@@ -1,4 +1,4 @@
-// frontend/src/app/signup/page.tsx ==新規登録画面==変更前
+// frontend/src/app/signup/page.tsx ==新規登録画面
 
 'use client';
 import React, { useState } from 'react';
@@ -9,7 +9,7 @@ import app from '@/firebase/config'; // Firebase app の初期化
 import clientLogger from '@/lib/clientLogger';
 import LogoWblue from '@/components/payment/LogoWblue';
 import { getFunctions, httpsCallable } from 'firebase/functions';
-
+import '@/app/signup/globals.css';
 interface AdminClaimsResponse {
   message: string;
 }
@@ -72,7 +72,7 @@ export default function SignUp() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-white'>
+    <div className='my-custom-font flex flex-col items-center justify-center min-h-screen p-4 bg-white'>
       <LogoWblue />
       <form
         className='bg-gray-100 md:p-[35px] p-6 rounded-lg shadow-lg max-w-md'

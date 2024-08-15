@@ -12,7 +12,7 @@ from app.services.schedule_survey import schedule_hourly_survey, schedule_monthl
 from slack_sdk import WebClient
 from app.db.database import get_db
 from app.db.models import DailyReport, Question, UserResponse
-from app.routers import frontend_requests, slack_requests, career_survey
+from app.routers import frontend_requests
 from app.db import schemas
 from fastapi.responses import JSONResponse
 from apscheduler.schedulers.background import BackgroundScheduler

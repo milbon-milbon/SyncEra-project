@@ -8,6 +8,7 @@ import { getAuth } from 'firebase/auth';
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
+import '@/app/admin-dashboard/globals.css';
 
 // 部署のリスト
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
@@ -98,7 +99,7 @@ export default function UpdateEmployee() {
     return null;
   }
   return (
-    <div className='flex min-h-screen text-[20px]  '>
+    <div className='my-custom-font flex min-h-screen text-[17px]   '>
       {/* 左側のナビゲーションエリア */}
 
       <div className='w-[400px] bg-gray-100 text-[#003366] border-r-[1px] border-[#336699] flex flex-col items-center p-4'>

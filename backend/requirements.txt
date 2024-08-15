@@ -12,7 +12,8 @@ black
 isort
 flake8
 apscheduler
-python-multipartstripe
+python-multipart
+stripe
 python-dotenv
 firebase-admin
 functions_framework

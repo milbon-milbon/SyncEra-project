@@ -9,6 +9,7 @@ import LogoWhite from '@/components/payment/LogoWhite';
 import Link from 'next/link';
 import '@/firebase/config';
 import clientLogger from '@/lib/clientLogger';
+import '@/app/login/globals.css';
 
 export default function CompanyLogin() {
   const [email, setEmail] = useState('');
@@ -61,7 +62,7 @@ export default function CompanyLogin() {
   }
 
   return (
-    <div className='flex flex-col min-h-screen bg-[#003366] p-[25px] box-border'>
+    <div className=' my-custom-font flex flex-col min-h-screen bg-[#003366] p-[25px] box-border'>
       <div className='flex flex-col flex-grow bg-white'>
         <LogoWhite />
         {/* ログインを配置 */}
@@ -104,8 +105,7 @@ export default function CompanyLogin() {
           </div>
           <div className='w-full p-[5px]'>
             <p className='text-[15px] text-[#003366]  '>
-              <Link href='/signup'>
-                {/*TODO:メール入力に変更 */}
+              <Link href='/#contact'>
                 <span className=' text-blue-500 underline ml-1'>パスワードお忘れの方</span>
               </Link>
             </p>

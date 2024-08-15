@@ -1,0 +1,8 @@
+.my-custom-font {
+  font-family: 'Dancing Script', cursive !important;
+}
+
+/* 全体のフォントをオーバーライド */
+.my-custom-font * {
+  font-family: 'Arial', sans-serif !important; /* 必要に応じて適用 */
+}

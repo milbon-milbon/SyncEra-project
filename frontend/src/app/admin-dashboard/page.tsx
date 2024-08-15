@@ -10,7 +10,7 @@ import Link from 'next/link';
 import clientLogger from '@/lib/clientLogger';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import SearchBar from '@/components/signup_and_login/SerchBer';
-
+import './globals.css';
 const db = getFirestore(app);
 
 interface Employee {
@@ -108,6 +108,7 @@ export default function AdminDashboard() {
     const auth = getAuth();
     try {
       await signOut(auth);
+      alert(`ログアウトしました。`);
       clientLogger.info('ユーザーがログアウトしました');
       router.push('/');
     } catch (error) {
@@ -136,7 +137,7 @@ export default function AdminDashboard() {
     }
   };
   return (
-    <div className='flex min-h-screen text-[20px]  '>
+    <div className='my-custom-font flex min-h-screen text-[17px]  '>
       {/* 左側のナビゲーションエリア */}
 
       <div className='w-[400px] bg-gray-100 text-[#003366] border-r-[1px] border-[#336699] flex flex-col items-center p-4'>
@@ -217,7 +218,7 @@ export default function AdminDashboard() {
           {/* <p>Loading: {loading ? 'Yes' : 'No'}</p> */}
           {/* <p className='ml-5  mb-8 mt-5 '>Number of employees: {employees.length}</p> */}
           <p className='ml-5 mb-8 mt-5'>Number of employees: {filteredEmployees.length}</p>
-          <table className='min-w-full bg-white text-center font-bold'>
+          <table className='min-w-full bg-white text-center '>
             <thead>
               <tr>
                 <th className='py-2'>氏名</th>

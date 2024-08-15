@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { addEmployee } from '@/services/employeeService'; // サービスに分離
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
+import '@/app/globals.css';
 
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
@@ -86,7 +87,7 @@ export default function NewEmployee() {
   }
 
   return (
-    <div className='flex min-h-screen text-[20px]  '>
+    <div className='my-custom-font flex min-h-screen text-[17px]   '>
       {/* 左側のナビゲーションエリア */}
 
       <div className='w-[400px] bg-gray-100 text-[#003366] border-r-[1px] border-[#336699] flex flex-col items-center p-4'>

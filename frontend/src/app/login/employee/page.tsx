@@ -10,6 +10,7 @@ import LogoWblue from '@/components/payment/LogoWblue';
 import clientLogger from '@/lib/clientLogger';
 import { httpsCallable, getFunctions } from 'firebase/functions';
 import app from '@/firebase/config';
+import '@/app/login/globals.css';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
@@ -62,7 +63,7 @@ export default function EmployeeLogin() {
   const redirectToDashboard = (role: string) => {
     switch (role) {
       case 'manager':
-        router.push('/manager-dashboard');
+        router.push('/employee-list');
         break;
       case 'staff':
         router.push('/staff-dashboard');
@@ -159,7 +160,7 @@ export default function EmployeeLogin() {
   }
 
   return (
-    <div className='flex flex-col items-center justify-center min-h-screen bg-white'>
+    <div className='my-custom-font flex flex-col items-center justify-center min-h-screen bg-white'>
       <LogoWblue />
       {/* ログインを配置 */}
       <form

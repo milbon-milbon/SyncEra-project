@@ -13,7 +13,8 @@ export default function LogoutButton() {
     try {
       await signOut(auth);
       clientLogger.info('User logged out successfully');
-      router.push('/login/employee');
+      alert(`ログアウトしました。`);
+      router.push('/');
     } catch (error) {
       clientLogger.error(`Logout failed:,${error}`);
       alert('ログアウトに失敗しました。');
@@ -23,7 +24,7 @@ export default function LogoutButton() {
   return (
     <button
       onClick={handleLogout}
-      className='bg-red-500 text-white py-2 px-4 rounded-full hover:bg-red-600 focus:outline-none mt-4'
+      className='bg-[#66B2FF] text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 transition-colors duration-300 mt-8 w-full'
     >
       ログアウト
     </button>
