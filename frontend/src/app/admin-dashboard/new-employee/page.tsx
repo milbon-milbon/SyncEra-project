@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 import { addEmployee } from '@/services/employeeService'; // サービスに分離
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
-import '@/app/globals.css';
+import '@/app/admin-dashboard/globals.css';
 
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';

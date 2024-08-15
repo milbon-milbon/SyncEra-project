@@ -39,7 +39,7 @@ class Employee(EmployeeBase):
 日報サマリーのDB保存ロジック用
 '''
 class SummaryReportRequest(BaseModel):
-    employee_id: str  # employee_idはUUIDの文字列形式
+    slack_user_id: str  # employee_idはUUIDの文字列形式
     summary: str
 
 '''
@@ -47,9 +47,9 @@ class SummaryReportRequest(BaseModel):
 '''
 class SavedSummaryReport(BaseModel):
     id: int
-    employee_id: str
+    slack_user_id: str
     summary: str
-    created_at: str
+    created_at: datetime
 
     class Config:
         orm_mode = True
@@ -58,7 +58,7 @@ class SavedSummaryReport(BaseModel):
 1on1アドバイスデータのDB保存ロジック用
 '''
 class AdvicesRequest(BaseModel):
-    employee_id: str  # employee_idはUUIDの文字列形式
+    slack_user_id: str  # employee_idはUUIDの文字列形式
     advices: str
 
 '''
@@ -66,9 +66,9 @@ class AdvicesRequest(BaseModel):
 '''
 class SavedAdvices(BaseModel):
     id: int
-    employee_id: str
+    slack_user_id: str
     advices: str
-    created_at: str
+    created_at: datetime
 
     class Config:
         orm_mode = True

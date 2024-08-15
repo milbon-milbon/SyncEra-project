@@ -16,6 +16,7 @@ type Employee = {
   role: string;
   project: string;
   slackUserId: string;
+  slackUserId: string;
   imageUrl?: string;
 };
 
@@ -29,7 +30,11 @@ export default function EmployeeRegister() {
     project: '',
     slackUserId: '',
     imageUrl: '', // SlackアイコンのURLを入力するフィールド
+    slackUserId: '',
+    imageUrl: '', // SlackアイコンのURLを入力するフィールド
   });
+
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -40,11 +45,17 @@ export default function EmployeeRegister() {
     if (e.target.name === 'imageUrl') {
       setImagePreview(e.target.value);
     }
+
+    // SlackアイコンのURLをプレビュー表示
+    if (e.target.name === 'imageUrl') {
+      setImagePreview(e.target.value);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     console.log('Form submitted:', formData);
+    router.push('/employee-list'); // 登録後に社員一覧ページにリダイレクト
     router.push('/employee-list'); // 登録後に社員一覧ページにリダイレクト
   };
 
@@ -57,12 +68,16 @@ export default function EmployeeRegister() {
       project: '',
       slackUserId: '',
       imageUrl: '',
+      slackUserId: '',
+      imageUrl: '',
     });
+    setImagePreview(null);
     setImagePreview(null);
   };
 
   const handleLogout = () => {
     console.log('Logged out');
+    router.push('/login');
     router.push('/login');
   };
 

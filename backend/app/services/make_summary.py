@@ -43,14 +43,16 @@ def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
         以下に、メンバーの情報として user_info、そのメンバーの指定された期間分の日報として daily_report、同じくそのメンバーの指定された期間の任意のつぶやきチャンネルの内容として times があります。
         このメンバーの日報およびtimesの内容を要約しておよそ1000文字以内で出力してください。
         また、要約文の冒頭ではまず初めに参照している日報、timesの投稿がいつの期間のものかを明記してください（例: [このサマリーは、2024年8月1日~2024年8月7日までのdaily_reportおよびtimesの投稿をもとにしています。]
-        なお、要約する観点として以下の3つは最低限持つようにしてください。
+        なお、要約する観点として以下の3つは最低限持つようにし、内容は長い文章ではなく箇条書きや改行を活用し、超多忙な上司がパッと読んで理解しやすい構造化された出力にしてください。
+        
         1)「業務で頑張っている・挑戦していること」
         2)「悩んだり困っていそうなこと」
         3)「最近興味を持っていそうなこと」
-        参照する情報は以下の通り
+        ※参照する情報は以下の通り
         従業員の情報: {employee_info}、
         日報の内容: {daily_report}、
         timesのつぶやき: {times_tweet}
+        ※この日報を書いた社員の性別は男性でも女性でも通用するような表現にしてください（彼、彼女を使わない、など）。
         """
 
         response = client.chat.completions.create(
@@ -74,9 +76,8 @@ def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
 
 
 # テストするなら以下をアレンジ
-if __name__ == "__main__":
-    slack_user_id = "slack_user_sample_1"
-    start_date = date(2024, 8, 1)
-    end_date = date(2024, 8, 7)
-    summary = make_summarize_report(slack_user_id, start_date, end_date)
-    print(summary)
+# slack_user_id = "sample_4"
+# start_date = date(2024, 8, 1)
+# end_date = date(2024, 8, 20)
+# summary = make_summarize_report(slack_user_id, start_date, end_date)
+# print(summary)

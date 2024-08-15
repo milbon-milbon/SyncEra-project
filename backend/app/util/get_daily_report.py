@@ -1,10 +1,8 @@
 import logging
 import os
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from app.db.models import DailyReport
-from .convert_to_unix_timestamp import convert_to_unix_timestamp
 from datetime import date, datetime
 from app.db.database import get_db
 
@@ -23,7 +21,7 @@ def compile_daily_report_data(daily_report_data):
     else:
         # daily_report_dataが存在する場合
         compiled_daily_report_data = "\n".join(
-            f"ID: {report.id}, User ID: {report.user_id}, Text: {report.text}, Timestamp: {report.ts}, Created At: {report.created_at}"
+            f"ID: {report.id}, User ID: {report.slack_user_id}, Text: {report.text}, Timestamp: {report.ts}, Created At: {report.created_at}"
             for report in daily_report_data
         )
         logger.debug("◆日報データを読解可能な文字列に変換しました。")
@@ -41,7 +39,7 @@ def get_daily_report(slack_user_id: str, start_date:date, end_date:date):
     try:
         target_daily_report = db.query(DailyReport).filter(
             and_(
-                DailyReport.user_id == slack_user_id,
+                DailyReport.slack_user_id == slack_user_id,
                 DailyReport.created_at >= start_datetime, 
                 DailyReport.created_at <= end_datetime
             )
@@ -60,4 +58,7 @@ def get_daily_report(slack_user_id: str, start_date:date, end_date:date):
 
 
     
-    
+# slack_user_id = 'sample_4'
+# start_date = date(2024, 8, 1)
+# end_date = date(2024, 8, 20)
+# response=get_daily_report(slack_user_id, start_date, end_date)

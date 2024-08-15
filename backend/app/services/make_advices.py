@@ -57,8 +57,10 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
         2)部下のslackのtimesの呟き: {times_tweet}
         3)部下のプロフィール: {employee_info}
         4)1~3をもとに作成した要約文: {summary}
-        なお、出力の冒頭ではまず初めに参照している日報、timesの投稿がいつの期間のものかを明記してください。
+        ※なお、出力の冒頭ではまず初めに参照している日報、timesの投稿がいつの期間のものかを明記してください。
         （例: [※2024年8月1日~2024年8月7日までのdaily_reportおよびtimesの投稿をもとにしています。]
+        ※なお、要約する観点ごとに文章を構造化し、内容は長い文章ではなく箇条書きや改行を活用し、超多忙な上司がパッと読んで理解しやすい出力にしてください。
+        ※この日報を書いた社員の性別は男性でも女性でも通用するような表現にしてください（彼、彼女を使わない、など）。
         """
 
         response = client.chat.completions.create(
@@ -83,9 +85,8 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
 
 
 # テストするなら以下をアレンジ
-if __name__ == "__main__":
-    slack_user_id = "slack_user_sample_2"
-    start_date = date(2024, 8, 1)
-    end_date = date(2024, 8, 7)
-    advices = make_advices(slack_user_id, start_date, end_date)
-    print(advices)
+# slack_user_id = "sample_4"
+# start_date = date(2024, 8, 1)
+# end_date = date(2024, 8, 15)
+# advices = make_advices(slack_user_id, start_date, end_date)
+# print(advices)

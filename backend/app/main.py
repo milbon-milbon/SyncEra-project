@@ -51,8 +51,6 @@ app.add_middleware(
 router = APIRouter()
 
 app.include_router(frontend_requests.router, prefix="/client", tags=["client"])
-# app.include_router(slack_requests.router, prefix="/slack", tags=["slack"])
-# app.include_router(career_survey.router, prefix="/survey", tags=["survey"])
 
 @app.get("/")
 def read_root():
