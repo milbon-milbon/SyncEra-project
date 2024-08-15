@@ -30,4 +30,4 @@ slack_user_id = 'sample_4'
 db=get_db()
 
 test_response=make_analysis_results_list(slack_user_id, db)
-print(test_response )
+print(test_response)

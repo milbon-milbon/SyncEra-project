@@ -19,3 +19,14 @@ def save_summary_report(report: SummaryReportRequest, db: Session = Depends(get_
     db.refresh(new_summary)
 
     return {"message": "日報サマリーが正常に保存されました", "id": new_summary.id}
+
+
+#__挙動テスト用 : OK
+# test_report = SummaryReportRequest(
+#     slack_user_id='sample_4',
+#     summary='テスト：サマリー保存'
+# )
+
+# db=get_db()
+# response=save_summary_report(test_report, db)
+# print(response)

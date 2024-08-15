@@ -14,3 +14,9 @@ def get_all_saved_advices_history(slack_user_id: str, db: Session = Depends(get_
         raise HTTPException(status_code=404, detail="No advices found for this slack_user_id")
 
     return advices_history
+
+#_____挙動テスト用
+# slack_user_id='sample_4'
+# db=get_db()
+# test=get_all_saved_advices_history(slack_user_id, db)
+# print(test)

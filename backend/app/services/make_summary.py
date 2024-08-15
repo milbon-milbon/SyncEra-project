@@ -74,9 +74,8 @@ def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
 
 
 # テストするなら以下をアレンジ
-if __name__ == "__main__":
-    slack_user_id = "slack_user_sample_1"
-    start_date = date(2024, 8, 1)
-    end_date = date(2024, 8, 7)
-    summary = make_summarize_report(slack_user_id, start_date, end_date)
-    print(summary)
+# slack_user_id = "sample_4"
+# start_date = date(2024, 8, 1)
+# end_date = date(2024, 8, 20)
+# summary = make_summarize_report(slack_user_id, start_date, end_date)
+# print(summary)

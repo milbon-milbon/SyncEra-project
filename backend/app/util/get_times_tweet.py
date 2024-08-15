@@ -1,11 +1,9 @@
 import logging
 import os
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from app.db.models import TimesTweet
 from app.db.database import get_db
-from .convert_to_unix_timestamp import convert_to_unix_timestamp
 from datetime import datetime, date
 
 load_dotenv()
@@ -21,7 +19,7 @@ def compile_times_tweet_data(times_tweet_data):
         compiled_times_tweet_data = "日報記録がありません。"
     else:
         compiled_times_tweet_data = "\n".join(
-            f"ID: {tweet.id}, Channel ID: {tweet.channel_id}, User ID: {tweet.user_id}, Text: {tweet.text}, Timestamp: {tweet.ts}, Thread Timestamp: {tweet.thread_ts}, Parent User ID: {tweet.parent_user_id}, Created At: {tweet.created_at}"
+            f"ID: {tweet.id}, Channel ID: {tweet.channel_id}, User ID: {tweet.slack_user_id}, Text: {tweet.text}, Timestamp: {tweet.ts}, Thread Timestamp: {tweet.thread_ts}, Parent User ID: {tweet.parent_user_id}, Created At: {tweet.created_at}"
             for tweet in times_tweet_data
         )
         logger.debug("◆timesの投稿データを読解可能な文字列に変換しました。")
@@ -38,7 +36,7 @@ def get_times_tweet(slack_user_id: str, start_date: date, end_date: date):
     try:
         target_times_tweet = db.query(TimesTweet).filter(
             and_(
-                TimesTweet.user_id == slack_user_id,
+                TimesTweet.slack_user_id == slack_user_id,
                 TimesTweet.created_at >= start_datetime, 
                 TimesTweet.created_at <= end_datetime
             )
@@ -55,3 +53,9 @@ def get_times_tweet(slack_user_id: str, start_date: date, end_date: date):
         return[]
     finally:
         db.close()
+
+
+# slack_user_id = 'sample_4'
+# start_date = date(2024, 8, 1)
+# end_date = date(2024, 8, 20)
+# response=get_times_tweet(slack_user_id, start_date, end_date)

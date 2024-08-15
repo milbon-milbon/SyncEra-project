@@ -102,6 +102,9 @@ class SummarizeHistory(Base):
 
     slack_user_info = relationship("SlackUserInfo", back_populates="summarize_histories")
 
+    def __repr__(self):
+        return f"<SummarizeHistory(id={self.id}, slack_user_id={self.slack_user_id}, summary='{self.summary}', created_at={self.created_at})>"
+
 class AdvicesHistory(Base):
     __tablename__ = 'advices_history'
 
@@ -112,6 +115,9 @@ class AdvicesHistory(Base):
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
 
     slack_user_info = relationship("SlackUserInfo", back_populates="advices_histories")
+    def __repr__(self):
+        return f"<AdvicesHistory(id={self.id}, slack_user_id={self.slack_user_id}, advices='{self.advices}', created_at={self.created_at})>"
+
 
 # ここからcareer_survey用の定義
 
