@@ -18,6 +18,8 @@ from app.routers import frontend_requests
 from app.db import schemas
 from fastapi.responses import JSONResponse
 from apscheduler.schedulers.background import BackgroundScheduler
+# めめ追加 : redis用のimport
+from redis import Redis
 
 # 環境変数の読み込み
 load_dotenv()
@@ -27,19 +29,22 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+# めめ追加 : redisの接続設定
+REDIS_HOST = os.getenv("REDIS_HOST", "redis") # "redis"部分はコンテナでの開発時。ローカルの時はlocalhost
+REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+redis_client = Redis(host=REDIS_HOST, port=REDIS_PORT)
+
 # Slack APIトークンを設定
 SLACK_TOKEN = os.getenv("SLACK_API_KEY")
 SIGNING_SECRET = os.getenv("SIGNING_SECRET")
+
 # つぶやきチャンネルのIDを環境変数から読み込む
 TWEET_CHANNEL_IDS = os.getenv("TWEET_CHANNEL_IDS", "").split(",")
 slack_client = WebClient(token=SLACK_TOKEN)
 
 app = FastAPI()
 
-#マージの時残してください めめ
 origins = os.getenv("ALLOWED_ORIGINS", "").split(",")
-
-#マージの時残してください　めめ
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,
@@ -167,7 +172,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             answer=selected_option,
             free_text=free_text
         )
-       # 回答をDBに保存し、次の質問を取得して送信
+        # 回答をDBに保存し、次の質問を取得して送信
         db.add(response_data)
         db.commit()
         logger.info(f"Response saved for user {user_id} for question {question_id}")
