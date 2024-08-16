@@ -40,7 +40,7 @@ def send_message_to_daily_report():
 def send_message_to_user():
     try:
         sayoko_times_channel = os.getenv("SLACK_MY_TIMES_CHANNEL")
-        result = client.chat_postEphemeral(
+        result = client.chat_postMessage(
             channel=sayoko_times_channel,
             text="setting message"
         )
