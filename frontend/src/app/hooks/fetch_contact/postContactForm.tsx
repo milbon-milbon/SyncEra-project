@@ -1,7 +1,7 @@
 'use client';
 import React, { useState } from 'react';
 
-// 問い合わせフォームの送信ボタンクリック後の処理
+// 問い合わせフォームの送信ボタンクリック
 export default function ContactFormButton() {
   const [formData, setFormData] = useState({
     company_name: '',
