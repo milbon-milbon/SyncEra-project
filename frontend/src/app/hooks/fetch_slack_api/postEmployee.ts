@@ -23,7 +23,7 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   });
   try {
     // バックエンドAPI（エンドポイント/client/add_employee_info/ )にデータを送信
-    const response = await fetch('/client/add_employee_info/', {
+    const response = await fetch('http://localhost:8000/client/add_employee_info/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
