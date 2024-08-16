@@ -11,7 +11,7 @@ type Employee = {
   project: string;
 };
 
-const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+export const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
   const router = useRouter();
   const [formData, setFormData] = useState({

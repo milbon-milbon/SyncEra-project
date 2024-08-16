@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 
 interface SavedSummaryReport {
   id: number;
-  employee_is: string;
+  employee_id: string;
   summary: string;
   created_at: Date;
 }
