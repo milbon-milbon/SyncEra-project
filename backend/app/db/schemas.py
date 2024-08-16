@@ -87,6 +87,8 @@ class SavedAdvices(BaseModel):
 問い合わせフォームの内容をAPIレスポンスに乗せる用
 '''
 class ContactFormBase(BaseModel):
+    company_name: str  # 追加
+    department: Optional[str] = None  # 追加（任意項目）
     name: str
     email: str
     message: str
@@ -96,7 +98,7 @@ class ContactFormCreate(ContactFormBase):
 
 class ContactForm(ContactFormBase):
     id: int
-    timestamp: datetime
+    created_at: datetime  # 修正：timestamp → created_at
 
     class Config:
         orm_mode = True
