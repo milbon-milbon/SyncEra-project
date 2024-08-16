@@ -7,6 +7,7 @@ import { addEmployee } from '@/services/employeeService'; // サービスに分�
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
 import '@/app/admin-dashboard/globals.css';
+import { signInWithEmailAndPassword, signOut } from 'firebase/auth'; //新規社員登録後に、管理者アカウントに自動的に再ログイン
 
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
@@ -26,38 +27,57 @@ export default function NewEmployee() {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const [adminEmail, setAdminEmail] = useState<string | null>(null);
-  // 追加すると、ログイン状態の直接入力はじく
-  useEffect(() => {
-    setLoading(false);
-    const auth = getAuth(app);
-    const currentUser = auth.currentUser;
-
-    if (!currentUser) {
-      router.push('/login/company');
-    }
-  }, [router]);
 
   useEffect(() => {
     const auth = getAuth(app);
-    // const currentUser = auth.currentUser;
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAdminEmail(user.email); // 管理者のメールアドレスを設定
+        setAdminEmail(user.email);
         setLoading(false);
       } else {
         clientLogger.info('未認証ユーザーがNewEmployeeページにアクセスしようとしました');
         router.push('/login/company');
+        // ここでreturnを追加して、以降のコードの実行を防ぐ
+        return;
       }
     });
 
     return () => unsubscribe();
   }, [router]);
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   setError(null);
+
+  //   // ログインしているユーザーの companyId を取得
+  //   const auth = getAuth();
+  //   const currentUser = auth.currentUser;
+
+  //   if (currentUser) {
+  //     const companyId = currentUser.uid;
+  //     const employeeData = { name, department, role, email, password };
+
+  //     try {
+  //       await addEmployee(companyId, employeeData);
+  //       // サインイン後、管理者ダッシュボードにリダイレクト
+  //       clientLogger.info('新規社員が正常に登録されました');
+  //       alert('新規社員が正常に登録されました');
+  //       router.push('/admin-dashboard');
+  //     } catch (error: any) {
+  //       clientLogger.error(`社員登録エラー: ${error.message}`);
+  //       setError('登録に失敗しました。もう一度お試しください。');
+  //       clientLogger.error(`詳細なエラー情報:,${error}`);
+  //     }
+  //   } else {
+  //     setError('認証エラーが発生しました。再度ログインしてください。');
+  //     router.push('/login/company');
+  //   }
+  // };
+  //修正案
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
 
-    // ログインしているユーザーの companyId を取得
     const auth = getAuth();
     const currentUser = auth.currentUser;
 
@@ -67,9 +87,21 @@ export default function NewEmployee() {
 
       try {
         await addEmployee(companyId, employeeData);
-        // サインイン後、管理者ダッシュボードにリダイレクト
         clientLogger.info('新規社員が正常に登録されました');
         alert('新規社員が正常に登録されました');
+
+        // 新規社員をログアウトさせ、元の管理者アカウントでログインしなおす
+        const adminEmail = currentUser.email;
+        const adminPassword = prompt('再度管理者パスワードを入力してください:');
+
+        if (adminPassword) {
+          await signOut(auth);
+          await signInWithEmailAndPassword(auth, adminEmail!, adminPassword);
+          clientLogger.info('管理者が再ログインしました');
+          console.log('Admin successfully re-logged in as:', adminEmail);
+        }
+
+        // ログイン後、管理者ダッシュボードにとどまる
         router.push('/admin-dashboard');
       } catch (error: any) {
         clientLogger.error(`社員登録エラー: ${error.message}`);
@@ -81,7 +113,6 @@ export default function NewEmployee() {
       router.push('/login/company');
     }
   };
-
   if (loading) {
     return <div>Loading...</div>;
   }

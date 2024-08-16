@@ -6,13 +6,8 @@ from app.services.make_employee_list import make_employee_list
 from app.services.make_analysis_results_list import make_analysis_results_list
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
-<<<<<<< HEAD
-from app.db.models import Employee, SlackUserInfo, DailyReport
-from app.db.database import get_db
-=======
 from app.db.models import Employee, SlackUserInfo, DailyReport, AnalysisResult
 from app.db.database import get_db 
->>>>>>> origin/db_automation
 from app.db.schemas import Employee, EmployeeCreate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
 from app.util.get_employee_info import get_employee_info
 from app.util.summary.save_summary_report import save_summary_report
@@ -21,11 +16,8 @@ from app.util.advices.save_advices import save_advices
 from app.util.advices.get_all_saved_advices_history import get_all_saved_advices_history
 from app.util.advices.get_saved_advices_history import get_saved_advices_history
 from app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
-<<<<<<< HEAD
 from app.util import convert_ts_to_date
-=======
 from app.util.survey_analysis.analysis_functions import filtered_by_user_and_date
->>>>>>> origin/db_automation
 from typing import Optional
 from datetime import date
 

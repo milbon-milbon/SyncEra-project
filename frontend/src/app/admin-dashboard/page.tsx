@@ -33,7 +33,7 @@ export default function AdminDashboard() {
       const companyDoc = await getDoc(doc(db, 'companies', uid));
       return companyDoc.exists();
     } catch (error) {
-      clientLogger.error(`Error checking admin status: ${error}`);
+      clientLogger.error(`==管理者ステータスの確認中にエラーが発生しました==: ${error}`);
       return false;
     }
   };
@@ -75,7 +75,7 @@ export default function AdminDashboard() {
       setEmployees(employeesList);
       setFilteredEmployees(employeesList); // 初期状態はすべて表示
     } catch (error) {
-      clientLogger.error(`Error fetching employees:,${error}`);
+      clientLogger.error(`===社員情報の取得に失敗しました。===:,${error}`);
       alert('社員情報の取得に失敗しました。');
     } finally {
       setLoading(false);
@@ -97,9 +97,13 @@ export default function AdminDashboard() {
         console.log('削除:', result.data);
 
         alert('削除が完了しました');
-        setEmployees(employees.filter((employee) => employee.id !== employeeId));
+
+        // employees と filteredEmployees の両方を更新
+        const updatedEmployees = employees.filter((employee) => employee.id !== employeeId);
+        setEmployees(updatedEmployees);
+        setFilteredEmployees(updatedEmployees);
       } catch (error) {
-        clientLogger.error(`Error deleting employee:,${error}`);
+        clientLogger.error(`===削除に失敗しました。===:,${error}`);
         alert('削除に失敗しました。もう一度お試しください。');
       }
     }
@@ -109,10 +113,10 @@ export default function AdminDashboard() {
     try {
       await signOut(auth);
       alert(`ログアウトしました。`);
-      clientLogger.info('ユーザーがログアウトしました');
+      clientLogger.info('===ユーザーがログアウトしました===');
       router.push('/');
     } catch (error) {
-      clientLogger.error(`ログアウト中にエラーが発生しました:,${error}`);
+      clientLogger.error(`===ログアウト中にエラーが発生しました===:,${error}`);
       alert('ログアウトに失敗しました。もう一度お試しください。');
     }
   };

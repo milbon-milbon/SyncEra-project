@@ -16,7 +16,7 @@ type Employee = {
   role: string;
   project: string;
   slackUserId: string;
-  slackUserId: string;
+
   imageUrl?: string;
 };
 
@@ -30,11 +30,7 @@ export default function EmployeeRegister() {
     project: '',
     slackUserId: '',
     imageUrl: '', // SlackアイコンのURLを入力するフィールド
-    slackUserId: '',
-    imageUrl: '', // SlackアイコンのURLを入力するフィールド
   });
-
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
 
@@ -66,8 +62,6 @@ export default function EmployeeRegister() {
       department: '',
       role: '',
       project: '',
-      slackUserId: '',
-      imageUrl: '',
       slackUserId: '',
       imageUrl: '',
     });

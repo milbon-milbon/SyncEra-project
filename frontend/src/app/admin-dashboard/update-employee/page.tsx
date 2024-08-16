@@ -36,21 +36,18 @@ export default function UpdateEmployee() {
   const [loading, setLoading] = useState(true);
   const [adminEmail, setAdminEmail] = useState<string | null>(null);
 
-  // 追加すると、ログイン状態の直接入力はじく
   useEffect(() => {
-    // setLoading(false);
-    const auth = getAuth(app);
-    const currentUser = auth.currentUser;
+    const checkAuthAndFetchData = async () => {
+      const auth = getAuth(app);
+      const currentUser = auth.currentUser;
 
-    if (currentUser) {
-      setAdminEmail(currentUser.email || ''); // 管理者のメールアドレスを設定
-    } else {
-      router.push('/login/company');
-    }
-  }, [router]);
+      if (!currentUser) {
+        router.push('/login/company');
+        return;
+      }
 
-  useEffect(() => {
-    const fetchEmployee = async () => {
+      setAdminEmail(currentUser.email || '');
+
       const companyId = localStorage.getItem('companyId');
       if (companyId && employeeId) {
         try {
@@ -64,9 +61,12 @@ export default function UpdateEmployee() {
           clientLogger.error(`Error fetching employee data:, ${error}`);
         }
       }
+
+      setLoading(false); // 全ての処理が完了した後にloadingをfalseに設定
     };
-    fetchEmployee();
-  }, [employeeId]);
+
+    checkAuthAndFetchData();
+  }, [employeeId, router]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -86,9 +86,9 @@ export default function UpdateEmployee() {
       }
     }
   };
-  // if (loading) {
-  //   return <div>Loading...</div>;
-  // }
+  if (loading) {
+    return <div>Loading...</div>;
+  }
 
   async function getCompanyId(): Promise<string | null> {
     const auth = getAuth();

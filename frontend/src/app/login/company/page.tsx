@@ -10,7 +10,7 @@ import Link from 'next/link';
 import '@/firebase/config';
 import clientLogger from '@/lib/clientLogger';
 import '@/app/login/globals.css';
-
+import { FirebaseError } from 'firebase/app';
 export default function CompanyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -37,6 +37,29 @@ export default function CompanyLogin() {
     return () => unsubscribe();
   }, [router]);
 
+  // const handleSubmit = async (e: React.FormEvent) => {
+  //   e.preventDefault();
+  //   try {
+  //     const auth = getAuth();
+  //     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+  //     const user = userCredential.user;
+
+  //     // 管理者かどうかを確認（カスタムクレームを利用）
+  //     const token = await user.getIdTokenResult();
+  //     if (token.claims.isCompanyAdmin) {
+  //       clientLogger.info('=== 管理者アカウントログイン成功=== ');
+  //       router.push('/admin-dashboard');
+  //     } else {
+  //       throw new Error('管理者権限がありません。');
+  //     }
+  //   } catch (error) {
+  //     alert('管理者権限がありません。アカウントを作成してください。');
+  //     clientLogger.error(`===管理者アカウントログイン失敗:=== , ${error}`);
+  //   }
+  // };
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
@@ -50,17 +73,39 @@ export default function CompanyLogin() {
         clientLogger.info('=== 管理者アカウントログイン成功=== ');
         router.push('/admin-dashboard');
       } else {
-        throw new Error('管理者権限がありません。');
+        throw new Error('NOT_ADMIN');
       }
     } catch (error) {
-      alert('管理者権限がありません。アカウントを作成してください。');
+      if (error instanceof FirebaseError) {
+        switch (error.code) {
+          case 'auth/user-not-found':
+            alert('このメールアドレスは登録されていません。新規登録をお願いします。');
+            break;
+          case 'auth/wrong-password':
+            alert('パスワードが間違っています。再度お試しください。');
+            break;
+          case 'auth/invalid-email':
+            alert('無効なメールアドレスです。');
+            break;
+          case 'auth/user-disabled':
+            alert('このアカウントは無効化されています。管理者にお問い合わせください。');
+            break;
+          default:
+            if (error.message === 'NOT_ADMIN') {
+              alert('このアカウントには管理者権限がありません。管理者にお問い合わせください。');
+            } else {
+              alert('ログインに失敗しました。もう一度お試しください。');
+            }
+        }
+      } else {
+        alert('予期せぬエラーが発生しました。もう一度お試しください。');
+      }
       clientLogger.error(`===管理者アカウントログイン失敗:=== , ${error}`);
     }
   };
   if (loading) {
     return <div>Loading...</div>;
   }
-
   return (
     <div className=' my-custom-font flex flex-col min-h-screen bg-[#003366] p-[25px] box-border'>
       <div className='flex flex-col flex-grow bg-white'>
