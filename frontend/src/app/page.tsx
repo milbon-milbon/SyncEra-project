@@ -262,6 +262,7 @@ export default function Home() {
 
 import Link from 'next/link'; // Linkをインポート
 import { useState } from 'react';
+import ContactForm from './hooks/fetch_contact/postContactForm';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'none' | 'syncEra' | 'appInfo'>('none');
@@ -455,36 +456,7 @@ export default function Home() {
       {/* Contact Section */}
       <section id="contact" className="py-20 bg-gray-100 text-center">
         <h2 className="text-4xl font-bold mb-8">お問い合わせ</h2>
-        <form className="max-w-2xl mx-auto space-y-4">
-          <input
-            type="text"
-            placeholder="会社・団体名"
-            className="w-full p-3 rounded border border-gray-300"
-          />
-          <input
-            type="text"
-            placeholder="部署名（任意）"
-            className="w-full p-3 rounded border border-gray-300"
-          />
-          <input
-            type="text"
-            placeholder="お名前"
-            className="w-full p-3 rounded border border-gray-300"
-          />
-          <input
-            type="text"
-            placeholder="email"
-            className="w-full p-3 rounded border border-gray-300"
-          />
-          <textarea
-            placeholder="メッセージ"
-            className="w-full p-3 rounded border border-gray-300"
-            rows={5}
-          ></textarea>
-          <button className="bg-[#003366] text-white px-6 py-3 rounded font-bold hover:bg-blue-700 transition-colors duration-300">
-            メッセージを送信
-          </button>
-        </form>
+        <ContactForm /> {/* 問い合わせフォームを表示 */}
       </section>
 
       {/* Footer */}

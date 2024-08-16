@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 
 // 問い合わせフォームの送信ボタンクリック
-export default function ContactFormButton() {
+export default function ContactForm() {
   const [formData, setFormData] = useState({
     company_name: '',
     department: '',
