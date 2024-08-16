@@ -17,17 +17,19 @@ class SlackUserInfo(BaseModel):
 '''
 従業員情報をAPIレスポンスに乗せる用
 '''
+# 基本のスキーマ
 class EmployeeBase(BaseModel):
     name: str
     email: str
     department: str
     role: str
     project: str
-    slack_user_id: str
 
+# 新しい従業員の作成用スキーマ
 class EmployeeCreate(EmployeeBase):
     pass
 
+# 部分的な更新用のスキーマ
 class EmployeeUpdate(BaseModel):
     name: Optional[str]
     email: Optional[str]
@@ -38,9 +40,11 @@ class EmployeeUpdate(BaseModel):
     class Config:
         orm_mode = True
 
+# データベースから取得した従業員情報のスキーマ
 class Employee(EmployeeBase):
-    id: str
-    slack_user_info: Optional[SlackUserInfo] = None  # Slackの情報を追加
+    id: int  # IDはint型が一般的です（データベース依存）
+    slack_user_id: Optional[str] = None  # Slack IDはオプショナルに設定
+    slack_user_info: Optional['SlackUserInfo'] = None  # Slackの追加情報
 
     class Config:
         orm_mode = True

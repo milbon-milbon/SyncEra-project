@@ -4,16 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
-type Employee = {
-  id: string;
-  name: string;
-  department: string;
-  role: string;
-  project: string;
-  slackUserId: string;
-  imageUrl?: string;
-};
-
 export default function EmployeeRegister() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -22,30 +12,43 @@ export default function EmployeeRegister() {
     department: '',
     role: '',
     project: '',
-    slackUserId: '',
-    imageUrl: '', // SlackアイコンのURLを入力するフィールド
   });
-
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-
-    // SlackアイコンのURLをプレビュー表示
-    if (e.target.name === 'imageUrl') {
-      setImagePreview(e.target.value);
-    }
-
-    // SlackアイコンのURLをプレビュー表示
-    if (e.target.name === 'imageUrl') {
-      setImagePreview(e.target.value);
-    }
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  // `handleSubmit` をラップする関数
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log('Form submitted:', formData);
-    router.push('/employee-list'); // 登録後に社員一覧ページにリダイレクト
+
+    try {
+      // バックエンドAPI（エンドポイント/client/add_employee_info/ )にデータを送信
+      const response = await fetch('http://localhost:8000/client/add_employee_info/', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          department: formData.department,
+          role: formData.role,
+          project: formData.project,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.detail); // サーバーからのエラーメッセージを取得
+      }
+
+      // 成功したら社員一覧ページにリダイレクト
+      router.push('/employee-list');
+    } catch (error) {
+      console.error('Error registering employee:', error);
+      alert('社員登録に失敗しました。');
+    }
   };
 
   const handleCancel = () => {
@@ -55,10 +58,7 @@ export default function EmployeeRegister() {
       department: '',
       role: '',
       project: '',
-      slackUserId: '',
-      imageUrl: '',
     });
-    setImagePreview(null);
   };
 
   const handleLogout = () => {
@@ -68,7 +68,6 @@ export default function EmployeeRegister() {
 
   return (
     <div className="min-h-screen flex">
-      {/* サイドバー */}
       <aside className="w-64 bg-[#003366] text-white p-6 flex flex-col">
         <div className="text-3xl font-bold mb-8">
           <img src="/image/SyncEra(blue_white).png" alt="SyncEra Logo" className="h-13" />
@@ -95,14 +94,12 @@ export default function EmployeeRegister() {
         </button>
       </aside>
 
-      {/* メインコンテンツ */}
       <main className="flex-1 flex items-center justify-center bg-[#f5f9fc] p-6">
         <div className="bg-[#ffffff] p-8 rounded-lg shadow-lg w-full max-w-4xl flex">
-          {/* フォーム部分 */}
           <div className="flex-1 mr-8">
             <h1 className="text-3xl font-bold mb-6 text-[#003366] text-center">社員登録</h1>
-            <form onSubmit={handleSubmit}>
-              {['name', 'email', 'department', 'role', 'project', 'imageUrl'].map((field) => (
+            <form onSubmit={onSubmit}>
+              {['name', 'email', 'department', 'role', 'project'].map((field) => (
                 <div key={field} className="mb-6 flex items-center">
                   <label htmlFor={field} className="block text-lg font-bold text-[#003366] w-44">
                     {field === 'name'
@@ -113,9 +110,7 @@ export default function EmployeeRegister() {
                       ? '部署名'
                       : field === 'role'
                       ? '役職'
-                      : field === 'project'
-                      ? '関わっている案件名'
-                      : 'SlackアイコンURL'}
+                      : '関わっている案件名'}
                   </label>
                   <input
                     type={field === 'email' ? 'email' : 'text'}
