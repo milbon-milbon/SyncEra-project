@@ -1,11 +1,29 @@
 // 社員登録のボタン関数
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+// 入力が必要な項目（ Slack ユーザーIDはバックエンド側でメールアドレスからIDを取得するように実装しています ）
+type Employee = {
+  name: string;
+  email: string;
+  department: string;
+  role: string;
+  project: string;
+};
 
 const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
   e.preventDefault();
-
+  const router = useRouter();
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    department: '',
+    role: '',
+    project: '',
+  });
   try {
-    // バックエンドAPIにデータを送信
-    const response = await fetch('/api/add_employee/', {
+    // バックエンドAPI（エンドポイント/client/add_employee_info/ )にデータを送信
+    const response = await fetch('/client/add_employee_info/', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -20,7 +38,8 @@ const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     });
 
     if (!response.ok) {
-      throw new Error('Failed to register employee');
+      const errorData = await response.json();
+      throw new Error(errorData.detail); // サーバーからのエラーメッセージを取得
     }
 
     // 成功したら社員一覧ページにリダイレクト
