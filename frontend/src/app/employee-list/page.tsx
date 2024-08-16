@@ -151,7 +151,12 @@ type Employee = {
   role: string;
   project: string;
   slack_user_id: string;
-  imageUrl?: string;
+  slack_user_info?: {
+    id: string;
+    image_512: string;
+    name: string;
+    real_name: string;
+  };
 };
 
 export default function EmployeeList() {
@@ -256,10 +261,10 @@ export default function EmployeeList() {
                 </div>
               </div>
               <div className="w-32 h-32 ml-4 border border-gray-300 rounded-lg overflow-hidden">
-                {employee.imageUrl ? (
+                {employee.slack_user_info?.image_512 ? (
                   <img
-                    src={employee.imageUrl}
-                    alt={`${employee.name}のSlackアイコン`}
+                    src={employee.slack_user_info.image_512}
+                    alt={`${employee.slack_user_info.image_512}のSlackアイコン`}
                     className="w-full h-full object-cover"
                   />
                 ) : (
