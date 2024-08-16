@@ -140,20 +140,6 @@ export default function EmployeeRegister() {
               </div>
             </form>
           </div>
-          {/* アイコンプレビュー部分 */}
-          <div className="w-48 h-48 flex items-center justify-center border border-gray-300 rounded-lg overflow-hidden bg-white shadow-lg border-4 border-gray-400">
-            {imagePreview ? (
-              <img
-                src={imagePreview}
-                alt="Slack Icon Preview"
-                className="w-full h-full object-cover"
-              />
-            ) : (
-              <div className="bg-gray-200 w-full h-full flex items-center justify-center">
-                アイコンなし
-              </div>
-            )}
-          </div>
         </div>
       </main>
     </div>

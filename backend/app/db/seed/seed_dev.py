@@ -50,49 +50,49 @@ def seed_data():
         '''>>> daily_report'''
 
         daily_report_1 = DailyReport(
-            user_id='sample_1',
+            slack_user_id='sample_1',
             text='今日はfirebaseの認証機能につい、今回の機能要件と照らし合わせながら、実装方法を検討した。企業のIDを発行させつつ、それを用いて社員の認証認可を確実に行うにはどうしたらいいのか。まだ模索中。がんばりたい。',
             ts=1722856339
         )
 
         daily_report_2 = DailyReport(
-            user_id='sample_2',
+            slack_user_id='sample_2',
             text='今日も引き続きSlackAPIの実装の調整。いい感じに進んでる。そしてフロントとバックの接続もうまくいって、ちょっと安心した。お盆もあるけど最後まで駆け抜けたい!!',
             ts=1722856339
         )
 
         daily_report_3 = DailyReport(
-            user_id='sample_3',
+            slack_user_id='sample_3',
             text='頑張って作ったフロントエンドの画面が好評で嬉しい。fetchは難しいけど繋がった瞬間は嬉しい!!やることたくさんあるけど、ひとつずつ着実に進めたい。',
             ts=1722856339
         )
 
         daily_report_4 = DailyReport(
-            user_id='sample_4',
+            slack_user_id='sample_4',
             text='今日も見えないバックエンドの世界。見えない世界は想像で作り上げるからそれが楽しい。頼もしいサーバーを作るぞ、頑張る。',
             ts=1722856339
         )
 
         daily_report_5 = DailyReport(
-            user_id='sample_1',
+            slack_user_id='sample_1',
             text='Stripeの決済の実装で、手戻り発生。何回も同じところを行き来して、嫌になる....。お盆は少し休みつつ、でも進めて行きたい。',
             ts=1723029139
         )
 
         daily_report_6 = DailyReport(
-            user_id='sample_2',
+            slack_user_id='sample_2',
             text='次はSlackでのアンケート配信の実装に着手。まだ具体的な実装イメージまでいってないけど、しっかりDBと繋げて動かしたい。',
             ts=1723029139
         )
 
         daily_report_7 = DailyReport(
-            user_id='sample_3',
+            slack_user_id='sample_3',
             text='エラーの対応続きで疲れ気味。お盆はしっかり休みを取って回復しつつも、やるべきことはしっかり明確にして取り組みたい。',
             ts=1723029139
         )
 
         daily_report_8 = DailyReport(
-            user_id='sample_4',
+            slack_user_id='sample_4',
             text='関数実装に夢中になっていたけど、ユーザーの操作性や視認性、利便性を考えた出力にも気を回さねば、とハッとしたレビューだった。',
             ts=1723029139
         )
@@ -151,25 +151,25 @@ def seed_data():
         '''>>> channel'''
 
         times_list_1 = TimesList(
-            user_id='sample_1',
+            slack_user_id='sample_1',
             channel_name='times_ku-min',
             channel_id='sample_times_1'
         )
 
         times_list_2 = TimesList(
-            user_id='sample_2',
+            slack_user_id='sample_2',
             channel_name='times_sayoko',
             channel_id='sample_times_2'
         )
 
         times_list_3 = TimesList(
-            user_id='sample_3',
+            slack_user_id='sample_3',
             channel_name='times_mikiko',
             channel_id='sample_times_3'
         )
 
         times_list_4 = TimesList(
-            user_id='sample_4',
+            slack_user_id='sample_4',
             channel_name='times_meme',
             channel_id='sample_times_4'
         )
@@ -230,7 +230,7 @@ def seed_data():
         '''>>> daily_report'''
 
         daily_report_9 = DailyReport(
-            user_id='sample_1',
+            slack_user_id='sample_1',
             text='''
                 コード実装の他にも、ドキュメント整理や作業の一部自動化、発表資料作りなどやることはたくさん。頑張って一つずつ着実に。
                 ''',
@@ -238,7 +238,7 @@ def seed_data():
         )
 
         daily_report_10 = DailyReport(
-            user_id='sample_2',
+            slack_user_id='sample_2',
             text='''
                 フロントの処理実装も一部担当することに。めめさんと一緒にバックエンド仕上げていく！頑張ろう。
                 ''',
@@ -246,7 +246,7 @@ def seed_data():
         )
 
         daily_report_11 = DailyReport(
-            user_id='sample_3',
+            slack_user_id='sample_3',
             text='''
                 月末の発表会に向けて、ゴリゴリフロント進めていく！各種ページはもちろん、ボタンひとつにもこだわりを持ちたい。
                 ''',
@@ -254,7 +254,7 @@ def seed_data():
         )
 
         daily_report_12 = DailyReport(
-            user_id='sample_4',
+            slack_user_id='sample_4',
             text='''
                 最近関数ひとつひとつが生きている様に愛おしく感じる。脳みそが疲れてるんだろうか....ポエムか？
                 ''',
@@ -268,28 +268,28 @@ def seed_data():
 
         times_tweet_1 = TimesTweet(
             channel_id='sample_times_1',
-            user_id='sample_1',
+            slack_user_id='sample_1',
             text='頭がパンパンで、茹でたパスタを水で洗う失態。今日は早く寝る！',
             ts=1722913939
         )
 
         times_tweet_2 = TimesTweet(
             channel_id='sample_times_2',
-            user_id='sample_2',
+            slack_user_id='sample_2',
             text='お盆休み、子供たちがずっと家にいるので賑やかな毎日になりそう。',
             ts=1722913939
         )
 
         times_tweet_3 = TimesTweet(
             channel_id='sample_times_3',
-            user_id='sample_3',
+            slack_user_id='sample_3',
             text='東京は毎日暑くて溶けちゃいそう。早く秋が来ないかな〜',
             ts=1722913939
         )
 
         times_tweet_4 = TimesTweet(
             channel_id='sample_times_4',
-            user_id='sample_4',
+            slack_user_id='sample_4',
             text='今日も大好きなマックが食べられて幸せだ〜',
             ts=1722913939
         )
