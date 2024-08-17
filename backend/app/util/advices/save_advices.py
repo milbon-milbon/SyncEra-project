@@ -6,14 +6,9 @@ from app.db.schemas import AdvicesRequest
 import uuid
 
 def save_advices(advices: AdvicesRequest, db: Session = Depends(get_db)):
-    try:
-        employee_uuid = uuid.UUID(advices.employee_id)
-    except ValueError:
-        raise HTTPException(status_code=400, detail="employee_idの形式が無効です")
-
-    # 新しいSummarizeHistoryレコードを作成
+    # 新しいAdvicesHistoryレコードを作成
     new_advice = AdvicesHistory(
-        employee_id=employee_uuid,
+        slack_user_id=advices.slack_user_id,
         advices=advices.advices
     )
 
@@ -23,3 +18,12 @@ def save_advices(advices: AdvicesRequest, db: Session = Depends(get_db)):
     db.refresh(new_advice)
 
     return {"message": "1on1アドバイスが正常に保存されました", "id": new_advice.id}
+
+# #挙動確認用のテストコード
+# db=get_db()
+# advices=AdvicesRequest(
+#     slack_user_id='sample_4',  # employee_idはUUIDの文字列形式
+#     advices='''ここに保存したい文章絵お入れる（本来はLLMが出力したアドバイス内容）'''
+# )
+# response=save_advices(advices, db)
+# print(response)

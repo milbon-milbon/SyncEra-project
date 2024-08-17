@@ -1,6 +1,6 @@
 #import pandas as pd
 from sqlalchemy import create_engine
-from .career_analysis import analysis_df
+from .create_analysis_table import analysis_df
 import json
 from datetime import date, datetime, timedelta
 

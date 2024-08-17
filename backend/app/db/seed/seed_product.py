@@ -22,6 +22,35 @@ def seed_data():
     db: Session = SessionLocal()
 
     try:
+        '''>>> channel'''
+
+        times_list_1 = TimesList(
+            slack_user_id='U07FFA7AW1H',
+            channel_name='times_ku-min',
+            channel_id='C07FMU0BWCB'
+        )
+
+        times_list_2 = TimesList(
+            slack_user_id='U07F8NPV1RQ',
+            channel_name='times_meme',
+            channel_id='C07FQFWD3U4'
+        )
+
+        times_list_3 = TimesList(
+            slack_user_id='U07FCGJ9SLD',
+            channel_name='times_3',
+            channel_id='C07GAR3EDKJ'
+        )
+
+        times_list_4 = TimesList(
+            slack_user_id='U07F0T502G6',
+            channel_name='times_sayoko',
+            channel_id='C07FFAX467M'
+        )
+
+        db.add_all([times_list_1, times_list_2, times_list_3, times_list_4])
+        db.commit()
+
         '''>>> employee'''
         employee_1 = Employee(
             id=uuid.uuid4(),
@@ -66,34 +95,7 @@ def seed_data():
         db.add_all([employee_1, employee_2, employee_3, employee_4])
         db.commit()
 
-        '''>>> channel'''
 
-        times_list_1 = TimesList(
-            user_id='U07FFA7AW1H',
-            channel_name='times_ku-min',
-            channel_id='C07FMU0BWCB'
-        )
-
-        times_list_2 = TimesList(
-            user_id='U07F8NPV1RQ',
-            channel_name='times_meme',
-            channel_id='C07FQFWD3U4'
-        )
-
-        times_list_3 = TimesList(
-            user_id='U07FCGJ9SLD',
-            channel_name='times_3',
-            channel_id='C07GAR3EDKJ'
-        )
-
-        times_list_4 = TimesList(
-            user_id='U07F0T502G6',
-            channel_name='times_sayoko',
-            channel_id='C07FFAX467M'
-        )
-
-        db.add_all([times_list_1, times_list_2, times_list_3, times_list_4])
-        db.commit()
 
         '''
         キャリアアンケート設問、回答選択肢

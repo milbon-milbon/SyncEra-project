@@ -3,13 +3,12 @@ from sqlalchemy.orm import Session
 from app.services.make_summary import make_summarize_report
 from app.services.make_advices import make_advices
 from app.services.make_employee_list import make_employee_list
-from app.services.make_survey_result import make_survey_result
-from app.services.make_survey_result_by_date import make_survey_result_by_date
+from app.services.make_analysis_results_list import make_analysis_results_list
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
-from app.db.models import Employee, SlackUserInfo, DailyReport
-from app.db.database import get_db 
-from app.db.schemas import Employee, EmployeeCreate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
+from app.db.models import Employee, SlackUserInfo, DailyReport, AnalysisResult
+from app.db.database import get_db
+from app.db.schemas import Employee, EmployeeCreate, EmployeeUpdate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
 from app.util.get_employee_info import get_employee_info
 from app.util.summary.save_summary_report import save_summary_report
 from app.util.summary.get_saved_summarize_history import get_saved_summary_report
@@ -17,7 +16,6 @@ from app.util.advices.save_advices import save_advices
 from app.util.advices.get_all_saved_advices_history import get_all_saved_advices_history
 from app.util.advices.get_saved_advices_history import get_saved_advices_history
 from app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
-from app.util import convert_ts_to_date
 from app.util.survey_analysis.analysis_functions import filtered_by_user_and_date
 from typing import Optional
 from datetime import date
@@ -46,6 +44,40 @@ def get_selected_member(slack_user_id: str):
     else:
         raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
 
+
+# 社員情報の更新(テストまだ)
+@router.put("/selected_employee/{slack_user_id}/")
+def update_employee(slack_user_id: str, employee_update: EmployeeUpdate, db: Session = Depends(get_db)):
+    employee = db.query(Employee).filter(Employee.slack_user_id == slack_user_id).first()
+
+    if not employee:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+    # 更新するフィールドを反映
+    employee.name = employee_update.name
+    employee.email = employee_update.email
+    employee.department = employee_update.department
+    employee.role = employee_update.role
+    employee.project = employee_update.project
+
+    db.commit()
+    db.refresh(employee)
+    
+    return {"detail": "社員情報が更新されました", "employee": employee}
+
+# 社員情報の削除（テストまだ）
+@router.delete("/selected_employee/{slack_user_id}/")
+def delete_employee(slack_user_id: str, db: Session = Depends(get_db)):
+    employee = db.query(Employee).filter(Employee.slack_user_id == slack_user_id).first()
+
+    if not employee:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+    db.delete(employee)
+    db.commit()
+    
+    return {"detail": "社員情報が削除されました"}
+
 #-------------日報サマリー-------------
 
 # 日報サマリーをLLMから出力する
@@ -60,16 +92,16 @@ def save_summary_report(report: SummaryReportRequest, db: Session=Depends(get_db
     return save_summary_report(report, db)
 
 # 保存された全ての日報サマリーをDBから出力する
-@router.get("/print_all_summary_reports/{employee_id}/", response_model=list[SavedSummaryReport])
-def print_all_summary_reports(employee_id: str, db: Session=Depends(get_db)):
+@router.get("/print_all_summary_reports/{slack_user_id}/", response_model=list[SavedSummaryReport])
+def print_all_summary_reports(slack_user_id: str, db: Session=Depends(get_db)):
     # 返り値: util.summary.get_all_saved_summarize_history.pyを参照
-    return get_all_saved_summary_reports(employee_id, db)
+    return get_all_saved_summary_reports(slack_user_id, db)
 
 # 保存された特定の日報サマリーをDBから出力する
-@router.get("/print_saved_summary_report/{employee_id}/", response_model=SavedSummaryReport)
-def print_saved_summary_report(employee_id: str, created_at: date=Query(...), db: Session=Depends(get_db)):
+@router.get("/print_saved_summary_report/{slack_user_id}/", response_model=SavedSummaryReport)
+def print_saved_summary_report(slack_user_id: str, created_at: date=Query(...), db: Session=Depends(get_db)):
     # 返り値: util.summary.get_saved_summarize_history.pyを参照
-    return get_saved_summary_report(employee_id, created_at, db)
+    return get_saved_summary_report(slack_user_id, created_at, db)
 
 #-------------1on1アドバイス-------------
 
@@ -86,34 +118,22 @@ def save_advice(advices: AdvicesRequest, db: Session=Depends(get_db)):
     return save_advices(advices, db)
 
 # 保存された全ての1on1アドバイスをDBから出力する
-@router.get("/print_all_advices/{employee_id}/", response_model=list[SavedAdvices])
-def print_all_advices(employee_id: str, db: Session=Depends(get_db)):
+@router.get("/print_all_advices/{slack_user_id}/", response_model=list[SavedAdvices])
+def print_all_advices(slack_user_id: str, db: Session=Depends(get_db)):
     # 参照: app.util.advices.get_all_saved_advices_history.py
-    return get_all_saved_advices_history
+    return get_all_saved_advices_history(slack_user_id, db)
 
 # 保存された特定の1on1アドバイスをDBから出力する
-@router.get("/print_saved_advice/{employee_id}/", response_model=SavedAdvices)
-def print_saved_advice(employee_id: str, created_at: date, db):
+@router.get("/print_saved_advice/{slack_user_id}/", response_model=SavedAdvices)
+def print_saved_advice(slack_user_id: str, created_at: date, db):
     # 参照: app.util.advices.get_saved_advices_history.py
-    return get_saved_advices_history(employee_id, created_at, db)
+    return get_saved_advices_history(slack_user_id, created_at, db)
 
 #-------------キャリアアンケート-------------
-# 最新の回答+過去の回答の結果要約や傾向分析、キャリア系出力のメイン
-@router.get("/print_latest_career_survey_result/{employee_id}/")
-def print_latest_career_survey_result(employee_id: str):
-    return make_survey_result(employee_id) #返り値は文字列
-
-# 出力した結果をDB保存しておく？？？
-
-# 特定のキャリアアンケート結果をDBから出力する
-@router.get("/print_career_survey_result/{employee_id}/")
-def print_career_survey_result(employee_id: str, created_at: date):
-    return make_survey_result_by_date(employee_id, created_at) #返り値は文字列
-
-#実施済みのキャリアアンケート結果を全て取出力する
-@router.get("/print_all_career_survey_results/{employee_id}/")
-def print_all_career_survey_results(employee_id: str):
-    return "処理未実装"
+#指定したユーザーの、全てのアンケート分析結果を取得する
+@router.get("/print_all_career_survey_results/{slack_user_id}/")
+def print_all_career_survey_results(slack_user_id: str, db: Session=Depends(get_db)):
+    return make_analysis_results_list(slack_user_id, db)
 
 
 

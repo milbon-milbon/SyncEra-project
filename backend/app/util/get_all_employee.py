@@ -1,7 +1,7 @@
 import logging
 import os
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from app.db.database import get_db
 from app.db.models import Employee
 
@@ -13,10 +13,13 @@ logger = logging.getLogger(__name__)
 
 # すべての従業員の情報を取得する
 def get_all_employee():
+    
     # データベースからuser情報を取得してくる
     db = get_db()
     try:
-        all_members = db.query(Employee).all()
+        # SlackUserInfoを含めたクエリを実行
+        all_members = db.query(Employee).options(joinedload(Employee.slack_user_info)).all()
+        # all_members = db.query(Employee).all()
         logger.debug(f"◆DBから全ての従業員の情報を取得できました。")
         return all_members
     except Exception:
