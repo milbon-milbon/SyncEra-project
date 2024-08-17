@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState } from 'react';
 import { useGetAllSavedCareerSurveyResults}from '../../../hooks/fetch_llm/useGetAllSavedCareerSurveyResults'
+import ReactMarkdown from 'react-markdown';
 
 // hooksより引用
 interface CareerSurveyResult {
@@ -13,25 +14,6 @@ interface CareerSurveyResult {
 }
 
 export default function CareerSurvey({ params }: { params: { slackUserId: string } }) {
-  // const [selectedSurvey, setSelectedSurvey] = useState<string | null>(null);
-  // // 仮置き
-  // const handleViewDetails = (surveyId: string) => {
-  //   setSelectedSurvey(surveyId);
-  // };
-  // // ベタ打ちデータ
-  // const surveyHistories = [
-  //   { id: '1', slack_user_id: 'sample_4', result:'result_1', created_at: '2024-08-01 12:11' },
-  //   { id: '2', slack_user_id: 'sample_4', result:'result_2', created_at: '2024-07-01 12:45' },
-  //   { id: '3', slack_user_id: 'sample_4', result:'result_3', created_at: '2024-06-01 13:04' },
-  //   { id: '4', slack_user_id: 'sample_4', result:'result_4', created_at: '2024-05-07 12:23' },
-  //   { id: '5', slack_user_id: 'sample_4', result:'result_5', created_at: '2024-04-01 14:07' },
-  //   { id: '6', slack_user_id: 'sample_4', result:'result_6', created_at: '2024-03-02 12:16' },
-  // ];
-
-  //____ここから本番実装____
-  // ページがレンダリングされるたびに 'useGetAllSavedCareerSurveyResults(slackUserId' を用いて、保存済みキャリアアンケートを取得する(ベタ打ちデータで言うと surveyHistoriesで、型は CareerSurveyResult[])
-
-  // 「詳細を見る」ボタンが押された時に、そのボタンが押されたsurveyHistoryの詳細が抽出される（型は CareerSurveyResult）　=> return の詳細表示で、surveyHistoryのcreated_atとresultを使用したい
 
   const { allSavedCareerSurveyResults, loading, error } = useGetAllSavedCareerSurveyResults(params.slackUserId);
   const [selectedSurvey, setSelectedSurvey] = useState<CareerSurveyResult | null>(null);
@@ -103,9 +85,13 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
                 <h2 className="text-xl font-bold text-[#003366] mb-4">
                   回答日時: {new Date(selectedSurvey.created_at).toLocaleString()}
                 </h2>
-                <p className="text-lg text-[#333333]">
+                {/* ReactMarkdownを使用して、selectedSurvey.resultをMarkdown形式で表示 */}
+                <ReactMarkdown className="text-lg text-[#333333]">
                   {selectedSurvey.result}
-                </p>
+                </ReactMarkdown>
+                {/* <p className="text-lg text-[#333333]">
+                  {selectedSurvey.result}
+                </p> */}
               </>
             ) : (
               <p className="text-lg text-[#333333]">
