@@ -5,6 +5,8 @@ import { useParams } from 'next/navigation';
 import { useGetAllSavedSummaryReports } from '../../../hooks/fetch_llm/useGetAllSavedSummaryReports';
 import { useSaveSummaryReport } from '../../../hooks/fetch_llm/useSaveSummaryReport';
 import useSummaryData from '../../../hooks/useSummaryData';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 // 型定義が必要な場合はここに書く
 interface Summary {
@@ -152,11 +154,14 @@ export default function SummaryPage() {
                   選択されたサマリー: {new Date(selectedSummary.created_at).toISOString().split('T')[0]}
                 </h3>
                 <div className="bg-gray-100 p-4 rounded mb-4">
-                  <p className="text-lg">
+
+                  {/* マークダウンが反映されない可能性。原因不明、追求の必要あり */}
+                  <ReactMarkdown className="text-lg" remarkPlugins={[remarkGfm]}>
                     {summaryError
                         ? `エラー: ${summaryError.message}`
                         : selectedSummary.summary}
-                  </p>
+                  </ReactMarkdown>
+
                 </div>
                 <button
                   onClick={() => setSelectedSummary(null)}
@@ -202,7 +207,12 @@ export default function SummaryPage() {
                       生成されたサマリー:
                     </h3>
                     <div className="bg-gray-100 p-4 rounded mb-4">
-                      <p className="text-lg">{generatedSummary}</p>
+
+                      {/* マークダウンが反映されない可能性。原因不明、追求の必要あり */}
+                      <ReactMarkdown className="text-lg" remarkPlugins={[remarkGfm]}>
+                        {generatedSummary}
+                      </ReactMarkdown>
+                      
                     </div>
                     <button
                       onClick={handleSaveSummary}
