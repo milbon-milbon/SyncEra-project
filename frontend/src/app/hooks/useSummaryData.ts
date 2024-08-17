@@ -3,24 +3,24 @@
 import { useEffect, useState } from 'react';
 
 // 型定義
-interface SummaryData {
-  text: string;
-}
+// interface SummaryData {
+//   text: string;
+// }
 
 interface UseSummaryDataResult {
-  summaryData: SummaryData | null;
+  summaryData: String | null;
   loading: boolean;
   error: string | null;
 }
 
 export default function useSummaryData(
-  slack_user_id: string,
+  slack_user_id: string | null,
   start_date: string | null,
   end_date: string | null,
 ): UseSummaryDataResult {
-  const [summaryData, setSummaryData] = useState<SummaryData | null>(null);
+  const [summaryData, setSummaryData] = useState<String | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<String | null>(null);
 
   useEffect(() => {
     async function fetchSummaryData() {
@@ -36,7 +36,7 @@ export default function useSummaryData(
         if (!response.ok) {
           throw new Error(`Failed to fetch summary data: ${response.status}`);
         }
-        const data: SummaryData = await response.json();
+        const data: String = await response.json();
         setSummaryData(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');

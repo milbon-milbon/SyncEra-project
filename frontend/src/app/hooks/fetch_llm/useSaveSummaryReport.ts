@@ -10,7 +10,7 @@ interface SummaryReport {
     summary: string
 }
 
-export const useSaveSummaryReport = async(employeeId: string, summary: string): Promise<void> => {
+export const useSaveSummaryReport = async(employeeId: string|null, summary: string): Promise<void> => {
     const summaryReportData: SummaryReport = {
         employee_id: employeeId,
         summary: summary

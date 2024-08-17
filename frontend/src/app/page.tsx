@@ -2,7 +2,7 @@
 
 import Link from 'next/link'; // Linkをインポート
 import { useState } from 'react';
-import PostContactForm from './hooks/fetch_contact/postContactForm';
+// import PostContactForm from './hooks/fetch_contact/postContactForm';
 
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'none' | 'syncEra' | 'appInfo'>('none');
