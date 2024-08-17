@@ -1,5 +1,5 @@
 'use client';
-
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { useGetAllSavedSummaryReports } from '../../../hooks/fetch_llm/useGetAllSavedSummaryReports';
@@ -70,6 +70,45 @@ export default function SummaryPage() {
   };
 
   return (
+    <div className="min-h-screen flex bg-white">
+      <aside className="w-64 bg-[#003366] text-white p-6 flex flex-col">
+        <img src="/image/SyncEra(blue_white).png" alt="SyncEra Logo" className="h-16 mb-8" />
+        <nav className="flex-1">
+          <ul className="space-y-4">
+            <li>
+              <a
+                href="/employee-list"
+                className="block text-lg text-white hover:text-white hover:underline transition-colors duration-300"
+              >
+                社員一覧
+              </a>
+            </li>
+            <li>
+              <a
+                href={`/employee-list/summary/${slackUserId}`}
+                className="block text-lg text-white hover:text-white hover:underline transition-colors duration-300"
+              >
+                日報へ戻る
+              </a>
+            </li>
+            <li>
+              <a
+                href="/"
+                className="block text-lg text-white hover:text-white hover:underline transition-colors duration-300"
+              >
+                ホームページへ戻る
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <a
+          href="/login"
+          className="bg-[#66B2FF] text-lg text-white px-4 py-2 rounded border border-black font-bold hover:bg-blue-500 transition-colors duration-300 mt-auto text-center"
+        >
+          ログアウト
+        </a>
+      </aside>
+
     <main className="flex-1 p-8 bg-gray-100">
       <div className="bg-white p-6 rounded-lg shadow-md border border-[#003366]">
         <h1 className="text-3xl font-bold mb-8 text-[#003366]">日報サマリー</h1>
@@ -178,5 +217,6 @@ export default function SummaryPage() {
         </div>
       </div>
     </main>
+  </div>
   );
 }

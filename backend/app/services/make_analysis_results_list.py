@@ -10,9 +10,12 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 def make_analysis_results_list(slack_user_id: str, db: Session = Depends(get_db)):
+    
     try:
         # 指定されたslack_user_idに対応する分析結果をデータベースから取得
         results = db.query(AnalysisResult).filter(AnalysisResult.slack_user_id == slack_user_id).all()
+
+        print(f'取得したresult: {results}')
 
         # 結果が見つからなかった場合の処理
         if not results:

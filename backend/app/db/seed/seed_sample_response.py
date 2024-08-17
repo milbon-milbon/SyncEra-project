@@ -130,8 +130,8 @@ def seed_data():
     finally:
         db.close()
 
-if __name__ == "__main__":
-    seed_data()
+# if __name__ == "__main__":
+#     seed_data()
 
 
 

@@ -86,7 +86,6 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
         new_result = AnalysisResult(
             slack_user_id= slack_user_id,
             result=analysis_result,
-            # save_date=latest_result[0]['date'][:10]
         )
 
         # 新しいレコードをデータベースに追加してコミット
@@ -101,11 +100,11 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
     
 
 #_____関数テスト_____
-slack_user_id = "U07F8NPV1RQ"
-db=get_db()
+# slack_user_id = "U07F8NPV1RQ"
+# db=get_db()
 
-test_response=save_survey_result(slack_user_id, db)
-print(test_response)
+# test_response=save_survey_result(slack_user_id, db)
+# print(test_response)
 
 
 
