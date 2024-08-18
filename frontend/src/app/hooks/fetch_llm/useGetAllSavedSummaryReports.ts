@@ -14,7 +14,6 @@ interface SavedSummaryReport {
 
 type SavedSummaryReports = SavedSummaryReport[]
 
-
 export const useGetAllSavedSummaryReports = (employeeId: string|null) => {
     const [SavedSummaryReports, setSavedSummaryReports] = useState<SavedSummaryReports>([]);
     const [loading, setLoading] = useState(true);
