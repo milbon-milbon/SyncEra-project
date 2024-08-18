@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_daily_report, get_and_save_times_tweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
-from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
+from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey, cache_questions
 from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -124,9 +124,9 @@ async def slack_events(request: Request, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="Internal Server Error")
 
 # Slackでキャリアアンケート送信のためのエンドポイント
-# Slackでのインタラクションを処理し、ユーザーの回答を保存して次の質問を送信します。
-# 引数:request (Request): FastAPIのリクエストオブジェクト。
-#     db (Session): SQLAlchemyのデータベースセッションオブジェクト。
+# Slackでのインタラクションを処理し、ユーザーの回答を保存して次の質問を送信します
+# 引数:request (Request): FastAPIのリクエストオブジェクト
+#     db (Session): SQLAlchemyのデータベースセッションオブジェクト
 # 戻り値: status_code: 200 or 500
 
 @app.post("/slack/actions")
@@ -172,16 +172,16 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             answer=selected_option,
             free_text=free_text
         )
-        # 回答をDBに保存し、次の質問を取得して送信
+        # 回答をDBに保存
         db.add(response_data)
         db.commit()
         logger.info(f"Response saved for user {user_id} for question {question_id}")
 
-        # 次の質問を取得して送信
+        # エラーハンドリング
         question = db.query(Question).filter(Question.id == question_id).first()
         if not question:
             raise HTTPException(status_code=404, detail="Question not found")
-
+        # 次の質問を取得して送信（Redisキャッシュ対応）
         next_question_id = None
         # 次の質問のIDを決定する
         # ユーザーが選択肢（例えば、A, B, C, D）のいずれかを選んだ場合、その選択肢に応じて次の質問IDを決定
@@ -197,21 +197,35 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         # free_text が入力された場合（自由記述を行った場合）、次の質問として next_question_a_id に設定されたIDを使用
         elif free_text:
             next_question_id = question.next_question_a_id
-        # 回答終了時の処理
+        # アンケート終了時の処理
         if not next_question_id:
             slack_client.chat_postMessage(channel=user_id, text="アンケートの回答を送信しました！ご回答ありがとうございました。")
             logger.info(f"Survey completed for user {user_id}")
-            # ここにめめさんの関数を呼び出す処理を書く
+            # LLMによるアンケートの分析結果を保存する関数
             save_survey_result(user_id, db)
         else:
-            next_question = db.query(Question).filter(Question.id == next_question_id).first()
-            # 自由記述の質問かどうかをチェックして、適切な関数を呼び出す
+            # Redisで次の質問をキャッシュから取得
+            next_question_key = f"question:{next_question_id}"
+            cached_question = redis_client.get(next_question_key)
+
+            if cached_question:
+                logger.info(f"Cache hit for question {next_question_id}")
+                # キャッシュから質問を取得し、辞書型から Question オブジェクトに変換
+                question_data = json.loads(cached_question)
+                next_question = Question(**question_data)
+            else:
+                logger.info(f"Cache miss for question {next_question_id}, retrieving from database")
+                # キャッシュにない場合はデータベースから取得
+                next_question = db.query(Question).filter(Question.id == next_question_id).first()
+                if next_question:
+                    # 質問データをキャッシュに保存（シリアライズして保存）
+                    redis_client.set(next_question_key, next_question.json())  # 質問オブジェクトをシリアライズしてキャッシュ保存
+
+            # 質問をSlackに送信
             if next_question.choice_a == "自由記述":
                 send_survey_with_text_input(user_id, next_question)
             else:
                 send_survey_to_employee(user_id, next_question)
-
-            logger.info(f"Next question sent to user {user_id}")
 
         return Response(status_code=200)
 
