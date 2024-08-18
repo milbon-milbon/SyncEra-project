@@ -1,7 +1,7 @@
 'use client';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, } from 'next/navigation';
 import { useGetAllSavedSummaryReports } from '../../../hooks/fetch_llm/useGetAllSavedSummaryReports';
 import { useSaveSummaryReport } from '../../../hooks/fetch_llm/useSaveSummaryReport';
 import useSummaryData from '../../../hooks/useSummaryData';
@@ -27,7 +27,8 @@ export default function SummaryPage() {
 
   const { SavedSummaryReports: savedSummaries, loading: reportsLoading, error: reportsError } = useGetAllSavedSummaryReports(slackUserId);
   const { summaryData, loading: summaryLoading, error: summaryError } = useSummaryData(slackUserId, startDate, endDate);
-
+  
+  // 詳細を見るボタンを押すと、setSelectedSummaryに選択されたサマリーのオブジェクトがセットされる
   const handleSelectSummary = (summary: Summary) => {
     setSelectedSummary(summary);
     if(selectedSummary !== null){
@@ -35,6 +36,7 @@ export default function SummaryPage() {
     }
   };
 
+  // 生成するボタンを押したら呼ばれる関数
   const handleGenerateSummary = () => {
     console.log('生成するボタンが押されました');
     if (!startDate || !endDate) {
@@ -46,6 +48,7 @@ export default function SummaryPage() {
     console.log(`終了日: ${endDate}`);
   };
 
+  // サマリー生成の状態管理
   useEffect(() => {
     if (!summaryLoading && loading) { // すでにloading状態になっている場合のみ
       if (summaryData) {
@@ -58,11 +61,14 @@ export default function SummaryPage() {
     }
   }, [summaryData, summaryLoading, loading]);
 
+  // 保存するボタンを押した時に呼ばれる関数
   const handleSaveSummary = async () => {
     if (generatedSummary) {
+      console.log(`slackのid: ${slackUserId}, 保存するsummary: ${generatedSummary}`)
       await useSaveSummaryReport(slackUserId, generatedSummary);
       alert('サマリーが保存されました');
       setGeneratedSummary(null);
+      window.location.reload(); // ページをリロード
     } else {
       alert('サマリーが生成されていません');
     }
@@ -126,7 +132,7 @@ export default function SummaryPage() {
                       <li key={summary.id} className="bg-gray-100 p-4 rounded-lg">
                         <div className="flex justify-between items-center">
                           <span className="font-medium">
-                            {new Date(summary.created_at).toLocaleDateString()}
+                            生成日 : {new Date(summary.created_at).toLocaleDateString()}
                           </span>
                           <div className="flex space-x-2">
                             <button
