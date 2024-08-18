@@ -6,15 +6,17 @@ import { useEffect, useState } from 'react';
 
 interface SummaryReport {
     // 型定義が必要なら定義する
-    employee_id: string
+    slack_user_id: string
     summary: string
 }
 
-export const useSaveSummaryReport = async(employeeId: string|null, summary: string): Promise<void> => {
+export const useSaveSummaryReport = async(slackUserId: string, summary: string): Promise<void> => {
     const summaryReportData: SummaryReport = {
-        employee_id: employeeId,
+        slack_user_id: slackUserId,
         summary: summary
     }
+
+    console.log(`◆保存するオブジェクト: ${summaryReportData}`)
 
     try{
         const response = await fetch('http://localhost:8000/client/save_summary_report/', {
