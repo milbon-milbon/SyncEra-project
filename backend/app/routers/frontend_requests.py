@@ -87,7 +87,7 @@ def print_summary(slack_user_id:str, start_date: date, end_date: date):
 
 # LLMが生成した日報サマリーをDBに保存する
 @router.post("/save_summary_report/")
-def save_summary_report(report: SummaryReportRequest, db: Session=Depends(get_db)): # 引数は/save_adviceと同じロジック
+def save_generate_summary_report(report: SummaryReportRequest, db: Session=Depends(get_db)): # 引数は/save_adviceと同じロジック
     # 返り値: uti.save_summary_reports.tsを参照
     return save_summary_report(report, db)
 
