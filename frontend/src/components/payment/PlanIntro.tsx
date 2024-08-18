@@ -17,7 +17,7 @@ export default function PlanIntro() {
           <h2 className='text-3xl font-semibold mb-4 text-center bg-white text-[#003366] border-b-2 border-[#66b2ff]'>
             月額
           </h2>
-          <p className='text-center font-bold text-3xl mb-4 text-[#003366]'>¥1,000/ 月</p>
+          <p className='text-center font-bold text-3xl mb-4 text-[#003366]'>¥1,000 / 月</p>
           <ul className='space-y-2 text-[17px]'>
             <li className='flex items-center'>
               <span className='flex justify-center items-center w-6 h-6 bg-white border border-[#66b2ff] rounded-full mr-2'>

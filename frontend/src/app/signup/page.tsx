@@ -7,7 +7,7 @@ import { getAuth, createUserWithEmailAndPassword } from 'firebase/auth';
 import { getFirestore, doc, setDoc } from 'firebase/firestore';
 import app from '@/firebase/config'; // Firebase app の初期化
 import clientLogger from '@/lib/clientLogger';
-import LogoWblue from '@/components/payment/LogoWblue';
+import Link from 'next/link';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import '@/app/signup/globals.css';
 interface AdminClaimsResponse {
@@ -72,10 +72,24 @@ export default function SignUp() {
   };
 
   return (
-    <div className='my-custom-font flex flex-col items-center justify-center min-h-screen p-4 bg-white'>
-      <LogoWblue />
+    <div className='my-custom-font flex flex-col min-h-screen bg-white '>
+      <header className='bg-white text-white p-8 flex justify-between items-center '>
+        <div className='flex items-center space-x-6'>
+          <Link href='/'>
+            <img src='/logo/white_2.png' alt='SyncEra Logo' className='h-16' />
+          </Link>
+          <Link href='/'>
+            <button className='bg-gray-200 text-[#003366] border px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
+              TOP
+            </button>
+          </Link>
+          <span className='text-[#003366]'>　〉</span>
+          <span className='text-[#003366] text-[20px]'>新規登録画面</span>
+        </div>
+      </header>
+
       <form
-        className='bg-gray-100 md:p-[35px] p-6 rounded-lg shadow-lg max-w-md'
+        className='bg-gray-100 md:p-[35px] p-6 rounded-lg shadow-lg max-w-md absolute left-[37%] top-[200px]'
         onSubmit={handleSubmit}
       >
         <h1 className='text-center text-2xl font-bold mb-4 text-[#003366]'>ご登録フォーム</h1>

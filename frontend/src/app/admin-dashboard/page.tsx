@@ -162,16 +162,6 @@ export default function AdminDashboard() {
             </div>
           )}
         </div>
-        <Link
-          href='/admin-dashboard'
-          className='w-full py-2 mb-4 border-b-[2px] border-gray-300 flex items-center block'
-        >
-          <span className='mr-2 '>
-            <img src='/admin-dashboard/home.png' alt='ホーム' className='w-8 h-8' />{' '}
-            {/* ホームアイコン */}
-          </span>
-          ホーム
-        </Link>
 
         <Link
           href='/admin-dashboard/new-employee'
@@ -182,17 +172,6 @@ export default function AdminDashboard() {
             {/* 新規登録アイコン */}
           </span>
           新規登録
-        </Link>
-
-        <Link
-          href='/admin-dashboard'
-          className='w-full text py-2 mb-4 border-b-[2px] border-gray-300 flex  items-center block'
-        >
-          <span className='mr-2'>
-            <img src='/admin-dashboard/settings.png' alt='各種設定' className='w-8 h-8' />{' '}
-            {/* 各種設定アイコン */}
-          </span>
-          各種設定
         </Link>
 
         <Link

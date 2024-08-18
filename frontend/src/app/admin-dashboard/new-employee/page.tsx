@@ -15,7 +15,7 @@ import Link from 'next/link';
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 
 // 役職のリスト
-const positions = ['manager', 'staff', 'その他'];
+const positions = ['manager', 'mentor', 'その他'];
 
 export default function NewEmployee() {
   const [name, setName] = useState('');
@@ -45,35 +45,6 @@ export default function NewEmployee() {
     return () => unsubscribe();
   }, [router]);
 
-  // const handleSubmit = async (e: React.FormEvent) => {
-  //   e.preventDefault();
-  //   setError(null);
-
-  //   // ログインしているユーザーの companyId を取得
-  //   const auth = getAuth();
-  //   const currentUser = auth.currentUser;
-
-  //   if (currentUser) {
-  //     const companyId = currentUser.uid;
-  //     const employeeData = { name, department, role, email, password };
-
-  //     try {
-  //       await addEmployee(companyId, employeeData);
-  //       // サインイン後、管理者ダッシュボードにリダイレクト
-  //       clientLogger.info('新規社員が正常に登録されました');
-  //       alert('新規社員が正常に登録されました');
-  //       router.push('/admin-dashboard');
-  //     } catch (error: any) {
-  //       clientLogger.error(`社員登録エラー: ${error.message}`);
-  //       setError('登録に失敗しました。もう一度お試しください。');
-  //       clientLogger.error(`詳細なエラー情報:,${error}`);
-  //     }
-  //   } else {
-  //     setError('認証エラーが発生しました。再度ログインしてください。');
-  //     router.push('/login/company');
-  //   }
-  // };
-  //修正案
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError(null);
@@ -141,28 +112,6 @@ export default function NewEmployee() {
             {/* ホームアイコン */}
           </span>
           ホーム
-        </Link>
-
-        <Link
-          href='/admin-dashboard/new-employee'
-          className='w-full text py-2 mb-4 border-b-[2px] border-gray-300 flex items-center items-center block'
-        >
-          <span className='mr-2'>
-            <img src='/admin-dashboard/person_add.png' alt='新規登録' className='w-8 h-8' />{' '}
-            {/* 新規登録アイコン */}
-          </span>
-          新規登録
-        </Link>
-
-        <Link
-          href='/admin-dashboard'
-          className='w-full text py-2 mb-4 border-b-[2px] border-gray-300 flex  items-center block'
-        >
-          <span className='mr-2'>
-            <img src='/admin-dashboard/settings.png' alt='各種設定' className='w-8 h-8' />{' '}
-            {/* 各種設定アイコン */}
-          </span>
-          各種設定
         </Link>
 
         <Link

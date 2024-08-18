@@ -54,9 +54,9 @@ export default function ManagerDashboard() {
 
             // 確認: role や companyId が期待通りに存在しているか
             if (userData?.role && userData?.companyId) {
-              if (userData.role !== 'manager') {
+              if (userData.role !== 'その他') {
                 router.push(
-                  userData.role === 'mentor' ? '/mentor-dashboard' : '/employee-dashboard',
+                  userData.role === 'manager' ? '/manager-dashboard' : '/mentor-dashboard',
                 );
               }
             } else {
@@ -90,15 +90,17 @@ export default function ManagerDashboard() {
     return '予期せぬ操作が発生しました！'; // 適切なエラーメッセージを表示
   }
   // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで認証残し＝＝＝＝＝＝＝
-
   return (
-    <div className='text-[50px] text-[#003366]'>
-      <h1>マネージャーダッシュボード</h1>
+    <div className='text-[25px] text-[#003366]'>
+      <h1>その他ダッシュボード!</h1>
       <p>ようこそ、{user.email}さん</p>
+      <p>役職別で画面を変更</p>
       {/* ログアウト機能を追加 */}
 
-      <div className='text-[25px]'>
+      <div>
         <Link href='/'>戻る</Link>
+      </div>
+      <div>
         <LogoutButton />
       </div>
     </div>

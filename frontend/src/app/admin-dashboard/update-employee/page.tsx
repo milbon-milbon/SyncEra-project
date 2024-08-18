@@ -14,7 +14,7 @@ import '@/app/admin-dashboard/globals.css';
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 
 // 役職のリスト（例として追加）
-const positions = ['manager', 'staff', 'その他'];
+const positions = ['manager', 'mentor', 'その他'];
 
 interface Employee {
   name: string;
@@ -136,17 +136,6 @@ export default function UpdateEmployee() {
         </Link>
 
         <Link
-          href='/admin-dashboard'
-          className='w-full text py-2 mb-4 border-b-[2px] border-gray-300 flex  items-center block'
-        >
-          <span className='mr-2'>
-            <img src='/admin-dashboard/settings.png' alt='各種設定' className='w-8 h-8' />{' '}
-            {/* 各種設定アイコン */}
-          </span>
-          各種設定
-        </Link>
-
-        <Link
           href='/'
           className='w-full text py-2 flex  border-b-[2px] border-gray-300  items-center block'
         >
@@ -212,13 +201,28 @@ export default function UpdateEmployee() {
             </div>
             <div className='mb-4'>
               <label className='block text-gray-700'>メールアドレス</label>
-              <input
-                type='email'
-                value={employee.email}
-                onChange={(e) => setEmployee({ ...employee, email: e.target.value })}
-                className='w-full border p-2 rounded'
-                required
-              />
+              <div className='flex'>
+                <input
+                  type='text'
+                  value={employee.email.split('@')[0]}
+                  onChange={(e) =>
+                    setEmployee({
+                      ...employee,
+                      email: `${e.target.value.replace(/@/g, '')}@${employee.email.split('@')[1]}`,
+                    })
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === '@') {
+                      e.preventDefault();
+                    }
+                  }}
+                  className='w-full border p-2 rounded'
+                  required
+                />
+                <span className='p-2 bg-gray-100 border border-l-0 rounded-r'>
+                  @{employee.email.split('@')[1]}
+                </span>
+              </div>
             </div>
             <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal'>
               更新

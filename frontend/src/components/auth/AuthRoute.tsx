@@ -21,8 +21,8 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children, requiredRole }) => {
       } else if (role !== requiredRole) {
         clientLogger.error(`===役職が一致しませんでした。===`);
         switch (role) {
-          case 'staff':
-            router.push('/staff-dashboard');
+          case 'mentor':
+            router.push('/mentor-dashboard');
             break;
           case 'employee':
             router.push('/employee-dashboard');

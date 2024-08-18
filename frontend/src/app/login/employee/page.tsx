@@ -11,7 +11,7 @@ import clientLogger from '@/lib/clientLogger';
 import { httpsCallable, getFunctions } from 'firebase/functions';
 import app from '@/firebase/config';
 import '@/app/login/globals.css';
-
+import Link from 'next/link';
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -65,8 +65,8 @@ export default function EmployeeLogin() {
       case 'manager':
         router.push('/employee-list');
         break;
-      case 'staff':
-        router.push('/staff-dashboard');
+      case 'mentor':
+        router.push('/mentor-dashboard');
         break;
       default:
         router.push('/employee-dashboard');
@@ -116,35 +116,6 @@ export default function EmployeeLogin() {
           return;
         }
 
-        // 役職に基づいて適切な画面に遷移
-        //       switch (employeeData.role) {
-        //         case 'manager':
-        //           router.push('/manager-dashboard');
-        //           {
-        //             /*管理メインに遷移するようURL変更。ただURL変更だけじゃなく、管理画面にfirestoreベースのログイン用を追加実装必要！*/
-        //           }
-        //           break;
-        //         case 'staff':
-        //           router.push('/staff-dashboard');
-        //           {
-        //             /*ページないので、404になります。*/
-        //           }
-        //           break;
-        //         default:
-        //           router.push('/employee-dashboard');
-        //           {
-        //             /*ページないので、404になります。*/
-        //           }
-        //       }
-        //     } else {
-        //       clientLogger.debug(`社員情報が見つかりません。ドキュメントID:',${user.uid}`);
-        //       alert('社員情報が見つかりません。管理者に連絡してください。');
-        //     }
-        //   } catch (error: any) {
-        //     clientLogger.error(`Login failed: ${error.message}`);
-        //     alert('ログインに失敗しました。メールアドレスとパスワードを確認してください。');
-        //   }
-        // };
         redirectToDashboard(employeeData.role);
       } else {
         clientLogger.debug(`社員情報が見つかりません。ドキュメントID: ${user.uid}`);
@@ -160,11 +131,24 @@ export default function EmployeeLogin() {
   }
 
   return (
-    <div className='my-custom-font flex flex-col items-center justify-center min-h-screen bg-white'>
-      <LogoWblue />
+    <div className='my-custom-font flex flex-col min-h-screen bg-white '>
+      <header className='bg-white text-white p-8 flex justify-between items-center '>
+        <div className='flex items-center space-x-6'>
+          <Link href='/'>
+            <img src='/logo/white_2.png' alt='SyncEra Logo' className='h-16' />
+          </Link>
+          <Link href='/'>
+            <button className='bg-gray-200 text-[#003366] border  px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
+              TOP
+            </button>
+          </Link>
+          <span className='text-[#003366]'>　〉</span>
+          <span className='text-[#003366] text-[20px]'>ログイン画面</span>
+        </div>
+      </header>
       {/* ログインを配置 */}
       <form
-        className='bg-white p-[15px] md:p-[35px] rounded-lg shadow-2xl w-full max-w-md border-[4px] border-[#66b2ff]'
+        className='bg-white p-[15px] md:p-[35px] rounded-lg shadow-2xl w-full max-w-md border-[4px] border-[#66b2ff] absolute left-[37%] top-[200px]'
         onSubmit={handleSubmit}
         autoComplete='off'
       >
@@ -199,8 +183,7 @@ export default function EmployeeLogin() {
             autoComplete='new-password'
           />
         </div>
-        {/*TODO:リンク先を管理画面へ変更予定*/}
-        <div className='flex justify-center'>
+        <div className='flex justify-center mb-2'>
           <button
             type='submit'
             className=' bg-[#003366] text-white py-3 px-10 w-full rounded-full  hover:bg-[#002244] focus:outline-none'
@@ -208,6 +191,11 @@ export default function EmployeeLogin() {
             ログイン
           </button>{' '}
           {error && <p className='text-red-500 mb-4'>{error}</p>}
+        </div>
+        <div className='w-full p-[5px]'>
+          <p className='text-[15px] text-[#003366]'>
+            ID・パスワードは、管理者へお問い合わせください。
+          </p>
         </div>
       </form>
     </div>

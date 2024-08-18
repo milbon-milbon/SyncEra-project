@@ -54,8 +54,10 @@ export default function ManagerDashboard() {
 
             // 確認: role や companyId が期待通りに存在しているか
             if (userData?.role && userData?.companyId) {
-              if (userData.role !== 'manager') {
-                router.push(userData.role === 'staff' ? '/staff-dashboard' : '/employee-dashboard');
+              if (userData.role !== 'mentor') {
+                router.push(
+                  userData.role === 'mentor' ? '/mentor-dashboard' : '/employee-dashboard',
+                );
               }
             } else {
               clientLogger.error(
@@ -90,7 +92,7 @@ export default function ManagerDashboard() {
   // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで認証残し＝＝＝＝＝＝＝
   return (
     <div className='text-[25px] text-[#003366]'>
-      <h1>staffダッシュボード!</h1>
+      <h1>mentorダッシュボード!</h1>
       <p>ようこそ、{user.email}さん</p>
       <p>役職別で画面を変更</p>
       {/* ログアウト機能を追加 */}
