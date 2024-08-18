@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 // }
 
 interface UseSummaryDataResult {
-  summaryData: String | null;
+  summaryData: string | null;
   loading: boolean;
   error: string | null;
 }
@@ -18,9 +18,9 @@ export default function useSummaryData(
   start_date: string | null,
   end_date: string | null,
 ): UseSummaryDataResult {
-  const [summaryData, setSummaryData] = useState<String | null>(null);
+  const [summaryData, setSummaryData] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<String | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     async function fetchSummaryData() {
