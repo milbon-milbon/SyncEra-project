@@ -36,36 +36,3 @@ export const useSaveSummaryReport = async(slackUserId: string, summary: string):
         console.error(`Error:`, error)
     }
 };
-
-// ページコンポーネントで呼び出すときには...
-
-// import React, { useState } from 'react';
-// import { useSaveSummaryReport } from './useSaveSummaryReport';  // 適切なパスでインポート
-
-// const PageComponent = () => {
-//     const [employeeId, setEmployeeId] = useState('12345');
-//     const [summary, setSummary] = useState('This is an advice text.');
-
-//     const handleSaveClick = () => {
-//         useSaveSummaryReport(employeeId, summary); //適切に関数呼び出しができるようにしている
-//     };
-
-//     return (
-//         <div>
-//             <input
-//                 type="text"
-//                 value={employeeId}
-//                 onChange={(e) => setEmployeeId(e.target.value)}
-//                 placeholder="Employee ID"
-//             />
-//             <textarea
-//                 value={summary}
-//                 onChange={(e) => setSummary(e.target.value)}
-//                 placeholder="Enter your advice"
-//             />
-//             <button onClick={handleSaveClick}>保存</button>
-//         </div>
-//     );
-// };
-
-// export default PageComponent;
