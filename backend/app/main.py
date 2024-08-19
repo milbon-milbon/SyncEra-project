@@ -8,12 +8,13 @@ from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_daily_report, get_and_save_times_tweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
-from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey, cache_questions
+from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
+from app.util.career_survey.question_cache import clear_question_cache
 from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 from app.db.database import get_db
-from app.db.models import DailyReport, Question, UserResponse, SlackUserInfo
+from app.db.models import Question, UserResponse
 from app.routers import frontend_requests
 from app.db import schemas
 from fastapi.responses import JSONResponse
@@ -74,14 +75,14 @@ async def get_slack_user_id(email: str):
     try:
         # Slack APIを呼び出してユーザー情報を取得
         response = slack_client.users_lookupByEmail(email=email)
-        
+
         # SlackユーザーIDを取得
         slack_user_id = response['user']['id']
         logger.info(f"SlackユーザーID '{slack_user_id}' がメール '{email}' から取得されました。")
 
         # SlackユーザーIDをレスポンスとして返す
         return {"email": email, "slack_user_id": slack_user_id}
-    
+
     except SlackApiError as e:
         # Slack APIエラーの処理
         logger.error(f"Slack APIエラー: {e.response['error']}")
@@ -176,6 +177,8 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
         db.add(response_data)
         db.commit()
         logger.info(f"Response saved for user {user_id} for question {question_id}")
+        # キャッシュクリアを追加
+        clear_question_cache(question_id)
 
         # エラーハンドリング
         question = db.query(Question).filter(Question.id == question_id).first()
@@ -203,6 +206,8 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             logger.info(f"Survey completed for user {user_id}")
             # LLMによるアンケートの分析結果を保存する関数
             save_survey_result(user_id, db)
+            # キャッシュクリアを追加
+            clear_question_cache(question_id)
         else:
             # Redisで次の質問をキャッシュから取得
             next_question_key = f"question:{next_question_id}"
