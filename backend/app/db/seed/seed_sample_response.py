@@ -121,7 +121,7 @@ def seed_data():
         db.add_all([response1, response2, response3, response4, response5, response6, response7, response8, response10, response11, response12, response13, response14, response15, response16])
         db.commit()
 
-        print("シーディングが完了しました")
+        print("サンプルレスポンスのシーディングが完了しました")
 
     except SQLAlchemyError as e:
         db.rollback()
@@ -130,8 +130,7 @@ def seed_data():
     finally:
         db.close()
 
-# if __name__ == "__main__":
-#     seed_data()
-
+if __name__ == "__main__":
+    seed_data()
 
 
