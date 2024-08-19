@@ -10,6 +10,7 @@ import '@/firebase/config';
 import clientLogger from '@/lib/clientLogger';
 import '@/app/login/globals.css';
 import { FirebaseError } from 'firebase/app';
+import Loading from '@/app/components/loading';
 export default function CompanyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -80,7 +81,7 @@ export default function CompanyLogin() {
     }
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
   return (
     <div className='my-custom-font flex flex-col min-h-screen bg-white'>
@@ -89,13 +90,13 @@ export default function CompanyLogin() {
           <Link href='/'>
             <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16' />
           </Link>
-          <div className='flex items-center space-x-2'>
+          <div className='flex items-center space-x-6'>
             <Link href='/'>
               <button className='bg-white text-[#003366] border border-[#003366] px-4 py-2 rounded hover:bg-gray-200 active:transform active:translate-y-1 transition-colors duration-300'>
                 TOP
               </button>
             </Link>
-            <span className='text-white'>　〉</span>
+            <span className='text-white'> 〉</span>
             <span className='text-white text-[20px]'>管理画面（ログイン）</span>
           </div>
         </div>

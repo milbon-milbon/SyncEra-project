@@ -9,7 +9,7 @@ import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
 import '@/app/admin-dashboard/globals.css';
-
+import Loading from '@/app/components/loading';
 // 部署のリスト
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 
@@ -87,7 +87,7 @@ export default function UpdateEmployee() {
     }
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   async function getCompanyId(): Promise<string | null> {

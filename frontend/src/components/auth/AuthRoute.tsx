@@ -1,9 +1,10 @@
 // components/AuthRoute.tsx
+
 import React from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuthState } from '@/app/hooks/auth/useAuthState';
 import clientLogger from '@/lib/clientLogger';
-
+import Loading from '@/app/components/loading';
 interface AuthRouteProps {
   children: React.ReactNode;
   requiredRole: string;
@@ -35,7 +36,7 @@ const AuthRoute: React.FC<AuthRouteProps> = ({ children, requiredRole }) => {
   }, [user, loading, role, requiredRole, router]);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   if (error) {

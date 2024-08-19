@@ -13,7 +13,7 @@ import app from '@/firebase/config'; // Firebase 初期化ファイルをイン�
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import LogoutButton from '@/components/signup_and_login/LoguoutButton';
-import Loading from '../components/loading';
+
 export default function ManagerDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -54,9 +54,9 @@ export default function ManagerDashboard() {
 
             // 確認: role や companyId が期待通りに存在しているか
             if (userData?.role && userData?.companyId) {
-              if (userData.role !== 'mentor') {
+              if (userData.role !== 'その他') {
                 router.push(
-                  userData.role === 'manager' ? '/manager-dashboard' : '/employee-dashboard',
+                  userData.role === 'manager' ? '/manager-dashboard' : '/mentor-dashboard',
                 );
               }
             } else {
@@ -83,7 +83,7 @@ export default function ManagerDashboard() {
   }, [router]);
 
   if (loading) {
-    return <Loading />;
+    return <div>Loading...</div>;
   }
 
   if (!user) {
@@ -92,7 +92,7 @@ export default function ManagerDashboard() {
   // ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝ここまで認証残し＝＝＝＝＝＝＝
   return (
     <div className='text-[25px] text-[#003366]'>
-      <h1>mentorダッシュボード!</h1>
+      <h1>その他ダッシュボード!</h1>
       <p>ようこそ、{user.email}さん</p>
       <p>役職別で画面を変更</p>
       {/* ログアウト機能を追加 */}

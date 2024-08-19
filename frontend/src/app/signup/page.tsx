@@ -10,6 +10,7 @@ import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import '@/app/signup/globals.css';
+import Loading from '../components/loading';
 interface AdminClaimsResponse {
   message: string;
 }
@@ -19,10 +20,13 @@ export default function SignUp() {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setLoading] = useState(false); // Loading状態を追加
+
   const router = useRouter();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setLoading(true); // ローディング開始
     clientLogger.info('==== handleSubmit 関数が呼び出されました==== ');
     try {
       const auth = getAuth(app);
@@ -68,8 +72,14 @@ export default function SignUp() {
       }
     } catch (error: any) {
       clientLogger.error(`==== サインアップエラー==== : ${error.message}`);
+    } finally {
+      setLoading(false); // ローディング終了
     }
   };
+
+  if (loading) {
+    return <Loading />; // loading中はLoadingコンポーネントを表示
+  }
 
   return (
     <div className='my-custom-font flex flex-col min-h-screen bg-white '>
@@ -83,7 +93,7 @@ export default function SignUp() {
               TOP
             </button>
           </Link>
-          <span className='text-[#003366]'>　〉</span>
+          <span className='text-[#003366]'> 〉</span>
           <span className='text-[#003366] text-[20px]'>新規登録画面</span>
         </div>
       </header>

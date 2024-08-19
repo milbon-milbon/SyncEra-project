@@ -27,7 +27,7 @@ export default function EmployeeList() {
   {
     /*認証系を別途実装済みのため削除しました。　by ku-min*/
   }
-  const { employees, loading, error } = useEmployees();
+  const { employees } = useEmployees();
 
   {
     /*認証系を別途実装済みのため削除しました。　by ku-min*/

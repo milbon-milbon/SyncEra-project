@@ -1,16 +1,19 @@
 // frontend/src/app/pricing/page.tsx変更前===支払方法選択画面===
 'use client';
 
-import React from 'react';
+import React, { useState } from 'react';
 import PriceList from '@/components/payment/PriceList';
 import LogoRblue from '@/components/payment/LogoRblue';
 import { useRouter } from 'next/navigation';
 import clientLogger from '@/lib/clientLogger';
+import Loading from '../components/loading'; // Loadingコンポーネントをインポート
 
 export default function PricingPage() {
+  const [loading, setLoading] = useState(false); // ローディング状態を管理
   const router = useRouter();
-
   const handlePriceSelect = async (priceId: string) => {
+    setLoading(true); // ローディング開始
+
     clientLogger.debug(`選択した支払い方法: ${priceId}`);
     const userInfo = JSON.parse(sessionStorage.getItem('userSignupInfo') || '{}');
     try {
@@ -40,8 +43,14 @@ export default function PricingPage() {
           alert('エラーが発生しました。再試行してください。');
         }
       }
+    } finally {
+      setLoading(false); // ローディング終了
     }
   };
+
+  if (loading) {
+    return <Loading />; // ローディング中はLoadingコンポーネントを表示
+  }
 
   return (
     <div className='min-h-screen flex flex-col'>

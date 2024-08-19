@@ -6,12 +6,13 @@ import { useRouter } from 'next/navigation';
 import { signInWithEmailAndPassword, onAuthStateChanged, User } from 'firebase/auth';
 import { DocumentData, doc, getDoc } from 'firebase/firestore';
 import { auth, db } from '@/firebase/config'; // Firebase 初期化ファイルをインポート
-import LogoWblue from '@/components/payment/LogoWblue';
 import clientLogger from '@/lib/clientLogger';
 import { httpsCallable, getFunctions } from 'firebase/functions';
 import app from '@/firebase/config';
 import '@/app/login/globals.css';
 import Link from 'next/link';
+import Loading from '@/app/components/loading';
+
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -50,6 +51,8 @@ export default function EmployeeLogin() {
 
       if (employeeDoc.exists()) {
         const employeeData = employeeDoc.data() as DocumentData;
+        console.log(`Employee data retrieved: ${JSON.stringify(employeeData)}`);
+
         redirectToDashboard(employeeData.role);
       } else {
         throw new Error('Employee data not found');
@@ -127,7 +130,7 @@ export default function EmployeeLogin() {
     }
   };
   if (loading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
   return (
@@ -142,7 +145,7 @@ export default function EmployeeLogin() {
               TOP
             </button>
           </Link>
-          <span className='text-[#003366]'>　〉</span>
+          <span className='text-[#003366]'> 〉</span>
           <span className='text-[#003366] text-[20px]'>ログイン画面</span>
         </div>
       </header>
