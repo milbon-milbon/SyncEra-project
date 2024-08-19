@@ -48,7 +48,7 @@ def cache_questions():
 # アンケートの定期配信を定義: 毎月1日12時に全員にアンケートを配信する
 def schedule_monthly_survey():
     scheduler = BackgroundScheduler(timezone=timezone('Asia/Tokyo'))
-    scheduler.add_job(send_survey_to_all, 'cron', day=22, hour=12, minute=0)
+    scheduler.add_job(send_survey_to_all, 'cron', day=19, hour=17, minute=36)
     scheduler.add_job(cache_questions, 'cron', day=22, hour=11, minute=0)
     scheduler.add_job(send_survey_to_all, 'cron', day=23, hour=12, minute=0)
     scheduler.add_job(cache_questions, 'cron', day=23, hour=11, minute=0)

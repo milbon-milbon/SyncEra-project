@@ -10,7 +10,7 @@ from app.services.slackApi import get_and_save_daily_report, get_and_save_times_
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
 from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
-from app.util.career_survey.question_cache import clear_question_cache
+from app.util.career_survey.question_cache import clear_question_cache, deserialize_question, serialize_question
 from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -219,16 +219,12 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 
             if cached_question:
                 logger.info(f"Cache hit for question {next_question_id}")
-                # キャッシュから質問を取得し、辞書型から Question オブジェクトに変換
-                question_data = json.loads(cached_question)
-                next_question = Question(**question_data)
+                # キャッシュから質問を取得し、デシリアライズ
+                next_question = deserialize_question(cached_question)
             else:
                 logger.info(f"Cache miss for question {next_question_id}, retrieving from database")
                 # キャッシュにない場合はデータベースから取得
                 next_question = db.query(Question).filter(Question.id == next_question_id).first()
-                if next_question:
-                    # 質問データをキャッシュに保存（シリアライズして保存）
-                    redis_client.set(next_question_key, next_question.json())  # 質問オブジェクトをシリアライズしてキャッシュ保存
 
             # 質問をSlackに送信
             if next_question.choice_a == "自由記述":
