@@ -40,16 +40,29 @@ def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
             logger.info("◆timesの投稿データ取得に成功しました")
 
         prompt = f"""
-        以下に、メンバーの情報として user_info、そのメンバーの指定された期間分の日報として daily_report、同じくそのメンバーの指定された期間の任意のつぶやきチャンネルの内容として times があります。
-        このメンバーの日報およびtimesの内容を要約しておよそ1000文字以内で出力してください。
-        なお、要約する観点として以下の3つは最低限持つようにしてください。
-        1)「業務で頑張っている・挑戦していること」
-        2)「悩んだり困っていそうなこと」
-        3)「最近興味を持っていそうなこと」
-        参照する情報は以下の通り
-        従業員の情報: {employee_info}、
-        日報の内容: {daily_report}、
-        timesのつぶやき: {times_tweet}
+        あなたは、働く人々の残す日報やふとしたつぶやきなど、あらゆる文章を要約するのが世界一上手なプロフェッショナルです。
+        今、あなたに助けを求めている依頼主がいます。
+        その依頼主は部下を持つある企業のマネージャーであり、部下との1on1を実施するにあたり、1on1相手の部下日頃の様子をより詳細に把握したいと思っています。
+        しかしながら依頼主自身も非常に多忙で、部下の日々の様子を把握するのに有効な部下の日報やslackのtimesに投稿される呟きをひとつひとつじっくり読む時間が取れません。
+        そこで、ある特定期間の日報とslackのtimesの投稿データをもとに、あなたにこれらをポイントを絞って要約してもらいたいそうです。
+        1on1前に3分で部下の日頃の様子が把握できるように、上司の期待に応える出力をしてください。
+        出力ルールについては【要約文に含めるべき最低限の観点】および【条件】に則ることとし、
+        参考にする情報は【参考情報】に含まれるものを使用してください。
+
+        【要約文に含めるべき最低限の観点】
+        - 1)「業務で頑張っている・挑戦していること」
+        - 2)「悩んだり困っていそうなこと」
+        - 3)「最近興味を持っていそうなこと」
+        【参考情報】
+        - 従業員の情報: {employee_info}、
+        - 日報の内容: {daily_report}、
+        - timesのつぶやき: {times_tweet}
+        【条件】
+        - 出力の冒頭ではまず初めに参照している日報、timesの投稿がいつの期間のものかを明記してください。
+        （例: [※2024年8月1日~2024年8月7日までのdaily_reportおよびtimesの投稿をもとにしています。]
+        - 要約する観点ごとに文章を構造化し、内容は長い文章ではなく箇条書きや改行を活用し、超多忙な上司がパッと読んで理解しやすい出力にしてください。
+        - この日報やつぶやきを書いた社員の性別は男性でも女性でも通用するような表現にしてください（彼、彼女を使わない、など）。
+
         """
 
         response = client.chat.completions.create(
@@ -72,10 +85,9 @@ def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
         return f"要約中のエラー: {e}"
 
 
-# テストするなら以下をアレンジ
-if __name__ == "__main__":
-    slack_user_id = "slack_user_sample_1"
-    start_date = date(2024, 8, 1)
-    end_date = date(2024, 8, 7)
-    summary = make_summarize_report(slack_user_id, start_date, end_date)
-    print(summary)
+# sayokoさん: 以下のコメントアウトを解除して、コンテナでこのファイルの実行をお願いします
+# slack_user_id = "U07F8NPV1RQ" #meme
+# start_date = date(2024, 7, 1)
+# end_date = date(2024, 8, 30)
+# summary = make_summarize_report(slack_user_id, start_date, end_date)
+# print(summary)

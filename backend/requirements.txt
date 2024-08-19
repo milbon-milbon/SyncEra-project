@@ -12,3 +12,5 @@ black
 isort
 flake8
 apscheduler
+python-multipart
+redis  # 追記：Redisクライアントライブラリを追加
