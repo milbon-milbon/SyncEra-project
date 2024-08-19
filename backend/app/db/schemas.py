@@ -17,20 +17,34 @@ class SlackUserInfo(BaseModel):
 '''
 従業員情報をAPIレスポンスに乗せる用
 '''
+# 基本のスキーマ
 class EmployeeBase(BaseModel):
     name: str
     email: str
     department: str
     role: str
     project: str
-    slack_user_id: str
 
+# 新しい従業員の作成用スキーマ
 class EmployeeCreate(EmployeeBase):
     pass
 
+# 部分的な更新用のスキーマ
+class EmployeeUpdate(BaseModel):
+    name: Optional[str]
+    email: Optional[str]
+    department: Optional[str]
+    role: Optional[str]
+    project: Optional[str]
+
+    class Config:
+        orm_mode = True
+
+# データベースから取得した従業員情報のスキーマ
 class Employee(EmployeeBase):
-    id: str
-    slack_user_info: Optional[SlackUserInfo] = None  # Slackの情報を追加
+    id: int  # IDはint型が一般的です（データベース依存）
+    slack_user_id: Optional[str] = None  # Slack IDはオプショナルに設定
+    slack_user_info: Optional['SlackUserInfo'] = None  # Slackの追加情報
 
     class Config:
         orm_mode = True
@@ -77,6 +91,8 @@ class SavedAdvices(BaseModel):
 問い合わせフォームの内容をAPIレスポンスに乗せる用
 '''
 class ContactFormBase(BaseModel):
+    company_name: str  # 追加
+    department: Optional[str] = None  # 追加（任意項目）
     name: str
     email: str
     message: str
@@ -86,7 +102,7 @@ class ContactFormCreate(ContactFormBase):
 
 class ContactForm(ContactFormBase):
     id: int
-    timestamp: datetime
+    created_at: datetime  # 修正：timestamp → created_at
 
     class Config:
         orm_mode = True

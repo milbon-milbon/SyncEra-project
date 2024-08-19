@@ -7,8 +7,10 @@ from app.services.make_analysis_results_list import make_analysis_results_list
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
 from app.db.models import Employee, SlackUserInfo, DailyReport, AnalysisResult
-from app.db.database import get_db 
-from app.db.schemas import Employee, EmployeeCreate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
+from app.db.database import get_db
+from app.db.models import ContactForm as ContactFormModel
+from app.db.schemas import ContactFormCreate, ContactForm
+from app.db.schemas import Employee, EmployeeCreate, EmployeeUpdate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
 from app.util.get_employee_info import get_employee_info
 from app.util.summary.save_summary_report import save_summary_report
 from app.util.summary.get_saved_summarize_history import get_saved_summary_report
@@ -16,8 +18,8 @@ from app.util.advices.save_advices import save_advices
 from app.util.advices.get_all_saved_advices_history import get_all_saved_advices_history
 from app.util.advices.get_saved_advices_history import get_saved_advices_history
 from app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
-from app.util import convert_ts_to_date
 from app.util.survey_analysis.analysis_functions import filtered_by_user_and_date
+from app.util.contact_form.post_contact_form import save_contact_to_db  # 新しい関数をインポート
 from typing import Optional
 from datetime import date
 
@@ -44,6 +46,40 @@ def get_selected_member(slack_user_id: str):
         return employee_detail,latest_daily_report
     else:
         raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+
+# 社員情報の更新(テストまだ)
+@router.put("/selected_employee/{slack_user_id}/")
+def update_employee(slack_user_id: str, employee_update: EmployeeUpdate, db: Session = Depends(get_db)):
+    employee = db.query(Employee).filter(Employee.slack_user_id == slack_user_id).first()
+
+    if not employee:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+    # 更新するフィールドを反映
+    employee.name = employee_update.name
+    employee.email = employee_update.email
+    employee.department = employee_update.department
+    employee.role = employee_update.role
+    employee.project = employee_update.project
+
+    db.commit()
+    db.refresh(employee)
+    
+    return {"detail": "社員情報が更新されました", "employee": employee}
+
+# 社員情報の削除（テストまだ）
+@router.delete("/selected_employee/{slack_user_id}/")
+def delete_employee(slack_user_id: str, db: Session = Depends(get_db)):
+    employee = db.query(Employee).filter(Employee.slack_user_id == slack_user_id).first()
+
+    if not employee:
+        raise HTTPException(status_code=404, detail="指定されたメンバーが見つかりません")
+
+    db.delete(employee)
+    db.commit()
+    
+    return {"detail": "社員情報が削除されました"}
 
 #-------------日報サマリー-------------
 
@@ -103,8 +139,18 @@ def print_all_career_survey_results(slack_user_id: str, db: Session=Depends(get_
     return make_analysis_results_list(slack_user_id, db)
 
 
-
-
+#-------------問い合わせフォーム-------------
+# データベースへの問い合わせ内容の保存(エンドポイント確認OK)
+@router.post("/contact/", response_model=ContactForm)
+async def submit_contact_form(form_data: ContactFormCreate, db: Session = Depends(get_db)):
+    try:
+        # 問い合わせ内容をデータベースに保存
+        new_contact = save_contact_to_db(db=db, form_data=form_data)
+        return new_contact
+    except HTTPException as e:
+        raise e
+    except Exception as e:
+        raise HTTPException(status_code=500, detail="問い合わせの送信に失敗しました")
 
 
 

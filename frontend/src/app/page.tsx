@@ -268,6 +268,7 @@ export default function HomePage() {
 
 import Link from 'next/link'; // Linkをインポート
 import { useState } from 'react';
+import ContactForm from './hooks/fetch_contact/postContactForm';
 import PlanIntro from '../components/payment/PlanIntro';
 import CompanyLoginButton from '@/components/signup_and_login/CompanyLoginButton';
 import LoginButton from '@/components/signup_and_login/LoginButton';
@@ -282,10 +283,9 @@ export default function Home() {
           <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16' />
           <span className='text-5xl font-extrabold text-white font-sans'></span>
           <CompanyLoginButton />
-        </div>{' '}
-        {/* ➡追加してください。by ku-min */}
+        </div>
+
         <nav className='absolute left-1/2 transform -translate-x-1/2 space-x-6'>
-          {/* ➡追加してください。by ku-min */}
           <a href='#features' className='hover:underline'>
             機能
           </a>
@@ -300,12 +300,9 @@ export default function Home() {
           </a>
         </nav>
         <div className='flex space-x-4'>
-          {' '}
-          {/* flex コンテナを追加 */}
-          {/* ➡認証系です。コンポーネントの<LoginButton />をマージの際追加してください。by ku-min */}
           <LoginButton />
           <Link
-            href='/signup' // 新規登録ページへのリンク {/* ➡ここはsinupに変更してください。by ku-min */}
+            href='/signup'
             className='bg-[#003366] text-white px-4 py-2 rounded border border-white font-bold hover:bg-[#66B2FF] active:transform active:translate-y-1 transition-colors duration-300'
           >
             新規登録
@@ -320,7 +317,7 @@ export default function Home() {
           世代間のギャップをなくし、スムーズなコミュニケーションを実現
         </p>
         <Link
-          href='/signup' //{/* ➡ここはsinupに変更してください。by ku-min */}
+          href='/signup'
           className='bg-white text-[#003366] px-6 py-3 rounded font-bold hover:bg-gray-200 transition-colors duration-300 relative z-10'
         >
           今すぐ始める
@@ -428,7 +425,6 @@ export default function Home() {
         </div>
       </section>
       {/* Pricing Section */}
-      {/* ➡料金部分はコンポーネント<PlanIntro />に変更したのでマージしてください。by ku-min */}
       <section id='pricing'>
         <PlanIntro />
       </section>
@@ -436,36 +432,7 @@ export default function Home() {
       {/* Contact Section */}
       <section id='contact' className='py-20 bg-gray-100 text-center'>
         <h2 className='text-4xl font-bold mb-8'>お問い合わせ</h2>
-        <form className='max-w-2xl mx-auto space-y-4'>
-          <input
-            type='text'
-            placeholder='会社・団体名'
-            className='w-full p-3 rounded border border-gray-300'
-          />
-          <input
-            type='text'
-            placeholder='部署名（任意）'
-            className='w-full p-3 rounded border border-gray-300'
-          />
-          <input
-            type='text'
-            placeholder='お名前'
-            className='w-full p-3 rounded border border-gray-300'
-          />
-          <input
-            type='text'
-            placeholder='email'
-            className='w-full p-3 rounded border border-gray-300'
-          />
-          <textarea
-            placeholder='メッセージ'
-            className='w-full p-3 rounded border border-gray-300'
-            rows={5}
-          ></textarea>
-          <button className='bg-[#003366] text-white px-6 py-3 rounded font-bold hover:bg-blue-700 transition-colors duration-300'>
-            メッセージを送信
-          </button>
-        </form>
+        <ContactForm /> {/* 問い合わせフォームを表示 */}
       </section>
       {/* Footer */}
       <footer className='bg-[#003366] text-white text-center p-4'>
