@@ -2,7 +2,7 @@ import uuid
 from sqlalchemy.orm import Session
 from app.db.database import SessionLocal
 from app.db.models import (
-    Response
+    UserResponse
 )
 from sqlalchemy.exc import SQLAlchemyError
 
@@ -14,104 +14,104 @@ def seed_data():
         キャリアアンケート設問、回答選択肢
         '''
 
-        response1 = Response(
+        response1 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 1,
             answer = 'A',
             free_text = None
         )
 
-        response2 = Response(
+        response2 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 2,
             answer = 'C',
             free_text = None
         )
 
-        response3 = Response(
+        response3 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 3,
             answer = 'B',
             free_text = None
         )
 
-        response4 = Response(
+        response4 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 6,
             answer = 'C',
             free_text = None
         )
 
-        response5 = Response(
+        response5 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 9,
             free_text = 'データ分析、データサイエンス'
         )
 
-        response6 = Response(
+        response6 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 11,
             answer = 'A',
             free_text = None
         )
 
-        response7 = Response(
+        response7 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 12,
             answer = 'A',
             free_text = None
         )
 
-        response8 = Response(
+        response8 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 13,
             answer = 'B',
             free_text = None
         )
 
-        response10 = Response(
+        response10 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 14,
             answer = 'A',
             free_text = None
         )
 
-        response11 = Response(
+        response11 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 15,
             answer = 'C',
             free_text = None
         )
 
-        response12 = Response(
+        response12 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 16,
             answer = 'C',
             free_text = None
         )
 
-        response13 = Response(
+        response13 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 17,
             answer = 'B',
             free_text = None
         )
 
-        response14 = Response(
+        response14 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 18,
             answer = 'A',
             free_text = None
         )
 
-        response15 = Response(
+        response15 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 19,
             answer = 'B',
             free_text = None
         )
 
-        response16 = Response(
+        response16 = UserResponse(
             slack_user_id = 'sample_4',
             question_id = 20,
             free_text = '転職を検討中です'
