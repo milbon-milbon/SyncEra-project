@@ -94,7 +94,7 @@ export default function EmployeeRegister() {
             <div className='flex-1 mr-8'>
               <h1 className='text-3xl font-bold mb-6 text-[#003366] text-center'>社員登録</h1>
               <form onSubmit={onSubmit}>
-                {['name', 'email', 'department', 'role', 'project', 'imageUrl'].map((field) => (
+                {['name', 'email', 'department', 'role', 'project'].map((field) => (
                   <div key={field} className='mb-6 flex items-center'>
                     <label htmlFor={field} className='block text-lg font-bold text-[#003366] w-44'>
                       {field === 'name'
