@@ -106,5 +106,3 @@ db=get_db()
 test_response=save_survey_result(slack_user_id, db)
 print(test_response)
 
-
-
