@@ -26,6 +26,14 @@ def seed_data():
         キャリアアンケート設問、回答選択肢
         '''
 
+def seed_data():
+    db: Session = SessionLocal()
+
+    try:
+        '''
+        キャリアアンケート設問、回答選択肢
+        '''
+
         question1 = Question(
             question_text="メッセージの確認、ありがとうございます！アンケートの回答を始めますか？",
             choice_a="始める",

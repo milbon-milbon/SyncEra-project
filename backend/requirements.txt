@@ -14,3 +14,7 @@ flake8
 apscheduler
 python-multipart
 redis  # 追記：Redisクライアントライブラリを追加
+stripe
+python-dotenv
+firebase-admin
+functions_framework

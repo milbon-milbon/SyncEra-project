@@ -3,6 +3,7 @@ import os
 import json
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
+# backend/app/main.py
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.orm import Session
@@ -44,6 +45,7 @@ SIGNING_SECRET = os.getenv("SIGNING_SECRET")
 # つぶやきチャンネルのIDを環境変数から読み込む
 TWEET_CHANNEL_IDS = os.getenv("TWEET_CHANNEL_IDS", "").split(",")
 slack_client = WebClient(token=SLACK_TOKEN)
+from app.services.stripe import router as stripe_router
 
 app = FastAPI()
 
@@ -246,3 +248,5 @@ async def start_scheduler():
 
 # FastAPIアプリケーションにルーターを登録
 app.include_router(router)
+# Stripeのルーターを登録
+app.include_router(stripe_router)

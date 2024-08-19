@@ -41,3 +41,6 @@ docker-compose.override.yml
 /backend/.venv/
 /backend/venv/
 /backend/app/db/migrations/versions/*
+# Firebase configuration
+backend/secrets/
+/functions/service-account.json

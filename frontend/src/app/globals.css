@@ -67,7 +67,7 @@ body {
 }
 */
 
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Patrick+Hand&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Patrick+Hand&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -89,17 +89,13 @@ body {
 
 body {
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
-  font-family: "Patrick Hand", cursive;
+  font-family: 'Patrick Hand', cursive;
 }
 
 .header-logo {
-  font-family: "Dancing Script", cursive;
+  font-family: 'Dancing Script', cursive;
   font-size: 2rem;
   color: #003366; /* ロゴの色 */
 }
@@ -117,7 +113,7 @@ body {
 }
 
 .diagonal-background::before {
-  content: "";
+  content: '';
   position: absolute;
   top: 0;
   left: 0;
@@ -129,13 +125,13 @@ body {
 }
 
 .bg-hero-pattern {
-  background-image: url("/rfy-vb_office12.jpg");
+  background-image: url('/rfy-vb_office12.jpg');
   background-size: cover;
   background-position: center;
 }
 
 .bg-sidebar-pattern {
-  background-image: url("/office.jpg"); /* 背景画像のパス */
+  background-image: url('/office.jpg'); /* 背景画像のパス */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -143,9 +139,41 @@ body {
 
 /* カスタムフォントクラスの追加 */
 .font-dancing {
-  font-family: "Dancing Script", cursive !important;
+  font-family: 'Dancing Script', cursive !important;
 }
 
 .font-patrick {
-  font-family: "Patrick Hand", cursive !important;
+  font-family: 'Patrick Hand', cursive !important;
+}
+.input-with-icon-1 {
+  background-image: url('/signup/office.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
+}
+.input-with-icon-2 {
+  background-image: url('/signup/person.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
+}
+.input-with-icon-3 {
+  background-image: url('/signup/mail.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
+}
+.input-with-icon-4 {
+  background-image: url('/signup/key.png');
+  background-repeat: no-repeat;
+  background-position: left center; /* 位置調整 */
+  background-size: 30px; /* アイコンサイズ調整 */
+  padding-left: 30px; /* アイコンに合わせたパディング調整 */
+  background-color: white; /* または背景色を指定しない */
 }
