@@ -6,17 +6,6 @@ import { useState } from 'react';
 import LogoutButton from '@/components/signup_and_login/LoguoutButton';
 import AuthRoute from '@/components/auth/AuthRoute';
 
-// type Employee = {
-//   id: string;
-//   name: string;
-//   department: string;
-//   role: string;
-//   project: string;
-//   slackUserId: string;
-
-//   imageUrl?: string;
-// };
-
 export default function EmployeeRegister() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -72,12 +61,6 @@ export default function EmployeeRegister() {
       role: '',
       project: '',
     });
-  };
-
-  const handleLogout = () => {
-    console.log('Logged out');
-    router.push('/login');
-    router.push('/login');
   };
 
   return (
@@ -152,20 +135,6 @@ export default function EmployeeRegister() {
                 </div>
               </form>
             </div>
-            {/* アイコンプレビュー部分 */}
-            {/* <div className='w-48 h-48 flex items-center justify-center border border-gray-300 rounded-lg overflow-hidden bg-white shadow-lg border-4 border-gray-400'>
-              {imagePreview ? (
-                <img
-                  src={imagePreview}
-                  alt='Slack Icon Preview'
-                  className='w-full h-full object-cover'
-                />
-              ) : (
-                <div className='bg-gray-200 w-full h-full flex items-center justify-center'>
-                  アイコンなし
-                </div>
-              )} */}
-            {/* </div> */}
           </div>
         </main>
       </div>
