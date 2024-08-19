@@ -2,22 +2,33 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { useGetAllSavedCareerSurveyResults}from '../../../hooks/fetch_llm/useGetAllSavedCareerSurveyResults'
+import ReactMarkdown from 'react-markdown';
 
-export default function CareerSurvey({ params }: { params: { slack_user_id: string } }) {
-  const [selectedSurvey, setSelectedSurvey] = useState<string | null>(null);
+// hooksより引用
+interface CareerSurveyResult {
+  id: number
+  slack_user_id: string;
+  result: string;
+  created_at: string; // ISO 8601 形式の日時: 'created_at': datetime.datetime(2024, 8, 14, 21, 27, 19, 631790)
+}
 
-  const handleViewDetails = (surveyId: string) => {
-    setSelectedSurvey(surveyId);
+export default function CareerSurvey({ params }: { params: { slackUserId: string } }) {
+
+  const { allSavedCareerSurveyResults, loading, error } = useGetAllSavedCareerSurveyResults(params.slackUserId);
+  const [selectedSurvey, setSelectedSurvey] = useState<CareerSurveyResult | null>(null);
+
+  const handleViewDetails = (survey: CareerSurveyResult) => {
+    setSelectedSurvey(survey);
   };
 
-  const surveyHistory = [
-    { id: '1', date: '2024-08-01 12:11' },
-    { id: '2', date: '2024-07-01 12:45' },
-    { id: '3', date: '2024-06-01 13:04' },
-    { id: '4', date: '2024-05-07 12:23' },
-    { id: '5', date: '2024-04-01 14:07' },
-    { id: '6', date: '2024-03-02 12:16' },
-  ];
+  if (loading) {
+    return <p>読み込み中...</p>;
+  }
+
+  if (error) {
+    return <p>エラーが発生しました: {error.message}</p>;
+  }
 
   return (
     <div className="min-h-screen flex bg-white">
@@ -53,11 +64,11 @@ export default function CareerSurvey({ params }: { params: { slack_user_id: stri
           <div className="w-1/3 p-4 bg-white rounded-lg shadow-md">
             <h2 className="text-xl font-bold text-[#003366] mb-4">アンケート回答履歴</h2>
             <ul className="space-y-4">
-              {surveyHistory.map((survey) => (
+            {allSavedCareerSurveyResults.map((survey) => (
                 <li key={survey.id} className="flex justify-between items-center">
-                  <span className="text-[#333333]">{survey.date}</span>
+                  <span className="text-[#333333]">{new Date(survey.created_at).toLocaleString()}</span>
                   <button
-                    onClick={() => handleViewDetails(survey.id)}
+                    onClick={() => handleViewDetails(survey)}
                     className="bg-blue-500 text-white px-2 py-1 rounded font-bold hover:bg-[#003366] transition-colors duration-300"
                   >
                     詳細を見る
@@ -69,14 +80,18 @@ export default function CareerSurvey({ params }: { params: { slack_user_id: stri
 
           {/* アンケート詳細表示 */}
           <div className="flex-1 ml-8 p-4 bg-white rounded-lg shadow-md">
-            {selectedSurvey ? (
+          {selectedSurvey ? (
               <>
                 <h2 className="text-xl font-bold text-[#003366] mb-4">
-                  アンケートID: {selectedSurvey}
+                  回答日時: {new Date(selectedSurvey.created_at).toLocaleString()}
                 </h2>
-                <p className="text-lg text-[#333333]">
-                  ここに{selectedSurvey}のアンケートの分析結果が表示されます。
-                </p>
+                {/* ReactMarkdownを使用して、selectedSurvey.resultをMarkdown形式で表示 */}
+                <ReactMarkdown className="text-lg text-[#333333]">
+                  {selectedSurvey.result}
+                </ReactMarkdown>
+                {/* <p className="text-lg text-[#333333]">
+                  {selectedSurvey.result}
+                </p> */}
               </>
             ) : (
               <p className="text-lg text-[#333333]">

@@ -132,7 +132,7 @@ export type DailyReport = {
   text: string;
   ts: string;
   id: number;
-  user_id: string;
+  slack_user_id: string;
 };
 
 // EmployeeData 型を定義します

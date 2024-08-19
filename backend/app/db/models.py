@@ -176,4 +176,4 @@ class AnalysisResult(Base):
     slack_user_info = relationship("SlackUserInfo", back_populates="analysis_results")
 
     def __repr__(self):
-        return f"<AnalysisResult(id={self.id}, slack_user_id={self.slack_user_id}, result={self.result}, save_date={self.save_date})>"
+        return f"<AnalysisResult(id={self.id}, slack_user_id={self.slack_user_id}, result={self.result}, created_at={self.created_at})>"

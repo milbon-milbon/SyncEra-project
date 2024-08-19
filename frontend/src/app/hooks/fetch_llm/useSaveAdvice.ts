@@ -6,14 +6,14 @@ import { useEffect, useState } from 'react';
 
 interface Advice {
     // 型定義が必要なら定義する
-    employee_id: string
-    advice: string
+    slack_user_id: string
+    advices: string
 }
 
-export const useSaveAdvice = async(employeeId: string, advice: string): Promise<void> => {
+export const useSaveAdvice = async(slackUserId: string, advice: string): Promise<void> => {
     const adviceData: Advice = {
-        employee_id: employeeId,
-        advice: advice
+        slack_user_id: slackUserId,
+        advices: advice
     }
 
     try{
@@ -35,35 +35,3 @@ export const useSaveAdvice = async(employeeId: string, advice: string): Promise<
     }
 };
 
-// ページコンポーネントで呼び出すときには...
-
-// import React, { useState } from 'react';
-// import { useSaveAdvice } from './useSaveAdvice';  // 適切なパスでインポート
-
-// const PageComponent = () => {
-//     const [employeeId, setEmployeeId] = useState('12345');
-//     const [advice, setAdvice] = useState('This is an advice text.');
-
-//     const handleSaveClick = () => {
-//         useSaveAdvice(employeeId, advice); //適切に関数呼び出しができるようにしている
-//     };
-
-//     return (
-//         <div>
-//             <input
-//                 type="text"
-//                 value={employeeId}
-//                 onChange={(e) => setEmployeeId(e.target.value)}
-//                 placeholder="Employee ID"
-//             />
-//             <textarea
-//                 value={advice}
-//                 onChange={(e) => setAdvice(e.target.value)}
-//                 placeholder="Enter your advice"
-//             />
-//             <button onClick={handleSaveClick}>保存</button>
-//         </div>
-//     );
-// };
-
-// export default PageComponent;

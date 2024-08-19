@@ -4,6 +4,7 @@ import json
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
+from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_daily_report, get_and_save_times_tweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
@@ -12,6 +13,7 @@ from app.services.schedule_survey import schedule_hourly_survey, schedule_monthl
 from app.util.career_survey.question_cache import clear_question_cache
 from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
+from slack_sdk.errors import SlackApiError
 from slack_sdk.errors import SlackApiError
 from app.db.database import get_db
 from app.db.models import Question, UserResponse
@@ -100,6 +102,7 @@ def read_daily_report(db: Session = Depends(get_db)):
 
 # Slackイベントのエンドポイント
 # 日報または、つぶやきが投稿されたときに、投稿内容を取得してDB保存するためのエンドポイント
+# 日報または、つぶやきが投稿されたときに、投稿内容を取得してDB保存するためのエンドポイント
 @app.post("/slack/events")
 async def slack_events(request: Request, db: Session = Depends(get_db)):
     try:
@@ -109,6 +112,7 @@ async def slack_events(request: Request, db: Session = Depends(get_db)):
         # SlackのURL検証のためのチャレンジリクエストに対応
         if "challenge" in payload:
             return {"challenge": payload["challenge"]}
+
 
         # イベント処理
         event = payload.get("event", {})
