@@ -1,9 +1,7 @@
-// 画面遷移用として仮作成（メインmanager画面の代わりにテストで作成）マージの際は認証部分は残さないとセキュリティに影響。
+// 画面拡張用として作成（※今後、役職別の画面切り替え時に使用のため、開発環境残し、本番には載せない）
 // src/app/manager-dashboard/page.tsx
 'use client';
-{
-  /*認証部分はメインの管理画面にマージして！*/
-}
+
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from 'firebase/auth';

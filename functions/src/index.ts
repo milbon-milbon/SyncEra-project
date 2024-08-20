@@ -7,7 +7,7 @@ import * as cors from "cors";
 admin.initializeApp();
 
 const app = express();
-app.use(cors({origin: true}));
+app.use(cors({ origin: true }));
 app.use(express.json());
 
 /* 立ち上げ helloWorld 関数を追加*/
@@ -26,28 +26,28 @@ interface AdminClaimsResponse {
  * @param {express.Response} res - The express response object.
  */
 app.post("/", (req, res) => {
-  const {data} = req.body;
-  const {uid} = data;
+  const { data } = req.body;
+  const { uid } = data;
   console.log("Received request body:", req.body);
   console.log("Received UID:", uid);
 
   if (!uid || typeof uid !== "string" || uid.length > 128) {
-    res.status(400).json({data: {error: "Invalid UID"}});
+    res.status(400).json({ data: { error: "Invalid UID" } });
     return;
   }
 
   admin
     .auth()
-    .setCustomUserClaims(uid, {isCompanyAdmin: true})
+    .setCustomUserClaims(uid, { isCompanyAdmin: true })
     .then(() => {
       const response: AdminClaimsResponse = {
         message: "Success! Admin claims set.",
       };
-      res.status(200).json({data: response});
+      res.status(200).json({ data: response });
     })
     .catch((error) => {
       console.error("Error setting custom claims:", error);
-      res.status(500).json({data: {error: "Internal server error"}});
+      res.status(500).json({ data: { error: "Internal server error" } });
     });
 });
 
@@ -60,7 +60,7 @@ app.post("/", (req, res) => {
 app.use((err: Error, _req: express.Request, res: express.Response) => {
   console.error(err.stack);
   res.status(500).json({
-    data: {error: "Something broke!"},
+    data: { error: "Something broke!" },
   });
 });
 
@@ -101,7 +101,7 @@ async function getCompanyIdForUser(
   }
 }
 export const setCustomClaims = functions.https.onCall(async (data) => {
-  const {uid, companyId} = data;
+  const { uid, companyId } = data;
   console.log(`Custom claims set for user ${uid}: companyId = ${companyId}`);
 
   if (!(typeof uid === "string") || !(typeof companyId === "string")) {
@@ -112,10 +112,10 @@ export const setCustomClaims = functions.https.onCall(async (data) => {
   }
 
   try {
-    await admin.auth().setCustomUserClaims(uid, {companyId: companyId});
+    await admin.auth().setCustomUserClaims(uid, { companyId: companyId });
     console.log(`Custom claims set for user ${uid}:
        companyId = ${companyId}`);
-    return {message: "Custom claims set successfully"};
+    return { message: "Custom claims set successfully" };
   } catch (error) {
     console.error("Error setting custom claims:", error);
     throw new functions.https.HttpsError(
@@ -128,7 +128,7 @@ export const setCustomClaims = functions.https.onCall(async (data) => {
 // 新しい関数を追加
 export const onUserCreate = functions.auth.user().onCreate(async (user) => {
   const companyId = await getCompanyIdForUser(user);
-  await admin.auth().setCustomUserClaims(user.uid, {companyId});
+  await admin.auth().setCustomUserClaims(user.uid, { companyId });
   console.log(`CompanyId set for new user ${user.uid}: ${companyId}`);
 });
 
@@ -144,7 +144,7 @@ export const deleteUserAndData = functions.https.onCall(
       );
     }
 
-    const {employeeId, companyId} = data;
+    const { employeeId, companyId } = data;
 
     try {
       console.log(
@@ -172,7 +172,7 @@ export const deleteUserAndData = functions.https.onCall(
         from Authentication and Firestore.`
       );
 
-      return {success: true, message: "User and data deleted successfully"};
+      return { success: true, message: "User and data deleted successfully" };
     } catch (error) {
       console.error("Detailed error in deleteUserAndData:", error);
       throw new functions.https.HttpsError(
@@ -183,9 +183,8 @@ export const deleteUserAndData = functions.https.onCall(
   }
 );
 
-// 仮
+// 管理者権限のチェック
 exports.updateEmployeeEmail = functions.https.onCall(async (data, context) => {
-  // 管理者権限のチェック
   if (!context.auth || !context.auth.token.isCompanyAdmin) {
     throw new functions.https.HttpsError(
       "permission-denied",
@@ -193,12 +192,12 @@ exports.updateEmployeeEmail = functions.https.onCall(async (data, context) => {
     );
   }
 
-  const {employeeId, newEmail} = data;
+  const { employeeId, newEmail } = data;
 
   try {
     // Admin SDKを使用してユーザーのメールアドレスを更新
-    await admin.auth().updateUser(employeeId, {email: newEmail});
-    return {success: true, message: "Email updated successfully"};
+    await admin.auth().updateUser(employeeId, { email: newEmail });
+    return { success: true, message: "Email updated successfully" };
   } catch (error) {
     console.error("Error updating email:", error);
     throw new functions.https.HttpsError("internal", "Failed to update email");

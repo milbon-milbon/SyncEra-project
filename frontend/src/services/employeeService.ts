@@ -1,23 +1,8 @@
 // src/services/employeeService.ts
 'use client';
 
-import {
-  getFirestore,
-  doc,
-  collection,
-  setDoc,
-  updateDoc,
-  deleteDoc,
-  getDoc,
-} from 'firebase/firestore';
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  deleteUser,
-  signOut,
-  signInWithEmailAndPassword,
-  IdTokenResult,
-} from 'firebase/auth';
+import { getFirestore, doc, setDoc, updateDoc, deleteDoc, getDoc } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, deleteUser } from 'firebase/auth';
 
 import app from '@/firebase/config';
 import { getFunctions, httpsCallable } from 'firebase/functions';
@@ -81,22 +66,6 @@ export async function addEmployee(companyId: string, employeeData: EmployeeData)
   }
 }
 
-// // 更新
-// export async function updateEmployee(
-//   companyId: string,
-//   employeeId: string,
-//   employeeData: Partial<EmployeeData>,
-// ) {
-//   const employeeRef = doc(db, `companies/${companyId}/employees`, employeeId);
-//   try {
-//     await updateDoc(employeeRef, employeeData);
-//   } catch (error) {
-//     console.error('Error updating employee:', error);
-//     throw error;
-//   }
-// }
-
-// 仮
 // 更新
 export async function updateEmployee(
   companyId: string,

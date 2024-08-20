@@ -13,7 +13,7 @@ import Loading from '@/app/components/loading';
 // 部署のリスト
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 
-// 役職のリスト（例として追加）
+// 役職のリスト
 const positions = ['manager', 'mentor', 'その他'];
 
 interface Employee {
