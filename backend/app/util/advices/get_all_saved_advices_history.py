@@ -3,11 +3,9 @@ from sqlalchemy.orm import Session
 from sqlalchemy import desc
 from app.db.database import get_db
 from app.db.models import AdvicesHistory
-import uuid
-
 
 def get_all_saved_advices_history(slack_user_id: str, db: Session = Depends(get_db)):
-    # データベースから該当ユーザーの全てのアドバイシャリーデータを取得
+    # データベースから該当ユーザーの全てのアドバイスデータを取得
     advices_history = (
         db.query(AdvicesHistory)
         .filter(AdvicesHistory.slack_user_id == slack_user_id)
@@ -17,12 +15,6 @@ def get_all_saved_advices_history(slack_user_id: str, db: Session = Depends(get_
 
     # データが見つからない場合
     if not advices_history:
-        raise HTTPException(status_code=404, detail="No advices found for this slack_user_id")
+        raise HTTPException(status_code=404, detail="このユーザーのアドバイスデータが見つかりません")
 
     return advices_history
-
-#_____挙動テスト用
-# slack_user_id='sample_4'
-# db=get_db()
-# test=get_all_saved_advices_history(slack_user_id, db)
-# print(test)

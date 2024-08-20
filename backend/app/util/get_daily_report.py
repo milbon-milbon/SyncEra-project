@@ -45,20 +45,10 @@ def get_daily_report(slack_user_id: str, start_date:date, end_date:date):
             )
         ).all()
         logger.debug("◆DBから正常に日報データを取得できました。")
-        #logger.debug(f"取得データ: {target_daily_report}")
-        
         response = compile_daily_report_data(target_daily_report)
-        #logger.debug(f"最終の返り値: {response}")
         return response
     except Exception as e:
         logger.error(f"◆daily_reportの取得中にエラーが発生しました。: {e}")
         return[]
     finally:
         db.close()
-
-
-    
-# slack_user_id = 'sample_4'
-# start_date = date(2024, 8, 1)
-# end_date = date(2024, 8, 20)
-# response=get_daily_report(slack_user_id, start_date, end_date)

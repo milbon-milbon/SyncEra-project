@@ -21,12 +21,6 @@ def get_all_saved_summary_reports(slack_user_id: str, db: Session = Depends(get_
 
     # データが見つからない場合
     if not summary_reports:
-        raise HTTPException(status_code=404, detail="No summary reports found for this slack_user_id")
+        raise HTTPException(status_code=404, detail="このユーザーのサマリーデータが見つかりません")
     logger.debug(f'◆サマリーレポート: {summary_reports}')
     return summary_reports
-
-# #_____挙動テスト用
-# slack_user_id='sample_4'
-# db=get_db()
-# test=get_all_saved_summary_reports(slack_user_id, db)
-# print(test)

@@ -1,13 +1,10 @@
 import os
-from fastapi import APIRouter, HTTPException, Depends
+from fastapi import Depends
 from dotenv import load_dotenv
 import logging
 from sqlalchemy.orm import Session
 from openai import OpenAI
-from datetime import date
 from app.util.survey_analysis.analysis_functions import (
-    filtered_by_slack_user_id_analysis,
-    filtered_by_user_and_date,
     latest_response_by_user,
     latest_two_responses_by_user,
     latest_responses_by_user_in_past_year
@@ -86,7 +83,6 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
         new_result = AnalysisResult(
             slack_user_id= slack_user_id,
             result=analysis_result,
-            # save_date=latest_result[0]['date'][:10]
         )
 
         # 新しいレコードをデータベースに追加してコミット
@@ -100,7 +96,7 @@ def save_survey_result(slack_user_id: str, db: Session = Depends(get_db)):
         return f"分析中または保存中のエラー: {e}"
     
 
-#_____関数テスト_____
+#_____関数テスト_____ 開発環境ではDockerfileでコンテナ起動時に実行ファイルに指定しているためコメントアウトしない
 slack_user_id = "sample_4"
 db=get_db()
 

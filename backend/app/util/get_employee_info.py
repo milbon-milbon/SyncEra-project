@@ -1,7 +1,6 @@
 import logging
 import os
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session
 from app.db.models import Employee
 from app.db.database import get_db
 

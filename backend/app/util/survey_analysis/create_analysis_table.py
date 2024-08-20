@@ -8,7 +8,7 @@ import os
 load_dotenv()
 database_url = os.getenv('DATABASE_URL')
 if not database_url:
-    raise ValueError("No DATABASE_URL found in environment variables")
+    raise ValueError("有効なDATABASE_URLがみつかりません")
 
 
 # SQLAlchemyのエンジンを使用してデータベースからデータを読み込む
@@ -44,24 +44,3 @@ analysis_df = merged_df[['id_response', 'slack_user_id', 'question_id', 'questio
 
 #　すべてのuserなどが含まれた、分析用のanalysisテーブルが作成されている
 print(analysis_df.head())
-
-#_____SQL_____
-# SELECT 
-#     r.id,
-#     r.slack_user_id,
-#     r.question_id,
-#     q.question_text,
-#     r.answer,
-#     CASE
-#         WHEN r.answer = 'A' THEN q.choice_a
-#         WHEN r.answer = 'B' THEN q.choice_b
-#         WHEN r.answer = 'C' THEN q.choice_c
-#         WHEN r.answer = 'D' THEN q.choice_d
-#         ELSE NULL
-#     END AS answer_text,
-#     r.free_text,
-#     DATE(r.created_at) AS date
-# FROM 
-#     responses r
-# JOIN 
-#     questions q ON r.question_id = q.id;

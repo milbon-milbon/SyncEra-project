@@ -1,7 +1,7 @@
 import logging
 import os
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session, joinedload
+from sqlalchemy.orm import joinedload
 from app.db.database import get_db
 from app.db.models import Employee
 
