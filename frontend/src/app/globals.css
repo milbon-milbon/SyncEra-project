@@ -1,73 +1,4 @@
-/*
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-:root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
-}
-
-body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
-  font-family: "Patrick Hand", cursive;
-}
-
-.header-logo {
-  font-family: "Patrick Hand", cursive;
-  font-size: 2rem;
-  color: #003366; /* ロゴの色 */ /*
-}
-
-@layer utilities {
-  .text-balance {
-    text-wrap: balance;
-  }
-}
-
-.diagonal-background {
-  position: relative;
-  overflow: hidden;
-  height: 400px; /* お好みの高さに調整してください */ /*
-}
-
-.diagonal-background::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(to bottom right, #66b2ff 50%, white 50%);
-  transform: rotate(-10deg);
-  transform-origin: top left;
-}
-
-@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap");
-
-.bg-hero-pattern {
-  background-image: url("/rfy-vb_office12.jpg");
-  background-size: cover;
-  background-position: center;
-}
-*/
-
-@import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Patrick+Hand&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Patrick+Hand&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -91,7 +22,7 @@ body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
-  font-family: 'Patrick Hand', cursive;
+  font-family: 'Roboto', sans-serif;
 }
 
 .header-logo {

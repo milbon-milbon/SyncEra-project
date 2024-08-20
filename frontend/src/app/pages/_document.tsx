@@ -1,5 +1,5 @@
 // src/pages/_document.tsx
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Head, Html, Main, NextScript } from 'next/document';
 
 class MyDocument extends Document {
   render() {
@@ -7,8 +7,8 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link
-            rel="stylesheet"
-            href="https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap"
+            rel='stylesheet'
+            href='https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&family=Patrick+Hand&display=swap'
           />
         </Head>
         <body>

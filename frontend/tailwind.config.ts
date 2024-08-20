@@ -14,8 +14,8 @@ const config: Config = {
         white: '#ffffff',
       },
       fontFamily: {
-        sans: ['Patrick Hand', 'cursive'],
-        dancing: ['Dancing Script', 'cursive'],
+        sans: ['Roboto', 'sans-serif'],
+        patrick: ['Patrick Hand', 'cursive'],
       },
     },
   },
