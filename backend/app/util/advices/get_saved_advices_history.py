@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import and_
 from app.db.database import get_db
 from app.db.models import AdvicesHistory
+from datetime import date
 
 def get_saved_advices_history(slack_user_id: str, created_at: date = Query(...), db: Session = Depends(get_db)):
     # 該当のslack_user_idとcreated_atの日付でフィルタリング
