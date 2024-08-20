@@ -3,10 +3,9 @@ import logging
 from apscheduler.schedulers.background import BackgroundScheduler
 from app.util.career_survey.send_survey_to_all import send_survey_to_all #社員全員にアンケート配信するロジック
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee
-from app.db.database import get_db
 from app.db.database import SessionLocal
 from app.db.models import Question
-from app.util.career_survey.question_cache import serialize_question, clear_question_cache
+from app.util.career_survey.question_cache import serialize_question
 from sqlalchemy.orm import Session
 from pytz import timezone
 from dotenv import load_dotenv
@@ -62,7 +61,7 @@ def schedule_monthly_survey():
     scheduler.add_job(send_survey_to_all, 'cron', day=25, hour=12, minute=0)
     scheduler.add_job(cache_questions, 'cron', day=25, hour=11, minute=0)
 
-    # 3ヶ月ごとにアンケート送信
+    # 3ヶ月ごとにアンケート送信と質問をキャッシュに保存
     scheduler.add_job(send_survey_to_all, 'cron', month='1,4,7,10', day=1, hour=12, minute=0)
     scheduler.add_job(cache_questions, 'cron', month='1,4,7,10', day=1, hour=11, minute=0)
     scheduler.start()
