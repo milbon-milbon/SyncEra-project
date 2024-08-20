@@ -10,8 +10,8 @@ from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_daily_report, get_and_save_times_tweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
-from app.services.schedule_survey import schedule_hourly_survey, schedule_monthly_survey
-from app.util.career_survey.question_cache import clear_question_cache, deserialize_question, serialize_question
+from app.services.schedule_survey import schedule_monthly_survey
+from app.util.career_survey.question_cache import clear_question_cache, deserialize_question
 from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
@@ -19,11 +19,15 @@ from slack_sdk.errors import SlackApiError
 from app.db.database import get_db
 from app.db.models import Question, UserResponse
 from app.routers import frontend_requests
-from app.db import schemas
+from redis import Redis
+
+# 以下不要そう。sayokoさん、もし不要だったら削除お願いします！このページで使われてないかも?
+from app.db import schemas 
 from fastapi.responses import JSONResponse
 from apscheduler.schedulers.background import BackgroundScheduler
-# めめ追加 : redis用のimport
-from redis import Redis
+from app.services.schedule_survey import schedule_hourly_survey
+from app.util.career_survey.question_cache import serialize_question
+
 
 # 環境変数の読み込み
 load_dotenv()
@@ -33,8 +37,8 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# めめ追加 : redisの接続設定
-REDIS_HOST = os.getenv("REDIS_HOST", "redis") # "redis"部分はコンテナでの開発時。ローカルの時はlocalhost
+# redisの接続設定
+REDIS_HOST = os.getenv("REDIS_HOST", "redis")
 REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
 redis_client = Redis(host=REDIS_HOST, port=REDIS_PORT)
 
@@ -58,7 +62,6 @@ app.add_middleware(
     allow_headers=["*"],  #デプロイ前に要確認、今は "*" でOK
 )
 
-# ルーターの定義
 router = APIRouter()
 
 app.include_router(frontend_requests.router, prefix="/client", tags=["client"])
