@@ -1,8 +1,6 @@
 import logging
 import os
 from dotenv import load_dotenv
-from sqlalchemy.orm import Session
-from sqlalchemy import and_
 from app.db.models import DailyReport
 from app.db.database import get_db
 

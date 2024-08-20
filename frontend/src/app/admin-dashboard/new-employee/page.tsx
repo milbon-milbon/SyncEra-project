@@ -5,13 +5,13 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { addEmployee } from '@/services/employeeService'; // サービスに分離
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
+import app from '@/firebase/config';
 import '@/app/admin-dashboard/globals.css';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth'; //新規社員登録後に、管理者アカウントに自動的に再ログイン
 import Loading from '@/app/components/loading';
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
-// 部署のリスト（例）
+// 部署のリスト
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 
 // 役職のリスト

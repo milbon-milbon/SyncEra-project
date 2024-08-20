@@ -30,9 +30,6 @@ export async function POST(request: NextRequest) {
       mode: 'subscription',
       success_url: `${process.env.NEXT_PUBLIC_DOMAIN}/success?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/canceled`,
-      // metadata: {
-      //   priceId,
-      // },
     });
     // console.log('メタデータ:', priceId);
     console.log('チェックアウトセッションが正常に作成されました:');

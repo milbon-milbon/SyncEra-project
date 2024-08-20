@@ -6,14 +6,6 @@ from .database import Base
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
 
-'''
-models（テーブルとカラム)の定義ができたらbackendコンテナの中に入り、以下の操作を実行
-1. migration 自動生成
-    alembic revision --autogenerate -m "コメント挿入"
-2. migrationをDBに適用する
-    alembic upgrade head
-'''
-
 Base = declarative_base()
 
 class Employee(Base):
@@ -26,9 +18,8 @@ class Employee(Base):
     role = Column(String(100), nullable=False)
     project = Column(String(100), nullable=False)
     slack_user_id = Column(String, ForeignKey('slack_user_info.id'), nullable=False, unique=True)
-    # SlackUserInfoテーブルとのリレーションシップを追加
+    
     slack_user_info = relationship("SlackUserInfo", back_populates="employee")
-    # Responseテーブルとのリレーションシップを追加
     responses = relationship("UserResponse", back_populates="employee")
 
 class SlackUserInfo(Base):
@@ -38,9 +29,8 @@ class SlackUserInfo(Base):
     name = Column(String(100), nullable=False)
     real_name = Column(String(100), nullable=False)
     image_512 = Column(String, nullable=True)
-    # Employeeテーブルとのリレーションシップを追加
-    employee = relationship("Employee", back_populates="slack_user_info")
 
+    employee = relationship("Employee", back_populates="slack_user_info")
     analysis_results = relationship("AnalysisResult", back_populates="slack_user_info")
     summarize_histories = relationship("SummarizeHistory", back_populates="slack_user_info")
     advices_histories = relationship("AdvicesHistory", back_populates="slack_user_info")
@@ -49,14 +39,10 @@ class DailyReport(Base):
     __tablename__ = 'daily_report'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    # user_id => slack_user_idに変更しました
     slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(Float, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
-    # edited = Column(String, nullable=True)
-    # edited_by = Column(String(100), nullable=True)
-    # edited_ts = Column(String, nullable=True)
 
     def __repr__(self):
         return f"<DailyReport(id={self.id}, user_id={self.user_id}, text={self.text}, ts={self.ts}, created_at={self.created_at})>"
@@ -66,16 +52,12 @@ class TimesTweet(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     channel_id = Column(String, ForeignKey('times_list.channel_id'), nullable=False)
-    # user_id => slack_user_idに変更しました
     slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     text = Column(Text, nullable=False)
     ts = Column(Float, nullable=False)
     thread_ts = Column(Float, nullable=True)
     parent_user_id = Column(String, nullable=True)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
-    # edited = Column(String, nullable=True)
-    # edited_by = Column(String(100), nullable=True)
-    # edited_ts = Column(String, nullable=True)
 
     def __repr__(self):
         return f"<TimesTweet(id={self.id}, user_id={self.user_id}, text={self.text}, created_at={self.created_at})>"
@@ -83,7 +65,6 @@ class TimesTweet(Base):
 class TimesList(Base):
     __tablename__ = 'times_list'
 
-    # user_id => slack_user_idに変更しました
     slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     channel_name = Column(String(100), nullable=False)
     channel_id = Column(String(100), primary_key=True, nullable=False)
@@ -103,8 +84,6 @@ class SummarizeHistory(Base):
     __tablename__ = 'summarize_history'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    # カラムに使用するIDを employeeテーブルのidからslack_user_idに変更
-    # employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
     slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     summary = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)
@@ -118,8 +97,6 @@ class AdvicesHistory(Base):
     __tablename__ = 'advices_history'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    # カラムに使用するIDを employeeテーブルのidからslack_user_idに変更
-    # employee_id = Column(UUID(as_uuid=True), ForeignKey('employee.id'), nullable=False)
     slack_user_id = Column(String(100), ForeignKey('slack_user_info.id'), nullable=False)
     advices = Column(String, nullable=False)
     created_at = Column(TIMESTAMP, server_default=func.now(), nullable=False)

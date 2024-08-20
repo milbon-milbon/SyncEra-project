@@ -33,12 +33,3 @@ def make_analysis_results_list(slack_user_id: str, db: Session = Depends(get_db)
         # エラーが発生した場合のロギングと例外処理
         logger.error(f"データ取得中のエラー: {e}")
         raise HTTPException(status_code=500, detail=f"データ取得中のエラー: {e}")
-
-#_____挙動テスト用_____
-# sayokoさん: 以下のコメントアウトを解除して、コンテナでこのファイルの実行をお願いします
-# (アンケート回答終了と同時に uti/survey_analysis/save_analysis_result.py が実行できるようになったら）
-# slack_user_id = "U07F8NPV1RQ" #meme
-# db=get_db()
-
-# test_response=make_analysis_results_list(slack_user_id, db)
-# print(test_response)

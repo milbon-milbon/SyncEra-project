@@ -1,5 +1,3 @@
-#import pandas as pd
-from sqlalchemy import create_engine
 from .create_analysis_table import analysis_df
 import json
 from datetime import date, datetime, timedelta
@@ -27,23 +25,6 @@ def filtered_by_slack_user_id_analysis(slack_user_id: str):
     decoded_json_str = json.loads(json_str)
     print(decoded_json_str)
     return json.dumps(decoded_json_str, ensure_ascii=False, indent=2)
-
-
-# 指定期間の回答を抽出_____使用しない_____
-# def filtered_by_period_analysis(start_date: date, end_date: date):
-#     filtered_by_period_df = analysis_df[(analysis_df['date'] >= start_date) & (analysis_df['date'] <= end_date)]
-#     print(filtered_by_period_df)
-#     #続いてJSON形式に変換してreturnする
-#     return filtered_by_period_df.to_json(orient='records', date_format='iso')
-
-
-# 特定の日付の回答を抽出_____使用しない_____
-# def filtered_by_date_analysis(date: date): #YYYY-MM-DD形式
-#     filtered_by_date_df = analysis_df[analysis_df['date'] == date]
-#     print(filtered_by_date_df)
-#     #続いてJSON形式に変換してreturnする
-#     return filtered_by_date_df.to_json(orient='records', date_format='iso')
-
 
 # 特定の日付とユーザーIDを指定して回答抽出_____単回の結果表示に使用する_____
 def filtered_by_user_and_date(slack_user_id: str, date: date): #YYYY-MM-DD形式
