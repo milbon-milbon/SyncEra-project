@@ -5,11 +5,54 @@
         "version": "0.1.0"
     },
     "paths": {
-        "/client/add_member_info/": {
+        "/client/add_employee_info/": {
             "post": {
-                "tags": ["client"],
-                "summary": "Add Member Info",
-                "operationId": "add_member_info_client_add_member_info__post",
+                "tags": [
+                    "client"
+                ],
+                "summary": "Add Employee Info",
+                "operationId": "add_employee_info_client_add_employee_info__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeeCreate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Employee"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/client/all_employee/": {
+            "get": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Get All Employee",
+                "operationId": "get_all_employee_client_all_employee__get",
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -22,35 +65,107 @@
                 }
             }
         },
-        "/client/all_members/": {
+        "/client/selected_employee/{slack_user_id}/": {
             "get": {
-                "tags": ["client"],
-                "summary": "Get All Members",
-                "operationId": "get_all_members_client_all_members__get",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/client/selected_member/{user_id}/": {
-            "get": {
-                "tags": ["client"],
+                "tags": [
+                    "client"
+                ],
                 "summary": "Get Selected Member",
-                "operationId": "get_selected_member_client_selected_member__user_id___get",
+                "operationId": "get_selected_member_client_selected_employee__slack_user_id___get",
                 "parameters": [
                     {
                         "required": true,
                         "schema": {
-                            "title": "User Id"
+                            "title": "Slack User Id",
+                            "type": "string"
                         },
-                        "name": "user_id",
+                        "name": "slack_user_id",
+                        "in": "path"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Update Employee",
+                "operationId": "update_employee_client_selected_employee__slack_user_id___put",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Slack User Id",
+                            "type": "string"
+                        },
+                        "name": "slack_user_id",
+                        "in": "path"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/EmployeeUpdate"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "200": {
+                        "description": "Successful Response",
+                        "content": {
+                            "application/json": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "client"
+                ],
+                "summary": "Delete Employee",
+                "operationId": "delete_employee_client_selected_employee__slack_user_id___delete",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Slack User Id",
+                            "type": "string"
+                        },
+                        "name": "slack_user_id",
                         "in": "path"
                     }
                 ],
@@ -76,35 +191,41 @@
                 }
             }
         },
-        "/client/print_summary/{user_id}/": {
+        "/client/print_summary/{slack_user_id}/": {
             "get": {
-                "tags": ["client"],
+                "tags": [
+                    "client"
+                ],
                 "summary": "Print Summary",
-                "operationId": "print_summary_client_print_summary__user_id___get",
+                "operationId": "print_summary_client_print_summary__slack_user_id___get",
                 "parameters": [
                     {
                         "required": true,
                         "schema": {
-                            "title": "User Id",
+                            "title": "Slack User Id",
                             "type": "string"
                         },
-                        "name": "user_id",
+                        "name": "slack_user_id",
                         "in": "path"
                     },
                     {
                         "required": true,
                         "schema": {
-                            "title": "Start Data"
+                            "title": "Start Date",
+                            "type": "string",
+                            "format": "date"
                         },
-                        "name": "start_data",
+                        "name": "start_date",
                         "in": "query"
                     },
                     {
                         "required": true,
                         "schema": {
-                            "title": "End Data"
+                            "title": "End Date",
+                            "type": "string",
+                            "format": "date"
                         },
-                        "name": "end_data",
+                        "name": "end_date",
                         "in": "query"
                     }
                 ],
@@ -130,103 +251,23 @@
                 }
             }
         },
-        "/client/print_advices/{user_id}/": {
-            "get": {
-                "tags": ["client"],
-                "summary": "Print Advice",
-                "operationId": "print_advice_client_print_advices__user_id___get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "User Id",
-                            "type": "string"
-                        },
-                        "name": "user_id",
-                        "in": "path"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "Start Data"
-                        },
-                        "name": "start_data",
-                        "in": "query"
-                    },
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "End Data"
-                        },
-                        "name": "end_data",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/client/print_career_survey_result/{user_id}/": {
-            "get": {
-                "tags": ["client"],
-                "summary": "Print Career Survey Result",
-                "operationId": "print_career_survey_result_client_print_career_survey_result__user_id___get",
-                "parameters": [
-                    {
-                        "required": true,
-                        "schema": {
-                            "title": "User Id",
-                            "type": "string"
-                        },
-                        "name": "user_id",
-                        "in": "path"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
-                        "content": {
-                            "application/json": {
-                                "schema": {}
-                            }
-                        }
-                    },
-                    "422": {
-                        "description": "Validation Error",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "$ref": "#/components/schemas/HTTPValidationError"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        },
-        "/slack/post_daily_report/": {
+        "/client/save_summary_report/": {
             "post": {
-                "tags": ["slack"],
-                "summary": "Save Daily Report",
-                "operationId": "save_daily_report_slack_post_daily_report__post",
+                "tags": [
+                    "client"
+                ],
+                "summary": "Save Summary Report",
+                "operationId": "save_summary_report_client_save_summary_report__post",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/SummaryReportRequest"
+                            }
+                        }
+                    },
+                    "required": true
+                },
                 "responses": {
                     "200": {
                         "description": "Successful Response",
@@ -235,54 +276,112 @@
                                 "schema": {}
                             }
                         }
-                    }
-                }
-            }
-        },
-        "/slack/post_times": {
-            "post": {
-                "tags": ["slack"],
-                "summary": "Save Times Tweet",
-                "operationId": "save_times_tweet_slack_post_times_post",
-                "responses": {
-                    "200": {
-                        "description": "Successful Response",
+                    },
+                    "422": {
+                        "description": "Validation Error",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
                             }
                         }
                     }
                 }
             }
         },
-        "/slack/execution_career_survey": {
+        "/client/print_all_summary_reports/{slack_user_id}/": {
             "get": {
-                "tags": ["slack"],
-                "summary": "Execution Career Survey",
-                "operationId": "execution_career_survey_slack_execution_career_survey_get",
+                "tags": [
+                    "client"
+                ],
+                "summary": "Print All Summary Reports",
+                "operationId": "print_all_summary_reports_client_print_all_summary_reports__slack_user_id___get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Slack User Id",
+                            "type": "string"
+                        },
+                        "name": "slack_user_id",
+                        "in": "path"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "title": "Response Print All Summary Reports Client Print All Summary Reports  Slack User Id   Get",
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/SavedSummaryReport"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
                             }
                         }
                     }
                 }
             }
         },
-        "/": {
+        "/client/print_saved_summary_report/{slack_user_id}/": {
             "get": {
-                "summary": "Read Root",
-                "operationId": "read_root__get",
+                "tags": [
+                    "client"
+                ],
+                "summary": "Print Saved Summary Report",
+                "operationId": "print_saved_summary_report_client_print_saved_summary_report__slack_user_id___get",
+                "parameters": [
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Slack User Id",
+                            "type": "string"
+                        },
+                        "name": "slack_user_id",
+                        "in": "path"
+                    },
+                    {
+                        "required": true,
+                        "schema": {
+                            "title": "Created At",
+                            "type": "string",
+                            "format": "date"
+                        },
+                        "name": "created_at",
+                        "in": "query"
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "Successful Response",
                         "content": {
                             "application/json": {
-                                "schema": {}
+                                "schema": {
+                                    "$ref": "#/components/schemas/SavedSummaryReport"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation Error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/HTTPValidationError"
+                                }
                             }
                         }
                     }
@@ -292,6 +391,173 @@
     },
     "components": {
         "schemas": {
+            "EmployeeCreate": {
+                "title": "EmployeeCreate",
+                "required": [
+                    "slack_user_id",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "slack_user_id": {
+                        "title": "Slack User Id",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "division": {
+                        "title": "Division",
+                        "type": "string"
+                    },
+                    "position": {
+                        "title": "Position",
+                        "type": "string"
+                    },
+                    "other": {
+                        "title": "Other",
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "EmployeeUpdate": {
+                "title": "EmployeeUpdate",
+                "required": [
+                    "slack_user_id"
+                ],
+                "type": "object",
+                "properties": {
+                    "slack_user_id": {
+                        "title": "Slack User Id",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "division": {
+                        "title": "Division",
+                        "type": "string"
+                    },
+                    "position": {
+                        "title": "Position",
+                        "type": "string"
+                    },
+                    "other": {
+                        "title": "Other",
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "Employee": {
+                "title": "Employee",
+                "required": [
+                    "slack_user_id",
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "slack_user_id": {
+                        "title": "Slack User Id",
+                        "type": "string"
+                    },
+                    "name": {
+                        "title": "Name",
+                        "type": "string"
+                    },
+                    "division": {
+                        "title": "Division",
+                        "type": "string"
+                    },
+                    "position": {
+                        "title": "Position",
+                        "type": "string"
+                    },
+                    "other": {
+                        "title": "Other",
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "SummaryReportRequest": {
+                "title": "SummaryReportRequest",
+                "required": [
+                    "slack_user_id",
+                    "start_date",
+                    "end_date"
+                ],
+                "type": "object",
+                "properties": {
+                    "slack_user_id": {
+                        "title": "Slack User Id",
+                        "type": "string"
+                    },
+                    "start_date": {
+                        "title": "Start Date",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "end_date": {
+                        "title": "End Date",
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "SavedSummaryReport": {
+                "title": "SavedSummaryReport",
+                "required": [
+                    "slack_user_id",
+                    "created_at"
+                ],
+                "type": "object",
+                "properties": {
+                    "slack_user_id": {
+                        "title": "Slack User Id",
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "title": "Created At",
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "summary": {
+                        "title": "Summary",
+                        "type": "string",
+                        "nullable": true
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "required": [
+                    "loc",
+                    "msg",
+                    "type"
+                ],
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "title": "Location",
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "title": "Message",
+                        "type": "string"
+                    },
+                    "type": {
+                        "title": "Error Type",
+                        "type": "string"
+                    }
+                }
+            },
             "HTTPValidationError": {
                 "title": "HTTPValidationError",
                 "type": "object",
@@ -302,31 +568,6 @@
                         "items": {
                             "$ref": "#/components/schemas/ValidationError"
                         }
-                    }
-                }
-            },
-            "ValidationError": {
-                "title": "ValidationError",
-                "required": ["loc", "msg", "type"],
-                "type": "object",
-                "properties": {
-                    "loc": {
-                        "title": "Location",
-                        "type": "array",
-                        "items": {
-                            "anyOf": [
-                                {"type": "string"},
-                                {"type": "integer"}
-                            ]
-                        }
-                    },
-                    "msg": {
-                        "title": "Message",
-                        "type": "string"
-                    },
-                    "type": {
-                        "title": "Error Type",
-                        "type": "string"
                     }
                 }
             }
