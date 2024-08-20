@@ -104,4 +104,3 @@ def test_get_and_save_times_tweet(db_session: Session, slack_client_mock: MagicM
     ]
     db_session.merge.assert_has_calls(expected_user_calls + expected_message_calls, any_order=True)
     db_session.commit.assert_called_once()
-

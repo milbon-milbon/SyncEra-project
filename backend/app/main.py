@@ -10,7 +10,7 @@ from sqlalchemy.orm import Session
 from app.services.slackApi import get_and_save_daily_report, get_and_save_times_tweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
-from app.services.schedule_survey import schedule_monthly_survey
+from app.services.schedule_survey import schedule_monthly_survey, schedule_hourly_survey
 from app.util.career_survey.question_cache import clear_question_cache, deserialize_question
 from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
@@ -20,14 +20,6 @@ from app.db.database import get_db
 from app.db.models import Question, UserResponse
 from app.routers import frontend_requests
 from redis import Redis
-
-# 以下不要そう。sayokoさん、もし不要だったら削除お願いします！このページで使われてないかも?
-from app.db import schemas 
-from fastapi.responses import JSONResponse
-from apscheduler.schedulers.background import BackgroundScheduler
-from app.services.schedule_survey import schedule_hourly_survey
-from app.util.career_survey.question_cache import serialize_question
-
 
 # 環境変数の読み込み
 load_dotenv()
@@ -215,7 +207,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
             logger.info(f"Survey completed for user {user_id}")
             # LLMによるアンケートの分析結果を保存する関数
             save_survey_result(user_id, db)
-            # キャッシュクリアを追加
+            # キャッシュクリア
             clear_question_cache(question_id)
         else:
             # Redisで次の質問をキャッシュから取得
@@ -246,7 +238,7 @@ async def handle_slack_interactions(request: Request, db: Session = Depends(get_
 # スケジュールを FastAPI のスタートアップイベントで開始
 @app.on_event("startup")
 async def start_scheduler():
-    # schedule_hourly_survey()
+    schedule_hourly_survey()
     schedule_monthly_survey()
 
 # FastAPIアプリケーションにルーターを登録

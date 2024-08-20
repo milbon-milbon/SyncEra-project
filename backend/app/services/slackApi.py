@@ -1,6 +1,5 @@
-from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request
+from fastapi import HTTPException
 from sqlalchemy.orm import Session
-from app.db.database import SessionLocal, get_db
 from app.db.models import DailyReport, TimesTweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from slack_sdk import WebClient
