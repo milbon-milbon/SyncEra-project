@@ -2,10 +2,7 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
-
 interface Advice {
-    // 型定義が必要なら定義する
     slack_user_id: string
     advices: string
 }
