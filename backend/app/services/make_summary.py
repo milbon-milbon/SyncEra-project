@@ -91,10 +91,18 @@ def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
             max_tokens=5000,
             temperature=0.778899 #調整必要、最後に。
         )
-
+        print(f"ここからプロンプト：{prompt}")
         summary = response.choices[0].message.content.strip()
         logger.debug(f"◆LLMが生成したサマリー: {summary}")
 
         return summary
     except Exception as e:
         return f"要約中のエラー: {e}"
+
+#___
+# slack_user_id = 'sample_4'
+# start_date = date(2024, 7, 1)
+# end_date = date(2024, 8, 30)
+# summary = make_summarize_report(slack_user_id, start_date, end_date)
+# print(summary)
+

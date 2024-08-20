@@ -33,3 +33,4 @@ def make_analysis_results_list(slack_user_id: str, db: Session = Depends(get_db)
         # エラーが発生した場合のロギングと例外処理
         logger.error(f"データ取得中のエラー: {e}")
         raise HTTPException(status_code=500, detail=f"データ取得中のエラー: {e}")
+
