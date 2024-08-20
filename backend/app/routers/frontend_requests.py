@@ -6,9 +6,7 @@ from app.services.make_employee_list import make_employee_list
 from app.services.make_analysis_results_list import make_analysis_results_list
 from app.util.add_employee_info import add_employee
 from app.util.get_latest_daily_report import get_latest_daily_report
-from app.db.models import Employee, SlackUserInfo, DailyReport, AnalysisResult
 from app.db.database import get_db
-from app.db.models import ContactForm as ContactFormModel
 from app.db.schemas import ContactFormCreate, ContactForm
 from app.db.schemas import Employee, EmployeeCreate, EmployeeUpdate, SummaryReportRequest, SavedSummaryReport, AdvicesRequest, SavedAdvices
 from app.util.get_employee_info import get_employee_info
@@ -18,9 +16,7 @@ from app.util.advices.save_advices import save_advices
 from app.util.advices.get_all_saved_advices_history import get_all_saved_advices_history
 from app.util.advices.get_saved_advices_history import get_saved_advices_history
 from app.util.summary.get_all_saved_summarize_history import get_all_saved_summary_reports
-from app.util.survey_analysis.analysis_functions import filtered_by_user_and_date
 from app.util.contact_form.post_contact_form import save_contact_to_db  # 新しい関数をインポート
-from typing import Optional
 from datetime import date
 
 router = APIRouter()
@@ -32,12 +28,12 @@ router = APIRouter()
 def add_employee_info(employee: EmployeeCreate, db: Session = Depends(get_db)):
     return add_employee(db=db, employee=employee)
 
-# 社員の一覧画表示のリクエストがあった時 データのGET,OK
+# 社員の一覧画表示
 @router.get("/all_employee/")
 def get_all_employee():
     return make_employee_list()
 
-## 特定社員の情報表示のリクエストがあった時 データのGET,OK
+## 特定社員の情報表示
 @router.get("/selected_employee/{slack_user_id}/")
 def get_selected_member(slack_user_id: str):
     employee_detail = get_employee_info(slack_user_id)[0]

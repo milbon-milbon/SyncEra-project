@@ -3,8 +3,6 @@ from dotenv import load_dotenv
 import logging
 from sqlalchemy.orm import Session
 from openai import OpenAI
-# from app.database import SessionLocal
-# from app.models import テーブル名
 from app.util.get_employee_info import get_employee_info
 from app.util.get_daily_report import get_daily_report
 from app.util.get_times_tweet import get_times_tweet
@@ -86,11 +84,3 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
         return advices
     except Exception as e:
         return f"アドバイス生成中のエラー: {e}"
-
-
-# sayokoさん: 以下のコメントアウトを解除して、コンテナでこのファイルの実行をお願いします
-# slack_user_id = "U07F8NPV1RQ" #meme
-# start_date = date(2024, 7, 1)
-# end_date = date(2024, 8, 30)
-# advices = make_advices(slack_user_id, start_date, end_date)
-# print(advices)
