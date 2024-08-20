@@ -42,7 +42,7 @@ class EmployeeUpdate(BaseModel):
 
 # データベースから取得した従業員情報のスキーマ
 class Employee(EmployeeBase):
-    id: int  # IDはint型が一般的です（データベース依存）
+    id: int  # IDはint型が一般的です（データベース依存） : ここuuidかも？という気はした。meme 0820 11:24
     slack_user_id: Optional[str] = None  # Slack IDはオプショナルに設定
     slack_user_info: Optional['SlackUserInfo'] = None  # Slackの追加情報
 
@@ -53,7 +53,7 @@ class Employee(EmployeeBase):
 日報サマリーのDB保存ロジック用
 '''
 class SummaryReportRequest(BaseModel):
-    slack_user_id: str  # employee_idはUUIDの文字列形式
+    slack_user_id: str  
     summary: str
 
 '''
@@ -72,7 +72,7 @@ class SavedSummaryReport(BaseModel):
 1on1アドバイスデータのDB保存ロジック用
 '''
 class AdvicesRequest(BaseModel):
-    slack_user_id: str  # employee_idはUUIDの文字列形式
+    slack_user_id: str 
     advices: str
 
 '''
