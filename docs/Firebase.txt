@@ -1,0 +1,5 @@
+===以下のディレクトリについては、役職別の情報で、ログインすると表示される画面（仮）
+===将来、機能拡張などを想定して作成。本場環境では、削除
+employee-dashboard/page.tsx
+manager-dashboard/page.tsx
+mentor-dashboard/page.tsx
