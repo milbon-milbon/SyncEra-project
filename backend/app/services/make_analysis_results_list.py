@@ -21,8 +21,6 @@ def make_analysis_results_list(slack_user_id: str, db: Session = Depends(get_db)
             .all()
         )
 
-        print(f'取得したresult: {results}')
-
         # 結果が見つからなかった場合の処理
         if not results:
             raise HTTPException(status_code=404, detail="分析結果が見つかりません")

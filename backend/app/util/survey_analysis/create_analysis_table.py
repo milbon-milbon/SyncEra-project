@@ -2,13 +2,19 @@ import pandas as pd
 from sqlalchemy import create_engine
 from dotenv import load_dotenv
 import os
+import logging
 
 # DBのResponseテーブルとQuestionテーブルを材料に、アンケート回答の分析用テーブルを出力するロジック(Pandasの使用)
 # 使用用途 : LLMへのRAGのひとつにする(キャリアアンケートの結果分析は最終的にLLMによって文字での出力が前提)
 load_dotenv()
+
 database_url = os.getenv('DATABASE_URL')
 if not database_url:
     raise ValueError("有効なDATABASE_URLがみつかりません")
+
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 
 # SQLAlchemyのエンジンを使用してデータベースからデータを読み込む
@@ -43,4 +49,4 @@ merged_df['date'] = pd.to_datetime(merged_df['created_at']).dt.date
 analysis_df = merged_df[['id_response', 'slack_user_id', 'question_id', 'question_text', 'answer', 'answer_text', 'free_text', 'date']]
 
 #　すべてのuserなどが含まれた、分析用のanalysisテーブルが作成されている
-print(analysis_df.head())
+logger.info(analysis_df.head())

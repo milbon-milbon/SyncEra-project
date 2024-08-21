@@ -1,6 +1,12 @@
 from .create_analysis_table import analysis_df
 import json
 from datetime import date, datetime, timedelta
+import os
+import logging
+
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 #　_____返り値は全て共通して以下の形式_____
 # [
@@ -23,7 +29,7 @@ def filtered_by_slack_user_id_analysis(slack_user_id: str):
     filtered_df = analysis_df[analysis_df['slack_user_id'] == slack_user_id]
     json_str = filtered_df.to_json(orient='records', date_format='iso')
     decoded_json_str = json.loads(json_str)
-    print(decoded_json_str)
+    logger.debug(decoded_json_str)
     return json.dumps(decoded_json_str, ensure_ascii=False, indent=2)
 
 # 特定の日付とユーザーIDを指定して回答抽出_____単回の結果表示に使用する_____
@@ -34,7 +40,7 @@ def filtered_by_user_and_date(slack_user_id: str, date: date): #YYYY-MM-DD形式
     ]
     json_str = filtered_by_user_and_date_df.to_json(orient='records', date_format='iso')
     decoded_json_str = json.loads(json_str)
-    print(decoded_json_str)
+    logger.debug(decoded_json_str)
     return json.dumps(decoded_json_str, ensure_ascii=False, indent=2)
 
 # 最新の回答だけを抽出
@@ -55,7 +61,7 @@ def latest_response_by_user(slack_user_id: str):
     # JSON形式に変換して出力
     json_str = filtered_df.to_json(orient='records', date_format='iso')
     decoded_json_str = json.loads(json_str)
-    print(decoded_json_str)
+    logger.debug(decoded_json_str)
 
     return json.dumps(decoded_json_str, ensure_ascii=False, indent=2)
 
@@ -86,7 +92,7 @@ def latest_two_responses_by_user(slack_user_id: str):
     # JSON形式に変換して出力
     json_str = filtered_df.to_json(orient='records', date_format='iso')
     decoded_json_str = json.loads(json_str)
-    print(decoded_json_str)
+    logger.debug(decoded_json_str)
 
     return json.dumps(decoded_json_str, ensure_ascii=False, indent=2)
     
@@ -119,6 +125,6 @@ def latest_responses_by_user_in_past_year(slack_user_id: str):
     # JSON形式に変換して出力
     json_str = filtered_df.to_json(orient='records', date_format='iso')
     decoded_json_str = json.loads(json_str)
-    print(decoded_json_str)
+    logger.debug(decoded_json_str)
 
     return json.dumps(decoded_json_str, ensure_ascii=False, indent=2)
