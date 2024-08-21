@@ -26,7 +26,8 @@ export default function EmployeeRegister() {
 
     try {
       // バックエンドAPI（エンドポイント/client/add_employee_info/ )にデータを送信
-      const response = await fetch('http://localhost:8000/client/add_employee_info/', {
+      const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+      const response = await fetch('${apiUrl}/client/add_employee_info/', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

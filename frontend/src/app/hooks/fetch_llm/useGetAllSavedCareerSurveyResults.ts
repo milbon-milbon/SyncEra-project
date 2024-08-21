@@ -20,8 +20,9 @@ export const useGetAllSavedCareerSurveyResults = (slackUserId: string) => {
   useEffect(() => {
     const fetchALlSavedCareerSurveyResults = async () => {
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(
-          `http://localhost:8000/client/print_all_career_survey_results/${slackUserId}/`,
+          `${apiUrl}/client/print_all_career_survey_results/${slackUserId}/`,
         );
 
         if (!response.ok) {

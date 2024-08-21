@@ -14,8 +14,10 @@ export async function GET(request: Request) {
   }
 
   try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+
     const response = await fetch(
-      `http://localhost:8000/client/print_summary/${slackUserId}/?start_date=${encodeURIComponent(startDate)}&end_date=${encodeURIComponent(endDate)}`
+      `${apiUrl}/client/print_summary/${slackUserId}/?start_date=${encodeURIComponent(startDate)}&end_date=${encodeURIComponent(endDate)}`
     );
     if (!response.ok) {
       throw new Error(`Backend responded with status: ${response.status}`);

@@ -20,7 +20,8 @@ export const useEmployees = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/client/all_employee/`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${apiUrl}/client/all_employee/`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch employees: ${response.status} ${response.statusText}`);

@@ -12,8 +12,9 @@ export async function GET(request: Request) {
   }
 
   try {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
     const response = await fetch(
-      `http://localhost:8000/client/selected_employee/${slackUserId}/`
+      `${apiUrl}/client/selected_employee/${slackUserId}/`
     );
     if (!response.ok) {
       throw new Error(`Backend responded with status: ${response.status}`);

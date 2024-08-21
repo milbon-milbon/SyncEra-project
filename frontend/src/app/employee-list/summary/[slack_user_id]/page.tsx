@@ -34,8 +34,9 @@ export default function EmployeeDetailPage() {
     async function fetchEmployeeData() {
       setLoading(true);
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(
-          `http://localhost:8000/client/selected_employee/${slack_user_id}/`,
+          `${apiUrl}/client/selected_employee/${slack_user_id}/`,
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch employee data: ${response.status}`);

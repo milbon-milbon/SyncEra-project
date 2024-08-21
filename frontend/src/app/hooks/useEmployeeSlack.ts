@@ -40,8 +40,9 @@ export function useEmployeeSlack(slackUserId: string) {
 
       setLoading(true);
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(
-          `http://localhost:8000/client/selected_employee/${slackUserId}/`,
+          `${apiUrl}/client/selected_employee/${slackUserId}/`,
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch employee Slack data: ${response.status}`);

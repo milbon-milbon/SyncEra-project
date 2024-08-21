@@ -30,13 +30,14 @@ export default function useSummaryData(
         if (!start_date || !end_date) {
           throw new Error('Start date and end date must be provided');
         }
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(
-          `http://localhost:8000/client/print_summary/${slack_user_id}/?start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}`,
+          `${apiUrl}/client/print_summary/${slack_user_id}/?start_date=${encodeURIComponent(start_date)}&end_date=${encodeURIComponent(end_date)}`,
         );
         if (!response.ok) {
           throw new Error(`Failed to fetch summary data: ${response.status}`);
         }
-        const data: String = await response.json();
+        const data: string = await response.json();
         setSummaryData(data);
       } catch (err) {
         setError(err instanceof Error ? err.message : 'Unknown error');

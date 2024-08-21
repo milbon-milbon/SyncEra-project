@@ -14,11 +14,14 @@ export const useSaveSummaryReport = async(slackUserId: string, summary: string):
     }
 
     try{
-        const response = await fetch('http://localhost:8000/client/save_summary_report/', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(summaryReportData)
-        });
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${apiUrl}/client/save_summary_report/`, 
+            {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(summaryReportData)
+            }
+        );
 
         if(!response.ok){
             throw new Error(`failed to save summary report: ${response.statusText}`)
