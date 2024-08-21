@@ -1,0 +1,13 @@
+くーみんさんへ
+
+Loading画面挿入をお願いしたいページ
+
+src/app/employee-listの中の全て
+
+- career_survey/[slackUserId]/page.tsx
+- employee_registration/page.tsx
+- OneOnOneAdvice/[slackUserId]/page.tsx
+- summaried_report/[slackUserId]/page.tsx
+- summary/[slack_user_id]/page.tsx
+
+めめ
