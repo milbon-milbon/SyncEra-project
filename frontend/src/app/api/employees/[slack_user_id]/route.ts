@@ -4,8 +4,6 @@ export async function GET(request: Request) {
   const url = new URL(request.url);
   const slackUserId = url.pathname.split("/").at(-2); // Extract slack_user_id from URL
 
-  console.log("Extracted slackUserId:", slackUserId); // Debugging line
-
   if (!slackUserId) {
     return NextResponse.json(
       { error: "slack_user_id is required" },
@@ -23,7 +21,6 @@ export async function GET(request: Request) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in /api/employee/[slack_user_id]/route.ts:", error);
     return NextResponse.json(
       {
         error: "An error occurred while fetching data",

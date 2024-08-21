@@ -48,7 +48,7 @@ export default function EmployeeList() {
     try {
       router.push(`/employee-list/summary/${encodeURIComponent(slackUserId)}`);
     } catch (error) {
-      console.error("Navigation error:", error);
+      console.error("error");
     }
   };
 

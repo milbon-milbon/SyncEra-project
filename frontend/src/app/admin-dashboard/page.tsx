@@ -95,7 +95,6 @@ export default function AdminDashboard() {
         const deleteUserAndDataFunction = httpsCallable(functions, 'deleteUserAndData');
 
         const result = await deleteUserAndDataFunction({ employeeId, companyId: user.uid });
-        console.log('削除:', result.data);
 
         alert('削除が完了しました');
 

@@ -6,10 +6,6 @@ export async function GET(request: Request) {
   const startDate = url.searchParams.get("start_date");
   const endDate = url.searchParams.get("end_date");
 
-  console.log("Extracted slackUserId:", slackUserId); // Debugging line
-  console.log("Start Date:", startDate); // Debugging line
-  console.log("End Date:", endDate); // Debugging line
-
   if (!slackUserId || !startDate || !endDate) {
     return NextResponse.json(
       { error: "slack_user_id, start_date, and end_date are required" },
@@ -27,7 +23,6 @@ export async function GET(request: Request) {
     const data = await response.json();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in /api/summary/[slack_user_id]/route.ts:", error);
     return NextResponse.json(
       {
         error: "An error occurred while fetching data",

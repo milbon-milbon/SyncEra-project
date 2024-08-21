@@ -23,12 +23,9 @@ export const useSaveAdvice = async(slackUserId: string, advice: string): Promise
         if(!response.ok){
             throw new Error(`failed to save advice: ${response.statusText}`)
         }
-
-        // responseのstatusがOKなら
-        console.log(`advice just saved.`)
     }
     catch(error){
-        console.error(`Error:`, error)
+        console.error(`Error`)
     }
 };
 

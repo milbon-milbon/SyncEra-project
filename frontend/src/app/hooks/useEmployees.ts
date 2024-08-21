@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 
 interface Employee {
-  //slack_user_id(slack_user_id: any): void;
   id: string;
   name: string;
   email: string;
@@ -32,7 +31,6 @@ export const useEmployees = () => {
         }
         setEmployees(data);
       } catch (err) {
-        console.error('Error fetching employees:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
       } finally {
         setLoading(false);

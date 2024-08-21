@@ -28,7 +28,6 @@ export const useGetAllSavedAdvices = (slackUserId: string) => {
         }
         
         const allSavedAdvices = await response.json();
-        console.log(`取得した全てのアドバイスデータ: ${allSavedAdvices}`)
         
         if (allSavedAdvices.error) {
             throw new Error(allSavedAdvices.error);
@@ -37,7 +36,6 @@ export const useGetAllSavedAdvices = (slackUserId: string) => {
         setAllSavedAdvices(allSavedAdvices);
 
         } catch (err) {
-        console.error('Error fetching all saved advices:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
         } finally {
         setLoading(false);

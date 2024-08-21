@@ -28,10 +28,8 @@ export const useGetAllSavedSummaryReports = (employeeId: string|null) => {
         if (!response.ok) {
             throw new Error(`Failed to fetch all saved summary reports.: ${response.status} ${response.statusText}`);
         }
-        console.log(`response: ${response}`) // response: [object Response]
         // 読める形に変換
         const allSavedSummaryReports = await response.json();
-        console.log('取得したサマリーデータ:', JSON.stringify(allSavedSummaryReports, null, 2)); //期待通りのログ出力が得られる
         // エラーの場合
         if (allSavedSummaryReports.error) {
             throw new Error(allSavedSummaryReports.error);
@@ -42,7 +40,6 @@ export const useGetAllSavedSummaryReports = (employeeId: string|null) => {
         
     } 
         catch (err) {
-        console.error('Error fetching all saved summary reports. :', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
         } finally {
         setLoading(false);

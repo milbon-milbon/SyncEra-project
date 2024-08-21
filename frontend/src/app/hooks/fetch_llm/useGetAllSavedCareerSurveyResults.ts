@@ -30,14 +30,12 @@ export const useGetAllSavedCareerSurveyResults = (slackUserId: string) => {
           );
         }
         const allSavedCareerSurveyResults = await response.json();
-        console.log(`取得した全てのアンケート結果: ${allSavedCareerSurveyResults}`);
 
         if (allSavedCareerSurveyResults.error) {
           throw new Error(allSavedCareerSurveyResults.error);
         }
         setALlSavedCareerSurveyResult(allSavedCareerSurveyResults);
       } catch (err) {
-        console.error('Error fetching employees:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
       } finally {
         setLoading(false);

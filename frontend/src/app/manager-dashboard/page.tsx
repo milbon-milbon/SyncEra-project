@@ -36,7 +36,6 @@ export default function ManagerDashboard() {
           const companyId = idTokenResult.claims.companyId;
 
           if (!companyId) {
-            console.error('Company ID not found in custom claims');
             router.push('/login/employee');
             return;
           }
