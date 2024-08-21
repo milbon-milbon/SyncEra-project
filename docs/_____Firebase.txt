@@ -3,3 +3,5 @@
 employee-dashboard/page.tsx
 manager-dashboard/page.tsx
 mentor-dashboard/page.tsx
+
+まだ削除していませんので、本番環境適用時にのみ削除。devブランチには必ず残す。

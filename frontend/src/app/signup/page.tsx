@@ -37,8 +37,6 @@ export default function SignUp() {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
       clientLogger.debug(`==== ユーザー登録成功==== : ${user.uid}`);
-      // UIDを確認
-      console.log('==== User UIDを確認==== :', user.uid); // ここでUIDを確認
       // Firestoreに企業情報を登録
       await setDoc(doc(db, 'companies', user.uid), {
         companyName,
@@ -53,12 +51,10 @@ export default function SignUp() {
         functions,
         'setAdminClaims',
       );
-      console.log('Sending data to Cloud Function:', { uid: user.uid });
+
       try {
         const result = await setAdminClaims({ uid: user.uid });
-        console.log('Raw Cloud Function result:', result);
         if (result.data && result.data.message) {
-          console.log('Cloud Function result data:', result.data);
           // 成功した場合の処理
           router.push('/pricing');
           clientLogger.info('==== pricing ページへの遷移が完了しました==== ');
@@ -66,7 +62,6 @@ export default function SignUp() {
           throw new Error('Unexpected response format');
         }
       } catch (error: any) {
-        console.error('Error calling Cloud Function:', error);
         clientLogger.error(`==== サインアップエラー==== : ${error.message}`);
         throw error; // エラーを上位に伝播させる
       }

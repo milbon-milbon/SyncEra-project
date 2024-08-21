@@ -1,6 +1,0 @@
-不要かどうかわからないファイル＆フォルダーたち
-
-・frontend/src/app/api/  fetch処理用に作ったけれどなくても動くような気がする。
-・frontend/src/app/components/  コンポーネント類が入っているフォルダーだけど、もしかしたらいらないかも
-・frontend/src/app/employees/ このファイルは社員一覧のためのファイルがあるけれど、いらないかもしれない
-

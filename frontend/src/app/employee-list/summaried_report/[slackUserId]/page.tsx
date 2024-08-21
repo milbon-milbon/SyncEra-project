@@ -1,3 +1,5 @@
+// Loading画面をいれたい
+
 'use client';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
@@ -15,20 +17,18 @@ interface Summary {
 
 export default function SummaryPage() {
   const { slackUserId } = useParams() as { slackUserId: string };
-
-  console.log(`slackUserId: ${slackUserId}`);
-
   const [startDate, setStartDate] = useState<string>('');
   const [endDate, setEndDate] = useState<string>('');
   const [generatedSummary, setGeneratedSummary] = useState<string | null>(null);
   const [selectedSummary, setSelectedSummary] = useState<Summary | null>(null);
-  const [loading, setLoading] = useState<boolean>(false); // Loading state追加
+  const [loading, setLoading] = useState<boolean>(false);
 
   const {
     SavedSummaryReports: savedSummaries,
     loading: reportsLoading,
     error: reportsError,
   } = useGetAllSavedSummaryReports(slackUserId);
+
   const {
     summaryData,
     loading: summaryLoading,
@@ -38,21 +38,15 @@ export default function SummaryPage() {
   // 詳細を見るボタンを押すと、setSelectedSummaryに選択されたサマリーのオブジェクトがセットされる
   const handleSelectSummary = (summary: Summary) => {
     setSelectedSummary(summary);
-    if (selectedSummary !== null) {
-      console.log(`selectedSummary: ${selectedSummary.summary}`);
-    }
   };
 
   // 生成するボタンを押したら呼ばれる関数
   const handleGenerateSummary = () => {
-    console.log('生成するボタンが押されました');
     if (!startDate || !endDate) {
       alert('開始日と終了日を選択してください');
       return;
     }
     setLoading(true); // サマリー生成中にloadingをtrueに設定
-    console.log(`開始日: ${startDate}`);
-    console.log(`終了日: ${endDate}`);
   };
 
   // サマリー生成の状態管理
@@ -62,7 +56,6 @@ export default function SummaryPage() {
       if (summaryData) {
         setGeneratedSummary(summaryData);
         setLoading(false); // ロード完了
-        console.log(`generatedSummary: ${summaryData}`);
       } else {
         setLoading(false); // データが取得できなかった場合
       }
@@ -72,7 +65,6 @@ export default function SummaryPage() {
   // 保存するボタンを押した時に呼ばれる関数
   const handleSaveSummary = async () => {
     if (generatedSummary) {
-      console.log(`slackのid: ${slackUserId}, 保存するsummary: ${generatedSummary}`);
       await useSaveSummaryReport(slackUserId, generatedSummary);
       alert('サマリーが保存されました');
       setGeneratedSummary(null);

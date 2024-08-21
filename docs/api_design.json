@@ -7,9 +7,7 @@
     "paths": {
         "/client/add_employee_info/": {
             "post": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Add Employee Info",
                 "operationId": "add_employee_info_client_add_employee_info__post",
                 "requestBody": {
@@ -48,9 +46,7 @@
         },
         "/client/all_employee/": {
             "get": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Get All Employee",
                 "operationId": "get_all_employee_client_all_employee__get",
                 "responses": {
@@ -67,9 +63,7 @@
         },
         "/client/selected_employee/{slack_user_id}/": {
             "get": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Get Selected Member",
                 "operationId": "get_selected_member_client_selected_employee__slack_user_id___get",
                 "parameters": [
@@ -105,9 +99,7 @@
                 }
             },
             "put": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Update Employee",
                 "operationId": "update_employee_client_selected_employee__slack_user_id___put",
                 "parameters": [
@@ -153,9 +145,7 @@
                 }
             },
             "delete": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Delete Employee",
                 "operationId": "delete_employee_client_selected_employee__slack_user_id___delete",
                 "parameters": [
@@ -193,9 +183,7 @@
         },
         "/client/print_summary/{slack_user_id}/": {
             "get": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Print Summary",
                 "operationId": "print_summary_client_print_summary__slack_user_id___get",
                 "parameters": [
@@ -253,11 +241,9 @@
         },
         "/client/save_summary_report/": {
             "post": {
-                "tags": [
-                    "client"
-                ],
-                "summary": "Save Summary Report",
-                "operationId": "save_summary_report_client_save_summary_report__post",
+                "tags": ["client"],
+                "summary": "Save Generate Summary Report",
+                "operationId": "save_generate_summary_report_client_save_summary_report__post",
                 "requestBody": {
                     "content": {
                         "application/json": {
@@ -292,9 +278,7 @@
         },
         "/client/print_all_summary_reports/{slack_user_id}/": {
             "get": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Print All Summary Reports",
                 "operationId": "print_all_summary_reports_client_print_all_summary_reports__slack_user_id___get",
                 "parameters": [
@@ -338,9 +322,7 @@
         },
         "/client/print_saved_summary_report/{slack_user_id}/": {
             "get": {
-                "tags": [
-                    "client"
-                ],
+                "tags": ["client"],
                 "summary": "Print Saved Summary Report",
                 "operationId": "print_saved_summary_report_client_print_saved_summary_report__slack_user_id___get",
                 "parameters": [
@@ -391,170 +373,98 @@
     },
     "components": {
         "schemas": {
+            "Employee": {
+                "title": "Employee",
+                "required": [
+                    "id",
+                    "slack_user_id",
+                    "name",
+                    "department",
+                    "position",
+                    "age",
+                    "created_at",
+                    "updated_at"
+                ],
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64"
+                    },
+                    "slack_user_id": {
+                        "type": "string"
+                    },
+                    "name": {
+                        "type": "string"
+                    },
+                    "department": {
+                        "type": "string"
+                    },
+                    "position": {
+                        "type": "string"
+                    },
+                    "age": {
+                        "type": "integer",
+                        "format": "int32"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "updated_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
             "EmployeeCreate": {
                 "title": "EmployeeCreate",
                 "required": [
                     "slack_user_id",
-                    "name"
+                    "name",
+                    "department",
+                    "position",
+                    "age"
                 ],
                 "type": "object",
                 "properties": {
                     "slack_user_id": {
-                        "title": "Slack User Id",
                         "type": "string"
                     },
                     "name": {
-                        "title": "Name",
                         "type": "string"
                     },
-                    "division": {
-                        "title": "Division",
+                    "department": {
                         "type": "string"
                     },
                     "position": {
-                        "title": "Position",
                         "type": "string"
                     },
-                    "other": {
-                        "title": "Other",
-                        "type": "string",
-                        "nullable": true
+                    "age": {
+                        "type": "integer",
+                        "format": "int32"
                     }
                 }
             },
             "EmployeeUpdate": {
                 "title": "EmployeeUpdate",
-                "required": [
-                    "slack_user_id"
-                ],
                 "type": "object",
                 "properties": {
                     "slack_user_id": {
-                        "title": "Slack User Id",
                         "type": "string"
                     },
                     "name": {
-                        "title": "Name",
                         "type": "string"
                     },
-                    "division": {
-                        "title": "Division",
-                        "type": "string"
-                    },
-                    "position": {
-                        "title": "Position",
-                        "type": "string"
-                    },
-                    "other": {
-                        "title": "Other",
-                        "type": "string",
-                        "nullable": true
-                    }
-                }
-            },
-            "Employee": {
-                "title": "Employee",
-                "required": [
-                    "slack_user_id",
-                    "name"
-                ],
-                "type": "object",
-                "properties": {
-                    "slack_user_id": {
-                        "title": "Slack User Id",
-                        "type": "string"
-                    },
-                    "name": {
-                        "title": "Name",
-                        "type": "string"
-                    },
-                    "division": {
-                        "title": "Division",
+                    "department": {
                         "type": "string"
                     },
                     "position": {
-                        "title": "Position",
                         "type": "string"
                     },
-                    "other": {
-                        "title": "Other",
-                        "type": "string",
-                        "nullable": true
-                    }
-                }
-            },
-            "SummaryReportRequest": {
-                "title": "SummaryReportRequest",
-                "required": [
-                    "slack_user_id",
-                    "start_date",
-                    "end_date"
-                ],
-                "type": "object",
-                "properties": {
-                    "slack_user_id": {
-                        "title": "Slack User Id",
-                        "type": "string"
-                    },
-                    "start_date": {
-                        "title": "Start Date",
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "end_date": {
-                        "title": "End Date",
-                        "type": "string",
-                        "format": "date"
-                    }
-                }
-            },
-            "SavedSummaryReport": {
-                "title": "SavedSummaryReport",
-                "required": [
-                    "slack_user_id",
-                    "created_at"
-                ],
-                "type": "object",
-                "properties": {
-                    "slack_user_id": {
-                        "title": "Slack User Id",
-                        "type": "string"
-                    },
-                    "created_at": {
-                        "title": "Created At",
-                        "type": "string",
-                        "format": "date"
-                    },
-                    "summary": {
-                        "title": "Summary",
-                        "type": "string",
-                        "nullable": true
-                    }
-                }
-            },
-            "ValidationError": {
-                "title": "ValidationError",
-                "required": [
-                    "loc",
-                    "msg",
-                    "type"
-                ],
-                "type": "object",
-                "properties": {
-                    "loc": {
-                        "title": "Location",
-                        "type": "array",
-                        "items": {
-                            "type": "string"
-                        }
-                    },
-                    "msg": {
-                        "title": "Message",
-                        "type": "string"
-                    },
-                    "type": {
-                        "title": "Error Type",
-                        "type": "string"
+                    "age": {
+                        "type": "integer",
+                        "format": "int32"
                     }
                 }
             },
@@ -563,11 +473,61 @@
                 "type": "object",
                 "properties": {
                     "detail": {
-                        "title": "Detail",
                         "type": "array",
                         "items": {
                             "$ref": "#/components/schemas/ValidationError"
                         }
+                    }
+                }
+            },
+            "SummaryReportRequest": {
+                "title": "SummaryReportRequest",
+                "type": "object",
+                "properties": {
+                    "slack_user_id": {
+                        "type": "string"
+                    },
+                    "start_date": {
+                        "type": "string",
+                        "format": "date"
+                    },
+                    "end_date": {
+                        "type": "string",
+                        "format": "date"
+                    }
+                }
+            },
+            "SavedSummaryReport": {
+                "title": "SavedSummaryReport",
+                "type": "object",
+                "properties": {
+                    "slack_user_id": {
+                        "type": "string"
+                    },
+                    "created_at": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "content": {
+                        "type": "string"
+                    }
+                }
+            },
+            "ValidationError": {
+                "title": "ValidationError",
+                "type": "object",
+                "properties": {
+                    "loc": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "msg": {
+                        "type": "string"
+                    },
+                    "type": {
+                        "type": "string"
                     }
                 }
             }

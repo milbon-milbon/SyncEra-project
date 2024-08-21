@@ -14,21 +14,21 @@ export const useSaveAdvice = async(slackUserId: string, advice: string): Promise
     }
 
     try{
-        const response = await fetch('http://localhost:8000/client/save_advice/', {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${apiUrl}/client/save_advice/`, 
+            {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(adviceData)
-        });
+            }
+        );
 
         if(!response.ok){
             throw new Error(`failed to save advice: ${response.statusText}`)
         }
-
-        // responseのstatusがOKなら
-        console.log(`advice just saved.`)
     }
     catch(error){
-        console.error(`Error:`, error)
+        console.error(`Error`)
     }
 };
 

@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react';
 
 interface Employee {
-  //slack_user_id(slack_user_id: any): void;
   id: string;
   name: string;
   email: string;
@@ -21,7 +20,8 @@ export const useEmployees = () => {
   useEffect(() => {
     const fetchEmployees = async () => {
       try {
-        const response = await fetch(`http://localhost:8000/client/all_employee/`);
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+        const response = await fetch(`${apiUrl}/client/all_employee/`);
 
         if (!response.ok) {
           throw new Error(`Failed to fetch employees: ${response.status} ${response.statusText}`);
@@ -32,7 +32,6 @@ export const useEmployees = () => {
         }
         setEmployees(data);
       } catch (err) {
-        console.error('Error fetching employees:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
       } finally {
         setLoading(false);

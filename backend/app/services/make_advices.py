@@ -121,7 +121,6 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
             max_tokens=1000,
             temperature=0.99999999999 #調整必要、最後に。
         )
-
         advices = response.choices[0].message.content.strip()
 
         logger.debug(f"◆LLMが生成した1on1のアドバイス: {advices}")
@@ -129,4 +128,3 @@ def make_advices(slack_user_id: str, start_date: date, end_date: date):
         return advices
     except Exception as e:
         return f"アドバイス生成中のエラー: {e}"
-

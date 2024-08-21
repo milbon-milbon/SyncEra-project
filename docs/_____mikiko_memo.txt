@@ -1,0 +1,6 @@
+不要かどうかわからないファイル＆フォルダーたち
+
+・frontend/src/app/api/  fetch処理用に作ったけれどなくても動くような気がする。 :くーみんさん作成の create-checkout-sessionのみ残して他は削除しました
+・frontend/src/app/components/  コンポーネント類が入っているフォルダーだけど、もしかしたらいらないかも :くーみんさん作成のloadingのみ残して他は削除しました
+・frontend/src/app/employees/ このファイルは社員一覧のためのファイルがあるけれど、いらないかもしれない :削除しました。めめ
+

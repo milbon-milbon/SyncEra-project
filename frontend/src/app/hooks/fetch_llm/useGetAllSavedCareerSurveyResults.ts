@@ -20,8 +20,9 @@ export const useGetAllSavedCareerSurveyResults = (slackUserId: string) => {
   useEffect(() => {
     const fetchALlSavedCareerSurveyResults = async () => {
       try {
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL;
         const response = await fetch(
-          `http://localhost:8000/client/print_all_career_survey_results/${slackUserId}/`,
+          `${apiUrl}/client/print_all_career_survey_results/${slackUserId}/`,
         );
 
         if (!response.ok) {
@@ -30,14 +31,12 @@ export const useGetAllSavedCareerSurveyResults = (slackUserId: string) => {
           );
         }
         const allSavedCareerSurveyResults = await response.json();
-        console.log(`取得した全てのアンケート結果: ${allSavedCareerSurveyResults}`);
 
         if (allSavedCareerSurveyResults.error) {
           throw new Error(allSavedCareerSurveyResults.error);
         }
         setALlSavedCareerSurveyResult(allSavedCareerSurveyResults);
       } catch (err) {
-        console.error('Error fetching employees:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
       } finally {
         setLoading(false);

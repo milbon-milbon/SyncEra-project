@@ -51,15 +51,13 @@ export default function EmployeeLogin() {
 
       if (employeeDoc.exists()) {
         const employeeData = employeeDoc.data() as DocumentData;
-        console.log(`Employee data retrieved: ${JSON.stringify(employeeData)}`);
-
         redirectToDashboard(employeeData.role);
       } else {
         throw new Error('Employee data not found');
       }
     } catch (error) {
       clientLogger.error(`Error in checkUserAndRedirect:,${error}`);
-      throw error; // エラーを上位の処理にスローして、適切に処理できるようにします
+      throw error; 
     }
   };
   // 役職に基づいて適切な画面に遷移

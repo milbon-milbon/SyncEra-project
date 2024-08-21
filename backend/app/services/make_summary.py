@@ -98,3 +98,5 @@ def make_summarize_report(slack_user_id: str, start_date: date, end_date: date):
         return summary
     except Exception as e:
         return f"要約中のエラー: {e}"
+
+

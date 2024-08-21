@@ -53,7 +53,6 @@ export async function addEmployee(companyId: string, employeeData: EmployeeData)
       companyId: companyId, // companyIdも保存
     });
 
-    console.log(`Employee added to Firestore: ${employeeDocRef.path}`);
     // 新規職員作成後、現在のユーザーをサインアウトする
     // await signOut(auth);
     return userCredential.user.uid;
@@ -61,7 +60,6 @@ export async function addEmployee(companyId: string, employeeData: EmployeeData)
     if (error.code === 'auth/email-already-in-use') {
       throw new Error('このメールアドレスは既に使用されています。');
     }
-    console.error('===追加できませんでした===:', error);
     throw error;
   }
 }
@@ -105,7 +103,6 @@ export async function deleteEmployee(companyId: string, employeeId: string) {
       throw new Error('Cannot delete other users from the client side.');
     }
   } catch (error) {
-    console.error('Error deleting employee:', error);
     throw error;
   }
 }

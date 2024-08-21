@@ -21,14 +21,14 @@ export const useGetAllSavedAdvices = (slackUserId: string) => {
     useEffect(() => {
     const fetchAllSavedAdvices = async () => {
         try {
-        const response = await fetch(`http://localhost:8000/client/print_all_advices/${slackUserId}/`);
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+            const response = await fetch(`${apiUrl}/client/print_all_advices/${slackUserId}/`);
 
-        if (!response.ok) {
-            throw new Error(`Failed to fetch all saved advices: ${response.status} ${response.statusText}`);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch all saved advices: ${response.status} ${response.statusText}`);
         }
         
         const allSavedAdvices = await response.json();
-        console.log(`取得した全てのアドバイスデータ: ${allSavedAdvices}`)
         
         if (allSavedAdvices.error) {
             throw new Error(allSavedAdvices.error);
@@ -37,7 +37,6 @@ export const useGetAllSavedAdvices = (slackUserId: string) => {
         setAllSavedAdvices(allSavedAdvices);
 
         } catch (err) {
-        console.error('Error fetching all saved advices:', err);
         setError(err instanceof Error ? err : new Error('An unknown error occurred'));
         } finally {
         setLoading(false);

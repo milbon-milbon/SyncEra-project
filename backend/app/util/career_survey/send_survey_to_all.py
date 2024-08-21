@@ -5,6 +5,11 @@ from app.db.models import Question, Employee
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
 import os
+import logging
+
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
 
 slack_token = os.getenv("SLACK_API_KEY")
 client = WebClient(token=slack_token)
@@ -54,7 +59,7 @@ def send_survey_to_employee(slack_user_id: str, first_question: Question):
             attachments=attachments
         )
     except SlackApiError as e:
-        print(f"Error sending message: {e.response['error']}")
+        logger.error(f"Error sending message: {e.response['error']}")
 
 # 自由記述の質問を送信する関数
 def send_survey_with_text_input(slack_user_id: str, question: Question):
@@ -108,7 +113,7 @@ def send_survey_with_text_input(slack_user_id: str, question: Question):
             text=text
         )
     except SlackApiError as e:
-        print(f"Error sending message: {e.response['error']}")
+        logger.error(f"Error sending message: {e.response['error']}")
 
 
 # 初回の質問を取得するためのヘルパー関数

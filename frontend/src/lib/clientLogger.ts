@@ -1,6 +1,7 @@
 // src/lib/clientLogger.ts
 //ブラウザによる確認のみ可能、サーバーサイドに連携するにはコード訂正必要。
 'use client';
+
 const clientLogger = {
   debug: (message: string) => {
     if (process.env.NODE_ENV !== 'production') {
@@ -8,10 +9,14 @@ const clientLogger = {
     }
   },
   info: (message: string) => {
-    console.log(`INFO: ${message}`);
+    if (process.env.NODE_ENV !== 'production') {
+      console.log(`INFO: ${message}`);
+    }
   },
   error: (message: string) => {
-    console.error(`ERROR: ${message}`);
+    if (process.env.NODE_ENV !== 'production') {
+      console.error(`ERROR: ${message}`);
+    }
   },
 };
 

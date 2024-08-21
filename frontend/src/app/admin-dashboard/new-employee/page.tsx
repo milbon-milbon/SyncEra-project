@@ -69,7 +69,6 @@ export default function NewEmployee() {
           await signOut(auth);
           await signInWithEmailAndPassword(auth, adminEmail!, adminPassword);
           clientLogger.info('管理者が再ログインしました');
-          console.log('Admin successfully re-logged in as:', adminEmail);
         }
 
         // ログイン後、管理者ダッシュボードにとどまる
