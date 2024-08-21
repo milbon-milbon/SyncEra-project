@@ -1,11 +1,7 @@
+// LLMにサマリーを出力させる
 'use client';
 
 import { useEffect, useState } from 'react';
-
-// 型定義
-// interface SummaryData {
-//   text: string;
-// }
 
 interface UseSummaryDataResult {
   summaryData: string | null;

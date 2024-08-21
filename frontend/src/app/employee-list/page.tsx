@@ -1,3 +1,5 @@
+// Loading画面をいれたい
+
 'use client';
 
 import Link from 'next/link';

@@ -1,3 +1,5 @@
+// Loading画面をいれたい
+
 'use client';
 import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';

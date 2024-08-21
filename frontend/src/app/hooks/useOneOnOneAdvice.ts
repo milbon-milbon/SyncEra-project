@@ -1,4 +1,4 @@
-// hooks/useOneOnOneAdvice.ts
+// LLMにアドバイスを出力させる
 
 'use client';
 
