@@ -8,7 +8,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '@/firebase/config';
 import '@/app/admin-dashboard/globals.css';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth'; //新規社員登録後に、管理者アカウントに自動的に再ログイン
-import Loading from '@/app/components/loading';
+import Loading from '@/components/loading';
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 // 部署のリスト

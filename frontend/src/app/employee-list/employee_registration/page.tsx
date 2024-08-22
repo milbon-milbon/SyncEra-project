@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import LogoutButton from '@/components/signup_and_login/LoguoutButton';
+import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import AuthRoute from '@/components/auth/AuthRoute';
 
 export default function EmployeeRegister() {
@@ -76,12 +76,12 @@ export default function EmployeeRegister() {
             <ul className='space-y-6'>
               <li>
                 <Link href='/employee-list' className='hover:underline text-lg'>
-                  社員一覧へ戻る
+                  社員一覧トップ
                 </Link>
               </li>
               <li>
                 <Link href='/' className='hover:underline text-lg'>
-                  ホームページへ戻る
+                  ホーム
                 </Link>
               </li>
             </ul>

@@ -10,7 +10,7 @@ import '@/firebase/config';
 import clientLogger from '@/lib/clientLogger';
 import '@/app/login/globals.css';
 import { FirebaseError } from 'firebase/app';
-import Loading from '@/app/components/loading';
+import Loading from '@/components/loading';
 export default function CompanyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

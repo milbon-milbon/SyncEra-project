@@ -7,7 +7,7 @@ import { Inter } from 'next/font/google';
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'SynEra',
+  title: 'SyncEra',
   description: 'Your page description.',
   icons: {
     icon: '/favicon.ico',

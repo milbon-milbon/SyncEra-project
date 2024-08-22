@@ -10,7 +10,7 @@ import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import '@/app/signup/globals.css';
-import Loading from '../components/loading';
+import Loading from '../../components/loading';
 interface AdminClaimsResponse {
   message: string;
 }

@@ -11,7 +11,7 @@ import { httpsCallable, getFunctions } from 'firebase/functions';
 import app from '@/firebase/config';
 import '@/app/login/globals.css';
 import Link from 'next/link';
-import Loading from '@/app/components/loading';
+import Loading from '@/components/loading';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
@@ -57,7 +57,7 @@ export default function EmployeeLogin() {
       }
     } catch (error) {
       clientLogger.error(`Error in checkUserAndRedirect:,${error}`);
-      throw error; 
+      throw error;
     }
   };
   // 役職に基づいて適切な画面に遷移

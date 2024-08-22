@@ -6,7 +6,7 @@ import PriceList from '@/components/payment/PriceList';
 import LogoRblue from '@/components/payment/LogoRblue';
 import { useRouter } from 'next/navigation';
 import clientLogger from '@/lib/clientLogger';
-import Loading from '../components/loading'; // Loadingコンポーネントをインポート
+import Loading from '../../components/loading'; // Loadingコンポーネントをインポート
 
 export default function PricingPage() {
   const [loading, setLoading] = useState(false); // ローディング状態を管理

@@ -9,7 +9,7 @@ import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import app from '@/firebase/config'; // Firebase 初期化ファイルをインポート
 import '@/app/admin-dashboard/globals.css';
-import Loading from '@/app/components/loading';
+import Loading from '@/components/loading';
 // 部署のリスト
 const departments = ['営業部', '技術部', '人事部', '財務部', 'その他'];
 

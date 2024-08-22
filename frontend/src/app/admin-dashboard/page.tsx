@@ -11,7 +11,7 @@ import clientLogger from '@/lib/clientLogger';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import SearchBar from '@/components/signup_and_login/SerchBer';
 import './globals.css';
-import Loading from '../components/loading';
+import Loading from '../../components/loading';
 const db = getFirestore(app);
 
 interface Employee {
