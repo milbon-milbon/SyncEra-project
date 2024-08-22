@@ -107,10 +107,10 @@ export default function NewEmployee() {
           className='w-full py-2 mb-4 border-b-[2px] border-gray-300 flex items-center block'
         >
           <span className='mr-2 '>
-            <img src='/admin-dashboard/home.png' alt='ホーム' className='w-8 h-8' />{' '}
+            <img src='/admin-dashboard/assignment.png' alt='ホーム' className='w-8 h-8' />{' '}
             {/* ホームアイコン */}
           </span>
-          ホーム
+          利用者権限一覧
         </Link>
 
         <Link
@@ -118,10 +118,10 @@ export default function NewEmployee() {
           className='w-full text py-2 flex  border-b-[2px] border-gray-300  items-center block'
         >
           <span className='mr-2'>
-            <img src='/admin-dashboard/assignment.png' alt='アプリTOP' className='w-8 h-8' />{' '}
+            <img src='/admin-dashboard/home.png' alt='アプリTOP' className='w-8 h-8' />{' '}
             {/* アプリTOPアイコン */}
           </span>
-          アプリTOP
+          ホーム
         </Link>
       </div>
 

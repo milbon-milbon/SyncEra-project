@@ -13,6 +13,8 @@ import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import LinkOneOnOne from '@/components/employeelist/LinkOneOnOne';
 import LinkCareerQuestion from '@/components/employeelist/LinkCareerQuestion';
 import Loading from '@/components/loading';
+import EmployeeName from '@/components/employeelist/EmployeeName';
+import Breadcrumb from '@/components/employeelist/Breadcrumb';
 interface Summary {
   id: number;
   summary: string;
@@ -106,117 +108,127 @@ export default function SummaryPage() {
       </aside>
 
       <main className='flex-1 p-8 bg-gray-100  '>
-        <div className='bg-white p-6 rounded-lg shadow-xl border border-gray-300'>
-          <div className='flex flex-col sm:flex-row justify-between items-center mb-8'>
-            <h1 className='text-3xl font-bold text-[#003366] mb-4 sm:mb-0'>日報サマリー</h1>
-            <div className='flex flex-wrap justify-center sm:justify-end space-x-2'>
+        <div className='mb-8'>
+          <div className='flex flex-col lg:flex-row justify-between items-start lg:items-center space-y-4 lg:space-y-0'>
+            <div className='flex items-center flex-wrap text-[17px]'>
+              <Breadcrumb currentPage={''} />
+              <EmployeeName slackUserId={slackUserId} /> <span>{' の日報'}</span>
+              <span className=' text-gray-600 ml-2 mr-2'>{' 〉'}</span>
+              <h1 className='text-2xl lg:text-3xl font-bold text-[#003366] mr-4'>日報サマリー</h1>
+            </div>
+            <div className='flex flex-wrap items-center space-x-2'>
               <LinkOneOnOne slackUserId={slackUserId} />
               <LinkCareerQuestion slackUserId={slackUserId} />
               <BackJustBefore />
             </div>
           </div>
-          <div className='flex gap-4'>
-            <div className='w-1/2 pr-4'>
-              <div className='bg-white rounded-lg shadow-md p-6 mb-4 border border-gray-400'>
-                <h2 className='text-2xl font-semibold text-[#003366] mb-4'>保存履歴一覧</h2>
-                {reportsLoading ? (
-                  <p>保存されたサマリーを読み込み中...</p>
-                ) : reportsError ? (
-                  <p className='text-red-500'>
-                    保存されたサマリーの読み込みエラー: {reportsError.message}
-                  </p>
-                ) : (
-                  <ul className='space-y-4 max-h-[calc(100vh-300px)] overflow-y-auto'>
-                    {savedSummaries.length > 0 ? (
-                      savedSummaries.map((summary) => (
-                        <li key={summary.id} className='bg-gray-100 p-4 rounded-lg'>
-                          <div className='flex justify-between items-center'>
-                            <span className='font-medium'>
-                              生成日 : {new Date(summary.created_at).toLocaleDateString()}
-                            </span>
-                            <div className='flex space-x-2'>
-                              <button
-                                onClick={() => handleSelectSummary(summary)}
-                                className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition-colors duration-300'
-                              >
-                                詳細を見る
-                              </button>
-                            </div>
-                          </div>
-                        </li>
-                      ))
-                    ) : (
-                      <p>保存されたサマリーが見つかりません。</p>
-                    )}
-                  </ul>
-                )}
+        </div>
+        <div className='flex gap-4'>
+          <div className='w-1/2 '>
+            <div className='bg-white rounded-lg shadow-md p-6 border border border-gray-100'>
+              <h2 className='text-2xl font-semibold text-[#003366] mb-4'>新しいサマリーを生成</h2>
+              <div className='mb-4'>
+                <label className='block text-gray-700 font-medium mb-2'>開始日:</label>
+                <input
+                  type='date'
+                  value={startDate}
+                  onChange={(e) => setStartDate(e.target.value)}
+                  className='border rounded px-4 py-2 w-full'
+                />
               </div>
-              {selectedSummary && (
-                <div className='bg-white rounded-lg shadow-md p-6 border border border-gray-400'>
-                  <h3 className='text-2xl font-semibold text-[#003366] mb-4'>
-                    {new Date(selectedSummary.created_at).toISOString().split('T')[0]}
-                    に保存されたサマリー
-                  </h3>
-                  <div className='bg-gray-100 p-4 rounded mb-4'>
-                    <ReactMarkdown className='text-lg' remarkPlugins={[remarkGfm]}>
-                      {summaryError ? `エラー: ${summaryError.message}` : selectedSummary.summary}
-                    </ReactMarkdown>
-                  </div>
-                  <button
-                    onClick={() => setSelectedSummary(null)}
-                    className='bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300'
-                  >
-                    閉じる
-                  </button>
-                </div>
-              )}
-            </div>
-
-            <div className='w-1/2 pl-4'>
-              <div className='bg-white rounded-lg shadow-md p-6 border border border-gray-400'>
-                <h2 className='text-2xl font-semibold text-[#003366] mb-4'>新しいサマリーを生成</h2>
-                <div className='mb-4'>
-                  <label className='block text-gray-700 font-medium mb-2'>開始日:</label>
-                  <input
-                    type='date'
-                    value={startDate}
-                    onChange={(e) => setStartDate(e.target.value)}
-                    className='border rounded px-4 py-2 w-full'
-                  />
-                </div>
-                <div className='mb-4'>
-                  <label className='block text-gray-700 font-medium mb-2'>終了日:</label>
-                  <input
-                    type='date'
-                    value={endDate}
-                    onChange={(e) => setEndDate(e.target.value)}
-                    className='border rounded px-4 py-2 w-full'
-                  />
-                </div>
-
+              <div className='mb-4'>
+                <label className='block text-gray-700 font-medium mb-2'>終了日:</label>
+                <input
+                  type='date'
+                  value={endDate}
+                  onChange={(e) => setEndDate(e.target.value)}
+                  className='border rounded px-4 py-2 w-full'
+                />
+              </div>
+              <div className='flex items-center '>
                 <button
                   onClick={handleGenerateSummary}
                   className='bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-500 transition-colors duration-300'
                 >
                   サマリーを生成
                 </button>
-                {loading ? ( // Loading表示
-                  <p className='mt-4 text-blue-600 font-medium'>要約中です...</p>
-                ) : generatedSummary ? (
-                  <div className='bg-gray-100 p-4 rounded mt-4 '>
-                    <ReactMarkdown className='text-lg ' remarkPlugins={[remarkGfm]}>
+              </div>
+              {loading ? ( // Loading表示
+                <p className='mt-4 text-blue-600 font-medium'>要約中です...</p>
+              ) : generatedSummary ? (
+                <div className='bg-gray-100 p-4 rounded-lg mt-4 relative'>
+                  {' '}
+                  <button
+                    onClick={handleSaveSummary}
+                    className='absolute top-4 mr-2 right-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-500 transition-colors duration-300'
+                  >
+                    保存する
+                  </button>{' '}
+                  <div className='pt-12'>
+                    {' '}
+                    {/* ボタンの高さ分のパディングを上部に追加 */}
+                    <ReactMarkdown className='text-[17px] flex-grow' remarkPlugins={[remarkGfm]}>
                       {generatedSummary}
                     </ReactMarkdown>
-                    <button
-                      onClick={handleSaveSummary}
-                      className='mt-4 bg-green-600 text-white px-6 py-2 rounded hover:bg-green-500 transition-colors duration-300'
-                    >
-                      サマリーを保存
-                    </button>
                   </div>
-                ) : null}
-              </div>
+                </div>
+              ) : null}
             </div>
+          </div>
+          <div className='w-1/2'>
+            <div className='bg-white rounded-lg shadow-md p-6 mb-4 border border-gray-100'>
+              <h2 className='text-2xl font-semibold text-[#003366] mb-4'>保存履歴一覧</h2>
+              {reportsLoading ? (
+                <p>保存されたサマリーを読み込み中...</p>
+              ) : reportsError ? (
+                <p className='text-red-500'>
+                  保存されたサマリーの読み込みエラー: {reportsError.message}
+                </p>
+              ) : (
+                <ul className='space-y-4'>
+                  {savedSummaries.length > 0 ? (
+                    savedSummaries.map((summary) => (
+                      <li
+                        key={summary.id}
+                        className='border p-4 rounded-lg shadow flex justify-between items-center bg-white hover:bg-gray-100 transition-colors duration-300'
+                      >
+                        <span>生成日 : {new Date(summary.created_at).toLocaleDateString()}</span>
+
+                        <button
+                          onClick={() => handleSelectSummary(summary)}
+                          className='bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-500 transition-colors duration-300'
+                        >
+                          詳細を見る
+                        </button>
+                      </li>
+                    ))
+                  ) : (
+                    <p>保存されたサマリーが見つかりません。</p>
+                  )}
+                </ul>
+              )}
+            </div>
+            {selectedSummary && (
+              <div className='bg-white rounded-lg shadow-md p-6 border border border-gray-100'>
+                <div className='flex justify-between items-center mb-8'>
+                  <h3 className='text-2xl font-semibold text-[#003366] '>
+                    {new Date(selectedSummary.created_at).toISOString().split('T')[0]}
+                    に保存されたサマリー
+                  </h3>
+                  <button
+                    onClick={() => setSelectedSummary(null)}
+                    className='bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300 '
+                  >
+                    閉じる
+                  </button>
+                </div>
+                <div className='bg-gray-100 p-4 rounded mb-4'>
+                  <ReactMarkdown className='text-[17px]' remarkPlugins={[remarkGfm]}>
+                    {summaryError ? `エラー: ${summaryError.message}` : selectedSummary.summary}
+                  </ReactMarkdown>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </main>

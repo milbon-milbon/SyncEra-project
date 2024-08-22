@@ -1,6 +1,5 @@
 //特定のリンク先を指定せずに直前の場所に戻るボタン
-// components/employeelist/BackSummary.tsx
-// components/BackJustBefore.tsx
+// components/employeelist/BackJustBefore.tsx
 'use client';
 
 import { useRouter } from 'next/navigation';
@@ -19,7 +18,8 @@ export default function BackJustBefore({ className = '' }: BackJustBeforeProps) 
   return (
     <button
       onClick={handleBack}
-      className={`bg-gray-300   hover:bg-[#c0c0c0] text-[#003366] py-2 px-4 rounded-lg ml-2 text-[17px] ${className}`}
+      className={`bg-gray-300 hover:bg-[#c0c0c0] text-[#003366] py-2 px-4 rounded-lg ml-2 text-[17px] ${className}`}
+      title='直前の操作ページに戻ります'
     >
       戻る
     </button>
