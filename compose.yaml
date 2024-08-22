@@ -90,6 +90,16 @@ services:
       - backend
     command: ["npx", "playwright", "test"]
 
+  jmeter:
+    build:
+      context: ./jmeter
+    container_name: jmeter
+    volumes:
+      - ./jmeter/results:/results
+    networks:
+      - app-network
+
+
 
 networks:
   app-network:
