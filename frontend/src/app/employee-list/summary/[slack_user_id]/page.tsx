@@ -84,7 +84,6 @@ export default function EmployeeDetailPage() {
           <nav className='flex-1'>
             <ul className='space-y-4'>
               <EmployeeLink />
-
               <HomeLink />
             </ul>
           </nav>
