@@ -10,7 +10,7 @@ import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import '@/app/signup/globals.css';
-import Loading from '../components/loading';
+import Loading from '../../components/loading';
 interface AdminClaimsResponse {
   message: string;
 }
@@ -85,7 +85,7 @@ export default function SignUp() {
           </Link>
           <Link href='/'>
             <button className='bg-gray-200 text-[#003366] border px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
-              TOP
+              ホーム
             </button>
           </Link>
           <span className='text-[#003366]'> 〉</span>

@@ -6,42 +6,54 @@ import Link from 'next/link'; // Linkをインポート
 import { useState } from 'react';
 import PlanIntro from '../components/payment/PlanIntro';
 import ContactForm from './hooks/fetch_contact/postContactForm';
+import LogoWhite from '@/components/employeelist/Logowhite';
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'none' | 'syncEra' | 'appInfo'>('none');
 
   return (
     <main className='min-h-screen flex flex-col bg-white text-gray-900'>
       {/* Header */}
-      <header className='bg-[#003366] text-white p-8 flex justify-between items-center'>
-        <div className='flex items-center space-x-4'>
-          <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16' />
-          <span className='text-5xl font-extrabold text-white font-sans'></span>
-          <CompanyLoginButton />
-        </div>
+      <header className='bg-[#003366] text-white  sm:p-5'>
+        <div className='flex flex-col sm:flex-row justify-between items-center'>
+          <LogoWhite />
 
-        <nav className='absolute left-1/2 transform -translate-x-1/2 space-x-6'>
-          <a href='#features' className='hover:underline'>
-            機能
-          </a>
-          <a href='#use-cases' className='hover:underline'>
-            ユースケース
-          </a>
-          <a href='#contact' className='hover:underline'>
-            お問い合わせ
-          </a>
-          <a href='#pricing' className='hover:underline'>
-            料金
-          </a>
-        </nav>
-        <div className='flex space-x-4'>
-          <LoginButton />
-          <Link
-            href='/signup'
-            className='bg-[#003366] text-white px-4 py-2 rounded border border-white font-bold hover:bg-[#66B2FF] active:transform active:translate-y-1 transition-colors duration-300'
-          >
-            新規登録
-          </Link>
+          <CompanyLoginButton />
+
+          <nav>
+            <ul className='flex flex-wrap justify-center  sm:space-x-6'>
+              <li>
+                <a href='#features' className='hover:underline px-2 '>
+                  機能
+                </a>
+              </li>
+              <li>
+                <a href='#use-cases' className='hover:underline px-2'>
+                  ユースケース
+                </a>
+              </li>
+              <li>
+                <a href='#contact' className='hover:underline px-2'>
+                  お問い合わせ
+                </a>
+              </li>
+              <li>
+                <a href='#pricing' className='hover:underline px-2'>
+                  料金
+                </a>
+              </li>
+            </ul>
+          </nav>
+          <div className='flex space-x-4'>
+            <LoginButton />
+            <Link
+              href='/signup'
+              className='bg-[#003366] text-white px-4 py-2 rounded border border-white font-bold hover:bg-[#66B2FF] active:transform active:translate-y-1 transition-colors duration-300'
+            >
+              新規登録
+            </Link>
+          </div>
         </div>
+        {/* </div> */}
       </header>
       {/* Hero Section */}
       <section className='flex flex-col items-center justify-center bg-[#003366] text-white text-center py-20 relative overflow-hidden'>
@@ -63,22 +75,24 @@ export default function Home() {
         <p className='max-w-2xl mx-auto text-lg mb-8 text-center font-sans'>
           Slackから日報や趣味、キャリア志向の情報をサマリー表示し、1on1の準備をサポート。AIが会話でのアドバイスも提供し、コミュニケーションを円滑にします。
         </p>
-        <div className='mx-auto flex gap-8' style={{ maxWidth: '1200px' }}>
-          <div className='p-6 bg-white rounded-lg shadow-lg flex-none w-[350px]'>
-            <h3 className='text-2xl font-bold mb-4 font-sans'>Slack連携</h3>
-            <p>社員のSlack情報を集約し、日報や趣味、キャリア志向を一元管理します。</p>
-          </div>
-          <div className='p-6 bg-white rounded-lg shadow-lg flex-none w-[350px]'>
-            <h3 className='text-2xl font-bold mb-4 font-sans'>情報のサマリー表示</h3>
-            <p>
-              日報や趣味、定期的なキャリア志向のサマリーを表示し、1on1に必要な情報を提供します。
-            </p>
-          </div>
-          <div className='p-6 bg-white rounded-lg shadow-lg flex-none w-[350px]'>
-            <h3 className='text-2xl font-bold mb-4 font-sans'>AIによる会話サポート</h3>
-            <p>
-              AIが1on1の会話に関するアドバイスを提供し、効果的なコミュニケーションをサポートします。
-            </p>
+        <div className='container mx-auto px-4'>
+          <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
+            <div className='p-6 bg-white rounded-lg shadow-lg'>
+              <h3 className='text-2xl font-bold mb-4 font-sans'>Slack連携</h3>
+              <p>社員のSlack情報を集約し、日報や趣味、キャリア志向を一元管理します。</p>
+            </div>
+            <div className='p-6 bg-white rounded-lg shadow-lg'>
+              <h3 className='text-2xl font-bold mb-4 font-sans'>情報のサマリー表示</h3>
+              <p>
+                日報や趣味、定期的なキャリア志向のサマリーを表示し、1on1に必要な情報を提供します。
+              </p>
+            </div>
+            <div className='p-6 bg-white rounded-lg shadow-lg'>
+              <h3 className='text-2xl font-bold mb-4 font-sans'>AIによる会話サポート</h3>
+              <p>
+                AIが1on1の会話に関するアドバイスを提供し、効果的なコミュニケーションをサポートします。
+              </p>
+            </div>
           </div>
         </div>
       </section>

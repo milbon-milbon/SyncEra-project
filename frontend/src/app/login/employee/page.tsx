@@ -11,7 +11,7 @@ import { httpsCallable, getFunctions } from 'firebase/functions';
 import app from '@/firebase/config';
 import '@/app/login/globals.css';
 import Link from 'next/link';
-import Loading from '@/app/components/loading';
+import Loading from '@/components/loading';
 
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
@@ -57,7 +57,7 @@ export default function EmployeeLogin() {
       }
     } catch (error) {
       clientLogger.error(`Error in checkUserAndRedirect:,${error}`);
-      throw error; 
+      throw error;
     }
   };
   // 役職に基づいて適切な画面に遷移
@@ -133,14 +133,16 @@ export default function EmployeeLogin() {
 
   return (
     <div className='my-custom-font flex flex-col min-h-screen bg-white '>
-      <header className='bg-white text-white p-8 flex justify-between items-center '>
-        <div className='flex items-center space-x-6'>
+      <header className='bg-white text-white p-4 md:p-8 flex flex-col md:flex-row justify-between items-center'>
+        {' '}
+        <div className='flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6'>
+          {' '}
           <Link href='/'>
             <img src='/logo/white_2.png' alt='SyncEra Logo' className='h-16' />
           </Link>
           <Link href='/'>
             <button className='bg-gray-200 text-[#003366] border  px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
-              TOP
+              ホーム
             </button>
           </Link>
           <span className='text-[#003366]'> 〉</span>
@@ -149,7 +151,7 @@ export default function EmployeeLogin() {
       </header>
       {/* ログインを配置 */}
       <form
-        className='bg-white p-[15px] md:p-[35px] rounded-lg shadow-2xl w-full max-w-md border-[4px] border-[#66b2ff] absolute left-[37%] top-[200px]'
+        className='bg-white p-4 md:p-8 rounded-lg shadow-2xl w-full max-w-md border-4 border-[#66b2ff] mx-auto mt-8'
         onSubmit={handleSubmit}
         autoComplete='off'
       >

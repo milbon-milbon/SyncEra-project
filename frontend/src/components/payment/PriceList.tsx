@@ -7,9 +7,9 @@ import PriceCard from './PriceCard';
 
 const prices = [
   {
-    id: 'price_1PkIPd1RdH0G9zt6VKHyrcSD',
+    id: 'price_1PqS1M1RdH0G9zt6Znq2wxWe',
     name: '月額',
-    amount: 1000,
+    amount: 1100,
     image: './payment/month.png',
   },
   {

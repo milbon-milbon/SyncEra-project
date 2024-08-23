@@ -8,7 +8,7 @@ import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import app from '@/firebase/config';
 import '@/app/admin-dashboard/globals.css';
 import { signInWithEmailAndPassword, signOut } from 'firebase/auth'; //新規社員登録後に、管理者アカウントに自動的に再ログイン
-import Loading from '@/app/components/loading';
+import Loading from '@/components/loading';
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 // 部署のリスト
@@ -107,10 +107,10 @@ export default function NewEmployee() {
           className='w-full py-2 mb-4 border-b-[2px] border-gray-300 flex items-center block'
         >
           <span className='mr-2 '>
-            <img src='/admin-dashboard/home.png' alt='ホーム' className='w-8 h-8' />{' '}
+            <img src='/admin-dashboard/assignment.png' alt='ホーム' className='w-8 h-8' />{' '}
             {/* ホームアイコン */}
           </span>
-          ホーム
+          利用者権限一覧
         </Link>
 
         <Link
@@ -118,10 +118,10 @@ export default function NewEmployee() {
           className='w-full text py-2 flex  border-b-[2px] border-gray-300  items-center block'
         >
           <span className='mr-2'>
-            <img src='/admin-dashboard/assignment.png' alt='アプリTOP' className='w-8 h-8' />{' '}
+            <img src='/admin-dashboard/home.png' alt='アプリTOP' className='w-8 h-8' />{' '}
             {/* アプリTOPアイコン */}
           </span>
-          アプリTOP
+          ホーム
         </Link>
       </div>
 

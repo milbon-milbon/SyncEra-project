@@ -18,7 +18,7 @@ export default function PlanIntro() {
             月額
           </h2>
           <p className='text-center font-bold text-3xl mb-4 text-[#003366] font-sans'>
-            ¥1,000 / 月
+            ¥1,100 / 月
           </p>
           <ul className='space-y-2 text-[17px] font-sans'>
             <li className='flex items-center'>

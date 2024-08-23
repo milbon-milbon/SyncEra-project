@@ -5,8 +5,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import LogoutButton from '@/components/signup_and_login/LoguoutButton';
+import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import AuthRoute from '@/components/auth/AuthRoute';
+import HomeLink from '@/components/employeelist/HomeLink';
+import EmployeeLink from '@/components/employeelist/EmployeeLink';
 
 export default function EmployeeRegister() {
   const router = useRouter();
@@ -74,16 +76,8 @@ export default function EmployeeRegister() {
           </div>
           <nav className='flex-1'>
             <ul className='space-y-6'>
-              <li>
-                <Link href='/employee-list' className='hover:underline text-lg'>
-                  社員一覧へ戻る
-                </Link>
-              </li>
-              <li>
-                <Link href='/' className='hover:underline text-lg'>
-                  ホームページへ戻る
-                </Link>
-              </li>
+              <EmployeeLink />
+              <HomeLink />
             </ul>
           </nav>
           <LogoutButton />
