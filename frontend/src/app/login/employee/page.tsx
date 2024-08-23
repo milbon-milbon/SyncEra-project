@@ -12,7 +12,7 @@ import app from '@/firebase/config';
 import '@/app/login/globals.css';
 import Link from 'next/link';
 import Loading from '@/components/loading';
-
+import LogoWhite from '@/components/employeelist/LogoWhite';
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -133,20 +133,23 @@ export default function EmployeeLogin() {
 
   return (
     <div className='my-custom-font flex flex-col min-h-screen bg-white '>
-      <header className='bg-white text-white p-4 md:p-8 flex flex-col md:flex-row justify-between items-center'>
-        {' '}
-        <div className='flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6'>
-          {' '}
-          <Link href='/'>
-            <img src='/logo/white_2.png' alt='SyncEra Logo' className='h-16' />
-          </Link>
-          <Link href='/'>
-            <button className='bg-gray-200 text-[#003366] border  px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
-              ホーム
-            </button>
-          </Link>
-          <span className='text-[#003366]'> 〉</span>
-          <span className='text-[#003366] text-[20px]'>ログイン画面</span>
+      <header className='bg-white text-[#003366]p-4 md:p-4 flex items-center justify-between'>
+        <div className='flex items-center space-x-4'>
+          <img
+            src='/logo/white_2.png'
+            alt='SyncEra Logo'
+            className='h-[65px] w-[207px] mt-2 ml-2'
+          />
+
+          <div className='flex items-center space-x-2'>
+            <Link href='/'>
+              <button className='bg-gray-200 text-[#003366] border  px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
+                ホーム
+              </button>
+            </Link>
+            <span className='text-[#003366]'> 〉</span>
+            <span className='text-[#003366] text-[20px] font-bold'>ログイン画面</span>
+          </div>
         </div>
       </header>
       {/* ログインを配置 */}

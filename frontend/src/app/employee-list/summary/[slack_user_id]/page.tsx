@@ -12,7 +12,8 @@ import Breadcrumb from '@/components/employeelist/Breadcrumb';
 import AuthRoute from '@/components/auth/AuthRoute';
 import HomeLink from '@/components/employeelist/HomeLink';
 import EmployeeLink from '@/components/employeelist/EmployeeLink';
-
+import LogoWhite from '@/components/employeelist/LogoWhite';
+import ReactMarkdown from 'react-markdown';
 type EmployeeInfo = {
   department: string;
   email: string;
@@ -78,11 +79,9 @@ export default function EmployeeDetailPage() {
     <AuthRoute requiredRole='manager'>
       <div className='min-h-screen flex'>
         <aside className='w-64 bg-[#003366] text-white p-6 flex flex-col'>
-          <div className='text-3xl font-bold mb-8'>
-            <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-13' />
-          </div>
+          <LogoWhite />
           <nav className='flex-1'>
-            <ul className='space-y-4'>
+            <ul className='space-y-6  mt-5'>
               <EmployeeLink />
               <HomeLink />
             </ul>
@@ -150,9 +149,9 @@ export default function EmployeeDetailPage() {
               </div>
               <div>
                 <h3 className='text-2xl font-semibold mb-2 text-[#003366]'>最新の日報</h3>
-                <p className='text-[17px] text-[#333333] whitespace-pre-wrap'>
+                <ReactMarkdown className='text-[17px] text-[#333333] whitespace-pre-wrap'>
                   {employeeData[1].text}
-                </p>
+                </ReactMarkdown>
                 <p className='text-sm text-gray-500 mt-2'>
                   投稿日時:{' '}
                   {(() => {

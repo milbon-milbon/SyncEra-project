@@ -16,6 +16,7 @@ import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import AuthRoute from '@/components/auth/AuthRoute';
 import HomeLink from '@/components/employeelist/HomeLink';
 import EmployeeLink from '@/components/employeelist/EmployeeLink';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 // hooksより引用
 interface CareerSurveyResult {
   id: number;
@@ -47,12 +48,11 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
 
   return (
     <AuthRoute requiredRole='manager'>
-      <div className='min-h-screen flex bg-white'>
+      <div className='min-h-screen flex'>
         <aside className='w-64 bg-[#003366] text-white p-6 flex flex-col'>
-          <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16 mb-8' />
-
+          <LogoWhite />
           <nav className='flex-1'>
-            <ul className='space-y-6'>
+            <ul className='space-y-6  mt-5'>
               <EmployeeLink />
               <HomeLink />
             </ul>
@@ -82,9 +82,10 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
               </div>
             </div>
           </div>
-          <div className='flex'>
-            {/* アンケート履歴リスト */}
-            <div className='w-1/3 p-4 bg-white rounded-lg shadow-md'>
+
+          {/* アンケート履歴リスト */}
+          <div className='flex gap-4'>
+            <div className='w-1/3 p-4 bg-white rounded-lg shadow-md h-[calc(100vh-200px)] overflow-y-auto'>
               <h2 className='text-xl font-bold text-[#003366] mb-4'>アンケート回答履歴</h2>
               <ul className='space-y-4'>
                 {allSavedCareerSurveyResults.map((survey) => (
@@ -104,14 +105,14 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
             </div>
 
             {/* アンケート詳細表示 */}
-            <div className='flex-1 ml-8 p-4 bg-white rounded-lg shadow-md'>
+            <div className='w-2/3 p-4 bg-white rounded-lg shadow-md h-[calc(100vh-200px)] overflow-y-auto'>
               {selectedSurvey ? (
                 <>
                   <div className='relative mb-4'>
                     <div className='flex justify-between items-center mb-4'>
                       <button
                         onClick={handleCloseDetails}
-                        className='absolute top-0 right-0 bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300'
+                        className='absolute top-0 right-0 bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300'
                       >
                         閉じる
                       </button>{' '}

@@ -6,54 +6,54 @@ import Link from 'next/link'; // Linkをインポート
 import { useState } from 'react';
 import PlanIntro from '../components/payment/PlanIntro';
 import ContactForm from './hooks/fetch_contact/postContactForm';
-import LogoWhite from '@/components/employeelist/Logowhite';
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'none' | 'syncEra' | 'appInfo'>('none');
 
   return (
-    <main className='min-h-screen flex flex-col bg-white text-gray-900'>
+    <main className='min-h-screen flex flex-col bg-white text-gray-900 text-[#003366]'>
       {/* Header */}
-      <header className='bg-[#003366] text-white  sm:p-5'>
-        <div className='flex flex-col sm:flex-row justify-between items-center'>
-          <LogoWhite />
 
-          <CompanyLoginButton />
-
-          <nav>
-            <ul className='flex flex-wrap justify-center  sm:space-x-6'>
-              <li>
-                <a href='#features' className='hover:underline px-2 '>
-                  機能
-                </a>
-              </li>
-              <li>
-                <a href='#use-cases' className='hover:underline px-2'>
-                  ユースケース
-                </a>
-              </li>
-              <li>
-                <a href='#contact' className='hover:underline px-2'>
-                  お問い合わせ
-                </a>
-              </li>
-              <li>
-                <a href='#pricing' className='hover:underline px-2'>
-                  料金
-                </a>
-              </li>
-            </ul>
-          </nav>
-          <div className='flex space-x-4'>
-            <LoginButton />
-            <Link
-              href='/signup'
-              className='bg-[#003366] text-white px-4 py-2 rounded border border-white font-bold hover:bg-[#66B2FF] active:transform active:translate-y-1 transition-colors duration-300'
-            >
-              新規登録
-            </Link>
-          </div>
+      <header className='bg-[#003366] text-white p-4 md:p-4 flex items-center justify-between'>
+        <div className='flex items-center space-x-4'>
+          <img
+            src='/image/SyncEra(blue_white).png'
+            alt='SyncEra Logo'
+            className='h-[65px] w-[207px] mt-2 ml-2'
+          />
         </div>
-        {/* </div> */}
+
+        <nav className='flex-1  '>
+          {' '}
+          <ul className='flex justify-center space-x-4'>
+            {' '}
+            <li>
+              <a href='#features' className='hover:underline px-2'>
+                機能
+              </a>
+            </li>
+            <li>
+              <a href='#use-cases' className='hover:underline px-2'>
+                ユースケース
+              </a>
+            </li>
+            <li>
+              <a href='#contact' className='hover:underline px-2'>
+                お問い合わせ
+              </a>
+            </li>
+            <li>
+              <a href='#pricing' className='hover:underline px-2'>
+                料金
+              </a>
+            </li>
+          </ul>
+        </nav>
+
+        {/* ログインと新規登録ボタンを右側に配置 */}
+        <div className='flex items-center space-x-4'>
+          <LoginButton />
+          <CompanyLoginButton />
+        </div>
       </header>
       {/* Hero Section */}
       <section className='flex flex-col items-center justify-center bg-[#003366] text-white text-center py-20 relative overflow-hidden'>
@@ -64,32 +64,38 @@ export default function Home() {
         </p>
         <Link
           href='/signup'
-          className='bg-white text-[#003366] px-6 py-3 rounded font-bold hover:bg-gray-200 transition-colors duration-300 relative z-10'
+          className='text-xl bg-white text-[#003366] px-4 py-2 rounded font-bold hover:bg-gray-200 transition-colors duration-300 relative z-10'
         >
           今すぐ始める
         </Link>
       </section>
       {/* Features Section */}
       <section id='features' className='py-20 bg-gray-100'>
-        <h2 className='text-4xl font-bold mb-8 text-center font-sans'>機能</h2>
+        <h2 className='text-4xl font-bold mb-8 text-center font-sans  text-[#003366]'>機能</h2>
         <p className='max-w-2xl mx-auto text-lg mb-8 text-center font-sans'>
           Slackから日報や趣味、キャリア志向の情報をサマリー表示し、1on1の準備をサポート。AIが会話でのアドバイスも提供し、コミュニケーションを円滑にします。
         </p>
         <div className='container mx-auto px-4'>
           <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8'>
             <div className='p-6 bg-white rounded-lg shadow-lg'>
-              <h3 className='text-2xl font-bold mb-4 font-sans'>Slack連携</h3>
-              <p>社員のSlack情報を集約し、日報や趣味、キャリア志向を一元管理します。</p>
+              <h3 className='text-2xl font-bold mb-4 font-sans  text-[#003366]'>Slack連携</h3>
+              <p className='text-lg'>
+                社員のSlack情報を集約し、日報や趣味、キャリア志向を一元管理します。
+              </p>
             </div>
             <div className='p-6 bg-white rounded-lg shadow-lg'>
-              <h3 className='text-2xl font-bold mb-4 font-sans'>情報のサマリー表示</h3>
-              <p>
+              <h3 className='text-2xl font-bold mb-4 font-sans  text-[#003366]'>
+                情報のサマリー表示
+              </h3>
+              <p className='text-lg'>
                 日報や趣味、定期的なキャリア志向のサマリーを表示し、1on1に必要な情報を提供します。
               </p>
             </div>
             <div className='p-6 bg-white rounded-lg shadow-lg'>
-              <h3 className='text-2xl font-bold mb-4 font-sans'>AIによる会話サポート</h3>
-              <p>
+              <h3 className='text-2xl font-bold mb-4 font-sans  text-[#003366]'>
+                AIによる会話サポート
+              </h3>
+              <p className='text-lg'>
                 AIが1on1の会話に関するアドバイスを提供し、効果的なコミュニケーションをサポートします。
               </p>
             </div>
@@ -178,10 +184,9 @@ export default function Home() {
       <section id='pricing'>
         <PlanIntro />
       </section>
-
       {/* Contact Section */}
       <section id='contact' className='py-20 bg-gray-100 text-center font-sans'>
-        <h2 className='text-4xl font-bold mb-8'>お問い合わせ</h2>
+        <h2 className='text-4xl font-bold mb-8 text-[#003366]'>お問い合わせ</h2>
         <ContactForm /> {/* 問い合わせフォームを表示 */}
       </section>
       {/* Footer */}

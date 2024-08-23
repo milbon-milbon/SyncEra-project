@@ -15,6 +15,7 @@ import EmployeeName from '@/components/employeelist/EmployeeName';
 import AuthRoute from '@/components/auth/AuthRoute';
 import HomeLink from '@/components/employeelist/HomeLink';
 import EmployeeLink from '@/components/employeelist/EmployeeLink';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 interface Advice {
   id: number;
   advices: string;
@@ -86,9 +87,9 @@ export default function OneOnOneAdvicePage() {
     <AuthRoute requiredRole='manager'>
       <div className='min-h-screen flex bg-white'>
         <aside className='w-64 bg-[#003366] text-white p-6 flex flex-col'>
-          <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16 mb-8' />
+          <LogoWhite />
           <nav className='flex-1'>
-            <ul className='space-y-4'>
+            <ul className='space-y-6  mt-5'>
               <EmployeeLink />
               <HomeLink />
             </ul>

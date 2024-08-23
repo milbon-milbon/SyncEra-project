@@ -15,6 +15,7 @@ import Breadcrumb from '@/components/employeelist/Breadcrumb';
 import AuthRoute from '@/components/auth/AuthRoute';
 import HomeLink from '@/components/employeelist/HomeLink';
 import EmployeeLink from '@/components/employeelist/EmployeeLink';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 interface Summary {
   id: number;
   summary: string;
@@ -84,9 +85,9 @@ export default function SummaryPage() {
     <AuthRoute requiredRole='manager'>
       <div className='min-h-screen flex bg-white'>
         <aside className='w-64 bg-[#003366] text-white p-6 flex flex-col'>
-          <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16 mb-8' />
+          <LogoWhite />
           <nav className='flex-1'>
-            <ul className='space-y-4'>
+            <ul className='space-y-6  mt-5'>
               <EmployeeLink />
               <HomeLink />
             </ul>
@@ -211,7 +212,7 @@ export default function SummaryPage() {
                   </div>
                   <div className='bg-gray-100 p-4 rounded mb-4'>
                     <ReactMarkdown className='text-[17px]' remarkPlugins={[remarkGfm]}>
-                      {summaryError ? `エラー: ${summaryError.message}` : selectedSummary.summary}
+                      {summaryError ? `エラー: ${summaryError}` : selectedSummary.summary}
                     </ReactMarkdown>
                   </div>
                 </div>

@@ -9,7 +9,7 @@ import AuthRoute from '@/components/auth/AuthRoute';
 import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import HomeLink from '@/components/employeelist/HomeLink';
 import NewEmployeeLink from '@/components/employeelist/NewEmployeeLink';
-
+import LogoWhite from '@/components/employeelist/LogoWhite';
 type Employee = {
   id: string;
   name: string;
@@ -57,11 +57,9 @@ export default function EmployeeList() {
     <AuthRoute requiredRole='manager'>
       <div className='min-h-screen flex bg-white'>
         <aside className='w-64 bg-[#003366] text-white p-6 flex flex-col'>
-          <div className='text-3xl font-bold mb-8'>
-            <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-13' />
-          </div>
+          <LogoWhite />
           <nav className='flex-1'>
-            <ul className='space-y-6 '>
+            <ul className='space-y-6  mt-5'>
               <NewEmployeeLink />
               <HomeLink />
             </ul>
