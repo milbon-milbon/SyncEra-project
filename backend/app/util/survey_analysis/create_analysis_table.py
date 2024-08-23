@@ -49,4 +49,4 @@ merged_df['date'] = pd.to_datetime(merged_df['created_at']).dt.date
 analysis_df = merged_df[['id_response', 'slack_user_id', 'question_id', 'question_text', 'answer', 'answer_text', 'free_text', 'date']]
 
 #　すべてのuserなどが含まれた、分析用のanalysisテーブルが作成されている
-logger.info(analysis_df.head())
+logger.debug(analysis_df.head())
