@@ -16,7 +16,6 @@ import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import AuthRoute from '@/components/auth/AuthRoute';
 import HomeLink from '@/components/employeelist/HomeLink';
 import EmployeeLink from '@/components/employeelist/EmployeeLink';
-import NewEmployeeLink from '@/components/employeelist/NewEmployeeLink';
 // hooksより引用
 interface CareerSurveyResult {
   id: number;
@@ -55,7 +54,6 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
           <nav className='flex-1'>
             <ul className='space-y-6'>
               <EmployeeLink />
-              <NewEmployeeLink />
               <HomeLink />
             </ul>
           </nav>
@@ -109,21 +107,20 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
             <div className='flex-1 ml-8 p-4 bg-white rounded-lg shadow-md'>
               {selectedSurvey ? (
                 <>
-                  <div className='flex justify-between items-center mb-4'>
-                    <h2 className='text-xl font-bold text-[#003366]'>
-                      回答日時: {new Date(selectedSurvey.created_at).toLocaleString()}
-                    </h2>
-                    <button
-                      onClick={handleCloseDetails}
-                      className='bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300'
-                    >
-                      閉じる
-                    </button>{' '}
+                  <div className='relative mb-4'>
+                    <div className='flex justify-between items-center mb-4'>
+                      <button
+                        onClick={handleCloseDetails}
+                        className='absolute top-0 right-0 bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300'
+                      >
+                        閉じる
+                      </button>{' '}
+                    </div>
+                    {/* ReactMarkdownを使用して、selectedSurvey.resultをMarkdown形式で表示 */}
+                    <ReactMarkdown className='text-lg text-[#333333]'>
+                      {selectedSurvey.result}
+                    </ReactMarkdown>
                   </div>
-                  {/* ReactMarkdownを使用して、selectedSurvey.resultをMarkdown形式で表示 */}
-                  <ReactMarkdown className='text-lg text-[#333333]'>
-                    {selectedSurvey.result}
-                  </ReactMarkdown>
                 </>
               ) : (
                 <p className='text-lg text-[#333333]'>

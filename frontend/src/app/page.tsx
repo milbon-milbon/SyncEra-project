@@ -6,21 +6,21 @@ import Link from 'next/link'; // Linkをインポート
 import { useState } from 'react';
 import PlanIntro from '../components/payment/PlanIntro';
 import ContactForm from './hooks/fetch_contact/postContactForm';
+import LogoWhite from '@/components/employeelist/Logowhite';
 export default function Home() {
   const [activeTab, setActiveTab] = useState<'none' | 'syncEra' | 'appInfo'>('none');
 
   return (
     <main className='min-h-screen flex flex-col bg-white text-gray-900'>
       {/* Header */}
-      <header className='bg-[#003366] text-white p-4 sm:p-8'>
+      <header className='bg-[#003366] text-white  sm:p-5'>
         <div className='flex flex-col sm:flex-row justify-between items-center'>
-          <div className='flex items-center mb-4 sm:mb-0'>
-            <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16 ' />
-            <span className='text-5xl font-extrabold text-white font-sans'></span>
-            <CompanyLoginButton />
-          </div>
-          <nav className='mb-4 sm:mb-0 flex-grow flex justify-center mr-24'>
-            <ul className='flex flex-wrap justify-center space-x-2 sm:space-x-6'>
+          <LogoWhite />
+
+          <CompanyLoginButton />
+
+          <nav>
+            <ul className='flex flex-wrap justify-center  sm:space-x-6'>
               <li>
                 <a href='#features' className='hover:underline px-2 '>
                   機能
@@ -53,6 +53,7 @@ export default function Home() {
             </Link>
           </div>
         </div>
+        {/* </div> */}
       </header>
       {/* Hero Section */}
       <section className='flex flex-col items-center justify-center bg-[#003366] text-white text-center py-20 relative overflow-hidden'>
