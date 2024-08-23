@@ -7,6 +7,8 @@ import { useRouter } from 'next/navigation';
 import { useEmployees } from '../hooks/useEmployees';
 import AuthRoute from '@/components/auth/AuthRoute';
 import LogoutButton from '@/components/signup_and_login/LogoutButton';
+import HomeLink from '@/components/employeelist/HomeLink';
+import NewEmployeeLink from '@/components/employeelist/NewEmployeeLink';
 
 type Employee = {
   id: string;
@@ -59,20 +61,9 @@ export default function EmployeeList() {
             <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-13' />
           </div>
           <nav className='flex-1'>
-            <ul className='space-y-6'>
-              <li>
-                <Link
-                  href='/employee-list/employee_registration'
-                  className='block text-lg text-white hover:underline'
-                >
-                  社員登録
-                </Link>
-              </li>
-              <li>
-                <Link href='/' className='block text-lg text-white hover:underline'>
-                  ホーム
-                </Link>
-              </li>
+            <ul className='space-y-6 '>
+              <NewEmployeeLink />
+              <HomeLink />
             </ul>
           </nav>
           <LogoutButton />

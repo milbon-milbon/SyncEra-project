@@ -19,25 +19,25 @@ export default function Home() {
             <span className='text-5xl font-extrabold text-white font-sans'></span>
             <CompanyLoginButton />
           </div>
-          <nav className='mb-4 sm:mb-0 flex-grow flex justify-center'>
+          <nav className='mb-4 sm:mb-0 flex-grow flex justify-center mr-24'>
             <ul className='flex flex-wrap justify-center space-x-2 sm:space-x-6'>
               <li>
-                <a href='#features' className='hover:underline px-2 py-1'>
+                <a href='#features' className='hover:underline px-2 '>
                   機能
                 </a>
               </li>
               <li>
-                <a href='#use-cases' className='hover:underline px-2 py-1'>
+                <a href='#use-cases' className='hover:underline px-2'>
                   ユースケース
                 </a>
               </li>
               <li>
-                <a href='#contact' className='hover:underline px-2 py-1'>
+                <a href='#contact' className='hover:underline px-2'>
                   お問い合わせ
                 </a>
               </li>
               <li>
-                <a href='#pricing' className='hover:underline px-2 py-1'>
+                <a href='#pricing' className='hover:underline px-2'>
                   料金
                 </a>
               </li>

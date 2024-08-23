@@ -10,6 +10,8 @@ import LinkCareerQuestion from '@/components/employeelist/LinkCareerQuestion';
 import Loading from '@/components/loading';
 import Breadcrumb from '@/components/employeelist/Breadcrumb';
 import AuthRoute from '@/components/auth/AuthRoute';
+import HomeLink from '@/components/employeelist/HomeLink';
+import EmployeeLink from '@/components/employeelist/EmployeeLink';
 
 type EmployeeInfo = {
   department: string;
@@ -81,22 +83,9 @@ export default function EmployeeDetailPage() {
           </div>
           <nav className='flex-1'>
             <ul className='space-y-4'>
-              <li>
-                <Link
-                  href='/employee-list'
-                  className='block text-lg text-white hover:text-white hover:underline transition-colors duration-300'
-                >
-                  社員一覧トップ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/'
-                  className='block text-lg text-white hover:text-white hover:underline transition-colors duration-300'
-                >
-                  ホーム
-                </Link>
-              </li>
+              <EmployeeLink />
+
+              <HomeLink />
             </ul>
           </nav>
           <LogoutButton />

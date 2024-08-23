@@ -31,7 +31,7 @@ export default function EmployeeName({ slackUserId }: EmployeeNameProps) {
   return (
     <Link
       href={`/employee-list/summary/${slackUserId}`}
-      className='hover:text-[#003366] text-[17px] text-gray-600 mr-2 '
+      className='hover:text-[#003366] text-[17px] text-gray-600 mr-2 hover:underline'
     >
       <span>{employeeName ? `${employeeName}` : ''}</span>
     </Link>

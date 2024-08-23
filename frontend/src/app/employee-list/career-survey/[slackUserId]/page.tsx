@@ -14,6 +14,9 @@ import EmployeeName from '@/components/employeelist/EmployeeName';
 import Breadcrumb from '@/components/employeelist/Breadcrumb';
 import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import AuthRoute from '@/components/auth/AuthRoute';
+import HomeLink from '@/components/employeelist/HomeLink';
+import EmployeeLink from '@/components/employeelist/EmployeeLink';
+import NewEmployeeLink from '@/components/employeelist/NewEmployeeLink';
 // hooksより引用
 interface CareerSurveyResult {
   id: number;
@@ -51,24 +54,9 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
 
           <nav className='flex-1'>
             <ul className='space-y-6'>
-              <li>
-                <Link href='/employee-list' className='hover:underline text-lg'>
-                  社員一覧トップ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href='/employee-list/employee_registration'
-                  className='block text-lg text-white hover:underline'
-                >
-                  社員登録
-                </Link>
-              </li>
-              <li>
-                <Link href='/' className='block text-lg text-white hover:underline'>
-                  ホーム
-                </Link>
-              </li>
+              <EmployeeLink />
+              <NewEmployeeLink />
+              <HomeLink />
             </ul>
           </nav>
           <LogoutButton />
