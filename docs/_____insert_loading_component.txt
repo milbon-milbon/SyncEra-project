@@ -11,3 +11,5 @@ src/app/employee-listの中の全て
 - summary/[slack_user_id]/page.tsx
 
 めめ
+
+0823➡完了しました。by ku-min

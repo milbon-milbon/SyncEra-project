@@ -11,6 +11,7 @@ import clientLogger from '@/lib/clientLogger';
 import '@/app/login/globals.css';
 import { FirebaseError } from 'firebase/app';
 import Loading from '@/components/loading';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 export default function CompanyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -84,20 +85,25 @@ export default function CompanyLogin() {
     return <Loading />;
   }
   return (
-    <div className='my-custom-font flex flex-col min-h-screen bg-white'>
-      <header className='bg-[#003366] text-white p-4 md:p-8 flex flex-col md:flex-row justify-between items-center'>
-        <div className='flex flex-col md:flex-row items-center space-y-4 md:space-y-0 md:space-x-6'>
-          <Link href='/'>
-            <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-12 md:h-16' />
-          </Link>
-          <div className='flex items-center space-x-2 md:space-x-6'>
+    <main className='min-h-screen flex flex-col bg-white text-gray-900'>
+      {/* Header */}
+      <header className='bg-[#003366] text-white p-4 md:p-4 flex items-center justify-between'>
+        <div className='flex items-center space-x-4'>
+          <img
+            src='/image/SyncEra(blue_white).png'
+            alt='SyncEra Logo'
+            className='h-[65px] w-[207px] mt-2 ml-2'
+          />
+          <div className='flex items-center space-x-2'>
             <Link href='/'>
               <button className='bg-white text-[#003366] border border-[#003366] px-3 py-1 md:px-4 md:py-2 rounded text-sm md:text-base hover:bg-gray-200 active:transform active:translate-y-1 transition-colors duration-300'>
                 ホーム
               </button>
             </Link>
             <span className='text-white'> 〉</span>
-            <span className='text-white text-sm md:text-[20px]'>管理画面（ログイン）</span>
+            <span className='text-white text-sm md:text-[20px] font-bold'>
+              管理画面（ログイン）
+            </span>
           </div>
         </div>
       </header>
@@ -142,7 +148,7 @@ export default function CompanyLogin() {
           <div className='mb-6'>
             <button
               type='submit'
-              className='w-full bg-[#66b2ff] text-white text-base md:text-[17px] py-2 px-3 rounded-full hover:bg-[#99ccff] focus:outline-none'
+              className=' bg-[#66b2ff] text-white py-3 px-10 w-full rounded-full  hover:hover:bg-blue-500 focus:outline-none'
             >
               ログイン
             </button>
@@ -162,6 +168,6 @@ export default function CompanyLogin() {
           </div>
         </form>
       </div>
-    </div>
+    </main>
   );
 }

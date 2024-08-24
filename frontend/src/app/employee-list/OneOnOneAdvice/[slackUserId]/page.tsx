@@ -15,6 +15,7 @@ import EmployeeName from '@/components/employeelist/EmployeeName';
 import AuthRoute from '@/components/auth/AuthRoute';
 import HomeLink from '@/components/employeelist/HomeLink';
 import EmployeeLink from '@/components/employeelist/EmployeeLink';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 interface Advice {
   id: number;
   advices: string;
@@ -86,9 +87,9 @@ export default function OneOnOneAdvicePage() {
     <AuthRoute requiredRole='manager'>
       <div className='min-h-screen flex bg-white'>
         <aside className='w-64 bg-[#003366] text-white p-6 flex flex-col'>
-          <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16 mb-8' />
+          <LogoWhite />
           <nav className='flex-1'>
-            <ul className='space-y-4'>
+            <ul className='space-y-6  mt-5'>
               <EmployeeLink />
               <HomeLink />
             </ul>
@@ -171,8 +172,9 @@ export default function OneOnOneAdvicePage() {
               </div>{' '}
               {/* 保存済み一覧セクション */}
               <div className='w-1/2 '>
-                <div className='bg-white rounded-lg shadow-md p-6 mb-4 border border-gray-100'>
+                <div className='bg-white rounded-lg shadow-md p-6 mb-4 border border-gray-100 max-h-96 overflow-y-auto'>
                   <h2 className='text-2xl font-semibold text-[#003366] mb-4'>保存履歴一覧</h2>
+
                   {allSavedAdvices.length > 0 ? (
                     <ul className='space-y-4'>
                       {allSavedAdvices.map((advice: Advice) => (
@@ -194,20 +196,22 @@ export default function OneOnOneAdvicePage() {
                 </div>
                 {/* 選択されたアドバイスはここに表示 */}
                 {selectedAdvice && (
-                  <div className='bg-white rounded-lg shadow-md p-6 border border border-gray-100'>
-                    <div className='flex justify-between items-center mb-8'>
-                      <h3 className='text-2xl font-semibold text-[#003366] '>
-                        選択されたアドバイス
-                      </h3>
-                      <button
-                        onClick={() => setSelectedAdvice(null)}
-                        className='ml-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300'
-                      >
-                        閉じる
-                      </button>
+                  <div className='bg-white rounded-lg shadow-md p-6 top-0 border border-gray-100 max-h-[80vh] overflow-y-auto'>
+                    <div className='sticky top-[-25px] bg-white p-3 z-10 border-b border-gray-200'>
+                      <div className='flex justify-between items-center'>
+                        <h3 className='text-2xl font-semibold text-[#003366] '>
+                          選択されたアドバイス
+                        </h3>
+                        <button
+                          onClick={() => setSelectedAdvice(null)}
+                          className='ml-auto bg-gray-500 text-white px-6 py-2 rounded-lg hover:bg-gray-600 transition-colors duration-300'
+                        >
+                          閉じる
+                        </button>
+                      </div>{' '}
                     </div>
                     <div className='bg-gray-100 p-4 rounded mb-4'>
-                      <ReactMarkdown className='text-[17px] text bg-gray-100 p-4 rounded-lg'>
+                      <ReactMarkdown className='text-[17px] bg-gray-100 p-4 rounded-lg'>
                         {selectedAdvice.advices}
                       </ReactMarkdown>
                     </div>
