@@ -1,8 +1,5 @@
-// // Loading画面をいれたい
-
 'use client';
 
-import Link from 'next/link';
 import { useState } from 'react';
 import { useGetAllSavedCareerSurveyResults } from '../../../hooks/fetch_llm/useGetAllSavedCareerSurveyResults';
 import ReactMarkdown from 'react-markdown';
@@ -85,7 +82,7 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
 
           {/* アンケート履歴リスト */}
           <div className='flex gap-4'>
-            <div className='w-1/3 p-4 bg-white rounded-lg shadow-md h-[calc(100vh-100px)] overflow-y-auto'>
+            <div className='w-1/3 p-4 bg-white rounded-lg shadow-md h-[calc(50vh-100px)] overflow-y-auto'>
               <h2 className='text-xl font-bold text-[#003366] mb-4'>アンケート回答履歴</h2>
               <ul className='space-y-4'>
                 {allSavedCareerSurveyResults.map((survey) => (
@@ -105,7 +102,7 @@ export default function CareerSurvey({ params }: { params: { slackUserId: string
             </div>
 
             {/* アンケート詳細表示 */}
-            <div className='w-2/3 p-4 bg-white rounded-lg shadow-md h-[calc(100vh-100px)] overflow-y-auto'>
+            <div className='w-2/3 p-4 bg-white rounded-lg shadow-md h-[calc(95vh-100px)] overflow-y-auto'>
               {selectedSurvey ? (
                 <>
                   <div className='relative mb-4'>

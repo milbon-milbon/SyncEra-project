@@ -1,8 +1,5 @@
-// Loading画面をいれたい
-
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEmployees } from '../hooks/useEmployees';
 import AuthRoute from '@/components/auth/AuthRoute';

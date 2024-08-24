@@ -1,5 +1,3 @@
-// // Loading画面をいれたい
-
 'use client';
 
 import { useRouter } from 'next/navigation';

@@ -11,7 +11,7 @@ export default function PlanIntro() {
 
   return (
     <div className='flex flex-col items-center justify-center p-3 bg-white max-w-3xl mx-auto '>
-      <h1 className='text-4xl font-bold mb-8 text-center font-sans'>料金のご案内</h1>
+      <h1 className='text-4xl font-bold mb-8 text-center font-sans text-[#003366]'>料金のご案内</h1>
       <div className='flex flex-col md:flex-row gap-6 w-full mb-8'>
         <div className='flex-1 border rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow'>
           <h2 className='text-3xl font-semibold mb-4 text-center bg-white text-[#003366] border-b-2 border-[#66b2ff] font-sans'>
