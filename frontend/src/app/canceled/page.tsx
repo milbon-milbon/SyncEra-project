@@ -39,7 +39,7 @@ export default function CanceledPage() {
         </p>
         <button
           onClick={handleBackClick}
-          className='mt-0 px-6 py-3 bg-[#003366] text-white rounded hover:bg-[#002244] focus:outline-none mb-20'
+          className='mt-0 px-6 py-3 bg-[#003366] text-white rounded hover:bg-[#002244] focus:outline-none mb-20   active:transform active:translate-y-1  '
         >
           ホーム
         </button>

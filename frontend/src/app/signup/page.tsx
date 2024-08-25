@@ -188,7 +188,7 @@ export default function SignUp() {
         <div className='flex justify-center'>
           <button
             type='submit'
-            className=' bg-[#66b2ff] text-white py-2 px-[170px] rounded-full hover:bg-[#99ccff] focus:outline-none'
+            className=' bg-[#66b2ff] text-white py-2 px-[170px] rounded-full hover:bg-[#99ccff] focus:outline-none active:transform active:translate-y-1  '
           >
             次へ
           </button>

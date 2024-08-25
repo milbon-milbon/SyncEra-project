@@ -62,11 +62,10 @@ export default function Home() {
           <p className='text-xl mb-8 relative z-10'>
             頼れるパートナーとして、コミュニケーションを円滑にサポート
           </p>
-          <Link
-            href='/signup'
-            className='text-xl bg-white text-[#003366] px-4 py-2 rounded font-bold hover:bg-gray-200 transition-colors duration-300 relative z-10'
-          >
-            今すぐ始める
+          <Link href='/signup'>
+            <button className='text-xl bg-white text-[#003366] px-4 py-2 rounded font-bold hover:bg-gray-200       active:transform active:translate-y-1 transition-colors duration-300 relative z-10'>
+              今すぐ始める
+            </button>
           </Link>
         </section>
         {/* Features Section */}

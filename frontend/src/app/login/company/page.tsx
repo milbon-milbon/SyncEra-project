@@ -148,7 +148,7 @@ export default function CompanyLogin() {
           <div className='mb-6'>
             <button
               type='submit'
-              className=' bg-[#66b2ff] text-white py-3 px-10 w-full rounded-full  hover:hover:bg-blue-500 focus:outline-none'
+              className=' bg-[#66b2ff] text-white py-3 px-10 w-full rounded-full  hover:hover:bg-blue-500 focus:outline-none       active:transform active:translate-y-1  '
             >
               ログイン
             </button>
