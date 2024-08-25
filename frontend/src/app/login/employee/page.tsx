@@ -11,8 +11,8 @@ import { httpsCallable, getFunctions } from 'firebase/functions';
 import app from '@/firebase/config';
 import '@/app/login/globals.css';
 import Link from 'next/link';
-import Loading from '@/app/components/loading';
-
+import Loading from '@/components/loading';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -57,7 +57,7 @@ export default function EmployeeLogin() {
       }
     } catch (error) {
       clientLogger.error(`Error in checkUserAndRedirect:,${error}`);
-      throw error; 
+      throw error;
     }
   };
   // 役職に基づいて適切な画面に遷移
@@ -133,23 +133,28 @@ export default function EmployeeLogin() {
 
   return (
     <div className='my-custom-font flex flex-col min-h-screen bg-white '>
-      <header className='bg-white text-white p-8 flex justify-between items-center '>
-        <div className='flex items-center space-x-6'>
-          <Link href='/'>
-            <img src='/logo/white_2.png' alt='SyncEra Logo' className='h-16' />
-          </Link>
-          <Link href='/'>
-            <button className='bg-gray-200 text-[#003366] border  px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
-              TOP
-            </button>
-          </Link>
-          <span className='text-[#003366]'> 〉</span>
-          <span className='text-[#003366] text-[20px]'>ログイン画面</span>
+      <header className='bg-white text-[#003366]p-4 md:p-4 flex items-center justify-between'>
+        <div className='flex items-center space-x-4'>
+          <img
+            src='/logo/white_2.png'
+            alt='SyncEra Logo'
+            className='h-[65px] w-[207px] mt-2 ml-2'
+          />
+
+          <div className='flex items-center space-x-2'>
+            <Link href='/'>
+              <button className='bg-gray-200 text-[#003366] border  px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
+                ホーム
+              </button>
+            </Link>
+            <span className='text-[#003366]'> 〉</span>
+            <span className='text-[#003366] text-[20px] font-bold'>ログイン画面</span>
+          </div>
         </div>
       </header>
       {/* ログインを配置 */}
       <form
-        className='bg-white p-[15px] md:p-[35px] rounded-lg shadow-2xl w-full max-w-md border-[4px] border-[#66b2ff] absolute left-[37%] top-[200px]'
+        className='bg-white p-4 md:p-8 rounded-lg shadow-2xl w-full max-w-md border-4 border-[#66b2ff] mx-auto mt-8'
         onSubmit={handleSubmit}
         autoComplete='off'
       >
@@ -187,7 +192,7 @@ export default function EmployeeLogin() {
         <div className='flex justify-center mb-2'>
           <button
             type='submit'
-            className=' bg-[#003366] text-white py-3 px-10 w-full rounded-full  hover:bg-[#002244] focus:outline-none'
+            className=' bg-[#003366] text-white py-3 px-10 w-full rounded-full  hover:bg-[#002244] focus:outline-none       active:transform active:translate-y-1  '
           >
             ログイン
           </button>{' '}

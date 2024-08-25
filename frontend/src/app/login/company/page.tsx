@@ -10,7 +10,8 @@ import '@/firebase/config';
 import clientLogger from '@/lib/clientLogger';
 import '@/app/login/globals.css';
 import { FirebaseError } from 'firebase/app';
-import Loading from '@/app/components/loading';
+import Loading from '@/components/loading';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 export default function CompanyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -84,33 +85,37 @@ export default function CompanyLogin() {
     return <Loading />;
   }
   return (
-    <div className='my-custom-font flex flex-col min-h-screen bg-white'>
-      <header className='bg-[#003366] text-white p-8 flex justify-between items-center'>
-        <div className='flex items-center space-x-6'>
-          <Link href='/'>
-            <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-16' />
-          </Link>
-          <div className='flex items-center space-x-6'>
+    <main className='min-h-screen flex flex-col bg-white text-gray-900'>
+      {/* Header */}
+      <header className='bg-[#003366] text-white p-4 md:p-4 flex items-center justify-between'>
+        <div className='flex items-center space-x-4'>
+          <img
+            src='/image/SyncEra(blue_white).png'
+            alt='SyncEra Logo'
+            className='h-[65px] w-[207px] mt-2 ml-2'
+          />
+          <div className='flex items-center space-x-2'>
             <Link href='/'>
-              <button className='bg-white text-[#003366] border border-[#003366] px-4 py-2 rounded hover:bg-gray-200 active:transform active:translate-y-1 transition-colors duration-300'>
-                TOP
+              <button className='bg-white text-[#003366] border border-[#003366] px-3 py-1 md:px-4 md:py-2 rounded text-sm md:text-base hover:bg-gray-200 active:transform active:translate-y-1 transition-colors duration-300'>
+                ホーム
               </button>
             </Link>
             <span className='text-white'> 〉</span>
-            <span className='text-white text-[20px]'>管理画面（ログイン）</span>
+            <span className='text-white text-sm md:text-[20px] font-bold'>
+              管理画面（ログイン）
+            </span>
           </div>
         </div>
       </header>
 
-      {/* ログインを配置 */}
-      <form
-        className='absolute left-[50%] top-[250px] translate-x-[-50%] w-full max-w-[300px]'
-        onSubmit={handleSubmit}
-        autoComplete='off'
-      >
-        <div className='flex flex-col items-center mb-2'>
-          <div className='w-full p-[0px] '>
-            <label className='block text-[#003366] text-[17px]  mb-2' htmlFor='email'>
+      <div className='flex-grow flex justify-center px-4 md:px-0'>
+        <form
+          className='bg-white p-4 md:p-8 w-full max-w-md mx-auto mt-20' // Adjusted mt-8 to mt-4
+          onSubmit={handleSubmit}
+          autoComplete='off'
+        >
+          <div className='mb-6'>
+            <label className='block text-[#003366] text-base md:text-[17px] mb-2' htmlFor='email'>
               ID(メールアドレス)
             </label>
             <input
@@ -118,13 +123,16 @@ export default function CompanyLogin() {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               placeholder='メールアドレスを入力してください'
-              className='shadow appearance-none border rounded mb-8 shadow-md w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline shadow-custom focus:ring focus:ring-[#66b2ff] focus:border-[#66b2ff]'
+              className='shadow appearance-none border rounded w-full py-2 md:py-3 px-3 text-[#003366] text-base md:text-[17px] leading-tight focus:outline-none focus:shadow-outline focus:ring focus:ring-[#66b2ff] focus:border-[#66b2ff]'
               required
               autoComplete='new-email'
             />
           </div>
-          <div className='w-full p-[0px] mb-[50px]'>
-            <label className='block text-[#003366] text-[17px]  mb-2' htmlFor='password'>
+          <div className='mb-[50px]'>
+            <label
+              className='block text-[#003366] text-base md:text-[17px] mb-2'
+              htmlFor='password'
+            >
               パスワード
             </label>
             <input
@@ -132,34 +140,34 @@ export default function CompanyLogin() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               placeholder='パスワードを入力してください'
-              className='shadow appearance-none border rounded shadow-md w-full py-3 px-3 text-[#003366] text-[17px] leading-tight focus:outline-none focus:shadow-outline shadow-custom focus:ring focus:ring-[#66b2ff] focus:border-[#66b2ff]'
+              className='shadow appearance-none border rounded w-full py-2 md:py-3 px-3 text-[#003366] text-base md:text-[17px] leading-tight focus:outline-none focus:shadow-outline focus:ring focus:ring-[#66b2ff] focus:border-[#66b2ff]'
               required
               autoComplete='new-password'
             />
           </div>
-          <div className='w-full items-center p-[0px] mb-0 '>
+          <div className='mb-6'>
             <button
               type='submit'
-              className='w-full bg-[#66b2ff] text-white text-[17px] py-2 px-3 rounded-full hover:bg-[#99ccff] focus:outline-none'
+              className=' bg-[#66b2ff] text-white py-3 px-10 w-full rounded-full  hover:hover:bg-blue-500 focus:outline-none       active:transform active:translate-y-1  '
             >
               ログイン
             </button>
           </div>
-        </div>
-        <div className='w-full p-[5px]'>
-          <p className='text-[15px] text-[#003366]'>
-            <Link href='/#contact'>
-              <span className='text-blue-500 underline ml-1'>パスワードお忘れの方</span>
-            </Link>
-          </p>
-          <p className='text-[15px] text-[#003366]'>
-            <Link href='/signup'>
-              アカウント登録がお済みでない場合は
-              <span className='text-blue-500 underline ml-1'>こちら</span>
-            </Link>
-          </p>
-        </div>
-      </form>
-    </div>
+          <div>
+            <p className='text-sm md:text-[15px] text-[#003366] mb-2'>
+              <Link href='/#contact'>
+                <span className='text-blue-500 underline ml-1'>パスワードお忘れの方</span>
+              </Link>
+            </p>
+            <p className='text-sm md:text-[15px] text-[#003366]'>
+              <Link href='/signup'>
+                アカウント登録がお済みでない場合は
+                <span className='text-blue-500 underline ml-1'>こちら</span>
+              </Link>
+            </p>
+          </div>
+        </form>
+      </div>
+    </main>
   );
 }

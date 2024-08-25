@@ -10,17 +10,17 @@ export default function PlanIntro() {
   };
 
   return (
-    <div className='flex flex-col items-center justify-center p-3 bg-white max-w-3xl mx-auto'>
-      <h1 className='text-4xl font-bold mb-8 text-center font-sans'>料金のご案内</h1>
+    <div className='flex flex-col items-center justify-center p-3 bg-white max-w-3xl mx-auto '>
+      <h1 className='text-4xl font-bold mb-8 text-center font-sans text-[#003366]'>料金のご案内</h1>
       <div className='flex flex-col md:flex-row gap-6 w-full mb-8'>
         <div className='flex-1 border rounded-lg p-8 shadow-lg hover:shadow-xl transition-shadow'>
           <h2 className='text-3xl font-semibold mb-4 text-center bg-white text-[#003366] border-b-2 border-[#66b2ff] font-sans'>
             月額
           </h2>
           <p className='text-center font-bold text-3xl mb-4 text-[#003366] font-sans'>
-            ¥1,000 / 月
+            ¥1,100 / 月
           </p>
-          <ul className='space-y-2 text-[17px] font-sans'>
+          <ul className='space-y-2 text-lg font-sans'>
             <li className='flex items-center'>
               <span className='flex justify-center items-center w-6 h-6 bg-white border border-[#66b2ff] rounded-full mr-2'>
                 <svg
@@ -75,11 +75,11 @@ export default function PlanIntro() {
           <p className='text-center font-bold text-3xl  mb-4 text-[#003366] font-sans'>
             ¥12,000 / 年
           </p>
-          <ul className='space-y-2 text-[17px]'>
+          <ul className='space-y-2 text-lg'>
             <li className='flex items-center '>
               <span className='flex justify-center items-center w-6 h-6 bg-white border border-[#66b2ff] rounded-full mr-2'>
                 <svg
-                  className='w-4 h-4 text-[#003366] font-sans'
+                  className='w-4 h-4 font-sans'
                   fill='none'
                   stroke='currentColor'
                   strokeWidth={2}
@@ -94,7 +94,7 @@ export default function PlanIntro() {
             <li className='flex items-center'>
               <span className='flex justify-center items-center w-6 h-6 bg-white border border-[#66b2ff] rounded-full mr-2'>
                 <svg
-                  className='w-4 h-4 text-[#003366] font-sans'
+                  className='w-4 h-4 font-sans'
                   fill='none'
                   stroke='currentColor'
                   strokeWidth={2}
@@ -109,7 +109,7 @@ export default function PlanIntro() {
             <li className='flex items-center'>
               <span className='flex justify-center items-center w-6 h-6 bg-white border border-[#66b2ff] rounded-full mr-2'>
                 <svg
-                  className='w-4 h-4 text-[#003366] font-sans'
+                  className='w-4 h-4  font-sans'
                   fill='none'
                   stroke='currentColor'
                   strokeWidth={2}
@@ -124,13 +124,13 @@ export default function PlanIntro() {
           </ul>
         </div>
       </div>
-      <p className='text-center text-gray-600 '>
+      <p className='text-center text-gray-600  text-lg '>
         どちらのプランも、すべての機能をご利用いただけます。
       </p>
       <Link href='/signup'>
         <button
           onClick={handleClick}
-          className='mt-8 px-6 py-3 bg-[#003366] text-white rounded hover:bg-[#002244] focus:outline-none mb-1 font-bold font-sans'
+          className='mt-8 px-6 py-3 bg-[#003366] text-white text-lg rounded hover:bg-[#002244] focus:outline-none mb-1 font-bold font-sans active:transform active:translate-y-1  '
         >
           アカウントを作成する
         </button>

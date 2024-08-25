@@ -1,14 +1,27 @@
 // frontend/src/app/canceled/page.tsx
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import LogoWblue from '@/components/payment/LogoWblue';
 import clientLogger from '@/lib/clientLogger';
+import Loading from '@/components/loading';
 
 export default function CanceledPage() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleBackClick = () => {
     clientLogger.info('ボタンクリック');
+    setIsLoading(true);
+
+    // 2秒後にホームページに遷移
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 2000);
   };
+
+  if (isLoading) {
+    return <Loading />; // ローディング中はLoadingコンポーネントを表示
+  }
 
   return (
     <div className='flex flex-col items-center justify-center min-h-screen p-4 bg-white'>
@@ -24,14 +37,12 @@ export default function CanceledPage() {
         <p className='text-lg mb-6 text-[#003366]'>
           新規登録、お支払いがキャンセルされました。もう一度やり直す場合は、ホームに戻ってください。
         </p>
-        <Link href='/'>
-          <button
-            onClick={handleBackClick}
-            className='mt-0 px-6 py-3 bg-[#003366] text-white rounded hover:bg-[#002244] focus:outline-none mb-20'
-          >
-            Back to Home
-          </button>
-        </Link>
+        <button
+          onClick={handleBackClick}
+          className='mt-0 px-6 py-3 bg-[#003366] text-white rounded hover:bg-[#002244] focus:outline-none mb-20   active:transform active:translate-y-1  '
+        >
+          ホーム
+        </button>
       </div>
     </div>
   );

@@ -10,7 +10,7 @@ import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import '@/app/signup/globals.css';
-import Loading from '../components/loading';
+import Loading from '../../components/loading';
 interface AdminClaimsResponse {
   message: string;
 }
@@ -78,18 +78,23 @@ export default function SignUp() {
 
   return (
     <div className='my-custom-font flex flex-col min-h-screen bg-white '>
-      <header className='bg-white text-white p-8 flex justify-between items-center '>
-        <div className='flex items-center space-x-6'>
-          <Link href='/'>
-            <img src='/logo/white_2.png' alt='SyncEra Logo' className='h-16' />
-          </Link>
-          <Link href='/'>
-            <button className='bg-gray-200 text-[#003366] border px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
-              TOP
-            </button>
-          </Link>
-          <span className='text-[#003366]'> 〉</span>
-          <span className='text-[#003366] text-[20px]'>新規登録画面</span>
+      <header className='bg-white text-[#003366]p-4 md:p-4 flex items-center justify-between'>
+        <div className='flex items-center space-x-4'>
+          <img
+            src='/logo/white_2.png'
+            alt='SyncEra Logo'
+            className='h-[65px] w-[207px] mt-2 ml-2'
+          />
+
+          <div className='flex items-center space-x-2'>
+            <Link href='/'>
+              <button className='bg-gray-200 text-[#003366] border px-4 py-2 rounded hover:bg-gray-300 active:transform active:translate-y-1 transition-colors duration-300'>
+                ホーム
+              </button>
+            </Link>
+            <span className='text-[#003366]'> 〉</span>
+            <span className='text-[#003366] text-[20px] font-bold'>新規登録画面</span>
+          </div>
         </div>
       </header>
 
@@ -100,7 +105,7 @@ export default function SignUp() {
         <h1 className='text-center text-2xl font-bold mb-4 text-[#003366]'>ご登録フォーム</h1>
         <div className='mb-2'>
           <label className='block text-[#003366] text-[17px] font-bold mb-0' htmlFor='companyName'>
-            社名・団体名
+            会社・団体名
           </label>
           <input
             type='text'
@@ -109,7 +114,7 @@ export default function SignUp() {
             value={companyName}
             onChange={(e) => setCompanyName(e.target.value)}
             className='input-with-icon-1 shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
-            placeholder='office_name'
+            placeholder='例）株式会社太陽'
             required
             autoComplete='off'
           />
@@ -126,7 +131,7 @@ export default function SignUp() {
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
               className='input-with-icon-2 shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
-              placeholder='name'
+              placeholder='例）山田'
               required
               autoComplete='off'
             />
@@ -142,7 +147,7 @@ export default function SignUp() {
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
               className='shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
-              placeholder=''
+              placeholder='花子'
               required
               autoComplete='off'
             />
@@ -159,7 +164,7 @@ export default function SignUp() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             className='input-with-icon-3 shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
-            placeholder='email'
+            placeholder='例）example@email.com'
             required
             autoComplete='off'
           />
@@ -175,7 +180,7 @@ export default function SignUp() {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className='input-with-icon-4 shadow appearance-none border rounded w-full py-2 px-3 text-[#003366] leading-tight focus:outline-none focus:shadow-outline'
-            placeholder='password'
+            placeholder='半角英数字'
             required
             autoComplete='off'
           />
@@ -183,7 +188,7 @@ export default function SignUp() {
         <div className='flex justify-center'>
           <button
             type='submit'
-            className=' bg-[#66b2ff] text-white py-2 px-[170px] rounded-full hover:bg-[#99ccff] focus:outline-none'
+            className=' bg-[#66b2ff] text-white py-2 px-[170px] rounded-full hover:bg-[#99ccff] focus:outline-none active:transform active:translate-y-1  '
           >
             次へ
           </button>

@@ -11,7 +11,7 @@ import clientLogger from '@/lib/clientLogger';
 import { getFunctions, httpsCallable } from 'firebase/functions';
 import SearchBar from '@/components/signup_and_login/SerchBer';
 import './globals.css';
-import Loading from '../components/loading';
+import Loading from '../../components/loading';
 const db = getFirestore(app);
 
 interface Employee {
@@ -155,7 +155,7 @@ export default function AdminDashboard() {
 
               <button
                 onClick={handleLogout}
-                className='w-[100px] bg-[#66b2ff] text-white py-2 rounded-lg text-[17px] '
+                className=' active:transform active:translate-y-1  bg-[#66B2FF] text-[17px] text-white px-4 py-2 rounded-lg border-[#66B2FF] font-bold hover:bg-blue-500 transition-colors duration-300  w-full'
               >
                 ログアウト
               </button>
@@ -179,10 +179,10 @@ export default function AdminDashboard() {
           className='w-full text py-2 flex  border-b-[2px] border-gray-300  items-center block'
         >
           <span className='mr-2'>
-            <img src='/admin-dashboard/assignment.png' alt='アプリTOP' className='w-8 h-8' />{' '}
+            <img src='/admin-dashboard/home.png' alt='アプリTOP' className='w-8 h-8' />{' '}
             {/* アプリTOPアイコン */}
           </span>
-          アプリTOP
+          ホーム
         </Link>
       </div>
 
@@ -193,7 +193,7 @@ export default function AdminDashboard() {
         <div className='flex-1 p-0 overflow-y-auto'>
           <div className='w-full bg-[#003366] text-white p-4 flex items-center justify-between'>
             <h1 className='text-3xl font-bold mb-4 mt-5 flex items-center'>
-              <img src='/admin-dashboard/home.png' alt='ホーム' className='w-8 h-8 mr-2' />
+              <img src='/admin-dashboard/assignment.png' alt='ホーム' className='w-8 h-8 mr-2' />
               利用者権限一覧
             </h1>
             <SearchBar onSearch={handleSearch} />
@@ -220,14 +220,14 @@ export default function AdminDashboard() {
                   <td className='py-2'>{employee.email}</td>
                   <td className='py-2'>
                     <Link href={`/admin-dashboard/update-employee?employeeId=${employee.id}`}>
-                      <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal'>
+                      <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal  active:transform active:translate-y-1 '>
                         更新
                       </button>
                     </Link>
 
                     <button
                       onClick={() => handleDelete(employee.id)}
-                      className='bg-[#7FBF7F] text-white hover:bg-[#377a00]  py-2 px-4  text-[17px] rounded-lg font-normal'
+                      className='bg-[#7FBF7F] text-white hover:bg-[#377a00]  py-2 px-4  text-[17px] rounded-lg font-normal  active:transform active:translate-y-1 '
                     >
                       削除
                     </button>

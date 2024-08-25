@@ -11,7 +11,7 @@ import app from '@/firebase/config'; // Firebase 初期化ファイルをイン�
 import clientLogger from '@/lib/clientLogger';
 import Link from 'next/link';
 import LogoutButton from '@/components/signup_and_login/LoguoutButton';
-import Loading from '../components/loading';
+import Loading from '../../components/loading';
 export default function ManagerDashboard() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);

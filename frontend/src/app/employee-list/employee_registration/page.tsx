@@ -1,13 +1,12 @@
-// // Loading画面をいれたい
-
 'use client';
 
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
-import LogoutButton from '@/components/signup_and_login/LoguoutButton';
+import LogoutButton from '@/components/signup_and_login/LogoutButton';
 import AuthRoute from '@/components/auth/AuthRoute';
-
+import HomeLink from '@/components/employeelist/HomeLink';
+import EmployeeLink from '@/components/employeelist/EmployeeLink';
+import LogoWhite from '@/components/employeelist/LogoWhite';
 export default function EmployeeRegister() {
   const router = useRouter();
   const [formData, setFormData] = useState({
@@ -69,21 +68,11 @@ export default function EmployeeRegister() {
     <AuthRoute requiredRole='manager'>
       <div className='min-h-screen flex'>
         <aside className='w-64 bg-[#003366] text-white p-6 flex flex-col'>
-          <div className='text-3xl font-bold mb-8'>
-            <img src='/image/SyncEra(blue_white).png' alt='SyncEra Logo' className='h-13' />
-          </div>
+          <LogoWhite />
           <nav className='flex-1'>
-            <ul className='space-y-6'>
-              <li>
-                <Link href='/employee-list' className='hover:underline text-lg'>
-                  社員一覧へ戻る
-                </Link>
-              </li>
-              <li>
-                <Link href='/' className='hover:underline text-lg'>
-                  ホームページへ戻る
-                </Link>
-              </li>
+            <ul className='space-y-6  mt-5'>
+              <EmployeeLink />
+              <HomeLink />
             </ul>
           </nav>
           <LogoutButton />
@@ -120,17 +109,17 @@ export default function EmployeeRegister() {
                     />
                   </div>
                 ))}
-                <div className='flex justify-between mt-8'>
+                <div className='flex justify-end mt-8 space-x-4'>
                   <button
                     type='submit'
-                    className='px-6 py-3 bg-[#003366] text-white text-lg rounded-md hover:bg-[#002244] shadow-md transition-colors duration-300'
+                    className='px-4 py-2 bg-[#003366] text-white text-lg rounded-md hover:bg-[#002244] shadow-md transition-colors duration-300'
                   >
                     登録
                   </button>
                   <button
                     type='button'
                     onClick={handleCancel}
-                    className='px-6 py-3 bg-gray-300 text-gray-700 text-lg rounded-md hover:bg-gray-400 shadow-md transition-colors duration-300'
+                    className='px-4 py-2 bg-gray-300 text-gray-700 text-lg rounded-md hover:bg-gray-400 shadow-md transition-colors duration-300'
                   >
                     キャンセル
                   </button>
