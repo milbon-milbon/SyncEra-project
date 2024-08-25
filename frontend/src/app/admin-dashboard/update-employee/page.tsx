@@ -224,11 +224,11 @@ export default function UpdateEmployee() {
                 </span>
               </div>
             </div>
-            <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal'>
+            <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal  active:transform active:translate-y-1 '>
               更新
             </button>
             <Link href='/admin-dashboard'>
-              <button className='bg-gray-300   hover:bg-[#c0c0c0] text-black py-2 px-4 rounded-lg ml-2 text-[17px]'>
+              <button className='bg-gray-300   hover:bg-[#c0c0c0] text-black py-2 px-4 rounded-lg ml-2 text-[17px]  active:transform active:translate-y-1 '>
                 戻る
               </button>
             </Link>

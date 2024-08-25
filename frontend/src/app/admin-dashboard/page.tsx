@@ -155,7 +155,7 @@ export default function AdminDashboard() {
 
               <button
                 onClick={handleLogout}
-                className='bg-[#66B2FF] text-[17px] text-white px-4 py-2 rounded-lg border-[#66B2FF] font-bold hover:bg-blue-500 transition-colors duration-300  w-full'
+                className=' active:transform active:translate-y-1  bg-[#66B2FF] text-[17px] text-white px-4 py-2 rounded-lg border-[#66B2FF] font-bold hover:bg-blue-500 transition-colors duration-300  w-full'
               >
                 ログアウト
               </button>
@@ -220,14 +220,14 @@ export default function AdminDashboard() {
                   <td className='py-2'>{employee.email}</td>
                   <td className='py-2'>
                     <Link href={`/admin-dashboard/update-employee?employeeId=${employee.id}`}>
-                      <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal'>
+                      <button className='bg-[#66b2ff] text-white py-2  px-4   hover:bg-blue-500 text-[17px]  rounded-lg mr-2 font-normal  active:transform active:translate-y-1 '>
                         更新
                       </button>
                     </Link>
 
                     <button
                       onClick={() => handleDelete(employee.id)}
-                      className='bg-[#7FBF7F] text-white hover:bg-[#377a00]  py-2 px-4  text-[17px] rounded-lg font-normal'
+                      className='bg-[#7FBF7F] text-white hover:bg-[#377a00]  py-2 px-4  text-[17px] rounded-lg font-normal  active:transform active:translate-y-1 '
                     >
                       削除
                     </button>
