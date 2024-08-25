@@ -130,7 +130,7 @@ export default function PlanIntro() {
       <Link href='/signup'>
         <button
           onClick={handleClick}
-          className='mt-8 px-6 py-3 bg-[#003366] text-white text-lg rounded hover:bg-[#002244] focus:outline-none mb-1 font-bold font-sans'
+          className='mt-8 px-6 py-3 bg-[#003366] text-white text-lg rounded hover:bg-[#002244] focus:outline-none mb-1 font-bold font-sans active:transform active:translate-y-1  '
         >
           アカウントを作成する
         </button>

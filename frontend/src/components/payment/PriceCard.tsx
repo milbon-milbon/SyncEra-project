@@ -32,7 +32,7 @@ export default function PriceCard({ image, name, priceId, amount, onSelect }: Pr
       <div className='flex justify-center'>
         <button
           onClick={() => handleSelectClick(priceId)}
-          className='bg-[#66b2ff] text-black py-2 px-4 rounded-full hover:bg-[#99ccff] focus:outline-none'
+          className='bg-[#66b2ff] text-black py-2 px-4 rounded-full hover:bg-[#99ccff] focus:outline-non active:transform active:translate-y-1  '
         >
           Select
         </button>
