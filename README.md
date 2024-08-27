@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/ms-engineer-bc24-06/SyncEra/blob/readme/versionup/docs/img/white_1.png)
+# ![Logo](https://github.com/ms-engineer-bc24-06/SyncEra/tree/dev/docs/img/white_1.png)
 
 お客様のビジネス成長を支援し、新たな価値を共に創造し、課題を解決するためのアプリケーションです。その名前は、さまざまな世代（Era）を同期（Sync）するというコンセプトに由来しています。
 
@@ -216,7 +216,7 @@ Redis はリストやセットなど、複数のデータ構造をサポート�
 
 ## 各種ドキュメント
 
-### [SyncEra/docs ディレクトリへ保存](https://github.com/ms-engineer-bc24-06/SyncEra/tree/readme/versionup/docs)
+### [SyncEra/docs ディレクトリへ保存](https://github.com/ms-engineer-bc24-06/SyncEra/tree/dev/docs)
 
 - プロダクト要求仕様書 (pdr.md)
 - 画面仕様書（WF）（WF.md）
@@ -224,16 +224,16 @@ Redis はリストやセットなど、複数のデータ構造をサポート�
 - API 設計書(api_design.json)
 - データベース構造(db_design.md)
 - ER 図(ER_0820.png)
-- アーキテクチャ図
+- アーキテクチャ図(architecture_diagram.png)
 - コーディング規約(coding_rules.md)
 - ESLint 各環境での設定方法（ESLint.md）
-- 非機能要件の表
+- 非機能要件設計書(nonfunctional_requirements.md)
 - 負荷テスト実施結果(jmeter_scenario.md)
-- E2E テスト（概要、結果）
+- E2E テスト（概要、結果）(E2E_scenario.md)
 
 - 全て統合した compose を立ち上げる手順(standing_procedure.md)
 
 ## 参考資料
 
 - SyncEra/docs ディレクトリ><br>
-  プロダクト要求仕様書 (pdr.md)><br>[関係資料（issue の調査）](https://github.com/ms-engineer-bc24-06/SyncEra/tree/readme/versionup/docs/pdr.md)
+  プロダクト要求仕様書 (pdr.md)><br>[関係資料（issue の調査）](https://github.com/ms-engineer-bc24-06/SyncEra/tree/dev/docs/pdr.md)

@@ -65,7 +65,7 @@
 
 ## 3. 機能要件
 
-![ 全体設計図（仮）](img\designdrawing.png)
+![ 全体設計図（仮）](https://github.com/ms-engineer-bc24-06/SyncEra/tree/dev/docs/img/designdrawing.png)
 
 ### 3.1 認証認可(kumi)
 
