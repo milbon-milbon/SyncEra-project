@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/ms-engineer-bc24-06/SyncEra/tree/dev/docs/img/white_1.png)
+# ![Logo](https://github.com/ms-engineer-bc24-06/SyncEra/blob/dev/docs/img/white_1.png)
 
 お客様のビジネス成長を支援し、新たな価値を共に創造し、課題を解決するためのアプリケーションです。その名前は、さまざまな世代（Era）を同期（Sync）するというコンセプトに由来しています。
 
@@ -216,7 +216,7 @@ Redis はリストやセットなど、複数のデータ構造をサポート�
 
 ## 各種ドキュメント
 
-### [SyncEra/docs ディレクトリへ保存](https://github.com/ms-engineer-bc24-06/SyncEra/tree/dev/docs)
+### [SyncEra/docs ディレクトリへ保存](https://github.com/ms-engineer-bc24-06/SyncEra/blob/dev/docs)
 
 - プロダクト要求仕様書 (pdr.md)
 - 画面仕様書（WF）（WF.md）
@@ -236,4 +236,4 @@ Redis はリストやセットなど、複数のデータ構造をサポート�
 ## 参考資料
 
 - SyncEra/docs ディレクトリ><br>
-  プロダクト要求仕様書 (pdr.md)><br>[関係資料（issue の調査）](https://github.com/ms-engineer-bc24-06/SyncEra/tree/dev/docs/pdr.md)
+  プロダクト要求仕様書 (pdr.md)><br>[関係資料（issue の調査）](https://github.com/ms-engineer-bc24-06/SyncEra/blob/dev/docs/pdr.md)
