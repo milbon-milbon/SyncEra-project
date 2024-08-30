@@ -1,4 +1,4 @@
-# ![Logo](https://github.com/ms-engineer-bc24-06/SyncEra/blob/dev/docs/img/white_1.png)
+# ![](https://github.com/ms-engineer-bc24-06/SyncEra/blob/dev/docs/img/white_1.png)
 
 お客様のビジネス成長を支援し、新たな価値を共に創造し、課題を解決するためのアプリケーションです。その名前は、さまざまな世代（Era）を同期（Sync）するというコンセプトに由来しています。
 
