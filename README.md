@@ -3,7 +3,7 @@
 お客様のビジネス成長を支援し、新たな価値を共に創造し、課題を解決するためのアプリケーションです。その名前は、さまざまな世代（Era）を同期（Sync）するというコンセプトに由来しています。
 
 ## アプリの概要
-# ![demo](![SyncEra__-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/98f3c344-2723-452f-8483-9899225ac9c0))
+# ![SyncEra__-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/98f3c344-2723-452f-8483-9899225ac9c0)
 メンバーの日々の業務内容を要約し、マネージャーや育成担当とメンバーのコミュニケーションを円滑にして、エンゲージメントを向上させるコミュニケーション支援ツールです。
 
 ## アプリを作成した目的や背景
