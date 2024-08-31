@@ -22,6 +22,7 @@ def get_all_employee():
     cached_data = redis_client.get(CACHE_KEY)
     if cached_data:
         logger.info(f"◆キャッシュから全ての社員情報を取得しました。")
+        logger.info(f"社員情報: {json.loads(cached_data)}")
         return json.loads(cached_data)
     
     # キャッシュなければdbから取得

@@ -5,6 +5,7 @@ import uuid
 from .database import Base
 from sqlalchemy.sql import func
 from sqlalchemy.orm import relationship
+from datetime import datetime
 
 Base = declarative_base()
 
@@ -30,6 +31,7 @@ class Employee(Base):
             "department": self.department,
             "role": self.role,
             "project": self.project,
+            "slack_user_id": self.slack_user_id,  # Add slack_user_id if necessary
             "slack_user_info": self.slack_user_info.to_dict() if self.slack_user_info else None,
         }
 
@@ -65,6 +67,15 @@ class DailyReport(Base):
 
     def __repr__(self):
         return f"<DailyReport(id={self.id}, user_id={self.user_id}, text={self.text}, ts={self.ts}, created_at={self.created_at})>"
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "slack_user_id": self.slack_user_id,
+            "text": self.text,
+            "ts": self.ts,
+            "created_at": self.created_at, 
+        }
 
 class TimesTweet(Base):
     __tablename__ = 'times_tweet'
@@ -80,6 +91,18 @@ class TimesTweet(Base):
 
     def __repr__(self):
         return f"<TimesTweet(id={self.id}, user_id={self.user_id}, text={self.text}, created_at={self.created_at})>"
+    
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "channel_id": self.channel_id,
+            "slack_user_id": self.slack_user_id,
+            "text": self.text,
+            "ts": self.ts,
+            "thread_ts": self.thread_ts,
+            "parent_user_id": self.parent_user_id,
+            "created_at": self.created_at, 
+        }
 
 class TimesList(Base):
     __tablename__ = 'times_list'
@@ -112,6 +135,13 @@ class SummarizeHistory(Base):
     def __repr__(self):
         return f"<SummarizeHistory(id={self.id}, slack_user_id={self.slack_user_id}, summary='{self.summary}', created_at={self.created_at})>"
 
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "slack_user_id": self.slack_user_id,
+            "summary": self.summary,
+            "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S') if self.created_at else None
+        }
 class AdvicesHistory(Base):
     __tablename__ = 'advices_history'
 
@@ -123,6 +153,14 @@ class AdvicesHistory(Base):
     slack_user_info = relationship("SlackUserInfo", back_populates="advices_histories")
     def __repr__(self):
         return f"<AdvicesHistory(id={self.id}, slack_user_id={self.slack_user_id}, advices='{self.advices}', created_at={self.created_at})>"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "slack_user_id": self.slack_user_id,
+            "advices": self.advices,
+            "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S') if self.created_at else None,
+        }
 
 
 # ここからcareer_survey用の定義
@@ -173,3 +211,11 @@ class AnalysisResult(Base):
 
     def __repr__(self):
         return f"<AnalysisResult(id={self.id}, slack_user_id={self.slack_user_id}, result={self.result}, created_at={self.created_at})>"
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "slack_user_id": self.slack_user_id,
+            "result": self.result,
+            "created_at": self.created_at.strftime('%Y-%m-%d %H:%M:%S') if self.created_at else None
+        }
