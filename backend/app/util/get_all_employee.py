@@ -1,9 +1,11 @@
 import logging
 import os
+import json
 from dotenv import load_dotenv
 from sqlalchemy.orm import joinedload
 from app.db.database import get_db
 from app.db.models import Employee
+from app.services.redis_client import redis_client
 
 load_dotenv()
 
@@ -11,19 +13,29 @@ log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
+CACHE_KEY = 'all_employee_info'
+
 # すべての従業員の情報を取得する
 def get_all_employee():
+
+    # キャッシュあればRedisから取得
+    cached_data = redis_client.get(CACHE_KEY)
+    if cached_data:
+        logger.info(f"◆キャッシュから全ての社員情報を取得しました。")
+        return json.loads(cached_data)
     
-    # データベースからuser情報を取得してくる
+    # キャッシュなければdbから取得
     db = get_db()
     try:
         # SlackUserInfoを含めたクエリを実行
         all_members = db.query(Employee).options(joinedload(Employee.slack_user_info)).all()
-        # all_members = db.query(Employee).all()
-        logger.debug(f"◆DBから全ての従業員の情報を取得できました。")
+        logger.info(f"◆DBから全ての従業員の情報を取得できました。")
+
+        redis_client.set(CACHE_KEY, json.dumps([member.to_dict() for member in all_members]), ex=2592000) #有効期限:30日間に設定
+
         return all_members
-    except Exception:
-        logger.error(f"◆従業員の情報を取得中にエラーが発生しました。: {Exception}")
+    except Exception as e:
+        logger.error(f"◆従業員の情報を取得中にエラーが発生しました。: {str(e)}")
         return[]
     finally:
         db.close()

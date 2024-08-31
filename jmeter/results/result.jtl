@@ -3346,3 +3346,203 @@ timeStamp,elapsed,label,responseCode,responseMessage,threadName,dataType,success
 1724644884487,30024,HTTP Request 1,500,Internal Server Error,User Group 1-98,text,false,,174,151,3,3,http://backend:8000/client/print_all_advices/sample_4/,30023,0,3
 1724644885478,30018,HTTP Request 1,500,Internal Server Error,User Group 1-99,text,false,,174,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,30017,0,1
 1724644886486,30010,HTTP Request 1,500,Internal Server Error,User Group 1-100,text,false,,174,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,30010,0,4
+1724893030580,4,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-5,text,false,,2645,0,5,5,http://backend:8000/client/print_all_advices/sample_4/,0,0,4
+1724893029654,773,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-1,text,false,,2645,0,4,4,http://backend:8000/client/print_all_advices/sample_4/,0,0,759
+1724893029654,770,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-2,text,false,,2645,0,4,4,http://backend:8000/client/print_all_advices/sample_4/,0,0,759
+1724893029654,766,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-4,text,false,,2645,0,4,4,http://backend:8000/client/print_all_advices/sample_4/,0,0,757
+1724893029654,766,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-3,text,false,,2645,0,4,4,http://backend:8000/client/print_all_advices/sample_4/,0,0,759
+1724893031490,10,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-6,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,9
+1724893032515,9,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-7,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,7
+1724893033452,11,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-8,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,11
+1724893034432,1,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-9,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,1
+1724893035437,7,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-10,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,7
+1724893036407,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-11,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1724893037418,10,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-12,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,10
+1724893038398,7,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-13,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,6
+1724893039351,5,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-14,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,4
+1724893040383,5,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-15,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,4
+1724893041380,4,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-16,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,4
+1724893042327,3,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-17,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1724893043327,6,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-18,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,6
+1724893044319,5,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-19,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,5
+1724893045321,162,HTTP Request 1,200,OK,User Group 1-20,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,122,0,3
+1724893046321,54,HTTP Request 1,200,OK,User Group 1-21,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,53,0,6
+1724893047309,9,HTTP Request 1,200,OK,User Group 1-22,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,9,0,2
+1724893048349,67,HTTP Request 1,200,OK,User Group 1-23,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,67,0,3
+1724893049323,36,HTTP Request 1,200,OK,User Group 1-24,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,36,0,4
+1724893050314,31,HTTP Request 1,200,OK,User Group 1-25,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,31,0,2
+1724893051317,25,HTTP Request 1,200,OK,User Group 1-26,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,24,0,4
+1724893052400,50,HTTP Request 1,200,OK,User Group 1-27,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,50,0,4
+1724893053354,97,HTTP Request 1,200,OK,User Group 1-28,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,97,0,16
+1724893054363,16,HTTP Request 1,200,OK,User Group 1-29,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,16,0,5
+1724893055428,34,HTTP Request 1,200,OK,User Group 1-30,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,34,0,4
+1724893056352,23,HTTP Request 1,200,OK,User Group 1-31,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,22,0,9
+1724893057312,15,HTTP Request 1,200,OK,User Group 1-32,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,15,0,8
+1724893058308,21,HTTP Request 1,200,OK,User Group 1-33,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,21,0,3
+1724893059322,49,HTTP Request 1,200,OK,User Group 1-34,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,49,0,7
+1724893060315,36,HTTP Request 1,200,OK,User Group 1-35,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,36,0,14
+1724893061305,38,HTTP Request 1,200,OK,User Group 1-36,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,38,0,4
+1724893062323,71,HTTP Request 1,200,OK,User Group 1-37,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,71,0,7
+1724893063332,34,HTTP Request 1,200,OK,User Group 1-38,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,34,0,4
+1724893064351,23,HTTP Request 1,200,OK,User Group 1-39,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,23,0,6
+1724893065342,47,HTTP Request 1,200,OK,User Group 1-40,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,47,0,4
+1724893066326,34,HTTP Request 1,200,OK,User Group 1-41,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,33,0,6
+1724893067322,21,HTTP Request 1,200,OK,User Group 1-42,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,21,0,5
+1724893068346,40,HTTP Request 1,200,OK,User Group 1-43,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,38,0,4
+1724893069350,46,HTTP Request 1,200,OK,User Group 1-44,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,46,0,4
+1724893070317,42,HTTP Request 1,200,OK,User Group 1-45,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,41,0,21
+1724893071423,369,HTTP Request 1,200,OK,User Group 1-46,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,368,0,31
+1724893072445,44,HTTP Request 1,200,OK,User Group 1-47,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,44,0,6
+1724893073346,24,HTTP Request 1,200,OK,User Group 1-48,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,24,0,6
+1724893074357,51,HTTP Request 1,200,OK,User Group 1-49,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,51,0,7
+1724893075327,17,HTTP Request 1,200,OK,User Group 1-50,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,17,0,7
+1724893076316,18,HTTP Request 1,200,OK,User Group 1-51,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,18,0,2
+1724893077322,72,HTTP Request 1,200,OK,User Group 1-52,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,72,0,4
+1724893078419,47,HTTP Request 1,200,OK,User Group 1-53,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,47,0,1
+1724893079407,89,HTTP Request 1,200,OK,User Group 1-54,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,88,0,4
+1724893080543,514,HTTP Request 1,200,OK,User Group 1-55,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,495,0,25
+1724893081412,65,HTTP Request 1,200,OK,User Group 1-56,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,65,0,15
+1724893082426,1746,HTTP Request 1,200,OK,User Group 1-57,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,1703,0,12
+1724893084333,183,HTTP Request 1,200,OK,User Group 1-59,text,true,,457,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,181,0,5
+1724893084325,191,HTTP Request 1,200,OK,User Group 1-58,text,true,,457,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,189,0,9
+1724893085396,84,HTTP Request 1,200,OK,User Group 1-60,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,84,0,10
+1724893086325,100,HTTP Request 1,200,OK,User Group 1-61,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,100,0,18
+1724893087372,101,HTTP Request 1,200,OK,User Group 1-62,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,97,0,7
+1724893088396,58,HTTP Request 1,200,OK,User Group 1-63,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,57,0,17
+1724893089326,21,HTTP Request 1,200,OK,User Group 1-64,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,21,0,6
+1724893090300,43,HTTP Request 1,200,OK,User Group 1-65,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,42,0,17
+1724893091333,34,HTTP Request 1,200,OK,User Group 1-66,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,34,0,22
+1724893092318,30,HTTP Request 1,200,OK,User Group 1-67,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,29,0,3
+1724893093351,213,HTTP Request 1,200,OK,User Group 1-68,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,212,0,5
+1724893094340,90,HTTP Request 1,200,OK,User Group 1-69,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,89,0,7
+1724893095348,116,HTTP Request 1,200,OK,User Group 1-70,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,116,0,16
+1724893096391,90,HTTP Request 1,200,OK,User Group 1-71,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,90,0,7
+1724893098324,37,HTTP Request 1,200,OK,User Group 1-73,text,true,,457,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,37,0,4
+1724893097323,1038,HTTP Request 1,200,OK,User Group 1-72,text,true,,457,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,1038,0,3
+1724893099362,27,HTTP Request 1,200,OK,User Group 1-74,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,27,0,6
+1724893100352,36,HTTP Request 1,200,OK,User Group 1-75,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,36,0,5
+1724893101322,7,HTTP Request 1,200,OK,User Group 1-76,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,7,0,1
+1724893102350,68,HTTP Request 1,200,OK,User Group 1-77,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,68,0,6
+1724893103310,62,HTTP Request 1,200,OK,User Group 1-78,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,62,0,2
+1724893104326,78,HTTP Request 1,200,OK,User Group 1-79,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,78,0,6
+1724893105306,35,HTTP Request 1,200,OK,User Group 1-80,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,35,0,4
+1724893106346,2106,HTTP Request 1,200,OK,User Group 1-81,text,true,,457,151,3,3,http://backend:8000/client/print_all_advices/sample_4/,2106,0,6
+1724893107319,1132,HTTP Request 1,200,OK,User Group 1-82,text,true,,457,151,3,3,http://backend:8000/client/print_all_advices/sample_4/,1132,0,9
+1724893108365,110,HTTP Request 1,200,OK,User Group 1-83,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,110,0,20
+1724893109352,27,HTTP Request 1,200,OK,User Group 1-84,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,27,0,8
+1724893110317,14,HTTP Request 1,200,OK,User Group 1-85,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,14,0,5
+1724893111339,27,HTTP Request 1,200,OK,User Group 1-86,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,27,0,4
+1724893112336,13,HTTP Request 1,200,OK,User Group 1-87,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,13,0,3
+1724893113357,93,HTTP Request 1,200,OK,User Group 1-88,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,93,0,8
+1724893115338,1996,HTTP Request 1,200,OK,User Group 1-90,text,true,,457,151,4,4,http://backend:8000/client/print_all_advices/sample_4/,1996,0,3
+1724893114303,3031,HTTP Request 1,200,OK,User Group 1-89,text,true,,457,151,4,4,http://backend:8000/client/print_all_advices/sample_4/,3030,0,2
+1724893116298,1036,HTTP Request 1,200,OK,User Group 1-91,text,true,,457,151,4,4,http://backend:8000/client/print_all_advices/sample_4/,1035,0,1
+1724893117314,27,HTTP Request 1,200,OK,User Group 1-92,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,27,0,1
+1724893118326,50,HTTP Request 1,200,OK,User Group 1-93,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,50,0,5
+1724893119310,17,HTTP Request 1,200,OK,User Group 1-94,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,16,0,4
+1724893122350,2021,HTTP Request 1,200,OK,User Group 1-97,text,true,,457,151,5,5,http://backend:8000/client/print_all_advices/sample_4/,2020,0,10
+1724893120317,4054,HTTP Request 1,200,OK,User Group 1-95,text,true,,457,151,5,5,http://backend:8000/client/print_all_advices/sample_4/,4053,0,5
+1724893121317,3054,HTTP Request 1,200,OK,User Group 1-96,text,true,,457,151,5,5,http://backend:8000/client/print_all_advices/sample_4/,3053,0,6
+1724893123332,30075,HTTP Request 1,500,Internal Server Error,User Group 1-98,text,false,,174,151,3,3,http://backend:8000/client/print_all_advices/sample_4/,30073,0,7
+1724893124349,30029,HTTP Request 1,500,Internal Server Error,User Group 1-99,text,false,,174,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,30028,0,2
+1724893125334,30037,HTTP Request 1,500,Internal Server Error,User Group 1-100,text,false,,174,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,30037,0,12
+1725060853286,40,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-1,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,39
+1725060853720,7,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-2,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,7
+1725060854686,6,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-3,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,5
+1725060855678,3,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-4,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060856721,8,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-5,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,8
+1725060857703,5,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-6,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,4
+1725060858671,3,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-7,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060859658,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-8,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1725060860668,4,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-9,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,4
+1725060861666,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-10,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,1
+1725060862667,4,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-11,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060863654,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-12,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1725060864667,6,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-13,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,5
+1725060865678,3,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-14,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060866668,6,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-15,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,5
+1725060867659,3,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-16,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060868668,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-17,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1725060869657,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-18,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1725060870664,3,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-19,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060871661,6,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-20,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060872690,6,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-21,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,6
+1725060873654,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-22,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1725060874713,3,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-23,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060875688,1,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-24,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,1
+1725060876682,5,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-25,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,4
+1725060877664,2,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-26,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1725060878664,5,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-27,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,5
+1725060879713,13,HTTP Request 1,Non HTTP response code: org.apache.http.conn.HttpHostConnectException,Non HTTP response message: Connect to backend:8000 [backend/192.168.80.5] failed: Connection refused (Connection refused),User Group 1-28,text,false,,2645,0,1,1,http://backend:8000/client/print_all_advices/sample_4/,0,0,13
+1725060880664,114,HTTP Request 1,200,OK,User Group 1-29,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,89,0,6
+1725060881667,13,HTTP Request 1,200,OK,User Group 1-30,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,12,0,3
+1725060882757,67,HTTP Request 1,200,OK,User Group 1-31,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,67,0,6
+1725060883671,12,HTTP Request 1,200,OK,User Group 1-32,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,12,0,7
+1725060884670,8,HTTP Request 1,200,OK,User Group 1-33,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,8,0,1
+1725060885662,24,HTTP Request 1,200,OK,User Group 1-34,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,23,0,3
+1725060886658,19,HTTP Request 1,200,OK,User Group 1-35,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,19,0,2
+1725060887662,25,HTTP Request 1,200,OK,User Group 1-36,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,25,0,2
+1725060888671,6,HTTP Request 1,200,OK,User Group 1-37,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,6,0,1
+1725060889683,19,HTTP Request 1,200,OK,User Group 1-38,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,19,0,4
+1725060890672,40,HTTP Request 1,200,OK,User Group 1-39,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,40,0,4
+1725060891669,21,HTTP Request 1,200,OK,User Group 1-40,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,21,0,2
+1725060892683,16,HTTP Request 1,200,OK,User Group 1-41,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,16,0,2
+1725060893680,21,HTTP Request 1,200,OK,User Group 1-42,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,21,0,4
+1725060894671,6,HTTP Request 1,200,OK,User Group 1-43,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,5,0,2
+1725060895671,15,HTTP Request 1,200,OK,User Group 1-44,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,15,0,3
+1725060896659,19,HTTP Request 1,200,OK,User Group 1-45,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,19,0,4
+1725060897677,297,HTTP Request 1,200,OK,User Group 1-46,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,296,0,8
+1725060898678,18,HTTP Request 1,200,OK,User Group 1-47,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,17,0,2
+1725060899688,16,HTTP Request 1,200,OK,User Group 1-48,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,16,0,2
+1725060900660,78,HTTP Request 1,200,OK,User Group 1-49,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,78,0,5
+1725060901660,30,HTTP Request 1,200,OK,User Group 1-50,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,30,0,4
+1725060902659,13,HTTP Request 1,200,OK,User Group 1-51,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,12,0,2
+1725060903664,13,HTTP Request 1,200,OK,User Group 1-52,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,13,0,3
+1725060904653,11,HTTP Request 1,200,OK,User Group 1-53,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,11,0,4
+1725060905653,15,HTTP Request 1,200,OK,User Group 1-54,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,15,0,2
+1725060906649,5,HTTP Request 1,200,OK,User Group 1-55,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,5,0,2
+1725060907657,38,HTTP Request 1,200,OK,User Group 1-56,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,38,0,2
+1725060908655,32,HTTP Request 1,200,OK,User Group 1-57,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,31,0,1
+1725060909656,16,HTTP Request 1,200,OK,User Group 1-58,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,16,0,2
+1725060910662,22,HTTP Request 1,200,OK,User Group 1-59,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,22,0,2
+1725060911654,5,HTTP Request 1,200,OK,User Group 1-60,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,5,0,1
+1725060912656,5,HTTP Request 1,200,OK,User Group 1-61,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,5,0,1
+1725060913658,23,HTTP Request 1,200,OK,User Group 1-62,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,23,0,7
+1725060914655,7,HTTP Request 1,200,OK,User Group 1-63,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,7,0,4
+1725060915654,8,HTTP Request 1,200,OK,User Group 1-64,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,8,0,3
+1725060916654,31,HTTP Request 1,200,OK,User Group 1-65,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,31,0,4
+1725060917658,11,HTTP Request 1,200,OK,User Group 1-66,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,11,0,1
+1725060918663,18,HTTP Request 1,200,OK,User Group 1-67,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,18,0,2
+1725060919667,22,HTTP Request 1,200,OK,User Group 1-68,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,22,0,5
+1725060920665,5,HTTP Request 1,200,OK,User Group 1-69,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,5,0,1
+1725060921663,7,HTTP Request 1,200,OK,User Group 1-70,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,7,0,1
+1725060922656,8,HTTP Request 1,200,OK,User Group 1-71,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,8,0,2
+1725060923677,7,HTTP Request 1,200,OK,User Group 1-72,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,7,0,1
+1725060924670,8,HTTP Request 1,200,OK,User Group 1-73,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,8,0,1
+1725060925669,12,HTTP Request 1,200,OK,User Group 1-74,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,12,0,1
+1725060926654,7,HTTP Request 1,200,OK,User Group 1-75,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,7,0,0
+1725060927697,17,HTTP Request 1,200,OK,User Group 1-76,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,17,0,2
+1725060928694,18,HTTP Request 1,200,OK,User Group 1-77,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,18,0,0
+1725060929654,4,HTTP Request 1,200,OK,User Group 1-78,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,4,0,1
+1725060930708,9,HTTP Request 1,200,OK,User Group 1-79,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,9,0,3
+1725060931696,7,HTTP Request 1,200,OK,User Group 1-80,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,7,0,1
+1725060932695,5,HTTP Request 1,200,OK,User Group 1-81,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,5,0,0
+1725060933694,10,HTTP Request 1,200,OK,User Group 1-82,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,9,0,1
+1725060934694,29,HTTP Request 1,200,OK,User Group 1-83,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,28,0,2
+1725060935693,10,HTTP Request 1,200,OK,User Group 1-84,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,10,0,1
+1725060936760,17,HTTP Request 1,200,OK,User Group 1-85,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,16,0,3
+1725060937720,987,HTTP Request 1,200,OK,User Group 1-86,text,true,,457,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,987,0,4
+1725060938697,13,HTTP Request 1,200,OK,User Group 1-87,text,true,,457,151,2,2,http://backend:8000/client/print_all_advices/sample_4/,13,0,3
+1725060939725,10,HTTP Request 1,200,OK,User Group 1-88,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,9,0,2
+1725060940670,10,HTTP Request 1,200,OK,User Group 1-89,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,10,0,2
+1725060941665,4,HTTP Request 1,200,OK,User Group 1-90,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,4,0,0
+1725060942663,8,HTTP Request 1,200,OK,User Group 1-91,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,8,0,2
+1725060943660,20,HTTP Request 1,200,OK,User Group 1-92,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,20,0,2
+1725060944669,17,HTTP Request 1,200,OK,User Group 1-93,text,true,,457,151,1,1,http://backend:8000/client/print_all_advices/sample_4/,16,0,3
+1725060949681,7646,HTTP Request 1,Non HTTP response code: java.net.SocketException,Non HTTP response message: Connection reset,User Group 1-98,text,false,,2437,0,7,7,http://backend:8000/client/print_all_advices/sample_4/,0,0,2
+1725060947671,9656,HTTP Request 1,Non HTTP response code: java.net.SocketException,Non HTTP response message: Connection reset,User Group 1-96,text,false,,2437,0,7,7,http://backend:8000/client/print_all_advices/sample_4/,0,0,1
+1725060951674,5653,HTTP Request 1,Non HTTP response code: java.net.SocketException,Non HTTP response message: Connection reset,User Group 1-100,text,false,,2437,0,7,7,http://backend:8000/client/print_all_advices/sample_4/,0,0,5
+1725060950678,6649,HTTP Request 1,Non HTTP response code: java.net.SocketException,Non HTTP response message: Connection reset,User Group 1-99,text,false,,2437,0,7,7,http://backend:8000/client/print_all_advices/sample_4/,0,0,3
+1725060948667,8661,HTTP Request 1,Non HTTP response code: java.net.SocketException,Non HTTP response message: Connection reset,User Group 1-97,text,false,,2437,0,7,7,http://backend:8000/client/print_all_advices/sample_4/,0,0,5
+1725060946659,10710,HTTP Request 1,Non HTTP response code: org.apache.http.NoHttpResponseException,Non HTTP response message: backend:8000 failed to respond,User Group 1-95,text,false,,2055,0,2,2,http://backend:8000/client/print_all_advices/sample_4/,0,0,1
+1725060945672,11697,HTTP Request 1,Non HTTP response code: org.apache.http.NoHttpResponseException,Non HTTP response message: backend:8000 failed to respond,User Group 1-94,text,false,,2055,0,2,2,http://backend:8000/client/print_all_advices/sample_4/,0,0,2

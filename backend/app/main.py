@@ -3,7 +3,6 @@ import os
 import json
 from dotenv import load_dotenv
 from fastapi.middleware.cors import CORSMiddleware
-# backend/app/main.py
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.orm import Session
@@ -19,7 +18,8 @@ from slack_sdk.errors import SlackApiError
 from app.db.database import get_db
 from app.db.models import Question, UserResponse
 from app.routers import frontend_requests
-from redis import Redis
+# from redis import Redis
+from app.services.redis_client import redis_client
 
 # 環境変数の読み込み
 load_dotenv()
@@ -30,9 +30,9 @@ logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelnam
 logger = logging.getLogger(__name__)
 
 # redisの接続設定
-REDIS_HOST = os.getenv("REDIS_HOST", "redis")
-REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
-redis_client = Redis(host=REDIS_HOST, port=REDIS_PORT)
+# REDIS_HOST = os.getenv("REDIS_HOST", "redis")
+# REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+# redis_client = Redis(host=REDIS_HOST, port=REDIS_PORT)
 
 # Slack APIトークンを設定
 SLACK_TOKEN = os.getenv("SLACK_API_KEY")

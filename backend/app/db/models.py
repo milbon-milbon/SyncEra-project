@@ -22,6 +22,17 @@ class Employee(Base):
     slack_user_info = relationship("SlackUserInfo", back_populates="employee")
     responses = relationship("UserResponse", back_populates="employee")
 
+    def to_dict(self):
+        return {
+            "id": str(self.id),
+            "name": self.name,
+            "email": self.email,
+            "department": self.department,
+            "role": self.role,
+            "project": self.project,
+            "slack_user_info": self.slack_user_info.to_dict() if self.slack_user_info else None,
+        }
+
 class SlackUserInfo(Base):
     __tablename__ = 'slack_user_info'
 
@@ -34,6 +45,14 @@ class SlackUserInfo(Base):
     analysis_results = relationship("AnalysisResult", back_populates="slack_user_info")
     summarize_histories = relationship("SummarizeHistory", back_populates="slack_user_info")
     advices_histories = relationship("AdvicesHistory", back_populates="slack_user_info")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "name": self.name,
+            "real_name": self.real_name,
+            "image_512": self.image_512
+        }
 
 class DailyReport(Base):
     __tablename__ = 'daily_report'
