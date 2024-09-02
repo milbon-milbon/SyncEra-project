@@ -74,6 +74,32 @@ services:
       - "6379:6379"
     networks:
       - app-network
+  
+  playwright: # Playwrightサービスの追加
+    image: mcr.microsoft.com/playwright:focal
+    container_name: playwright
+    working_dir: /e2e
+    volumes:
+      - ./e2e:/e2e
+    env_file:
+      - .env
+    networks:
+      - app-network
+    depends_on:
+      - frontend
+      - backend
+    command: ["npx", "playwright", "test"]
+
+  jmeter:
+    build:
+      context: ./jmeter
+    container_name: jmeter
+    volumes:
+      - ./jmeter/results:/results
+    networks:
+      - app-network
+
+
 
 networks:
   app-network:

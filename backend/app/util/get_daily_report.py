@@ -5,6 +5,7 @@ from sqlalchemy import and_
 from app.db.models import DailyReport
 from datetime import date, datetime
 from app.db.database import get_db
+from app.services.redis_client import redis_client
 
 load_dotenv()
 
@@ -34,6 +35,15 @@ def get_daily_report(slack_user_id: str, start_date:date, end_date:date):
     logger.debug(f"start_data: {start_date} => start: {start_datetime}")
     logger.debug(f"end_date: {end_date} => end: {end_datetime}")
 
+    # キャッシュキーの生成
+    cache_key = f"daily_report:{slack_user_id}:{start_date}:{end_date}"
+
+    # キャッシュからデータを取得
+    cached_report = redis_client.get(cache_key)
+    if cached_report:
+        logger.debug("◆キャッシュから日報データを取得しました。")
+        return cached_report
+
     # データベースから指定したユーザーの指定期間分の日報データを取得する
     db = get_db()
     try:
@@ -46,6 +56,10 @@ def get_daily_report(slack_user_id: str, start_date:date, end_date:date):
         ).all()
         logger.debug("◆DBから正常に日報データを取得できました。")
         response = compile_daily_report_data(target_daily_report)
+
+        # キャッシュに保存（有効期限12時間）
+        redis_client.set(cache_key, response, ex=43200)
+
         return response
     except Exception as e:
         logger.error(f"◆daily_reportの取得中にエラーが発生しました。: {e}")
