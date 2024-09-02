@@ -18,26 +18,7 @@
 - ku-min - 決済、認証、フロント（左記関連）
 
 ## 技術スタック
-
-### フロントエンド
-
-- フレームワーク: Next.js
-- 言語: TypeScript
-- UI ライブラリ: Tailwind CSS
-
-### バックエンド
-
-- フレームワーク: FastAPI (Python)
-- データベース: PostgreSQL(SqlAlchemy)
-- キャッシュ: Redis
-
-### その他
-
-- 認証: Firebase
-- API: Slack API, Stripe API,OpenAI API
-- テスト:Playwrite,JMeter
-- 開発環境: Git, Docker
-- クラウド: Google Cloud Run
+https://github.com/ms-engineer-bc24-06/SyncEra/issues/22#issue-2499873328
 
 ## 技術選定の理由
 
