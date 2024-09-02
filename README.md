@@ -18,7 +18,7 @@
 - ku-min - 決済、認証、フロント（左記関連）
 
 ## 技術スタック
-https://github.com/ms-engineer-bc24-06/SyncEra/issues/22#issue-2499873328
+# ![スクリーンショット 2024-09-02 111623](https://github.com/user-attachments/assets/15ea3f92-69dd-435b-8096-7c6e1b47fcde)
 
 ## 技術選定の理由
 
