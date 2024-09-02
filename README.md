@@ -4,6 +4,7 @@
 
 ## アプリの概要
 # ![SyncEra__-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/98f3c344-2723-452f-8483-9899225ac9c0)
+# ![SyncEraデモ動画の全収録ver.](https://discord.com/channels/993753683672186941/1262586436352479303/1280004478577410070)
 メンバーの日々の業務内容を要約し、マネージャーや育成担当とメンバーのコミュニケーションを円滑にして、エンゲージメントを向上させるコミュニケーション支援ツールです。
 
 ## アプリを作成した目的や背景
