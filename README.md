@@ -3,9 +3,12 @@
 お客様のビジネス成長を支援し、新たな価値を共に創造し、課題を解決するためのアプリケーションです。その名前は、さまざまな世代（Era）を同期（Sync）するというコンセプトに由来しています。
 
 ## アプリの概要
+
 メンバーの日々の業務内容を要約し、マネージャーや育成担当とメンバーのコミュニケーションを円滑にして、エンゲージメントを向上させるコミュニケーション支援ツールです。
-### [⇨動画ダウンロードはこちら](https://github.com/ms-engineer-bc24-06/SyncEra/releases/tag/SyncEra_demo)
- ![SyncEra__-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/98f3c344-2723-452f-8483-9899225ac9c0)
+
+### [⇨ 動画ダウンロードはこちら](https://github.com/ms-engineer-bc24-06/SyncEra/releases/tag/SyncEra_demo)
+
+![SyncEra__-ezgif com-video-to-gif-converter](https://github.com/user-attachments/assets/98f3c344-2723-452f-8483-9899225ac9c0)
 
 ## アプリを作成した目的や背景
 
@@ -19,7 +22,8 @@
 - ku-min - 決済、認証、フロント（左記関連）
 
 ## 技術スタック
- ![スクリーンショット 2024-09-02 111623](https://github.com/user-attachments/assets/15ea3f92-69dd-435b-8096-7c6e1b47fcde)
+
+![スクリーンショット 2024-09-02 111623](https://github.com/user-attachments/assets/15ea3f92-69dd-435b-8096-7c6e1b47fcde)
 
 ## 技術選定の理由
 
@@ -106,11 +110,8 @@
   | コミュニティサポート | 豊富 | 非常に豊富 | 豊富 |
   | 設定・最適化 | やや複雑 | 比較的容易 | 比較的容易 |
   | 非構造化データ処理 | 対応可能 | 制限あり | 非常に適している |
-    
-    💡 SyncEraでは、以下の理由からPostgreSQLを選択：
-    
-    MongoDBのようなNoSQLソリューションも検討しましたが、SyncEraのデータモデルは比較的構造化されており、リレーショナルデータベースの利点を活かせることと、Slackからのデータやアンケートの回答など、半構造化データを扱うため、PostgreSQLのJSON対応により、必要に応じて柔軟なデータ構造も実現できると判断し選択しました。
-    
+  💡 SyncEra では、以下の理由から PostgreSQL を選択：
+  MongoDB のような NoSQL ソリューションも検討しましたが、SyncEra のデータモデルは比較的構造化されており、リレーショナルデータベースの利点を活かせることと、Slack からのデータやアンケートの回答など、半構造化データを扱うため、PostgreSQL の JSON 対応により、必要に応じて柔軟なデータ構造も実現できると判断し選択しました。
     </details>
 
 <details> <summary>Redis (キャッシュ)</summary>
@@ -206,6 +207,7 @@
 - コーディング規約(coding_rules.md)
 - ESLint 各環境での設定方法（ESLint.md）
 - 非機能要件設計書(nonfunctional_requirements.md)
+- 認証系単体テスト(auth_stripe_test.md)
 - 負荷テスト実施結果(jmeter_scenario.md)
 - E2E テスト（概要、結果）(E2E_scenario.md)
 
