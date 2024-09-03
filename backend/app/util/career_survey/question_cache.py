@@ -2,19 +2,25 @@ import logging
 import os
 import json
 from dotenv import load_dotenv
-from redis import Redis
+from app.db.database import SessionLocal
 from app.db.models import Question
+from sqlalchemy.orm import Session
+from app.db.models import Question
+from app.services.redis_client import redis_client
 
 # 環境変数の読み込み
 load_dotenv()
 
-# Redisクライアントの設定
-REDIS_HOST = os.getenv("REDIS_HOST", "redis") # "redis"部分はコンテナでの開発時。ローカルの時はlocalhost
-REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
-redis_client = Redis(host=REDIS_HOST, port=REDIS_PORT)
+# ロギングの設定
+log_level = os.getenv("LOG_LEVEL", "INFO").upper()
+logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logger = logging.getLogger(__name__)
+# slack_sdkライブラリのログレベルをINFOに設定
+logging.getLogger("slack_sdk").setLevel(logging.INFO)
 
 # 質問オブジェクトのシリアライズ（Redisに保存する）
 def serialize_question(question: Question):
+    logger.debug(f"◆◆serialize_question関数が呼び出されました")
     return json.dumps({
         "id": question.id,
         "question_text": question.question_text,
@@ -30,6 +36,7 @@ def serialize_question(question: Question):
 
 # 質問オブジェクトのデシリアライズ（キャッシュ再取得）
 def deserialize_question(question_json: str):
+    logger.debug(f"◆◆deserialize_question関数が呼び出されました")
     data = json.loads(question_json)
     return Question(
         id=data["id"],
@@ -46,4 +53,5 @@ def deserialize_question(question_json: str):
 
 # 質問キャッシュのクリア（新しい質問が追加されたとき使用）
 def clear_question_cache(question_id: int):
+    logger.debug(f"◆◆clear_question_cache関数が呼び出されました")
     redis_client.delete(f"question:{question_id}")

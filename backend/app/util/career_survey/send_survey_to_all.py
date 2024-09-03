@@ -4,6 +4,8 @@ from sqlalchemy.orm import Session
 from app.db.models import Question, Employee
 from slack_sdk import WebClient
 from slack_sdk.errors import SlackApiError
+from app.services.redis_client import redis_client
+from app.util.career_survey.question_cache import serialize_question
 import os
 import logging
 
@@ -122,6 +124,19 @@ def send_survey_with_text_input(slack_user_id: str, question: Question):
 def get_first_question(db: Session) -> Question:
     first_question = db.query(Question).filter(Question.id == 1).first()  # id=1 の質問を初回の質問とみなして取得
     return first_question
+
+# アンケートの質問をキャッシュに保存する関数
+def cache_questions():
+    db = SessionLocal()
+    try:
+        questions = db.query(Question).all()
+        for question in questions:
+            question_key = f"question:{question.id}"
+            serialized_question = serialize_question(question)
+            redis_client.set(question_key, serialized_question)
+            logger.info(f"キャッシュに質問を保存しました: {question_key}")
+    finally:
+        db.close()
 
 # DBに登録された社員全員に send_survey_to_employee 関数を適用する(=全員にアンケートを配信する)
 def send_survey_to_all():
