@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import MagicMock, patch
 from sqlalchemy.orm import Session
-from app.services.slackApi import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
+from app.services.slack_event import get_and_save_users, get_and_save_daily_report, get_and_save_times_tweet
 from app.db.models import SlackUserInfo, DailyReport, TimesTweet
 
 #  unittest.mock の MagicMock と patch を使用して、依存する外部リソースやメソッドをモックしてデータベースのセッション管理

@@ -6,14 +6,13 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from fastapi import FastAPI, APIRouter, Depends, HTTPException, Request, Response
 from sqlalchemy.orm import Session
-from app.services.slackApi import get_and_save_daily_report, get_and_save_times_tweet
+from app.services.slack_event import get_and_save_daily_report, get_and_save_times_tweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
 from app.services.schedule_survey import schedule_monthly_survey, schedule_hourly_survey
 from app.util.career_survey.question_cache import clear_question_cache, deserialize_question
 from app.util.survey_analysis.save_analysis_result import save_survey_result
 from slack_sdk import WebClient
-from slack_sdk.errors import SlackApiError
 from slack_sdk.errors import SlackApiError
 from app.db.database import get_db
 from app.db.models import Question, UserResponse
@@ -98,7 +97,6 @@ def read_daily_report(db: Session = Depends(get_db)):
     return get_and_save_daily_report(None, db)
 
 # Slackイベントのエンドポイント
-# 日報または、つぶやきが投稿されたときに、投稿内容を取得してDB保存するためのエンドポイント
 # 日報または、つぶやきが投稿されたときに、投稿内容を取得してDB保存するためのエンドポイント
 @app.post("/slack/events")
 async def slack_events(request: Request, db: Session = Depends(get_db)):
