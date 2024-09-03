@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from app.services.slack_event import get_and_save_daily_report, get_and_save_times_tweet
 from app.util.slack_api.get_slack_user_info import get_and_save_slack_users
 from app.util.career_survey.send_survey_to_all import send_survey_to_employee, send_survey_with_text_input
+from app.util.slack_api.get_slack_user_id_with_email import get_slack_user_id_by_email
 from app.services.schedule_survey import schedule_monthly_survey, schedule_hourly_survey
 from app.util.career_survey.question_cache import clear_question_cache, deserialize_question
 from app.util.survey_analysis.save_analysis_result import save_survey_result
@@ -27,6 +28,8 @@ load_dotenv()
 log_level = os.getenv("LOG_LEVEL", "INFO").upper()
 logging.basicConfig(level=log_level, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
+# slack_sdkライブラリのログレベルをINFOに設定
+logging.getLogger("slack_sdk").setLevel(logging.INFO)
 
 # redisの接続設定
 # REDIS_HOST = os.getenv("REDIS_HOST", "redis")
@@ -69,27 +72,13 @@ def get_slack_user_info(db: Session = Depends(get_db)):
 # Slack APIでメールアドレスからSlack IDを取得するエンドポイント
 @app.post("/get_slack_user_id/")
 async def get_slack_user_id(email: str):
-
     try:
-        # Slack APIを呼び出してユーザー情報を取得
-        response = slack_client.users_lookupByEmail(email=email)
+        return await get_slack_user_id_by_email(email)
 
-        # SlackユーザーIDを取得
-        slack_user_id = response['user']['id']
-        logger.info(f"SlackユーザーID '{slack_user_id}' がメール '{email}' から取得されました。")
-
-        # SlackユーザーIDをレスポンスとして返す
-        return {"email": email, "slack_user_id": slack_user_id}
-
-    except SlackApiError as e:
-        # Slack APIエラーの処理
-        logger.error(f"Slack APIエラー: {e.response['error']}")
-        raise HTTPException(status_code=400, detail=f"Slackユーザーの取得に失敗しました: {e.response['error']}")
-
+    except HTTPException as e:
+        raise e
     except Exception as e:
-        # その他のエラー処理
-        logger.error(f"予期しないエラー: {str(e)}")
-        raise HTTPException(status_code=500, detail="予期しないエラーが発生しました")
+        raise HTTPException(status_code=500, detail=str(e))
 
 # 日報の投稿情報の取得を確認するためのエンドポイント
 @app.get("/post_daily_report")
