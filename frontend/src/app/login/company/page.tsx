@@ -59,8 +59,8 @@ export default function CompanyLogin() {
           case 'auth/user-not-found':
             alert('このメールアドレスは登録されていません。新規登録をお願いします。');
             break;
-          case 'auth/wrong-password':
-            alert('パスワードが間違っています。再度お試しください。');
+          case 'auth/auth/invalid-email':
+            alert('空のメールアドレスでサインインしています。再度お試しください。');
             break;
           case 'auth/invalid-email':
             alert('無効なメールアドレスです。');

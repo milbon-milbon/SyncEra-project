@@ -16,6 +16,10 @@ export async function POST(request: NextRequest) {
   try {
     const { priceId } = await request.json();
 
+    if (!priceId || typeof priceId !== 'string') {
+      return NextResponse.json({ error: '無効な priceId' }, { status: 400 });
+    }
+
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
       line_items: [
@@ -29,8 +33,13 @@ export async function POST(request: NextRequest) {
       cancel_url: `${process.env.NEXT_PUBLIC_DOMAIN}/canceled`,
     });
 
-    return NextResponse.json({ url: session.url });
-  } catch (error: any) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ url: session.url }, { status: 200 });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      if (error.name === 'StripeError' || error.message.includes('Stripe')) {
+        return NextResponse.json({ error: 'Stripe API Error' }, { status: 500 });
+      }
+    }
+    return NextResponse.json({ error: '不明なエラーが発生しました' }, { status: 500 });
   }
 }
