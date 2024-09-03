@@ -21,6 +21,7 @@ def store_user_response_temporarily(user_id: str, question_id: int, answer: str)
 
 # キャッシュに保存されたキャリアアンケートの回答をデータベースに保存する関数
 def save_responses_to_db(user_id: str, db: Session):
+    logger.debug(f"◆◆ save_responses_to_db関数が呼び出されました")
     responses = redis_client.hgetall(f"user_response:{user_id}")
     for question_id, answer in responses.items():
         answer = answer.decode('utf-8') if isinstance(answer, bytes) else answer
