@@ -12,7 +12,6 @@ import app from '@/firebase/config';
 import '@/app/login/globals.css';
 import Link from 'next/link';
 import Loading from '@/components/loading';
-import LogoWhite from '@/components/employeelist/LogoWhite';
 export default function EmployeeLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');

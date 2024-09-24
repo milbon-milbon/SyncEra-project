@@ -1,132 +1,147 @@
 // functions/src/index.ts
+
+// 必要なモジュールのインポート
 import * as functions from "firebase-functions";
 import * as admin from "firebase-admin";
 import * as express from "express";
 import * as cors from "cors";
 
+// Firebase adminの初期化
 admin.initializeApp();
 
+// Expressアプリケーションの設定
 const app = express();
-app.use(cors({ origin: true }));
-app.use(express.json());
+app.use(cors({ origin: true })); // CORSを有効化
+app.use(express.json()); // JSONボディパーサーを使用
 
-/* 立ち上げ helloWorld 関数を追加*/
-
-exports.helloWorld = functions.https.onRequest((_request, response) => {
-  response.send("Hello from Firebase!");
-});
-
+// インターフェース定義
 interface AdminClaimsResponse {
   message: string;
 }
 
+// ヘルパー関数
 /**
- * This function handles the setting of admin claims.
- * @param {express.Request} req - The express request object.
- * @param {express.Response} res - The express response object.
- */
-app.post("/", (req, res) => {
-  const { data } = req.body;
-  const { uid } = data;
-
-  if (!uid || typeof uid !== "string" || uid.length > 128) {
-    res.status(400).json({ data: { error: "Invalid UID" } });
-    return;
-  }
-
-  admin
-    .auth()
-    .setCustomUserClaims(uid, { isCompanyAdmin: true })
-    .then(() => {
-      const response: AdminClaimsResponse = {
-        message: "Success! Admin claims set.",
-      };
-      res.status(200).json({ data: response });
-    })
-    .catch(() => {
-      res.status(500).json({ data: { error: "Internal server error" } });
-    });
-});
-
-/**
- * Error handling middleware.
- * @param {Error} err - The error object.
- * @param {express.Request} _req - The express request object.
- * @param {express.Response} res - The express response object.
- */
-app.use((err: Error, _req: express.Request, res: express.Response) => {
-  res.status(500).json({
-    data: { error: "Something broke!" },
-  });
-});
-
-/**
- * Sets admin claims for the user.
- * @param {functions.https.Request} req - The HTTP request object.
- * @param {functions.Response} res - The HTTP response object.
- */
-export const setAdminClaims = functions.https.onRequest(app);
-
-export const setCompanyIdClaim = functions.auth
-  .user()
-  .onCreate(async (user) => {
-    // ユーザーに対応する会社IDを取得する関数
-    const companyId = await getCompanyIdForUser(user);
-    await admin.auth().setCustomUserClaims(user.uid, {
-      companyId,
-    });
-  });
-
-/**
- * Determines the company ID based on the user's email address.
- * @param {admin.auth.UserRecord} user - The user record object.
- * @return {Promise<string>} A promise that resolves to the company ID.
- * @throws Will throw an error if the user does not have an email address.
+ * ユーザーのメールアドレスに基づいて会社IDを取得する
+ * @param user - Firebase Authenticationのユーザーオブジェクト
+ * @returns 会社ID
+ * @throws ユーザーにメールアドレスが設定されていない場合にエラーをスロー
  */
 async function getCompanyIdForUser(
   user: admin.auth.UserRecord
 ): Promise<string> {
-  if (user.email) {
-    if (user.email.endsWith("@example.com")) {
-      return "exampleCompanyId";
-    } else {
-      return "defaultCompanyId";
-    }
-  } else {
-    throw new Error("ユーザーにメールアドレスが設定されていません。");
+  if (!user.email) {
+    throw new Error("User does not have an email address.");
   }
+  return user.email.endsWith("@example.com")
+    ? "exampleCompanyId"
+    : "defaultCompanyId";
 }
-export const setCustomClaims = functions.https.onCall(async (data) => {
+
+// Expressミドルウェア
+/**
+ * リクエストボディ内のUIDを検証するミドルウェア
+ */
+const validateUid = (
+  req: express.Request,
+  res: express.Response,
+  next: express.NextFunction
+) => {
+  const { uid } = req.body.data;
+  if (!uid || typeof uid !== "string" || uid.length > 128) {
+    res.status(400).json({ data: { error: "Invalid UID" } });
+    return;
+  }
+  next();
+};
+
+// エラーハンドリングミドルウェア
+const errorHandler = (
+  err: Error,
+  _req: express.Request,
+  res: express.Response,
+  _next: express.NextFunction
+) => {
+  console.error(err); // エラーをログに記録
+  res.status(500).json({
+    data: { error: "Internal server error" },
+  });
+};
+
+// Expressルート
+/**
+ * 管理者権限を設定するエンドポイント
+ */
+app.post("/setAdminClaims", validateUid, async (req, res) => {
+  const { uid } = req.body.data;
+  try {
+    await admin.auth().setCustomUserClaims(uid, { isCompanyAdmin: true });
+    const response: AdminClaimsResponse = {
+      message: "Success! Admin claims set.",
+    };
+    res.status(200).json({ data: response });
+  } catch (error) {
+    console.error("Error setting admin claims:", error);
+    res.status(500).json({ data: { error: "Failed to set admin claims" } });
+  }
+});
+
+// エラーハンドリングミドルウェアを適用
+app.use(errorHandler);
+
+// Firebase Functions
+
+/**
+ * シンプルなHello Worldファンクション
+ */
+export const helloWorld = functions.https.onRequest((_req, res) => {
+  res.send("Hello from Firebase!");
+});
+
+/**
+ * 管理者権限を設定するHTTPSファンクション
+ */
+export const setAdminClaims = functions.https.onRequest(app);
+
+/**
+ * 新規ユーザー作成時に会社IDを設定するファンクション
+ */
+export const setCompanyIdClaim = functions.auth
+  .user()
+  .onCreate(async (user) => {
+    const companyId = await getCompanyIdForUser(user);
+    await admin.auth().setCustomUserClaims(user.uid, { companyId });
+  });
+
+/**
+ * カスタムクレームを設定するCallableファンクション
+ */
+export const setCustomClaims = functions.https.onCall(async (data, context) => {
   const { uid, companyId } = data;
 
-  if (!(typeof uid === "string") || !(typeof companyId === "string")) {
+  if (typeof uid !== "string" || typeof companyId !== "string") {
     throw new functions.https.HttpsError(
       "invalid-argument",
-      "The function must be called with " + "uid and companyId arguments."
+      "The function must be called with uid and companyId arguments."
     );
   }
 
   try {
-    await admin.auth().setCustomUserClaims(uid, { companyId: companyId });
+    await admin.auth().setCustomUserClaims(uid, { companyId });
     return { message: "Custom claims set successfully" };
   } catch (error) {
+    console.error("Error setting custom claims:", error);
     throw new functions.https.HttpsError(
       "internal",
-      "An error occurred while setting custom claims"
+      "Failed to set custom claims"
     );
   }
 });
 
-// 新しい関数を追加
-export const onUserCreate = functions.auth.user().onCreate(async (user) => {
-  const companyId = await getCompanyIdForUser(user);
-  await admin.auth().setCustomUserClaims(user.uid, { companyId });
-});
-
-// 削除
+/**
+ * ユーザーとそのデータを削除するCallableファンクション
+ */
 export const deleteUserAndData = functions.https.onCall(
   async (data, context) => {
-    // 呼び出し元が認証されていることを確認
     if (!context.auth) {
       throw new functions.https.HttpsError(
         "unauthenticated",
@@ -142,35 +157,43 @@ export const deleteUserAndData = functions.https.onCall(
         .firestore()
         .doc(`companies/${companyId}/employees/${employeeId}`)
         .delete();
-
       // Authenticationからユーザーを削除
       await admin.auth().deleteUser(employeeId);
       return { success: true, message: "User and data deleted successfully" };
     } catch (error) {
+      console.error("Error deleting user and data:", error);
       throw new functions.https.HttpsError(
         "internal",
-        "An error occurred while deleting the user and data"
+        "Failed to delete user and data"
       );
     }
   }
 );
 
-// 管理者権限のチェック
-exports.updateEmployeeEmail = functions.https.onCall(async (data, context) => {
-  if (!context.auth || !context.auth.token.isCompanyAdmin) {
-    throw new functions.https.HttpsError(
-      "permission-denied",
-      "Only admins can update employee emails."
-    );
-  }
+/**
+ * 従業員のメールアドレスを更新するCallableファンクション
+ * 注: この操作には管理者権限が必要
+ */
+export const updateEmployeeEmail = functions.https.onCall(
+  async (data, context) => {
+    if (!context.auth?.token.isCompanyAdmin) {
+      throw new functions.https.HttpsError(
+        "permission-denied",
+        "Only admins can update employee emails."
+      );
+    }
 
-  const { employeeId, newEmail } = data;
+    const { employeeId, newEmail } = data;
 
-  try {
-    // Admin SDKを使用してユーザーのメールアドレスを更新
-    await admin.auth().updateUser(employeeId, { email: newEmail });
-    return { success: true, message: "Email updated successfully" };
-  } catch (error) {
-    throw new functions.https.HttpsError("internal", "Failed to update email");
+    try {
+      await admin.auth().updateUser(employeeId, { email: newEmail });
+      return { success: true, message: "Email updated successfully" };
+    } catch (error) {
+      console.error("Error updating email:", error);
+      throw new functions.https.HttpsError(
+        "internal",
+        "Failed to update email"
+      );
+    }
   }
-});
+);
