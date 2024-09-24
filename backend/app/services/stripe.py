@@ -1,4 +1,4 @@
-# backend/app/services/stripe.py変更前
+# backend/app/services/stripe.py
 
 import stripe
 import os
@@ -10,15 +10,22 @@ from pydantic import BaseModel
 from dotenv import load_dotenv
 from firebase_admin import credentials, firestore, auth
 
+# 環境変数の読み込みとロギングの設定
 load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+
+# Stripeの設定
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
+# FastAPI routerの初期化
 router = APIRouter()
 
+# Firebase Admin SDKの初期化
 cred = credentials.Certificate("secrets/firebase-adminsdk.json")
 firebase_admin.initialize_app(cred)
 db = firestore.client()
+
+# チェックアウトセッションのリクエストモデル
 class CheckoutSessionRequest(BaseModel):
     priceId: str
     companyName: str
@@ -26,16 +33,27 @@ class CheckoutSessionRequest(BaseModel):
     firstName: str
     lastName: str
     password: str
-    
+
 @router.post("/create-checkout-session")
 async def create_checkout_session(request: CheckoutSessionRequest):
-    data = await request.json()
+    """
+    Stripeのチェックアウトセッションを作成するエンドポイント
+    
+    Args:
+        request (CheckoutSessionRequest): クライアントからのリクエストデータ
+    
+    Returns:
+        dict: チェックアウトセッションのURL
+    
+    Raises:
+        HTTPException: セッション作成中にエラーが発生した場合
+    """
     try:
         checkout_session = stripe.checkout.Session.create(
             payment_method_types=['card'],
             line_items=[
                 {
-                    'price': data.priceId,
+                    'price': request.priceId,
                     'quantity': 1,
                 },
             ],
@@ -57,6 +75,18 @@ async def create_checkout_session(request: CheckoutSessionRequest):
 
 @router.post("/webhook")
 async def stripe_webhook(request: Request):
+    """
+    Stripeからのwebhookを処理するエンドポイント
+    
+    Args:
+        request (Request): Stripeからのwebhookリクエスト
+    
+    Returns:
+        dict: 処理結果のステータス
+    
+    Raises:
+        HTTPException: webhookの検証や処理中にエラーが発生した場合
+    """
     payload = await request.body()
     sig_header = request.headers.get('stripe-signature')
     
@@ -86,6 +116,17 @@ async def stripe_webhook(request: Request):
     return {"status": "success"}
 
 async def handle_checkout_session(session):
+    """
+    チェックアウトセッション完了後の処理を行う
+    
+    Args:
+        session (dict): Stripeのセッション情報
+    
+    Raises:
+        ValueError: 必要なメタデータが不足している場合
+        Exception: ユーザー作成やデータ保存中にエラーが発生した場合
+    """
+    # セッションからメタデータを取得
     email = session.get('metadata', {}).get('email')
     company_name = session.get('metadata', {}).get('companyName')
     first_name = session.get('metadata', {}).get('firstName')
@@ -96,17 +137,17 @@ async def handle_checkout_session(session):
         raise ValueError("必要なメタデータが不足しています")
 
     try:
-        # Authenticationに企業情報を保存
+        # Firebase Authenticationに企業管理者ユーザーを作成
         user = auth.create_user(
             email=email,
-            password=password,  # 受け取ったパスワードをそのまま使用
+            password=password,
             display_name=company_name,
             custom_claims={'isCompanyAdmin': True}
         )
         
         logging.debug(f"企業管理者ユーザーが正常に作成されました: {user.uid}")
 
-         # Firestoreに企業情報を保存
+        # Firestoreに企業情報を保存
         await db.collection('companies').document(user.uid).set({
             'companyName': company_name,
             'email': email,
@@ -120,3 +161,6 @@ async def handle_checkout_session(session):
     except auth.AuthError as e:
         logging.error(f"企業管理者ユーザー作成中にエラーが発生しました: {str(e)}")
         raise  # このエラーを上位の関数に伝播させる
+
+# 注意: このコードを本番環境で使用する前に、セキュリティ面での追加の検討が必要です。
+# 特に、パスワードの扱いやエラーメッセージの詳細度については慎重に検討してください。
