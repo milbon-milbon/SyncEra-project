@@ -11,7 +11,6 @@ import clientLogger from '@/lib/clientLogger';
 import '@/app/login/globals.css';
 import { FirebaseError } from 'firebase/app';
 import Loading from '@/components/loading';
-import LogoWhite from '@/components/employeelist/LogoWhite';
 export default function CompanyLogin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
